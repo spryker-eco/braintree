@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Client\Braintree;
+namespace SprykerEco\Client\Braintree;
 
 use Spryker\Client\Kernel\AbstractClient;
 
 /**
- * @method \Spryker\Client\Braintree\BraintreeFactory getFactory()
+ * @method \SprykerEco\Client\Braintree\BraintreeFactory getFactory()
  */
 class BraintreeClient extends AbstractClient implements BraintreeClientInterface
 {

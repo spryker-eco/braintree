@@ -8,7 +8,7 @@
 namespace Spryker\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
-use Spryker\Client\Braintree\BraintreeClientInterface;
+use SprykerEco\Client\Braintree\BraintreeClientInterface;
 use Spryker\Shared\Braintree\BraintreeConstants;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class BraintreeHandler
     ];
 
     /**
-     * @var \Spryker\Client\Braintree\BraintreeClientInterface
+     * @var \SprykerEco\Client\Braintree\BraintreeClientInterface
      */
     protected $braintreeClient;
 
@@ -37,7 +37,7 @@ class BraintreeHandler
     protected $currencyPlugin;
 
     /**
-     * @param \Spryker\Client\Braintree\BraintreeClientInterface $braintreeClient
+     * @param \SprykerEco\Client\Braintree\BraintreeClientInterface $braintreeClient
      * @param \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface $currencyPlugin
      */
     public function __construct(BraintreeClientInterface $braintreeClient, CurrencyPluginInterface $currencyPlugin)

@@ -15,7 +15,7 @@ use Spryker\Yves\Braintree\Handler\BraintreeHandler;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
- * @method \Spryker\Client\Braintree\BraintreeClientInterface getClient()
+ * @method \SprykerEco\Client\Braintree\BraintreeClientInterface getClient()
  */
 class BraintreeFactory extends AbstractFactory
 {
