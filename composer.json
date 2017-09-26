@@ -19,6 +19,9 @@
     "spryker/symfony": "^3.0.0",
     "spryker/util-text": "^1.1.0"
   },
+  "replace": {
+    "spryker/braintree": "*"
+  },
   "require-dev": {
     "spryker/code-sniffer": "*",
     "spryker/country": "*",
