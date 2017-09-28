@@ -10,6 +10,7 @@ namespace SprykerEco\Yves\Braintree\Form;
 use Braintree\ClientToken;
 use Braintree\Configuration;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Shared\Config\Config;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
@@ -17,7 +18,7 @@ use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInterface
+abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
 
     const CLIENT_TOKEN = 'clientToken';
@@ -50,6 +51,14 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $this->configureOptions($resolver);
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderName()
+    {
+        return BraintreeConstants::PROVIDER_NAME;
     }
 
     /**
