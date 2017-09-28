@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree;
+namespace SprykerEco\Zed\Braintree;
 
-use Spryker\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyBridge;
-use Spryker\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
-use Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundBridge;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 

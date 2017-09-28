@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Configuration;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLog;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLog;
-use Spryker\Zed\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\BraintreeConfig;
 
 abstract class AbstractTransaction implements TransactionInterface
 {
@@ -23,12 +23,12 @@ abstract class AbstractTransaction implements TransactionInterface
     protected $transactionMetaTransfer;
 
     /**
-     * @var \Spryker\Zed\Braintree\BraintreeConfig
+     * @var \SprykerEco\Zed\Braintree\BraintreeConfig
      */
     protected $config;
 
     /**
-     * @param \Spryker\Zed\Braintree\BraintreeConfig $config
+     * @param \SprykerEco\Zed\Braintree\BraintreeConfig $config
      */
     public function __construct(BraintreeConfig $config)
     {

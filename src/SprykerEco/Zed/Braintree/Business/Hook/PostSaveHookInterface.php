@@ -3,7 +3,7 @@
  * MIT License
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
-namespace Spryker\Zed\Braintree\Business\Hook;
+namespace SprykerEco\Zed\Braintree\Business\Hook;
 
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;

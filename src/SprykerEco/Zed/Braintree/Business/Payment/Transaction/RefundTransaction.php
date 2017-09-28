@@ -5,24 +5,24 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
-use Spryker\Zed\Braintree\BraintreeConfig;
-use Spryker\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use Spryker\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
+use SprykerEco\Zed\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
 
 class RefundTransaction extends AbstractTransaction
 {
 
     /**
-     * @var \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
      */
     protected $moneyFacade;
 
     /**
-     * @param \Spryker\Zed\Braintree\BraintreeConfig $brainTreeConfig
-     * @param \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface $moneyFacade
+     * @param \SprykerEco\Zed\Braintree\BraintreeConfig $brainTreeConfig
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface $moneyFacade
      */
     public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyInterface $moneyFacade)
     {

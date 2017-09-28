@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction\Handler;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 

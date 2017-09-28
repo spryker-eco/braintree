@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Plugin;
+namespace SprykerEco\Yves\Braintree\Plugin;
 
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use Spryker\Yves\Kernel\AbstractPlugin;
@@ -13,7 +13,7 @@ use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @method \Spryker\Yves\Braintree\BraintreeFactory getFactory()
+ * @method \SprykerEco\Yves\Braintree\BraintreeFactory getFactory()
  */
 class BraintreeHandlerPlugin extends AbstractPlugin implements StepHandlerPluginInterface
 {

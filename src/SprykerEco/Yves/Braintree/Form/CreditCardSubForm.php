@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Form;
+namespace SprykerEco\Yves\Braintree\Form;
 
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 

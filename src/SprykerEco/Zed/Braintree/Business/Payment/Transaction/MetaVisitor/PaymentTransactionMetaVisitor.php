@@ -5,21 +5,21 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
-use Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
 
 class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 {
 
     /**
-     * @var \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
      */
     protected $queryContainer;
 
     /**
-     * @param \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
      */
     public function __construct(BraintreeQueryContainerInterface $queryContainer)
     {

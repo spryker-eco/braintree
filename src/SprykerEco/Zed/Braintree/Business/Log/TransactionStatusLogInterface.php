@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Log;
+namespace SprykerEco\Zed\Braintree\Business\Log;
 
 use Generated\Shared\Transfer\OrderTransfer;
 

@@ -5,26 +5,26 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction\Handler;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
-use Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface;
 
 class RefundTransactionHandler extends AbstractTransactionHandler
 {
 
     /**
-     * @var \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
      */
     protected $refundFacade;
 
     /**
-     * @param \Spryker\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $transaction
-     * @param \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $transactionMetaVisitor
-     * @param \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface $refundFacade
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $transaction
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $transactionMetaVisitor
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface $refundFacade
      */
     public function __construct(TransactionInterface $transaction, TransactionMetaVisitorInterface $transactionMetaVisitor, BraintreeToRefundInterface $refundFacade)
     {

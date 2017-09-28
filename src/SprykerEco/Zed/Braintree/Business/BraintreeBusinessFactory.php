@@ -5,35 +5,35 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business;
+namespace SprykerEco\Zed\Braintree\Business;
 
-use Spryker\Zed\Braintree\BraintreeDependencyProvider;
-use Spryker\Zed\Braintree\Business\Hook\PostSaveHook;
-use Spryker\Zed\Braintree\Business\Log\TransactionStatusLog;
-use Spryker\Zed\Braintree\Business\Order\Saver;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
-use Spryker\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
+use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
+use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHook;
+use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLog;
+use SprykerEco\Zed\Braintree\Business\Order\Saver;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
- * @method \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
- * @method \Spryker\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler
      */
     public function createAuthorizeTransactionHandler()
     {
@@ -44,7 +44,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction
      */
     protected function createAuthorizeTransaction()
     {
@@ -52,7 +52,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
      */
     protected function createDefaultTransactionMetaVisitor()
     {
@@ -63,7 +63,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
      */
     protected function createTransactionMetaVisitorComposite()
     {
@@ -71,7 +71,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor
      */
     protected function createPaymentTransactionMetaVisitor()
     {
@@ -79,7 +79,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler
      */
     public function createCaptureTransactionHandler()
     {
@@ -90,7 +90,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction
      */
     protected function createCaptureTransaction()
     {
@@ -98,7 +98,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler
      */
     public function createPreCheckTransactionHandler()
     {
@@ -109,7 +109,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction
      */
     protected function createPreCheckTransaction()
     {
@@ -117,7 +117,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
      */
     protected function getMoneyFacade()
     {
@@ -125,7 +125,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler
      */
     public function createRefundTransactionHandler()
     {
@@ -137,7 +137,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\RefundTransaction
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction
      */
     protected function createRefundTransaction()
     {
@@ -145,7 +145,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler
      */
     public function createRevertTransactionHandler()
     {
@@ -156,7 +156,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
      */
     protected function createRevertTransaction()
     {
@@ -164,7 +164,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
      */
     protected function getRefundFacade()
     {
@@ -172,7 +172,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Order\SaverInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Order\SaverInterface
      */
     public function createOrderSaver()
     {
@@ -180,7 +180,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Log\TransactionStatusLogInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLogInterface
      */
     public function createTransactionStatusLog()
     {
@@ -188,7 +188,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\Braintree\Business\Hook\PostSaveHookInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Hook\PostSaveHookInterface
      */
     public function createPostSaveHook()
     {

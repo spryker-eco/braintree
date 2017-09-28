@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Dependency\Facade;
+namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 
 interface BraintreeToMoneyInterface
 {

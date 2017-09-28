@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Communication\Plugin\Oms\Condition;
+namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition;
 
 use Generated\Shared\Transfer\OrderTransfer;
 
 /**
- * @method \Spryker\Zed\Braintree\Business\BraintreeFacade getFacade()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacade getFacade()
  */
 class IsAuthorizationApprovedPlugin extends AbstractCheckPlugin
 {

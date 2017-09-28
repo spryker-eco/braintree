@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Persistence;
+namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Spryker\Zed\Kernel\Persistence\QueryContainer\QueryContainerInterface;
 

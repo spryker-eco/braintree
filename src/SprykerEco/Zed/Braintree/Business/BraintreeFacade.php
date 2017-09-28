@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business;
+namespace SprykerEco\Zed\Braintree\Business;
 
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
@@ -15,7 +15,7 @@ use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * @method \Spryker\Zed\Braintree\Business\BraintreeBusinessFactory getFactory()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory getFactory()
  */
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {

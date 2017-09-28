@@ -5,19 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Plugin;
+namespace SprykerEco\Yves\Braintree\Plugin;
 
 use Spryker\Yves\Kernel\AbstractPlugin;
 use Spryker\Yves\StepEngine\Dependency\Plugin\Form\SubFormPluginInterface;
 
 /**
- * @method \Spryker\Yves\Braintree\BraintreeFactory getFactory()
+ * @method \SprykerEco\Yves\Braintree\BraintreeFactory getFactory()
  */
 class BraintreePayPalSubFormPlugin extends AbstractPlugin implements SubFormPluginInterface
 {
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\PayPalSubForm
+     * @return \SprykerEco\Yves\Braintree\Form\PayPalSubForm
      */
     public function createSubForm()
     {
@@ -25,7 +25,7 @@ class BraintreePayPalSubFormPlugin extends AbstractPlugin implements SubFormPlug
     }
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\DataProvider\PayPalDataProvider
+     * @return \SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider
      */
     public function createSubFormDataProvider()
     {

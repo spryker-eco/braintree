@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Dependency\Injector;
+namespace SprykerEco\Yves\Braintree\Dependency\Injector;
 
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Shared\Kernel\ContainerInterface;
 use Spryker\Shared\Kernel\Dependency\Injector\DependencyInjectorInterface;
-use Spryker\Yves\Braintree\Plugin\BraintreeCreditCardSubFormPlugin;
-use Spryker\Yves\Braintree\Plugin\BraintreeHandlerPlugin;
-use Spryker\Yves\Braintree\Plugin\BraintreePayPalSubFormPlugin;
+use SprykerEco\Yves\Braintree\Plugin\BraintreeCreditCardSubFormPlugin;
+use SprykerEco\Yves\Braintree\Plugin\BraintreeHandlerPlugin;
+use SprykerEco\Yves\Braintree\Plugin\BraintreePayPalSubFormPlugin;
 use Spryker\Yves\Checkout\CheckoutDependencyProvider;
 use Spryker\Yves\StepEngine\Dependency\Plugin\Form\SubFormPluginCollection;
 use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginCollection;

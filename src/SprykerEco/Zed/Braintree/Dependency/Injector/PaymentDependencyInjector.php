@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Dependency\Injector;
+namespace SprykerEco\Zed\Braintree\Dependency\Injector;
 
-use Spryker\Shared\Braintree\BraintreeConstants;
-use Spryker\Zed\Braintree\Communication\Plugin\Checkout\BraintreePostSavePlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Checkout\BraintreePreCheckPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Checkout\BraintreeSaveOrderPlugin;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePostSavePlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePreCheckPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeSaveOrderPlugin;
 use Spryker\Zed\Kernel\Container;
 use Spryker\Zed\Kernel\Dependency\Injector\AbstractDependencyInjector;
 use Spryker\Zed\Payment\Dependency\Plugin\Checkout\CheckoutPluginCollection;

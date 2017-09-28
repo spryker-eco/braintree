@@ -3,24 +3,24 @@
  * MIT License
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
-namespace Spryker\Zed\Braintree\Business\Hook;
+namespace SprykerEco\Zed\Braintree\Business\Hook;
 
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Spryker\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
 
 class PostSaveHook implements PostSaveHookInterface
 {
 
     /**
-     * @var \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
      */
     protected $queryContainer;
 
     /**
-     * @param \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
      */
     public function __construct(
         BraintreeQueryContainerInterface $queryContainer

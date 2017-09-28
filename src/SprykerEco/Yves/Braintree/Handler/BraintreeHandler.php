@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Handler;
+namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 use SprykerEco\Client\Braintree\BraintreeClientInterface;
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use Symfony\Component\HttpFoundation\Request;
 

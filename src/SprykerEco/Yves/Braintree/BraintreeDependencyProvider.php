@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree;
+namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Yves\Currency\Plugin\CurrencyPlugin;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;

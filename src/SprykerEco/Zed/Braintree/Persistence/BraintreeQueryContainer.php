@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Persistence;
+namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionRequestLogTableMap;
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionStatusLogTableMap;
@@ -14,7 +14,7 @@ use Propel\Runtime\Propel;
 use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
 
 /**
- * @method \Spryker\Zed\Braintree\Persistence\BraintreePersistenceFactory getFactory()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreePersistenceFactory getFactory()
  */
 class BraintreeQueryContainer extends AbstractQueryContainer implements BraintreeQueryContainerInterface
 {

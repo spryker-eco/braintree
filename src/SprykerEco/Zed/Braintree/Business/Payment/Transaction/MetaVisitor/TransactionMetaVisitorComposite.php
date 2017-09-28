@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
@@ -13,12 +13,12 @@ class TransactionMetaVisitorComposite implements TransactionMetaVisitorInterface
 {
 
     /**
-     * @var \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface[]
+     * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface[]
      */
     protected $visitor = [];
 
     /**
-     * @param \Spryker\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $visitor
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $visitor
      *
      * @return $this
      */

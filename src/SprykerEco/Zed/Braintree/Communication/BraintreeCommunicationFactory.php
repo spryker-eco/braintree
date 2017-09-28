@@ -5,22 +5,22 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Communication;
+namespace SprykerEco\Zed\Braintree\Communication;
 
-use Spryker\Zed\Braintree\Communication\Table\Payments;
-use Spryker\Zed\Braintree\Communication\Table\RequestLog;
-use Spryker\Zed\Braintree\Communication\Table\StatusLog;
+use SprykerEco\Zed\Braintree\Communication\Table\Payments;
+use SprykerEco\Zed\Braintree\Communication\Table\RequestLog;
+use SprykerEco\Zed\Braintree\Communication\Table\StatusLog;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
- * @method \Spryker\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
- * @method \Spryker\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  */
 class BraintreeCommunicationFactory extends AbstractCommunicationFactory
 {
 
     /**
-     * @return \Spryker\Zed\Braintree\Communication\Table\Payments
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\Payments
      */
     public function createPaymentsTable()
     {
@@ -32,7 +32,7 @@ class BraintreeCommunicationFactory extends AbstractCommunicationFactory
     /**
      * @param int $idPayment
      *
-     * @return \Spryker\Zed\Braintree\Communication\Table\RequestLog
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\RequestLog
      */
     public function createRequestLogTable($idPayment)
     {
@@ -44,7 +44,7 @@ class BraintreeCommunicationFactory extends AbstractCommunicationFactory
     /**
      * @param int $idPayment
      *
-     * @return \Spryker\Zed\Braintree\Communication\Table\StatusLog
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\StatusLog
      */
     public function createStatusLogTable($idPayment)
     {

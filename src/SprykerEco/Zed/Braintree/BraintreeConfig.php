@@ -5,9 +5,9 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree;
+namespace SprykerEco\Zed\Braintree;
 
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 class BraintreeConfig extends AbstractBundleConfig

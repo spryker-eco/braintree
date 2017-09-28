@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Communication\Plugin\Oms\Command;
+namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command;
 
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
@@ -13,8 +13,8 @@ use Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject;
 use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
 
 /**
- * @method \Spryker\Zed\Braintree\Business\BraintreeFacade getFacade()
- * @method \Spryker\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacade getFacade()
+ * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
 class RefundPlugin extends AbstractPlugin implements CommandByOrderInterface
 {

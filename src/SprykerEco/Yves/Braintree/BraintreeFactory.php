@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree;
+namespace SprykerEco\Yves\Braintree;
 
-use Spryker\Yves\Braintree\Form\CreditCardSubForm;
-use Spryker\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
-use Spryker\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
-use Spryker\Yves\Braintree\Form\PayPalSubForm;
-use Spryker\Yves\Braintree\Handler\BraintreeHandler;
+use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
+use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
+use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
+use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
+use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
@@ -21,7 +21,7 @@ class BraintreeFactory extends AbstractFactory
 {
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\PayPalSubForm
+     * @return \SprykerEco\Yves\Braintree\Form\PayPalSubForm
      */
     public function createPayPalForm()
     {
@@ -29,7 +29,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\CreditCardSubForm
+     * @return \SprykerEco\Yves\Braintree\Form\CreditCardSubForm
      */
     public function createCreditCardForm()
     {
@@ -37,7 +37,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\DataProvider\PayPalDataProvider
+     * @return \SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider
      */
     public function createPayPalFormDataProvider()
     {
@@ -45,7 +45,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Yves\Braintree\Form\DataProvider\CreditCardDataProvider
+     * @return \SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider
      */
     public function createCreditCardFormDataProvider()
     {
@@ -53,7 +53,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Yves\Braintree\Handler\BraintreeHandler
+     * @return \SprykerEco\Yves\Braintree\Handler\BraintreeHandler
      */
     public function createBraintreeHandler()
     {

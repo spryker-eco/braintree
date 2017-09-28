@@ -5,16 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Dependency\Injector;
+namespace SprykerEco\Zed\Braintree\Dependency\Injector;
 
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Command\AuthorizePlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Command\CapturePlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Command\RefundPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Command\RevertPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Condition\IsAuthorizationApprovedPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Condition\IsCaptureApprovedPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Condition\IsRefundApprovedPlugin;
-use Spryker\Zed\Braintree\Communication\Plugin\Oms\Condition\IsReversalApprovedPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\AuthorizePlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\CapturePlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\RefundPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\RevertPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsAuthorizationApprovedPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsCaptureApprovedPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsRefundApprovedPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsReversalApprovedPlugin;
 use Spryker\Zed\Kernel\Container;
 use Spryker\Zed\Kernel\Dependency\Injector\AbstractDependencyInjector;
 use Spryker\Zed\Oms\Communication\Plugin\Oms\Command\CommandCollectionInterface;

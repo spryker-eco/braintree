@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Yves\Braintree\Form;
+namespace SprykerEco\Yves\Braintree\Form;
 
 use Braintree\ClientToken;
 use Braintree\Configuration;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Shared\Config\Config;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;

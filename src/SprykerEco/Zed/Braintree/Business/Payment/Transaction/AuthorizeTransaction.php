@@ -5,13 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Braintree\Business\Payment\Transaction;
+namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Exception\NotFound;
 use Braintree\Result\Error;
 use Braintree\Result\Successful;
 use Braintree\Transaction as BraintreeTransaction;
-use Spryker\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
 class AuthorizeTransaction extends AbstractTransaction
 {
