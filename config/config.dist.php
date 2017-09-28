@@ -47,7 +47,7 @@ $config[KernelConstants::DEPENDENCY_INJECTOR_ZED] = [
 
 $config[OmsConstants::PROCESS_LOCATION] = [
     OmsConfig::DEFAULT_PROCESS_LOCATION,
-    $config[KernelConstants::SPRYKER_ROOT] . '/Braintree/config/Zed/Oms',
+    APPLICATION_VENDOR_DIR .'/spryker-eco/braintree/config/Zed/Oms',
 ];
 
 $config[OmsConstants::ACTIVE_PROCESSES] = [
