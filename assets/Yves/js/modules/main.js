@@ -13,8 +13,8 @@ $(document).ready(function() {
         window.braintree = true;
         paymentMethod.init({
             formSelector: '#payment-form',
-            paymentMethodSelector: '#paymentForm_paymentSelection input[type="radio"]',
-            currentPaymentMethodSelector: '#paymentForm_paymentSelection input[type="radio"]:checked',
+            paymentMethodSelector: 'input[id^="paymentForm_paymentSelection"][type="radio"]',
+            currentPaymentMethodSelector: 'input[id^="paymentForm_paymentSelection"][type="radio"]:checked',
             nonceInputName: 'payment_method_nonce'
         });
     }
