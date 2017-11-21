@@ -74,13 +74,13 @@ function init(config) {
 
     function loadBraintree() {
         var braintreeSetupSettings = {
-            id: config.formSelector.replace('#', ''),
             onReady: readyHandler,
             onPaymentMethodReceived: paymentMethodHandler,
             onError: errorHandler
         };
 
         if ($('.braintree-credit-card-method').length) {
+            braintreeSetupSettings.id = config.formSelector.replace('#', '');
             braintreeSetupSettings.hostedFields = {
                 styles: {
                     'input': {
