@@ -3,7 +3,7 @@
  * Copy over the following configs to your config
  */
 
-use Spryker\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Shared\Kernel\KernelConstants;
 use Spryker\Shared\Oms\OmsConstants;
 use Spryker\Shared\Sales\SalesConstants;
