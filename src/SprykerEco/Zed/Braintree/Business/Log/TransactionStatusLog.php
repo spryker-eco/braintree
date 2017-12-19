@@ -104,7 +104,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
      *
      * @return bool
      */
-    private function hasTransactionStatusLog(OrderTransfer $orderTransfer, $transactionCode, $statusCode, $expectedStatusReasonCode)
+    protected function hasTransactionStatusLog(OrderTransfer $orderTransfer, $transactionCode, $statusCode, $expectedStatusReasonCode)
     {
         $idSalesOrder = $orderTransfer->getIdSalesOrder();
         $logEntity = $this

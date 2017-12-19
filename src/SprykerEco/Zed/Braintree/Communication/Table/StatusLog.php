@@ -19,17 +19,17 @@ class StatusLog extends AbstractTable
     /**
      * @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
      */
-    private $statusLogQuery;
+    protected $statusLogQuery;
 
     /**
      * @var int
      */
-    private $idPayment;
+    protected $idPayment;
 
     /**
      * @var string[]
      */
-    private static $includeFields = [
+    protected static $includeFields = [
         SpyPaymentBraintreeTransactionStatusLogTableMap::COL_TRANSACTION_ID,
         SpyPaymentBraintreeTransactionStatusLogTableMap::COL_TRANSACTION_CODE,
         SpyPaymentBraintreeTransactionStatusLogTableMap::COL_TRANSACTION_STATUS,
@@ -65,7 +65,7 @@ class StatusLog extends AbstractTable
     /**
      * @return array
      */
-    private function getHeaderFields()
+    protected function getHeaderFields()
     {
         $headerFields = [];
         foreach (static::$includeFields as $fieldName) {
@@ -108,7 +108,7 @@ class StatusLog extends AbstractTable
      *
      * @return array
      */
-    private function getFieldMatchedResultArrayFromLogItem(array $logItem)
+    protected function getFieldMatchedResultArrayFromLogItem(array $logItem)
     {
         $resultArray = [];
         foreach (static::$includeFields as $fieldName) {
@@ -133,7 +133,7 @@ class StatusLog extends AbstractTable
      *
      * @return string
      */
-    private function getDetailsFieldValue(array $logItem)
+    protected function getDetailsFieldValue(array $logItem)
     {
         $fieldNames = SpyPaymentBraintreeTransactionStatusLogTableMap::getFieldNames(
             SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME

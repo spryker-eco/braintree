@@ -17,17 +17,17 @@ class RequestLog extends AbstractTable
     /**
      * @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLogQuery
      */
-    private $requestLogQuery;
+    protected $requestLogQuery;
 
     /**
      * @var int
      */
-    private $idPayment;
+    protected $idPayment;
 
     /**
      * @var string[]
      */
-    private static $excludeFields = [
+    protected static $excludeFields = [
         SpyPaymentBraintreeTransactionRequestLogTableMap::COL_ID_PAYMENT_BRAINTREE_TRANSACTION_REQUEST_LOG,
         SpyPaymentBraintreeTransactionRequestLogTableMap::COL_FK_PAYMENT_BRAINTREE,
         SpyPaymentBraintreeTransactionRequestLogTableMap::COL_CREATED_AT,
@@ -63,7 +63,7 @@ class RequestLog extends AbstractTable
     /**
      * @return array
      */
-    private function getHeaderFields()
+    protected function getHeaderFields()
     {
         $fieldNames = SpyPaymentBraintreeTransactionRequestLogTableMap::getFieldNames(
             SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME
@@ -110,7 +110,7 @@ class RequestLog extends AbstractTable
      *
      * @return array
      */
-    private function getFieldMatchedResultArrayFromLogItem(array $logItem)
+    protected function getFieldMatchedResultArrayFromLogItem(array $logItem)
     {
         $fieldNames = SpyPaymentBraintreeTransactionRequestLogTableMap::getFieldNames(
             SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME

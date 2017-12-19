@@ -22,7 +22,7 @@ class Payments extends AbstractTable
     /**
      * @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
      */
-    private $paymentBraintreeQuery;
+    protected $paymentBraintreeQuery;
 
     /**
      * @param \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery $paymentBraintreeQuery

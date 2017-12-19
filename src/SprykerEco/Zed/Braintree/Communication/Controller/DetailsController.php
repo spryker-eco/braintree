@@ -44,7 +44,7 @@ class DetailsController extends AbstractController
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
      */
-    private function getPaymentEntity($idPayment)
+    protected function getPaymentEntity($idPayment)
     {
         $paymentEntity = $this->getQueryContainer()->queryPaymentById($idPayment)->findOne();
 
