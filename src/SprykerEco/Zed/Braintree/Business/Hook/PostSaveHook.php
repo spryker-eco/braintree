@@ -13,7 +13,6 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
 
 class PostSaveHook implements PostSaveHookInterface
 {
-
     /**
      * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
      */
@@ -50,5 +49,4 @@ class PostSaveHook implements PostSaveHookInterface
 
         return $checkoutResponse;
     }
-
 }

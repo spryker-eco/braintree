@@ -8,14 +8,13 @@
 namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
+use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use SprykerEco\Client\Braintree\BraintreeClientInterface;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
-use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class BraintreeHandler
 {
-
     const PAYMENT_PROVIDER = 'braintree';
 
     /**
@@ -125,5 +124,4 @@ class BraintreeHandler
 
         return $braintreePaymentTransfer;
     }
-
 }

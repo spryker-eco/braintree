@@ -3,11 +3,11 @@
  * Copy over the following configs to your config
  */
 
-use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Shared\Kernel\KernelConstants;
 use Spryker\Shared\Oms\OmsConstants;
 use Spryker\Shared\Sales\SalesConstants;
 use Spryker\Zed\Oms\OmsConfig;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 
 // the mode of the transaction, either development, integration, sandbox, production, qa (required)
 $config[BraintreeConstants::ENVIRONMENT] = '';
@@ -47,7 +47,7 @@ $config[KernelConstants::DEPENDENCY_INJECTOR_ZED] = [
 
 $config[OmsConstants::PROCESS_LOCATION] = [
     OmsConfig::DEFAULT_PROCESS_LOCATION,
-    APPLICATION_VENDOR_DIR .'/spryker-eco/braintree/config/Zed/Oms',
+    APPLICATION_VENDOR_DIR . '/spryker-eco/braintree/config/Zed/Oms',
 ];
 
 $config[OmsConstants::ACTIVE_PROCESSES] = [

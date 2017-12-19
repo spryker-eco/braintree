@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Business;
 
+use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
 use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHook;
 use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLog;
@@ -23,7 +24,6 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\Transactio
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
-use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
@@ -31,7 +31,6 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {
-
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler
      */
@@ -194,5 +193,4 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new PostSaveHook($this->getQueryContainer());
     }
-
 }

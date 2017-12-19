@@ -7,12 +7,11 @@
 
 namespace SprykerEco\Zed\Braintree;
 
-use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 
 class BraintreeConfig extends AbstractBundleConfig
 {
-
     /**
      * @return string
      */
@@ -68,5 +67,4 @@ class BraintreeConfig extends AbstractBundleConfig
     {
         return 'Spryker_BT_DE';
     }
-
 }

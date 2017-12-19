@@ -7,18 +7,17 @@
 
 namespace SprykerEco\Zed\Braintree\Dependency\Injector;
 
-use SprykerEco\Shared\Braintree\BraintreeConstants;
-use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePostSavePlugin;
-use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePreCheckPlugin;
-use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeSaveOrderPlugin;
 use Spryker\Zed\Kernel\Container;
 use Spryker\Zed\Kernel\Dependency\Injector\AbstractDependencyInjector;
 use Spryker\Zed\Payment\Dependency\Plugin\Checkout\CheckoutPluginCollection;
 use Spryker\Zed\Payment\PaymentDependencyProvider;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePostSavePlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreePreCheckPlugin;
+use SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeSaveOrderPlugin;
 
 class PaymentDependencyInjector extends AbstractDependencyInjector
 {
-
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -48,5 +47,4 @@ class PaymentDependencyInjector extends AbstractDependencyInjector
 
         return $container;
     }
-
 }

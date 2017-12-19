@@ -7,6 +7,11 @@
 
 namespace SprykerEco\Zed\Braintree\Dependency\Injector;
 
+use Spryker\Zed\Kernel\Container;
+use Spryker\Zed\Kernel\Dependency\Injector\AbstractDependencyInjector;
+use Spryker\Zed\Oms\Communication\Plugin\Oms\Command\CommandCollectionInterface;
+use Spryker\Zed\Oms\Communication\Plugin\Oms\Condition\ConditionCollectionInterface;
+use Spryker\Zed\Oms\OmsDependencyProvider;
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\AuthorizePlugin;
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\CapturePlugin;
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\RefundPlugin;
@@ -15,15 +20,9 @@ use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsAuthorizationA
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsCaptureApprovedPlugin;
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsRefundApprovedPlugin;
 use SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition\IsReversalApprovedPlugin;
-use Spryker\Zed\Kernel\Container;
-use Spryker\Zed\Kernel\Dependency\Injector\AbstractDependencyInjector;
-use Spryker\Zed\Oms\Communication\Plugin\Oms\Command\CommandCollectionInterface;
-use Spryker\Zed\Oms\Communication\Plugin\Oms\Condition\ConditionCollectionInterface;
-use Spryker\Zed\Oms\OmsDependencyProvider;
 
 class OmsDependencyInjector extends AbstractDependencyInjector
 {
-
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -76,5 +75,4 @@ class OmsDependencyInjector extends AbstractDependencyInjector
 
         return $container;
     }
-
 }

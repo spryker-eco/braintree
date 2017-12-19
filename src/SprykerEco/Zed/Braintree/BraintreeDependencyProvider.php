@@ -7,15 +7,14 @@
 
 namespace SprykerEco\Zed\Braintree;
 
+use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Container;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundBridge;
-use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
-use Spryker\Zed\Kernel\Container;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
-
     const FACADE_CURRENCY = 'currency facade';
     const FACADE_MONEY = 'money facade';
     const FACADE_REFUND = 'refund facade';
@@ -77,5 +76,4 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 
         return $container;
     }
-
 }

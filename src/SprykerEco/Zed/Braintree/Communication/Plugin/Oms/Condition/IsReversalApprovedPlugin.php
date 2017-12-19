@@ -10,11 +10,10 @@ namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition;
 use Generated\Shared\Transfer\OrderTransfer;
 
 /**
- * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacade getFacade()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  */
 class IsReversalApprovedPlugin extends AbstractCheckPlugin
 {
-
     /**
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      *
@@ -24,5 +23,4 @@ class IsReversalApprovedPlugin extends AbstractCheckPlugin
     {
         return $this->getFacade()->isReversalApproved($orderTransfer);
     }
-
 }

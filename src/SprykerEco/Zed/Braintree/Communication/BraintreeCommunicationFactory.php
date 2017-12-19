@@ -7,10 +7,10 @@
 
 namespace SprykerEco\Zed\Braintree\Communication;
 
+use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use SprykerEco\Zed\Braintree\Communication\Table\Payments;
 use SprykerEco\Zed\Braintree\Communication\Table\RequestLog;
 use SprykerEco\Zed\Braintree\Communication\Table\StatusLog;
-use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
@@ -18,7 +18,6 @@ use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
  */
 class BraintreeCommunicationFactory extends AbstractCommunicationFactory
 {
-
     /**
      * @return \SprykerEco\Zed\Braintree\Communication\Table\Payments
      */
@@ -52,5 +51,4 @@ class BraintreeCommunicationFactory extends AbstractCommunicationFactory
 
         return new StatusLog($statusLogQuery, $idPayment);
     }
-
 }

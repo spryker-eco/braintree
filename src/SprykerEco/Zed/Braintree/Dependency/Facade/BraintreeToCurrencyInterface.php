@@ -9,10 +9,8 @@ namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 
 interface BraintreeToCurrencyInterface
 {
-
     /**
      * @return \Generated\Shared\Transfer\CurrencyTransfer
      */
     public function getCurrent();
-
 }

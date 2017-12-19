@@ -14,7 +14,6 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
 
 class TransactionStatusLog implements TransactionStatusLogInterface
 {
-
     /**
      * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
      */
@@ -122,5 +121,4 @@ class TransactionStatusLog implements TransactionStatusLogInterface
 
         return $logEntity->getIsSuccess() === (bool)$expectedStatusReasonCode;
     }
-
 }

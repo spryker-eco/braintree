@@ -7,19 +7,18 @@
 
 namespace SprykerEco\Yves\Braintree;
 
+use Spryker\Yves\Kernel\AbstractFactory;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
-use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
  * @method \SprykerEco\Client\Braintree\BraintreeClientInterface getClient()
  */
 class BraintreeFactory extends AbstractFactory
 {
-
     /**
      * @return \SprykerEco\Yves\Braintree\Form\PayPalSubForm
      */
@@ -67,5 +66,4 @@ class BraintreeFactory extends AbstractFactory
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_CURRENCY);
     }
-
 }

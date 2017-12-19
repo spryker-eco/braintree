@@ -18,7 +18,6 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
 
 class PreCheckTransaction extends AbstractTransaction
 {
-
     /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
      */
@@ -308,5 +307,4 @@ class PreCheckTransaction extends AbstractTransaction
 
         return ($matching[$this->getPaymentSelection()] === $returnedType);
     }
-
 }

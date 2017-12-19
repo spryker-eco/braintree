@@ -12,7 +12,6 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
 
 class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 {
-
     /**
      * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
      */
@@ -50,5 +49,4 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 
         return $this->queryContainer->queryPaymentBySalesOrderId($idSalesOrderEntity)->findOne();
     }
-
 }
