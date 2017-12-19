@@ -1,9 +1,9 @@
-namespace: SprykerTest
+namespace: Braintree
 
 include:
-    - tests/SprykerTest/Client/Braintree
-    - tests/SprykerTest/Shared/Braintree
-    - tests/SprykerTest/Zed/Braintree
+    - tests/SprykerEcoTest/Client/Braintree
+    - tests/SprykerEcoTest/Shared/Braintree
+    - tests/SprykerEcoTest/Zed/Braintree
 
 paths:
     tests: tests

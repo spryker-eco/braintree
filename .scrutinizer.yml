@@ -1,15 +1,19 @@
 build:
-    environment:
-        php:
-            version: 7.1
-
-checks:
+  dependencies:
+    override:
+      - true
+  environment:
     php:
-        code_rating: true
-
+      version: 7.1
 filter:
-    excluded_paths:
-        - config/*
-        - tests/*
-        - src/Generated/*
-        - src/Pyz/*
+  excluded_paths:
+    - build/*
+    - tests/*
+    - vendor/*
+    - config/Shared/*
+    - src/Generated/*
+    - src/Orm/*
+    - src/Pyz/*
+checks:
+  php:
+    code_rating: true
