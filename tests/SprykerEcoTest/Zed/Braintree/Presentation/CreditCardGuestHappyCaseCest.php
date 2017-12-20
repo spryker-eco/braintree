@@ -31,7 +31,7 @@ class CreditCardGuestHappyCaseCest
      */
     public function closeCreditCardOrderHappyCase(BraintreePresentationTester $i)
     {
-        $checkoutTester = $i->haveFriend('checkoutTester', BraintreeBraintreePresentationTester::class);
+        $checkoutTester = $i->haveFriend('checkoutTester', CheckoutPresentationTester::class);
         $checkoutTester->does(function (CheckoutPresentationTester $i) {
             $i->addToCart(ProductDetailPage::URL);
             $i->checkoutWithCreditCardAsGuest();

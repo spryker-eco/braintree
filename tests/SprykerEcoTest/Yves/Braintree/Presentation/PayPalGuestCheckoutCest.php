@@ -5,15 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Presentation;
+namespace SprykerEcoTest\Yves\Braintree\Presentation;
 
-use Acceptance\Braintree\Checkout\Yves\PageObject\ProductDetailPage;
-use Acceptance\Braintree\Checkout\Yves\Tester\CheckoutTester;
+use SprykerEcoTest\Yves\Braintree\BraintreePresentationTester;
+use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 
 /**
  * Auto-generated group annotations
  * @group SprykerEcoTest
- * @group Zed
+ * @group Yves
  * @group Braintree
  * @group Presentation
  * @group PayPalGuestCheckoutCest
@@ -22,13 +22,13 @@ use Acceptance\Braintree\Checkout\Yves\Tester\CheckoutTester;
 class PayPalGuestCheckoutCest
 {
     /**
-     * @skip Broken because of new checkout
+     * @skip because of "Processor Network Unavailable - Try Again" response
      *
-     * @param \Acceptance\Braintree\Checkout\Yves\Tester\CheckoutTester $i
+     * @param \SprykerEcoTest\Yves\Braintree\BraintreePresentationTester $i
      *
      * @return void
      */
-    public function testPayPalCheckoutAsGuest(CheckoutTester $i)
+    public function testPayPalCheckoutAsGuest(BraintreePresentationTester $i)
     {
         $i->wantToTest('That i can go through paypal checkout as guest');
         $i->addToCart(ProductDetailPage::URL);

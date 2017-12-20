@@ -64,7 +64,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
      */
     protected function getRevertTransactionMock($success = true)
     {

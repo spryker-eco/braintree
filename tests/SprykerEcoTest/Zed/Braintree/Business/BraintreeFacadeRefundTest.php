@@ -70,7 +70,7 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Business\Payment\Transaction\RefundTransaction
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction
      */
     protected function getRefundTransactionMock($success = true)
     {
@@ -110,7 +110,7 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
      */
     protected function getRefundFacadeMock($success = true)
     {

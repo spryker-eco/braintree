@@ -17,6 +17,7 @@ use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Country\Persistence\SpyCountryQuery;
 use Orm\Zed\Customer\Persistence\Map\SpyCustomerTableMap;
 use Orm\Zed\Customer\Persistence\SpyCustomerQuery;
+use Orm\Zed\Payolution\Persistence\SpyPaymentPayolutionTransactionStatusLogQuery;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Spryker\Zed\Kernel\Container;
@@ -61,9 +62,9 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
-     * @param \Spryker\Zed\Braintree\Business\BraintreeBusinessFactory|null $braintreeBusinessFactoryMock
+     * @param \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory|null $braintreeBusinessFactoryMock
      *
-     * @return \Spryker\Zed\Braintree\Business\BraintreeFacade
+     * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getBraintreeFacade(BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
     {
@@ -158,22 +159,49 @@ class AbstractFacadeTest extends Unit
     /**
      * @param array $methods
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Business\BraintreeBusinessFactory
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
     protected function getFactoryMock(array $methods)
     {
         $factoryMock = $this->getFactory($methods);
         $factoryMock->setContainer($this->getContainer());
-        $factoryMock->setQueryContainer(new BraintreeQueryContainer());
+        $factoryMock->setQueryContainer($this->getQueryContainerMock());
         $factoryMock->setConfig(new BraintreeConfig());
 
         return $factoryMock;
     }
 
     /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainer
+     */
+    protected function getQueryContainerMock()
+    {
+        $queryContainerMock = $this->getMockBuilder(BraintreeQueryContainer::class)->getMock();
+
+        $transactionStatusLogQueryMock = $this->getTransactionStatusLogQueryMock();
+
+        $queryContainerMock->expects($this->any())
+            ->method('queryPaymentBySalesOrderId')
+            ->willReturn($transactionStatusLogQueryMock);
+
+        return $queryContainerMock;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+     */
+    private function getTransactionStatusLogQueryMock()
+    {
+        $transactionStatusLogQueryMock = $this->getMockBuilder(SpyPaymentPayolutionTransactionStatusLogQuery::class)->getMock();
+        $transactionStatusLogQueryMock->method('findOne')->willReturn($this->paymentEntity);
+
+        return $transactionStatusLogQueryMock;
+    }
+
+    /**
      * @param array $methods
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Business\BraintreeBusinessFactory
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
     protected function getFactory(array $methods)
     {

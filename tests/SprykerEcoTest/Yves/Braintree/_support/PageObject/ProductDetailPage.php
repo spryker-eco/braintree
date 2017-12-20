@@ -9,7 +9,7 @@ namespace SprykerEcoTest\Yves\Braintree\PageObject;
 
 class ProductDetailPage
 {
-    const URL = '/de/asus-vivowatch-50';
+    const URL = '/en/asus-vivowatch-099';
 
-    const BUTTON_ADD_TO_CART = 'In den Warenkorb';
+    const BUTTON_ADD_TO_CART = 'Add to Cart';
 }

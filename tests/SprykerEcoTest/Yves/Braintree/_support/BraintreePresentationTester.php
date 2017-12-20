@@ -207,10 +207,12 @@ class BraintreePresentationTester extends Actor
         $i->amOnPage(CheckoutPage::URL_PAYMENT);
         $i->click(['id' => 'paymentForm_paymentSelection_1']);
         $i->click(['id' => 'braintree-paypal-button']);
+        $i->wait(10);
 
         $this->fillOutPayPalForm();
 
-        $i->seeElement(['id' => 'braintree-paypal-loggedin']);
+        $i->wait(5);
+        $i->see('payment.test-123@spryker.com');
         $i->click('Go to Summary');
         $i->wait(5);
         $i->canSeeCurrentUrlEquals(CheckoutPage::URL_SUMMARY);

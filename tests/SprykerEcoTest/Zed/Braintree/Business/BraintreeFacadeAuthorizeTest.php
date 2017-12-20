@@ -38,7 +38,6 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
-
         $response = $braintreeFacade->authorizePayment($transactionMetaTransfer);
 
         $this->assertTrue($response->getIsSuccess());

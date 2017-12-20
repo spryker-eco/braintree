@@ -59,7 +59,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Spryker\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction
      */
     protected function getCaptureTransactionMock($success = true)
     {

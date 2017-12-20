@@ -10,8 +10,8 @@ namespace SprykerEcoTest\Zed\Braintree;
 use Codeception\Actor;
 use Codeception\Scenario;
 use DateInterval;
-use SprykerEcoTest\Zed\Sales\PageObject\SalesDetailPage;
-use SprykerEcoTest\Zed\Sales\PageObject\SalesListPage;
+use SprykerTest\Zed\Sales\PageObject\SalesDetailPage;
+use SprykerTest\Zed\Sales\PageObject\SalesListPage;
 
 /**
  * Inherited Methods

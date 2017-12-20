@@ -40,6 +40,7 @@ suites:
                     host: 0.0.0.0
                     restart: false
                 - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
+                - \SprykerTest\Shared\Application\Helper\YvesHelper
                 - \SprykerTest\Shared\Application\Helper\ZedHelper
                 - \SprykerTest\Zed\ZedNavigation\Helper\BreadcrumbHelper
                 - \SprykerTest\Zed\Gui\Helper\DataTableActionHelper
