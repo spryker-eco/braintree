@@ -22,8 +22,6 @@ use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 class PayPalGuestCheckoutCest
 {
     /**
-     * @skip because of "Processor Network Unavailable - Try Again" response
-     *
      * @param \SprykerEcoTest\Yves\Braintree\BraintreePresentationTester $i
      *
      * @return void

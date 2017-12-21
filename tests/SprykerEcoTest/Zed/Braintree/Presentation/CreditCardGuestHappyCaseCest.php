@@ -23,7 +23,7 @@ use SprykerEcoTest\Zed\Braintree\BraintreePresentationTester;
 class CreditCardGuestHappyCaseCest
 {
     /**
-     * @skip Broken because of new checkout
+     * @skip because OMS timeout is not handled properly
      *
      * @param \SprykerEcoTest\Zed\Braintree\BraintreePresentationTester $i
      *

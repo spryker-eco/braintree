@@ -23,8 +23,6 @@ use SprykerEcoTest\Zed\Braintree\BraintreePresentationTester;
 class CreditCardGuestRefundCest
 {
     /**
-     * @skip Broken because of new checkout
-     *
      * @param \SprykerEcoTest\Zed\Braintree\BraintreePresentationTester $i
      *
      * @return void

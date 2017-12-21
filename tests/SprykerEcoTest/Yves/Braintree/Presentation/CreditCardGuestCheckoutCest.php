@@ -22,8 +22,6 @@ use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 class CreditCardGuestCheckoutCest
 {
     /**
-     * @skip Broken because of new checkout
-     *
      * @param \SprykerEcoTest\Yves\Braintree\BraintreePresentationTester $i
      *
      * @return void
