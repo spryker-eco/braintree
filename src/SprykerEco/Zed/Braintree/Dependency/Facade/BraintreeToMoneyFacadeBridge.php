@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 
-class BraintreeToMoneyBridge implements BraintreeToMoneyInterface
+class BraintreeToMoneyFacadeBridge implements BraintreeToMoneyFacadeInterface
 {
     /**
      * @var \Spryker\Zed\Money\Business\MoneyFacadeInterface

@@ -10,20 +10,20 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 use Braintree\Transaction as BraintreeTransaction;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 
 class RefundTransaction extends AbstractTransaction
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected $moneyFacade;
 
     /**
      * @param \SprykerEco\Zed\Braintree\BraintreeConfig $brainTreeConfig
-     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface $moneyFacade
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
      */
-    public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyInterface $moneyFacade)
+    public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyFacadeInterface $moneyFacade)
     {
         parent::__construct($brainTreeConfig);
 

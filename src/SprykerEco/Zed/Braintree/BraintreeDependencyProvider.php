@@ -9,17 +9,15 @@ namespace SprykerEco\Zed\Braintree;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyBridge;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyFacadeBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeBridge;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
-    const FACADE_CURRENCY = 'currency facade';
-    const FACADE_MONEY = 'money facade';
-    const FACADE_REFUND = 'refund facade';
-
-    const CURRENCY_MANAGER = 'currency manager';
+    const FACADE_CURRENCY = 'FACADE_CURRENCY';
+    const FACADE_MONEY = 'FACADE_MONEY';
+    const FACADE_REFUND = 'FACADE_REFUND';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -43,7 +41,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     protected function addRefundFacade(Container $container)
     {
         $container[static::FACADE_REFUND] = function (Container $container) {
-            return new BraintreeToRefundBridge($container->getLocator()->refund()->facade());
+            return new BraintreeToRefundFacadeBridge($container->getLocator()->refund()->facade());
         };
 
         return $container;
@@ -57,7 +55,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     protected function addCurrencyFacade(Container $container)
     {
         $container[static::FACADE_CURRENCY] = function (Container $container) {
-            return new BraintreeToCurrencyBridge($container->getLocator()->currency()->facade());
+            return new BraintreeToCurrencyFacadeBridge($container->getLocator()->currency()->facade());
         };
 
         return $container;
@@ -71,7 +69,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     protected function addMoneyFacade(Container $container)
     {
         $container[static::FACADE_MONEY] = function (Container $container) {
-            return new BraintreeToMoneyBridge($container->getLocator()->money()->facade());
+            return new BraintreeToMoneyFacadeBridge($container->getLocator()->money()->facade());
         };
 
         return $container;

@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 use Generated\Shared\Transfer\RefundTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 
-class BraintreeToRefundBridge implements BraintreeToRefundInterface
+class BraintreeToRefundFacadeBridge implements BraintreeToRefundFacadeInterface
 {
     /**
      * @var \Spryker\Zed\Refund\Business\RefundFacadeInterface

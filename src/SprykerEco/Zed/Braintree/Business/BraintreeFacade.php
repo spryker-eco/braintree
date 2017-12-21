@@ -20,8 +20,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {
     /**
-     * Specification:
-     * - Saves order payment method data according to quote and checkout response transfer data.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -32,16 +31,13 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer)
     {
-        $this
-             ->getFactory()
+        $this->getFactory()
              ->createOrderSaver()
              ->saveOrderPayment($quoteTransfer, $checkoutResponseTransfer);
     }
 
     /**
-     * Specification:
-     * - Sends pre-authorize payment request to Braintree gateway to retrieve transaction data.
-     * - Checks that form data matches transaction response data
+     * {@inheritdoc}
      *
      * @api
      *
@@ -58,8 +54,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Processes payment confirmation request to Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -76,8 +71,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Processes capture payment request to Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -94,8 +88,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Processes cancel payment request to Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -112,9 +105,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Calculate RefundTransfer for given $salesOrderItems and $salesOrderEntity.
-     * - Processes refund request to Braintree gateway by calculated RefundTransfer.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -132,8 +123,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Checks if pre-authorization API request got success response from Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -150,8 +140,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Checks if cancel API request got success response from Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -168,8 +157,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Checks if capture API request got success response from Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -186,8 +174,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * Specification:
-     * - Checks if refund API request got success response from Braintree gateway.
+     * {@inheritdoc}
      *
      * @api
      *
@@ -204,6 +191,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
@@ -213,7 +202,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function postSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
-        return $this->getFactory()
+        return $this
+            ->getFactory()
             ->createPostSaveHook()
             ->postSaveHook($quoteTransfer, $checkoutResponse);
     }

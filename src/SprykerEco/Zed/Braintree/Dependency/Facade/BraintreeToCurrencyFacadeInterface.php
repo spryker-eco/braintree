@@ -7,12 +7,10 @@
 
 namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 
-interface BraintreeToMoneyInterface
+interface BraintreeToCurrencyFacadeInterface
 {
     /**
-     * @param int $value
-     *
-     * @return float
+     * @return \Generated\Shared\Transfer\CurrencyTransfer
      */
-    public function convertIntegerToDecimal($value);
+    public function getCurrent();
 }

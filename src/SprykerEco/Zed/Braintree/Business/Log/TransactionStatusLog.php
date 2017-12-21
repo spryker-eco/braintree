@@ -115,6 +115,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
             )
             ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
             ->findOne();
+
         if (!$logEntity) {
             return false;
         }

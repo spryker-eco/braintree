@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Braintree\Dependency\Facade;
 use Generated\Shared\Transfer\RefundTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 
-interface BraintreeToRefundInterface
+interface BraintreeToRefundFacadeInterface
 {
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems

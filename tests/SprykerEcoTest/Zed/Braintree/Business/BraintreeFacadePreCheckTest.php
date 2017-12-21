@@ -16,11 +16,11 @@ use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 
 /**
  * Auto-generated group annotations
@@ -82,7 +82,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
             ->getMockBuilder(PreCheckTransaction::class)
             ->setMethods(['preCheck', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig(), new BraintreeToMoneyBridge($moneyFacadeMock)]
+                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)]
             )
             ->getMock();
 
@@ -143,7 +143,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         $quoteTransfer->setTotals($orderTransfer->getTotals());
 
         $paymentTransfer = new PaymentTransfer();
-        $paymentTransfer->setPaymentSelection(BraintreeConstants::PAYMENT_METHOD_PAY_PAL);
+        $paymentTransfer->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL);
 
         $braintreeTransfer = new BraintreePaymentTransfer();
         $braintreeTransfer->setNonce('fake_valid_nonce');
@@ -159,7 +159,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
      */
     protected function getMoneyFacadeMock()
     {
-        $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyInterface::class)->getMock();
+        $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyFacadeInterface::class)->getMock();
 
         return $moneyFacadeMock;
     }

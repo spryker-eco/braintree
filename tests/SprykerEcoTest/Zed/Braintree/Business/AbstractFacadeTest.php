@@ -21,7 +21,7 @@ use Orm\Zed\Payolution\Persistence\SpyPaymentPayolutionTransactionStatusLogQuery
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Spryker\Zed\Kernel\Container;
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
 use SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory;
@@ -132,7 +132,7 @@ class AbstractFacadeTest extends Unit
     {
         $this->paymentEntity = (new SpyPaymentBraintree())
             ->setFkSalesOrder($this->getOrderEntity()->getIdSalesOrder())
-            ->setPaymentType(BraintreeConstants::METHOD_PAY_PAL)
+            ->setPaymentType(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
             ->setTransactionId('abc')
             ->setClientIp('127.0.0.1')
             ->setEmail('jane@family-doe.org')

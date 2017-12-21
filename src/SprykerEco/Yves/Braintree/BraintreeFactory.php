@@ -14,9 +14,6 @@ use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
 
-/**
- * @method \SprykerEco\Client\Braintree\BraintreeClientInterface getClient()
- */
 class BraintreeFactory extends AbstractFactory
 {
     /**
@@ -56,7 +53,7 @@ class BraintreeFactory extends AbstractFactory
      */
     public function createBraintreeHandler()
     {
-        return new BraintreeHandler($this->getClient(), $this->getCurrencyPlugin());
+        return new BraintreeHandler($this->getCurrencyPlugin());
     }
 
     /**

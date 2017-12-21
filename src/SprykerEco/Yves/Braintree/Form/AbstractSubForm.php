@@ -14,6 +14,7 @@ use Spryker\Shared\Config\Config;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -57,7 +58,7 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
      */
     public function getProviderName()
     {
-        return BraintreeConstants::PROVIDER_NAME;
+        return BraintreeConfig::PROVIDER_NAME;
     }
 
     /**

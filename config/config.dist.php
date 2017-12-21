@@ -4,10 +4,10 @@
  * Copy over the following configs to your config
  */
 
-use Spryker\Shared\Kernel\KernelConstants;
 use Spryker\Shared\Oms\OmsConstants;
 use Spryker\Shared\Sales\SalesConstants;
 use Spryker\Zed\Oms\OmsConfig;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
 
 // the mode of the transaction, either development, integration, sandbox, production, qa (required)
@@ -31,21 +31,6 @@ $config[BraintreeConstants::ACCOUNT_UNIQUE_IDENTIFIER] = '';
 $config[BraintreeConstants::IS_VAULTED] = true;
 $config[BraintreeConstants::IS_3D_SECURE] = true;
 
-$config[KernelConstants::DEPENDENCY_INJECTOR_YVES] = [
-    'Checkout' => [
-        'Braintree',
-    ],
-];
-
-$config[KernelConstants::DEPENDENCY_INJECTOR_ZED] = [
-    'Payment' => [
-        'Braintree',
-    ],
-    'Oms' => [
-        'Braintree',
-    ],
-];
-
 $config[OmsConstants::PROCESS_LOCATION] = [
     OmsConfig::DEFAULT_PROCESS_LOCATION,
     APPLICATION_VENDOR_DIR . '/spryker-eco/braintree/config/Zed/Oms',
@@ -57,6 +42,6 @@ $config[OmsConstants::ACTIVE_PROCESSES] = [
 ];
 
 $config[SalesConstants::PAYMENT_METHOD_STATEMACHINE_MAPPING] = [
-    BraintreeConstants::PAYMENT_METHOD_CREDIT_CARD => 'BraintreeCreditCard01',
-    BraintreeConstants::PAYMENT_METHOD_PAY_PAL => 'BraintreePayPal01',
+    BraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => 'BraintreeCreditCard01',
+    BraintreeConfig::PAYMENT_METHOD_PAY_PAL => 'BraintreePayPal01',
 ];

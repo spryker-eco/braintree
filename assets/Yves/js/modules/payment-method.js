@@ -90,13 +90,16 @@ function init(config) {
                     }
                 },
                 number: {
-                    selector: '#braintree-credit-card-number'
+                    selector: '#braintree-credit-card-number',
+                    placeholder: '4111 1111 1111 1111'
                 },
                 cvv: {
-                    selector: '#braintree-credit-card-cvv'
+                    selector: '#braintree-credit-card-cvv',
+                    placeholder: '123'
                 },
                 expirationDate: {
-                    selector: '#braintree-credit-card-expiration-date'
+                    selector: '#braintree-credit-card-expiration-date',
+                    placeholder: 'MM/YYYY'
                 }
             };
         }
@@ -113,8 +116,8 @@ function init(config) {
     if (!!braintreeClientToken) {
         loadBraintree();
     }
-};
+}
 
 module.exports = {
     init: init
-}
+};

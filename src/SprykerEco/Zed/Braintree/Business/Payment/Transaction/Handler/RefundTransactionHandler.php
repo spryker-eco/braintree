@@ -11,22 +11,25 @@ use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 
 class RefundTransactionHandler extends AbstractTransactionHandler
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface
      */
     protected $refundFacade;
 
     /**
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $transaction
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $transactionMetaVisitor
-     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface $refundFacade
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface $refundFacade
      */
-    public function __construct(TransactionInterface $transaction, TransactionMetaVisitorInterface $transactionMetaVisitor, BraintreeToRefundInterface $refundFacade)
-    {
+    public function __construct(
+        TransactionInterface $transaction,
+        TransactionMetaVisitorInterface $transactionMetaVisitor,
+        BraintreeToRefundFacadeInterface $refundFacade
+    ) {
         parent::__construct($transaction, $transactionMetaVisitor);
 
         $this->refundFacade = $refundFacade;

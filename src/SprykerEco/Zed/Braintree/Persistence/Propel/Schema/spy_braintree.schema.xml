@@ -28,12 +28,7 @@
     </table>
 
     <table name="spy_payment_braintree_transaction_request_log">
-        <column
-            name="id_payment_braintree_transaction_request_log"
-            type="INTEGER"
-            primaryKey="true"
-            autoIncrement="true"
-        />
+        <column name="id_payment_braintree_transaction_request_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_payment_braintree" required="true" type="INTEGER"/>
         <column name="transaction_id" required="true" type="VARCHAR"/>
         <column name="transaction_type" required="false" type="VARCHAR"/>
@@ -48,12 +43,7 @@
     </table>
 
     <table name="spy_payment_braintree_transaction_status_log">
-        <column
-            name="id_payment_braintree_transaction_status_log"
-            type="INTEGER"
-            primaryKey="true"
-            autoIncrement="true"
-        />
+        <column name="id_payment_braintree_transaction_status_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_payment_braintree" required="true" type="INTEGER"/>
         <column name="is_success" required="true" type="boolean"/>
         <column name="code" required="false" type="integer"/>
@@ -75,14 +65,14 @@
     <table name="spy_payment_braintree_order_item">
         <column name="fk_payment_braintree" type="INTEGER" primaryKey="true"/>
         <column name="fk_sales_order_item" type="INTEGER" primaryKey="true"/>
-        <behavior name="timestampable">
-            <parameter name="disable_updated_at" value="true"/>
-        </behavior>
         <foreign-key name="spy_braintree_order_item-fk_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
         <foreign-key name="spy_payment_braintree_order_item-fk_sales_order_item" foreignTable="spy_sales_order_item">
             <reference foreign="id_sales_order_item" local="fk_sales_order_item"/>
         </foreign-key>
+        <behavior name="timestampable">
+            <parameter name="disable_updated_at" value="true"/>
+        </behavior>
     </table>
 </database>

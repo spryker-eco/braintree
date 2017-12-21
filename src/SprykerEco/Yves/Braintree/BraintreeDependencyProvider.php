@@ -13,7 +13,7 @@ use Spryker\Yves\Kernel\Container;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
-    const PLUGIN_CURRENCY = 'currency plugin';
+    const PLUGIN_CURRENCY = 'PLUGIN_CURRENCY';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container

@@ -28,6 +28,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {
@@ -40,6 +41,75 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->createAuthorizeTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler
+     */
+    public function createCaptureTransactionHandler()
+    {
+        return new CaptureTransactionHandler(
+            $this->createCaptureTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler
+     */
+    public function createPreCheckTransactionHandler()
+    {
+        return new PreCheckTransactionHandler(
+            $this->createPreCheckTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler
+     */
+    public function createRefundTransactionHandler()
+    {
+        return new RefundTransactionHandler(
+            $this->createRefundTransaction(),
+            $this->createDefaultTransactionMetaVisitor(),
+            $this->getRefundFacade()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler
+     */
+    public function createRevertTransactionHandler()
+    {
+        return new RevertTransactionHandler(
+            $this->createRevertTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Order\SaverInterface
+     */
+    public function createOrderSaver()
+    {
+        return new Saver();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLogInterface
+     */
+    public function createTransactionStatusLog()
+    {
+        return new TransactionStatusLog($this->getQueryContainer());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Hook\PostSaveHookInterface
+     */
+    public function createPostSaveHook()
+    {
+        return new PostSaveHook($this->getQueryContainer());
     }
 
     /**
@@ -78,33 +148,11 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler
-     */
-    public function createCaptureTransactionHandler()
-    {
-        return new CaptureTransactionHandler(
-            $this->createCaptureTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
-        );
-    }
-
-    /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction
      */
     protected function createCaptureTransaction()
     {
         return new CaptureTransaction($this->getConfig());
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler
-     */
-    public function createPreCheckTransactionHandler()
-    {
-        return new PreCheckTransactionHandler(
-            $this->createPreCheckTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
-        );
     }
 
     /**
@@ -116,23 +164,11 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected function getMoneyFacade()
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_MONEY);
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler
-     */
-    public function createRefundTransactionHandler()
-    {
-        return new RefundTransactionHandler(
-            $this->createRefundTransaction(),
-            $this->createDefaultTransactionMetaVisitor(),
-            $this->getRefundFacade()
-        );
     }
 
     /**
@@ -144,17 +180,6 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler
-     */
-    public function createRevertTransactionHandler()
-    {
-        return new RevertTransactionHandler(
-            $this->createRevertTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
-        );
-    }
-
-    /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
      */
     protected function createRevertTransaction()
@@ -163,34 +188,10 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface
      */
     protected function getRefundFacade()
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_REFUND);
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Braintree\Business\Order\SaverInterface
-     */
-    public function createOrderSaver()
-    {
-        return new Saver();
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLogInterface
-     */
-    public function createTransactionStatusLog()
-    {
-        return new TransactionStatusLog($this->getQueryContainer());
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Braintree\Business\Hook\PostSaveHookInterface
-     */
-    public function createPostSaveHook()
-    {
-        return new PostSaveHook($this->getQueryContainer());
     }
 }

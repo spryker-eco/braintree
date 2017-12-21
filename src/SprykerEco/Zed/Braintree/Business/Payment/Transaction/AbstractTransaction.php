@@ -191,7 +191,6 @@ abstract class AbstractTransaction implements TransactionInterface
             ->setTransactionType($transactionType)
             ->setTransactionCode($transactionCode)
             ->setFkPaymentBraintree($idPayment);
-
         $logEntity->save();
 
         return $logEntity;

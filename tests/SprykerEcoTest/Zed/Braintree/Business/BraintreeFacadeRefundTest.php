@@ -15,9 +15,9 @@ use Generated\Shared\Transfer\RefundTransfer;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyBridge;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 
 /**
  * Auto-generated group annotations
@@ -79,7 +79,7 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         $refundTransactionMockBuilder->setMethods(['refund', 'initializeBraintree']);
         $refundTransactionMockBuilder->setConstructorArgs([
             new BraintreeConfig(),
-            new BraintreeToMoneyBridge($moneyFacadeMock),
+            new BraintreeToMoneyFacadeBridge($moneyFacadeMock),
         ]);
 
         if ($success) {
@@ -110,11 +110,11 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface
      */
     protected function getRefundFacadeMock($success = true)
     {
-        $refundFacadeMock = $this->getMockBuilder(BraintreeToRefundInterface::class)->setMethods(['calculateRefund', 'saveRefund'])->getMock();
+        $refundFacadeMock = $this->getMockBuilder(BraintreeToRefundFacadeInterface::class)->setMethods(['calculateRefund', 'saveRefund'])->getMock();
         $refundFacadeMock->expects($this->any())->method('calculateRefund')->willReturn(new RefundTransfer());
         if ($success) {
             $refundFacadeMock->expects($this->once())->method('saveRefund');
@@ -155,7 +155,7 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
      */
     protected function getMoneyFacadeMock()
     {
-        $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyInterface::class)->getMock();
+        $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyFacadeInterface::class)->getMock();
 
         return $moneyFacadeMock;
     }

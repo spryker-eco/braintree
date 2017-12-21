@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Yves\Braintree\Form;
 
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
@@ -20,7 +20,7 @@ class PayPalSubForm extends AbstractSubForm
      */
     public function getName()
     {
-        return BraintreeConstants::PAYMENT_METHOD_PAY_PAL;
+        return BraintreeConfig::PAYMENT_METHOD_PAY_PAL;
     }
 
     /**
@@ -28,7 +28,7 @@ class PayPalSubForm extends AbstractSubForm
      */
     public function getPropertyPath()
     {
-        return BraintreeConstants::PAYMENT_METHOD_PAY_PAL;
+        return BraintreeConfig::PAYMENT_METHOD_PAY_PAL;
     }
 
     /**
@@ -36,7 +36,7 @@ class PayPalSubForm extends AbstractSubForm
      */
     public function getTemplatePath()
     {
-        return BraintreeConstants::PROVIDER_NAME . '/' . static::PAYMENT_METHOD;
+        return BraintreeConfig::PROVIDER_NAME . '/' . static::PAYMENT_METHOD;
     }
 
     /**

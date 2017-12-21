@@ -9,8 +9,7 @@ namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
-use SprykerEco\Client\Braintree\BraintreeClientInterface;
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 class BraintreeHandler
@@ -21,14 +20,9 @@ class BraintreeHandler
      * @var array
      */
     protected static $paymentMethods = [
-        BraintreeConstants::PAYMENT_METHOD_PAY_PAL => 'pay_pal',
-        BraintreeConstants::PAYMENT_METHOD_CREDIT_CARD => 'credit_card',
+        BraintreeConfig::PAYMENT_METHOD_PAY_PAL => 'pay_pal',
+        BraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => 'credit_card',
     ];
-
-    /**
-     * @var \SprykerEco\Client\Braintree\BraintreeClientInterface
-     */
-    protected $braintreeClient;
 
     /**
      * @var \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface
@@ -36,12 +30,10 @@ class BraintreeHandler
     protected $currencyPlugin;
 
     /**
-     * @param \SprykerEco\Client\Braintree\BraintreeClientInterface $braintreeClient
      * @param \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface $currencyPlugin
      */
-    public function __construct(BraintreeClientInterface $braintreeClient, CurrencyPluginInterface $currencyPlugin)
+    public function __construct(CurrencyPluginInterface $currencyPlugin)
     {
-        $this->braintreeClient = $braintreeClient;
         $this->currencyPlugin = $currencyPlugin;
     }
 
@@ -70,7 +62,7 @@ class BraintreeHandler
     protected function setPaymentProviderAndMethod(QuoteTransfer $quoteTransfer, $paymentSelection)
     {
         $quoteTransfer->getPayment()
-            ->setPaymentProvider(BraintreeConstants::PROVIDER_NAME)
+            ->setPaymentProvider(BraintreeConfig::PROVIDER_NAME)
             ->setPaymentMethod(static::$paymentMethods[$paymentSelection]);
     }
 

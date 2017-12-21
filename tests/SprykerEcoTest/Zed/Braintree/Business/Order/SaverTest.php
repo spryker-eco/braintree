@@ -27,7 +27,7 @@ use Orm\Zed\Oms\Persistence\SpyOmsOrderProcess;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 
 /**
@@ -119,7 +119,7 @@ class SaverTest extends Unit
             ->setEmail($email)
             ->setDateOfBirth('1970-01-02')
             ->setClientIp('127.0.0.1')
-            ->setAccountBrand(BraintreeConstants::METHOD_PAY_PAL)
+            ->setAccountBrand(BraintreeConfig::PAYMENT_METHOD_PAY_PAL)
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR')
             ->setBillingAddress($paymentAddressTransfer);

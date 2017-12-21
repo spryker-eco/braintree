@@ -1,8 +1,10 @@
 <?php
+
 /**
  * MIT License
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
+
 namespace SprykerEco\Zed\Braintree\Business\Hook;
 
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
@@ -21,9 +23,8 @@ class PostSaveHook implements PostSaveHookInterface
     /**
      * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
      */
-    public function __construct(
-        BraintreeQueryContainerInterface $queryContainer
-    ) {
+    public function __construct(BraintreeQueryContainerInterface $queryContainer)
+    {
         $this->queryContainer = $queryContainer;
     }
 

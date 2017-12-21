@@ -11,23 +11,23 @@ use Braintree\PaymentInstrumentType;
 use Braintree\Transaction as BraintreeTransaction;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
-use SprykerEco\Shared\Braintree\BraintreeConstants;
+use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 
 class PreCheckTransaction extends AbstractTransaction
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected $moneyFacade;
 
     /**
      * @param \SprykerEco\Zed\Braintree\BraintreeConfig $brainTreeConfig
-     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyInterface $moneyFacade
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
      */
-    public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyInterface $moneyFacade)
+    public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyFacadeInterface $moneyFacade)
     {
         parent::__construct($brainTreeConfig);
 
@@ -49,7 +49,7 @@ class PreCheckTransaction extends AbstractTransaction
      */
     protected function getTransactionCode()
     {
-        return 'pre check';
+        return ApiConstants::STATUS_CODE_PRE_CHECK;
     }
 
     /**
@@ -270,11 +270,11 @@ class PreCheckTransaction extends AbstractTransaction
 
         if ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::PAYPAL_ACCOUNT) {
             $this->getPayment()->setPaymentMethod(PaymentTransfer::BRAINTREE_PAY_PAL);
-            $this->getPayment()->setPaymentProvider(BraintreeConstants::PROVIDER_NAME);
+            $this->getPayment()->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
             $this->getPayment()->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL);
         } elseif ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::CREDIT_CARD) {
             $this->getPayment()->setPaymentMethod(PaymentTransfer::BRAINTREE_CREDIT_CARD);
-            $this->getPayment()->setPaymentProvider(BraintreeConstants::PROVIDER_NAME);
+            $this->getPayment()->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
             $this->getPayment()->setPaymentSelection(PaymentTransfer::BRAINTREE_CREDIT_CARD);
         }
     }
@@ -301,8 +301,8 @@ class PreCheckTransaction extends AbstractTransaction
         $returnedType = $response->transaction->paymentInstrumentType;
 
         $matching = [
-            BraintreeConstants::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,
-            BraintreeConstants::PAYMENT_METHOD_CREDIT_CARD => PaymentInstrumentType::CREDIT_CARD,
+            SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,
+            SharedBraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => PaymentInstrumentType::CREDIT_CARD,
         ];
 
         return ($matching[$this->getPaymentSelection()] === $returnedType);
