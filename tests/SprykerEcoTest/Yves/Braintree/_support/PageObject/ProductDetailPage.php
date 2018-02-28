@@ -9,7 +9,7 @@ namespace SprykerEcoTest\Yves\Braintree\PageObject;
 
 class ProductDetailPage
 {
-    const URL = '/en/asus-vivowatch-099';
+    const URL = '/en/asus-transformer-book-t200ta-140';
 
-    const BUTTON_ADD_TO_CART = '.js-add-to-cart-button';
+    const BUTTON_ADD_TO_CART = 'Add to Cart';
 }
