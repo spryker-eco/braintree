@@ -11,5 +11,5 @@ class ProductDetailPage
 {
     const URL = '/en/asus-vivowatch-099';
 
-    const BUTTON_ADD_TO_CART = 'Add to Cart';
+    const BUTTON_ADD_TO_CART = '.js-add-to-cart-button';
 }
