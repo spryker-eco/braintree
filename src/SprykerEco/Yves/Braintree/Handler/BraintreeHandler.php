@@ -12,7 +12,7 @@ use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class BraintreeHandler
+class BraintreeHandler implements BraintreeHandlerInterface
 {
     const PAYMENT_PROVIDER = 'braintree';
 

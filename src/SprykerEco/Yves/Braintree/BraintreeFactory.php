@@ -17,7 +17,7 @@ use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
 class BraintreeFactory extends AbstractFactory
 {
     /**
-     * @return \SprykerEco\Yves\Braintree\Form\PayPalSubForm
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
     public function createPayPalForm()
     {
@@ -25,7 +25,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Form\CreditCardSubForm
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
     public function createCreditCardForm()
     {
@@ -33,7 +33,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createPayPalFormDataProvider()
     {
@@ -41,7 +41,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createCreditCardFormDataProvider()
     {
@@ -49,7 +49,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Handler\BraintreeHandler
+     * @return \SprykerEco\Yves\Braintree\Handler\BraintreeHandlerInterface
      */
     public function createBraintreeHandler()
     {

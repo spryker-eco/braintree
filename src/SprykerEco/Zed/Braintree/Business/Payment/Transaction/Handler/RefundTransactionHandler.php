@@ -13,7 +13,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\Transactio
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 
-class RefundTransactionHandler extends AbstractTransactionHandler
+class RefundTransactionHandler extends AbstractTransactionHandler implements RefundTransactionHandlerInterface
 {
     /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface

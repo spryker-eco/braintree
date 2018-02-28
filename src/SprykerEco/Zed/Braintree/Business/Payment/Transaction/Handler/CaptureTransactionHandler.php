@@ -9,7 +9,7 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
-class CaptureTransactionHandler extends AbstractTransactionHandler
+class CaptureTransactionHandler extends AbstractTransactionHandler implements CaptureTransactionHandlerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer

@@ -9,17 +9,12 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
-class AuthorizeTransactionHandler extends AbstractTransactionHandler implements AuthorizeTransactionHandlerInterface
+interface AuthorizeTransactionHandlerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
-    public function authorize(TransactionMetaTransfer $transactionMetaTransfer)
-    {
-        $this->transactionMetaVisitor->visit($transactionMetaTransfer);
-
-        return $this->transaction->executeTransaction($transactionMetaTransfer);
-    }
+    public function authorize(TransactionMetaTransfer $transactionMetaTransfer);
 }
