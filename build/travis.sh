@@ -24,7 +24,7 @@ function runTests {
     fi
 
     echo "Setup for tests..."
-    ./setup_test -f
+    ./setup_test -f -vvv
 
     echo "Running tests..."
     "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/bin/codecept" build -c "vendor/spryker-eco/$MODULE_NAME/"
