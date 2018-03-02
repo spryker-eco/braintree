@@ -25,7 +25,7 @@ function runTests {
 
     echo "Setup for tests..."
     ./setup_test -f
-    curl -I http://www-test.de.spryker.test/en/asus-vivowatch-099
+    curl -I http://www.de.spryker.test/en/asus-vivowatch-099
     echo "Running tests..."
     "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/bin/codecept" build -c "vendor/spryker-eco/$MODULE_NAME/"
     "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/bin/codecept" run -c "vendor/spryker-eco/$MODULE_NAME/"
