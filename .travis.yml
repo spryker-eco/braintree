@@ -54,6 +54,8 @@ install:
   - mkdir -p data/DE/logs
   - chmod -R 777 data/
   - config/Shared/ci/travis/install_elasticsearch.sh
+  - sudo redis-check-aof --fix $SHOP_DIR/shared/redis/appendonly.aof
+  - sudo service redis-server-development start
 
   - cat config/Shared/ci/travis/postgresql_ci.config >> config/Shared/ci/travis/config_ci.php
   - cp config/Shared/ci/travis/config_ci.php config/Shared/config_default-devtest_DE.php
