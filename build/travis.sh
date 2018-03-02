@@ -37,6 +37,7 @@ function runTests {
         result=$((result+1))
     fi
     cd "$TRAVIS_BUILD_DIR/$SHOP_DIR"
+    cat "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/spryker-eco/$MODULE_NAME/tests/_output/SprykerEcoTest.Yves.Braintree.Presentation.CreditCardGuestCheckoutCest.creditCardCheckoutAsGuest.fail.html"
     echo "Tests finished"
     return $result
 }
