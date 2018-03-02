@@ -22,6 +22,8 @@ use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 class PayPalGuestCheckoutCest
 {
     /**
+     * @skip
+     *
      * @param \SprykerEcoTest\Yves\Braintree\BraintreePresentationTester $i
      *
      * @return void

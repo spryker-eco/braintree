@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
-class PreCheckTransactionHandler extends AbstractTransactionHandler
+class PreCheckTransactionHandler extends AbstractTransactionHandler implements PreCheckTransactionHandlerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
