@@ -25,7 +25,8 @@ function runTests {
 
     echo "Setup for tests..."
     ./setup_test -f
-    curl -I http://www.de.spryker.test/en/asus-vivowatch-099
+    curl -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36" -I http://www.de.spryker.test/en/asus-vivowatch-099
+
     echo "Running tests..."
     "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/bin/codecept" build -c "vendor/spryker-eco/$MODULE_NAME/"
     "$TRAVIS_BUILD_DIR/$SHOP_DIR/vendor/bin/codecept" run -c "vendor/spryker-eco/$MODULE_NAME/"
