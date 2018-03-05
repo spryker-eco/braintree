@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * MIT License
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerEco\Yves\Braintree\Form;
+
+use SprykerEco\Shared\Braintree\BraintreeConfig;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+
+class PayPalSubForm extends AbstractSubForm
+{
+    const PAYMENT_METHOD = 'pay_pal';
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return BraintreeConfig::PAYMENT_METHOD_PAY_PAL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPropertyPath()
+    {
+        return BraintreeConfig::PAYMENT_METHOD_PAY_PAL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplatePath()
+    {
+        return BraintreeConfig::PROVIDER_NAME . '/' . static::PAYMENT_METHOD;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView $view The view
+     * @param \Symfony\Component\Form\FormInterface $form The form
+     * @param array $options The options
+     *
+     * @return void
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
+    }
+}

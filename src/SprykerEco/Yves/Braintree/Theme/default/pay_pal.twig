@@ -1,0 +1,13 @@
+<div class="payment-method payment-subform braintree-form braintree-paypal-form payment-form small-12 medium-9 large-6" id="braintreePayPal">
+    <div class="braintree-method braintree-paypal-method" data-braintree-client-token="{{ child.vars.clientToken }}">
+        <div class="small-12 columns">
+            <div id="braintree-paypal-container"></div>
+            <div class="braintree-error braintree-paypal-error field"></div>
+        </div>
+
+        {{ form_errors(form.braintreePayPal) }}
+        {{ form_widget(form.braintreePayPal) }}
+    </div>
+
+    <script src="/assets/default/js/spryker-yves-braintree-main.js"></script>
+</div>
