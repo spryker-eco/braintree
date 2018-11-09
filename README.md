@@ -1,8 +1,8 @@
 # Braintree Module
 
 
-[![Build Status](https://travis-ci.org/spryker-eco/payolution.svg?branch=dev)](https://travis-ci.org/spryker-eco/braintree)
-[![License](https://img.shields.io/github/license/spryker-eco/payolution.svg?b=dev)](https://github.com/spryker-eco/braintree)
+[![Build Status](https://travis-ci.org/spryker-eco/braintree.svg?branch=dev)](https://travis-ci.org/spryker-eco/braintree)
+[![License](https://img.shields.io/github/license/spryker-eco/braintree.svg?b=dev)](https://github.com/spryker-eco/braintree)
 
 Braintree is an integration module for implementing Braintree payment functionality in the store (www.braintreepayments.com). Payment options are PayPal and Credit Card.
 
