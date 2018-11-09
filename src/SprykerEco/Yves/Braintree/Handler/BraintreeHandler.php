@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Braintree\Handler;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BraintreeHandler implements BraintreeHandlerInterface
 {
-    const PAYMENT_PROVIDER = 'braintree';
+    public const PAYMENT_PROVIDER = 'braintree';
 
     /**
      * @var array

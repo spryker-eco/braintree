@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEcoTest\Zed\Braintree\Business;
@@ -66,7 +66,7 @@ class AbstractFacadeTest extends Unit
      *
      * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getBraintreeFacade(BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
+    protected function getBraintreeFacade(?BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
     {
         $braintreeFacade = new BraintreeFacade();
         if ($braintreeBusinessFactoryMock) {

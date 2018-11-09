@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree\Business;
@@ -115,7 +115,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    protected function createAuthorizeTransaction()
+    public function createAuthorizeTransaction()
     {
         return new AuthorizeTransaction($this->getConfig());
     }
@@ -123,7 +123,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface
      */
-    protected function createDefaultTransactionMetaVisitor()
+    public function createDefaultTransactionMetaVisitor()
     {
         $transactionMetaVisitorComposite = $this->createTransactionMetaVisitorComposite();
         $transactionMetaVisitorComposite->addVisitor($this->createPaymentTransactionMetaVisitor());
@@ -134,7 +134,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface
      */
-    protected function createTransactionMetaVisitorComposite()
+    public function createTransactionMetaVisitorComposite()
     {
         return new TransactionMetaVisitorComposite();
     }
@@ -142,7 +142,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface
      */
-    protected function createPaymentTransactionMetaVisitor()
+    public function createPaymentTransactionMetaVisitor()
     {
         return new PaymentTransactionMetaVisitor($this->getQueryContainer());
     }
@@ -150,7 +150,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    protected function createCaptureTransaction()
+    public function createCaptureTransaction()
     {
         return new CaptureTransaction($this->getConfig());
     }
@@ -158,7 +158,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    protected function createPreCheckTransaction()
+    public function createPreCheckTransaction()
     {
         return new PreCheckTransaction($this->getConfig(), $this->getMoneyFacade());
     }
@@ -166,7 +166,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
-    protected function getMoneyFacade()
+    public function getMoneyFacade()
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_MONEY);
     }
@@ -174,7 +174,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    protected function createRefundTransaction()
+    public function createRefundTransaction()
     {
         return new RefundTransaction($this->getConfig(), $this->getMoneyFacade());
     }
@@ -182,7 +182,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    protected function createRevertTransaction()
+    public function createRevertTransaction()
     {
         return new RevertTransaction($this->getConfig());
     }
@@ -190,7 +190,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface
      */
-    protected function getRefundFacade()
+    public function getRefundFacade()
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_REFUND);
     }

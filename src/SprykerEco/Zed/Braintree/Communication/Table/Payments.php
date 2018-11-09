@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree\Communication\Table;
@@ -15,9 +15,9 @@ use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
 class Payments extends AbstractTable
 {
-    const FIELD_VIEW = 'FIELD_VIEW';
-    const URL_BRAINTREE_DETAILS = '/braintree/details';
-    const PARAM_ID_PAYMENT = 'id-payment';
+    public const FIELD_VIEW = 'FIELD_VIEW';
+    public const URL_BRAINTREE_DETAILS = '/braintree/details';
+    public const PARAM_ID_PAYMENT = 'id-payment';
 
     /**
      * @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
