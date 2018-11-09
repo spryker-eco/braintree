@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Method;
 
-interface ApiConstants
+class ApiConstants
 {
     public const SALE = 'sale';
     public const CREDIT = 'credit';

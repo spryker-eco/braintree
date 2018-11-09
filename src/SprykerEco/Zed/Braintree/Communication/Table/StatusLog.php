@@ -12,7 +12,7 @@ use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery;
 use Spryker\Zed\Gui\Communication\Table\AbstractTable;
 use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
-class StatusLog extends AbstractTable
+class StatusLog extends AbstractTable implements BraintreeTableInterface
 {
     public const FIELD_DETAILS = 'FIELD_DETAILS';
 

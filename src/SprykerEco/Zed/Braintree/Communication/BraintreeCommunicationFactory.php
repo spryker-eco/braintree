@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Braintree\Communication;
 
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
+use SprykerEco\Zed\Braintree\Communication\Table\BraintreeTableInterface;
 use SprykerEco\Zed\Braintree\Communication\Table\Payments;
 use SprykerEco\Zed\Braintree\Communication\Table\RequestLog;
 use SprykerEco\Zed\Braintree\Communication\Table\StatusLog;
@@ -19,9 +20,9 @@ use SprykerEco\Zed\Braintree\Communication\Table\StatusLog;
 class BraintreeCommunicationFactory extends AbstractCommunicationFactory
 {
     /**
-     * @return \SprykerEco\Zed\Braintree\Communication\Table\Payments
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\BraintreeTableInterface
      */
-    public function createPaymentsTable()
+    public function createPaymentsTable(): BraintreeTableInterface
     {
         $paymentBraintreeQuery = $this->getQueryContainer()->queryPayments();
 
@@ -31,9 +32,9 @@ class BraintreeCommunicationFactory extends AbstractCommunicationFactory
     /**
      * @param int $idPayment
      *
-     * @return \SprykerEco\Zed\Braintree\Communication\Table\RequestLog
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\BraintreeTableInterface
      */
-    public function createRequestLogTable($idPayment)
+    public function createRequestLogTable(int $idPayment): BraintreeTableInterface
     {
         $requestLogQuery = $this->getQueryContainer()->queryTransactionRequestLogByPaymentId($idPayment);
 
@@ -43,9 +44,9 @@ class BraintreeCommunicationFactory extends AbstractCommunicationFactory
     /**
      * @param int $idPayment
      *
-     * @return \SprykerEco\Zed\Braintree\Communication\Table\StatusLog
+     * @return \SprykerEco\Zed\Braintree\Communication\Table\BraintreeTableInterface
      */
-    public function createStatusLogTable($idPayment)
+    public function createStatusLogTable(int $idPayment): BraintreeTableInterface
     {
         $statusLogQuery = $this->getQueryContainer()->queryTransactionStatusLogByPaymentId($idPayment);
 

@@ -13,7 +13,7 @@ use Spryker\Service\UtilText\Model\Url\Url;
 use Spryker\Zed\Gui\Communication\Table\AbstractTable;
 use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
-class Payments extends AbstractTable
+class Payments extends AbstractTable implements BraintreeTableInterface
 {
     public const FIELD_VIEW = 'FIELD_VIEW';
     public const URL_BRAINTREE_DETAILS = '/braintree/details';
