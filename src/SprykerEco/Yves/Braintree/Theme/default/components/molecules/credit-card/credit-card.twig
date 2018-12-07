@@ -1,0 +1,51 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'credit-card',
+    tag: 'credit-card'
+} %}
+
+{% define data = {
+    form: required,
+    scriptSrc: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'
+} %}
+
+{% block body %}
+    {% include molecule('script-loader') with {
+        class: config.jsName ~ '__script-loader',
+        attributes: {
+            src: data.scriptSrc
+        }
+    } only %}
+
+    <div class="payment-method payment-subform braintree-form braintree-credit-card-form payment-form small-12 medium-9 large-6" id="braintreeCreditCard">
+        <div class="braintree-method braintree-credit-card-method" data-braintree-client-token="">
+            <div class="small-12 columns">
+                <label for="braintree-credit-card-number">
+                    {{ 'braintreeCreditCard.credit_card_number' | trans }}*
+                </label>
+                <div id="braintree-credit-card-number" class="hosted-field"></div>
+            </div>
+
+            <div class="small-12 columns">
+                <label for="braintree-credit-card-cvv">
+                    {{ 'braintreeCreditCard.ccv' | trans }}*
+                </label>
+                <div id="braintree-credit-card-cvv" class="hosted-field"></div>
+            </div>
+
+            <div class="small-12 columns">
+                <label for="braintree-credit-card-expiration-date">
+                    {{ 'braintreeCreditCard.expiration_date' | trans }}*
+                </label>
+                <div id="braintree-credit-card-expiration-date" class="hosted-field"></div>
+            </div>
+
+            <div class="braintree-error braintree-credit-card-error"></div>
+
+            {{ form_errors(data.form.braintreeCreditCard) }}
+            {{ form_widget(data.form.braintreeCreditCard) }}
+        </div>
+    </div>
+
+{% endblock %}
