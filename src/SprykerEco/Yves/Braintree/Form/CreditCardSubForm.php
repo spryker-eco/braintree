@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreditCardSubForm extends AbstractSubForm
 {
-    public const PAYMENT_METHOD = 'credit_card';
+    public const PAYMENT_METHOD = 'credit-card';
 
     /**
      * @return string
