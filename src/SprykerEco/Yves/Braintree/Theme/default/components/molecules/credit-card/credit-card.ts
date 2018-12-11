@@ -5,6 +5,7 @@ import ScriptLoader from 'ShopUi/components/molecules/script-loader/script-loade
 
 const NONCE_INPUT_NAME = 'payment_method_nonce';
 const FORM_ID = 'payment-form';
+const PAYMENT_METHOD = 'Braintree';
 
 interface braintreeSetupSettings {
     onReady: any,
@@ -25,7 +26,7 @@ export default class CreditCard extends Component {
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.querySelector(`#${FORM_ID}`);
-        this.paymentMethodSelectors = <HTMLInputElement[]>Array.from(this.form.querySelectorAll('input[id^="paymentForm_paymentSelection"][type="radio"]'));
+        this.paymentMethodSelectors = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[data-payment-method="${PAYMENT_METHOD}"]`));
         this.errorContainers = <HTMLElement[]>Array.from(this.form.querySelectorAll('.braintree-error'));
         this.braintreeContainer = <HTMLElement>this.form.querySelector('.braintree-method');
         this.braintreeClientToken = this.braintreeContainer.getAttribute('data-braintree-client-token');
