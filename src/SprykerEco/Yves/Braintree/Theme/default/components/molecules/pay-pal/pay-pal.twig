@@ -1,20 +1,18 @@
-{% extends model('component') %}
+{% extends molecule('payment-form', 'Braintree') %}
 
 {% define config = {
     name: 'pay-pal',
     tag: 'pay-pal'
 } %}
 
-{% define data = {
-    form: required
-} %}
-
 {% block body %}
-    <div class="payment-method payment-subform braintree-form braintree-paypal-form payment-form small-12 medium-9 large-6" id="braintreePayPal">
-        <div class="braintree-method braintree-paypal-method" data-braintree-client-token="">
-            <div class="small-12 columns">
-                <div id="braintree-paypal-container"></div>
-                <div class="braintree-error braintree-paypal-error field"></div>
+    {{ parent() }}
+
+    <div class="grid" id="braintreePayPal">
+        <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
+            <div class="form__field">
+                <div id="{{ config.jsName }}__container"></div>
+                <div class="{{ config.jsName }}__error"></div>
             </div>
 
             {{ form_errors(data.form.braintreePayPal) }}

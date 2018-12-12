@@ -10,24 +10,24 @@ interface braintreeSetupSettings {
     [key: string]: any
 }
 
-export default class CreditCard extends Component {
+export default class PaymentForm extends Component {
     form: HTMLFormElement;
     paymentMethods: HTMLInputElement[];
     braintreeSetupSettings: braintreeSetupSettings;
-    braintreeCreditCardMethod: HTMLElement;
     scriptLoader: ScriptLoader;
     currentPaymentMethodValue: string = '';
 
     readonly formId: string = 'payment-form';
     readonly nonceInputName: string = 'payment_method_nonce';
-    readonly braintreeCreditCard: string = 'braintreeCreditCard';
-    readonly creditCard: string = 'CreditCard';
     readonly paymentSelection: string = 'paymentForm_paymentSelection';
+
+    constructor() {
+        super();
+    }
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[id^='${this.paymentSelection}']`));
-        this.braintreeCreditCardMethod = <HTMLElement>this.form.querySelector(`.${this.jsName}__method`);
         this.scriptLoader = <ScriptLoader>this.querySelector('script-loader');
 
         this.currentPaymentMethod();
@@ -59,30 +59,10 @@ export default class CreditCard extends Component {
     }
 
     protected errorHandler(error: any) {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-
-        this.emptyErrorContainer();
-
-        if (paymentMethod === this.braintreeCreditCard) {
-            return errorContainer.innerHTML = this.errorTemplate(error.message);
-        }
-
         return this.submitForm();
     }
 
     protected paymentMethodHandler(response: any) {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const isWrongMethodSelected = (paymentMethod === this.braintreeCreditCard && response.type !== this.creditCard);
-
-        this.emptyErrorContainer();
-
-        if (isWrongMethodSelected) {
-            return this.errorHandler({
-                message: 'User did not enter a payment method'
-            });
-        }
-
         return this.submitForm(response.nonce);
     }
 
@@ -96,43 +76,6 @@ export default class CreditCard extends Component {
             onPaymentMethodReceived: this.paymentMethodHandler.bind(this),
             onError: this.errorHandler.bind(this)
         };
-
-        if (this.braintreeCreditCardMethod) {
-            this.braintreeSetupSettings.id = this.formId;
-            this.braintreeSetupSettings.hostedFields = {
-                styles: {
-                    'input': {
-                        'font-size': '14px',
-                        'color': '#333',
-                        'font-family': 'Arial, sans-serif'
-                    },
-                    '::-webkit-input-placeholder': {
-                        'color': '#bbb'
-                    },
-                    ':-moz-placeholder': {
-                        'color': '#bbb'
-                    },
-                    '::-moz-placeholder': {
-                        'color': '#bbb'
-                    },
-                    ':-ms-input-placeholder': {
-                        'color': '#bbb'
-                    }
-                },
-                number: {
-                    selector: `.${this.jsName}__number`,
-                    placeholder: '4111 1111 1111 1111'
-                },
-                cvv: {
-                    selector: `.${this.jsName}__cvv`,
-                    placeholder: '123'
-                },
-                expirationDate: {
-                    selector: `.${this.jsName}__expiration-date`,
-                    placeholder: 'MM/YYYY'
-                }
-            };
-        }
     }
 
     protected setupBraintree(): void {

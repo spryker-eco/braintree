@@ -1,21 +1,20 @@
-.hosted-field {
-    height: 2.5em;
-    padding: 5px 10px;
-    margin-bottom: 1em;
-    border: 1px solid #cacaca;
-    border-radius: 0;
-    background-color: #fefefe;
-    box-shadow: inset 0 1px 2px rgba(51, 51, 51, 0.1);
+@mixin braintree-credit-card($name: '.credit-card') {
+    #{$name} {
+        .hosted-field {
+            @include helper-effect-transition(border-color);
+            height: 1.95rem;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid $setting-color-input-border;
+        }
+
+        .braintree-hosted-fields-focused {
+            border-color: $setting-color-input-border-focus;
+        }
+
+        .braintree-hosted-fields-invalid {
+            border-color: map-get($setting-color-actions, alert);
+        }
+    }
 }
 
-.braintree-hosted-fields-focused {
-    outline: none;
-    border: 1px solid #8a8a8a;
-    background-color: #fefefe;
-    box-shadow: 0 0 5px #cacaca;
-    transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
-}
-
-.braintree-hosted-fields-invalid {
-    border: 1px solid red;
-}
+@include braintree-credit-card();

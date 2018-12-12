@@ -1,155 +1,85 @@
-declare var braintree: any;
+import PaymentForm from '../payment-form/payment-form';
 
-import Component from 'ShopUi/models/component';
-import ScriptLoader from 'ShopUi/components/molecules/script-loader/script-loader';
-
-const NONCE_INPUT_NAME = 'payment_method_nonce';
-const FORM_ID = 'payment-form';
-const PAYMENT_METHOD = 'Braintree';
-
-interface braintreeSetupSettings {
-    onReady: any,
-    onPaymentMethodReceived: any,
-    onError: any,
-    [key: string]: any
-}
-
-export default class CreditCard extends Component {
+export default class CreditCard extends PaymentForm {
     form: HTMLFormElement;
-    paymentMethodSelectors: HTMLInputElement[];
-    errorContainers: HTMLElement[];
-    braintreeContainer: HTMLElement;
-    braintreeClientToken: string;
-    nonceInputSelector: HTMLInputElement;
-    braintreeSetupSettings: braintreeSetupSettings;
-    scriptLoader: ScriptLoader;
+    braintreeCreditCardMethod: HTMLElement;
+
+    readonly braintreeCreditCard: string = 'braintreeCreditCard';
+    readonly creditCard: string = 'CreditCard';
 
     protected readyCallback(): void {
-        this.form = <HTMLFormElement>document.querySelector(`#${FORM_ID}`);
-        this.paymentMethodSelectors = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[data-payment-method="${PAYMENT_METHOD}"]`));
-        this.errorContainers = <HTMLElement[]>Array.from(this.form.querySelectorAll('.braintree-error'));
-        this.braintreeContainer = <HTMLElement>this.form.querySelector('.braintree-method');
-        this.braintreeClientToken = this.braintreeContainer.getAttribute('data-braintree-client-token');
-        this.nonceInputSelector = this.form.querySelector(`input[name="${NONCE_INPUT_NAME}"]`);
-        this.scriptLoader = <ScriptLoader>this.querySelector('script-loader');
+        this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
+        this.braintreeCreditCardMethod = <HTMLElement>this.form.querySelector(`.${this.jsName}__method`);
 
-        this.mapEvents();
-    }
-
-    protected mapEvents(): void {
-        this.scriptLoader.addEventListener('scriptload', () => this.onScriptLoad());
-
-        this.paymentMethodSelectors.forEach((method: HTMLInputElement) => {
-            method.addEventListener('change', () => {
-                this.nonceInputSelector.value = '';
-                this.emptyErrorContainers();
-            });
-        });
-    }
-
-    protected onScriptLoad(): void {
-        if (!this.braintreeClientToken) {
-            this.setupBraintree();
-        }
-    }
-
-    protected getCurrentPaymentMethod(): any {
-        this.paymentMethodSelectors.forEach((input: HTMLInputElement) => {
-            if(input.checked) {
-                return input.value;
-            }
-        });
-    }
-
-    protected getErrorTemplate(message: string = '') {
-        return `<ul class="form-errors"><li>${message}</li></ul>`;
-    }
-
-    protected emptyErrorContainers(): void {
-        this.errorContainers.forEach((container: HTMLElement) => {
-            container.innerHTML = '';
-        });
-    }
-
-    protected submitForm(nonce: string = '') {
-        this.nonceInputSelector.value = nonce;
-        this.form.submit();
+        super.readyCallback();
     }
 
     protected errorHandler(error: any) {
-        const braintreeCreditCardErrorSelector = this.form.querySelector('.braintree-credit-card-error');
+        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
+        const paymentMethod = this.currentPaymentMethodValue;
 
-        this.emptyErrorContainers();
+        this.emptyErrorContainer();
 
-        if (this.getCurrentPaymentMethod() === 'braintreeCreditCard') {
-            return braintreeCreditCardErrorSelector.innerHTML = this.getErrorTemplate(error.message);
+        if (paymentMethod === this.braintreeCreditCard) {
+            return errorContainer.innerHTML = this.errorTemplate(error.message);
         }
 
         return this.submitForm();
     }
 
     protected paymentMethodHandler(response: any) {
-        const paymentMethod = this.getCurrentPaymentMethod();
-        const isWrongMethodSelected = (paymentMethod === 'braintreePayPal' && response.type !== 'PayPalAccount')
-                                    || (paymentMethod === 'braintreeCreditCard' && response.type !== 'CreditCard');
+        const paymentMethod = this.currentPaymentMethodValue;
+        const isWrongMethodSelected = (paymentMethod === this.braintreeCreditCard && response.type !== this.creditCard);
 
-        this.emptyErrorContainers();
+        this.emptyErrorContainer();
 
         if (isWrongMethodSelected) {
             return this.errorHandler({
-                message: 'Please choose a payment method'
+                message: 'User did not enter a payment method'
             });
         }
 
         return this.submitForm(response.nonce);
     }
 
-    protected readyHandler(): void {
-        this.form.append(`<input type="hidden" name="${NONCE_INPUT_NAME}">`);
-        const braintreeLoader = this.form.querySelector('.braintree-loader');
-        const braintreeMethod = this.form.querySelector('.braintree-method');
-
-        braintreeLoader.classList.remove('show')
-        braintreeMethod.classList.add('show');
-    }
-
     protected loadBraintree(): void {
-        const braintreeCreditCardMethod = this.form.querySelector('.braintree-credit-card-method');
+        super.loadBraintree();
 
-        this.braintreeSetupSettings = {
-            onReady: this.readyHandler,
-            onPaymentMethodReceived: this.paymentMethodHandler,
-            onError: this.errorHandler
-        };
-
-        if (braintreeCreditCardMethod) {
-            this.braintreeSetupSettings.id = FORM_ID;
+        if (this.braintreeCreditCardMethod) {
+            this.braintreeSetupSettings.id = this.formId;
             this.braintreeSetupSettings.hostedFields = {
                 styles: {
                     'input': {
-                        'font-size': '16px',
+                        'font-size': '14px',
                         'color': '#333',
-                        'font-family': 'Fira Sans, Arial, sans-serif'
+                        'font-family': 'Arial, sans-serif'
+                    },
+                    '::-webkit-input-placeholder': {
+                        'color': '#bbb'
+                    },
+                    ':-moz-placeholder': {
+                        'color': '#bbb'
+                    },
+                    '::-moz-placeholder': {
+                        'color': '#bbb'
+                    },
+                    ':-ms-input-placeholder': {
+                        'color': '#bbb'
                     }
                 },
                 number: {
-                    selector: '#braintree-credit-card-number',
+                    selector: `.${this.jsName}__number`,
                     placeholder: '4111 1111 1111 1111'
                 },
                 cvv: {
-                    selector: '#braintree-credit-card-cvv',
+                    selector: `.${this.jsName}__cvv`,
                     placeholder: '123'
                 },
                 expirationDate: {
-                    selector: '#braintree-credit-card-expiration-date',
+                    selector: `.${this.jsName}__expiration-date`,
                     placeholder: 'MM/YYYY'
                 }
             };
         }
-    }
-
-    protected setupBraintree(): void {
-        this.loadBraintree();
-        braintree.setup(this.braintreeClientToken, 'custom', this.braintreeSetupSettings);
     }
 }
