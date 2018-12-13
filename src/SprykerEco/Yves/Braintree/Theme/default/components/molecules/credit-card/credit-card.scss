@@ -1,6 +1,6 @@
 @mixin braintree-credit-card($name: '.credit-card') {
     #{$name} {
-        .hosted-field {
+        &__field {
             @include helper-effect-transition(border-color);
             height: 1.95rem;
             padding: 0.25rem 0.5rem;

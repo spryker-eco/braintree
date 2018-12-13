@@ -10,6 +10,10 @@
     scriptSrc: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'
 } %}
 
+{% define attributes = {
+    'data-error-message': 'Braintree.payment_method.error_message' | trans
+} %}
+
 {% block body %}
     {% include molecule('script-loader') with {
         attributes: {

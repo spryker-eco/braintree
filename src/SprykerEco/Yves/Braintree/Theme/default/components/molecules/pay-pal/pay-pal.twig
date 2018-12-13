@@ -16,11 +16,15 @@
         <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
             <div class="form__field">
                 <div id="{{ config.jsName }}__container"></div>
-                <div class="{{ config.jsName }}__error"></div>
+                <ul class="list list--bullet list--alert">
+                    <li class="list__item {{ config.jsName }}__error is-hidden"></li>
+                </ul>
             </div>
 
             {{ form_errors(data.form.braintreePayPal) }}
             {{ form_widget(data.form.braintreePayPal) }}
+
+            <input type="hidden" name="payment_method_nonce">
         </div>
     </div>
 {% endblock %}

@@ -4,42 +4,14 @@ export default class CreditCard extends PaymentForm {
     form: HTMLFormElement;
     braintreeCreditCardMethod: HTMLElement;
 
-    readonly braintreeCreditCard: string = 'braintreeCreditCard';
-    readonly creditCard: string = 'CreditCard';
+    readonly paymentMethodName: string = 'braintreeCreditCard';
+    readonly paymentMethodTypeName: string = 'CreditCard';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.braintreeCreditCardMethod = <HTMLElement>this.form.querySelector(`.${this.jsName}__method`);
 
         super.readyCallback();
-    }
-
-    protected errorHandler(error: any) {
-        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-        const paymentMethod = this.currentPaymentMethodValue;
-
-        this.emptyErrorContainer();
-
-        if (paymentMethod === this.braintreeCreditCard) {
-            return errorContainer.innerHTML = this.errorTemplate(error.message);
-        }
-
-        return this.submitForm();
-    }
-
-    protected paymentMethodHandler(response: any) {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const isWrongMethodSelected = (paymentMethod === this.braintreeCreditCard && response.type !== this.creditCard);
-
-        this.emptyErrorContainer();
-
-        if (isWrongMethodSelected) {
-            return this.errorHandler({
-                message: 'User did not enter a payment method'
-            });
-        }
-
-        return this.submitForm(response.nonce);
     }
 
     protected loadBraintree(): void {

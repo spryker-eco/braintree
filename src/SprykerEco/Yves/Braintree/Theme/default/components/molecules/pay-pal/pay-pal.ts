@@ -4,42 +4,14 @@ export default class PayPal extends PaymentForm {
     form: HTMLFormElement;
     braintreePayPalMethod: HTMLElement;
 
-    readonly braintreePayPal: string = 'braintreePayPal';
-    readonly PayPalAccount: string = 'PayPalAccount';
+    readonly paymentMethodName: string = 'braintreePayPal';
+    readonly paymentMethodTypeName: string = 'PayPalAccount';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.braintreePayPalMethod = <HTMLElement>this.form.querySelector(`.${this.jsName}__method`);
 
         super.readyCallback();
-    }
-
-    protected errorHandler(error: any) {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-
-        this.emptyErrorContainer();
-
-        if (paymentMethod === this.braintreePayPal) {
-            return errorContainer.innerHTML = this.errorTemplate(error.message);
-        }
-
-        return this.submitForm();
-    }
-
-    protected paymentMethodHandler(response: any) {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const isWrongMethodSelected = (paymentMethod === this.braintreePayPal && response.type !== this.PayPalAccount);
-
-        this.emptyErrorContainer();
-
-        if (isWrongMethodSelected) {
-            return this.errorHandler({
-                message: 'User did not enter a payment method'
-            });
-        }
-
-        return this.submitForm(response.nonce);
     }
 
     protected loadBraintree(): void {
