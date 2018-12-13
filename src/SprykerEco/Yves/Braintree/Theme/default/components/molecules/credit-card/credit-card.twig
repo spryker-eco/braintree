@@ -5,6 +5,10 @@
     tag: 'credit-card'
 } %}
 
+{% define attributes = {
+    'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken
+} %}
+
 {% block body %}
     {{ parent() }}
 

@@ -5,6 +5,10 @@
     tag: 'pay-pal'
 } %}
 
+{% define attributes = {
+    'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken
+} %}
+
 {% block body %}
     {{ parent() }}
 

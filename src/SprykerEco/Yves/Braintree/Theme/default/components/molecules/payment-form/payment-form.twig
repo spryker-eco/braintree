@@ -10,10 +10,6 @@
     scriptSrc: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'
 } %}
 
-{% define attributes = {
-    'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken
-} %}
-
 {% block body %}
     {% include molecule('script-loader') with {
         attributes: {
