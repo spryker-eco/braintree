@@ -3,10 +3,6 @@ declare var braintree: any;
 import Component from 'ShopUi/models/component';
 import ScriptLoader from 'ShopUi/components/molecules/script-loader/script-loader';
 
-interface braintreeSetupSettings {
-    [key: string]: any
-}
-
 interface braintreeConfig {
     nonce: string,
     type: string
@@ -20,7 +16,7 @@ export default class PaymentForm extends Component {
     form: HTMLFormElement;
     paymentMethods: HTMLInputElement[];
     nonceInputSelector: HTMLInputElement;
-    braintreeSetupSettings: braintreeSetupSettings;
+    braintreeSetupSettings: any;
     scriptLoader: ScriptLoader;
     currentPaymentMethodValue: string = '';
 
@@ -62,7 +58,7 @@ export default class PaymentForm extends Component {
         }
     }
 
-    protected submitForm(nonce: string = '') {
+    protected submitForm(nonce: string = ''): void {
         this.nonceInputSelector.value = nonce;
 
         this.form.submit();
@@ -71,10 +67,10 @@ export default class PaymentForm extends Component {
     protected errorHandler(error: braintreeErrorConfig): any {
         const paymentMethod = this.currentPaymentMethodValue;
 
-        this.clearErrorContainer();
+        this.removeErrorMessage();
 
         if (paymentMethod === this.paymentMethodName) {
-            return this.fillErrorContainer(error.message);
+            return this.addErrorMessage(error.message);
         }
 
         return this.submitForm();
@@ -84,7 +80,7 @@ export default class PaymentForm extends Component {
         const paymentMethod = this.currentPaymentMethodValue;
         const isWrongMethodSelected = (paymentMethod === this.paymentMethodName && response.type !== this.paymentMethodTypeName);
 
-        this.clearErrorContainer();
+        this.removeErrorMessage();
 
         if (isWrongMethodSelected) {
             return this.errorHandler({
@@ -107,32 +103,41 @@ export default class PaymentForm extends Component {
         braintree.setup(this.braintreeClientToken, this.integrationType, this.braintreeSetupSettings);
     }
 
-    setCurrentPaymentMethod() {
+    setCurrentPaymentMethod(): void {
         this.paymentMethods.forEach((method: HTMLInputElement) => {
             this.setCurrentPaymentMethodValue(method);
         });
     }
 
-    setCurrentPaymentMethodValue(method: HTMLInputElement) {
+    setCurrentPaymentMethodValue(method: HTMLInputElement): void {
         if(method.checked) {
             this.currentPaymentMethodValue = method.value;
         }
     }
 
-    fillErrorContainer(message: string = '') {
+    addErrorMessage(message: string = ''): string {
         const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-        errorContainer.classList.remove('is-hidden');
+        this.showErrorMessage(errorContainer);
+
         return errorContainer.innerHTML = message;
     }
 
-    clearNonceInputSelector() {
+    showErrorMessage(errorContainer: HTMLElement): void {
+        errorContainer.classList.remove('is-hidden');
+    }
+
+    clearNonceInputSelector(): void {
         this.nonceInputSelector.value = '';
     }
 
-    clearErrorContainer() {
+    removeErrorMessage(): void {
         const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-        errorContainer.classList.add('is-hidden');
+        this.hideErrorMessage(errorContainer);
         errorContainer.innerHTML = '';
+    }
+
+    hideErrorMessage(errorContainer: HTMLElement): void {
+        errorContainer.classList.add('is-hidden');
     }
 
     get braintreeClientToken(): string {
