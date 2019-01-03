@@ -64,16 +64,17 @@ export default class PaymentForm extends Component {
         this.form.submit();
     }
 
-    protected errorHandler(error: braintreeErrorConfig): any {
+    protected errorHandler(error: braintreeErrorConfig): void {
         const paymentMethod = this.currentPaymentMethodValue;
 
         this.removeErrorMessage();
 
         if (paymentMethod === this.paymentMethodName) {
-            return this.addErrorMessage(error.message);
+            this.addErrorMessage(error.message);
+            return;
         }
 
-        return this.submitForm();
+        this.submitForm();
     }
 
     protected paymentMethodHandler(response: braintreeConfig): void {
@@ -83,12 +84,13 @@ export default class PaymentForm extends Component {
         this.removeErrorMessage();
 
         if (isWrongMethodSelected) {
-            return this.errorHandler({
+            this.errorHandler({
                 message: this.braintreeErrorMessage
             });
+            return;
         }
 
-        return this.submitForm(response.nonce);
+        this.submitForm(response.nonce);
     }
 
     protected loadBraintree(): void {
@@ -110,16 +112,16 @@ export default class PaymentForm extends Component {
     }
 
     setCurrentPaymentMethodValue(method: HTMLInputElement): void {
-        if(method.checked) {
+        if (method.checked) {
             this.currentPaymentMethodValue = method.value;
         }
     }
 
-    addErrorMessage(message: string = ''): string {
+    addErrorMessage(message: string = ''): void {
         const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
         this.showErrorMessage(errorContainer);
 
-        return errorContainer.innerHTML = message;
+        errorContainer.innerHTML = message;
     }
 
     showErrorMessage(errorContainer: HTMLElement): void {
