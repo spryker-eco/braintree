@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class BraintreeHandler implements BraintreeHandlerInterface
 {
     public const PAYMENT_PROVIDER = 'braintree';
+    public const PAYMENT_METHOD_NONCE = 'payment_method_nonce';
 
     /**
      * @var array
@@ -76,7 +77,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
     protected function setBraintreePayment(Request $request, QuoteTransfer $quoteTransfer, $paymentSelection)
     {
         $braintreePaymentTransfer = $this->getBraintreePaymentTransfer($quoteTransfer, $paymentSelection);
-        $nonce = $request->request->get('payment_method_nonce');
+        $nonce = $request->request->get(self::PAYMENT_METHOD_NONCE);
         if ($nonce === null) {
             return;
         }

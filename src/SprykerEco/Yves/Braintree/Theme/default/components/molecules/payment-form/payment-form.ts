@@ -34,10 +34,13 @@ export default class PaymentForm extends Component {
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
-        this.nonceInputSelector = <HTMLInputElement>this.querySelector(`input[name='${this.nonceInputName}']`);
+        this.nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
         this.scriptLoader = <ScriptLoader>this.querySelector('script-loader');
 
         this.setCurrentPaymentMethod();
+        if (!this.nonceInputSelector) {
+            this.createTokenField();
+        }
         this.mapEvents();
     }
 
@@ -46,7 +49,7 @@ export default class PaymentForm extends Component {
 
         this.paymentMethods.forEach((method: HTMLInputElement) => {
             method.addEventListener('change', () => {
-                this.clearNonceInputSelector();
+                this.clearTokenValue();
                 this.setCurrentPaymentMethodValue(method);
             });
         });
@@ -59,9 +62,27 @@ export default class PaymentForm extends Component {
     }
 
     protected submitForm(nonce: string = ''): void {
-        this.nonceInputSelector.value = nonce;
+        this.initTokenValue(nonce);
 
         this.form.submit();
+    }
+
+    protected createTokenField(): void {
+        const tokenInput = document.createElement('input');
+        tokenInput.setAttribute('type', 'hidden');
+        tokenInput.setAttribute('name', `${this.nonceInputName}`);
+        this.form.appendChild(tokenInput);
+    }
+
+    protected initTokenValue(nonce: string): void {
+        const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
+        nonceInputSelector.value = nonce;
+    }
+
+    protected clearTokenValue(): void {
+        const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
+
+        nonceInputSelector.value = '';
     }
 
     protected errorHandler(error: braintreeErrorConfig): void {
@@ -126,10 +147,6 @@ export default class PaymentForm extends Component {
 
     showErrorMessage(errorContainer: HTMLElement): void {
         errorContainer.classList.remove('is-hidden');
-    }
-
-    clearNonceInputSelector(): void {
-        this.nonceInputSelector.value = '';
     }
 
     removeErrorMessage(): void {
