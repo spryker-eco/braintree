@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PayPalSubForm extends AbstractSubForm
 {
-    public const PAYMENT_METHOD = 'pay_pal';
+    public const PAYMENT_METHOD = 'pay-pal';
 
     /**
      * @return string

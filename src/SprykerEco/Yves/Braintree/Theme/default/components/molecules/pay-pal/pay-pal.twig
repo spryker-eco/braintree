@@ -1,0 +1,30 @@
+{% extends molecule('payment-form', 'Braintree') %}
+
+{% define config = {
+    name: 'pay-pal',
+    tag: 'pay-pal'
+} %}
+
+{% define attributes = {
+    'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken
+} %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="grid" id="braintreePayPal">
+        <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
+            <div class="form__field">
+                <div id="{{ config.jsName }}__container"></div>
+                <ul class="list list--bullet list--alert">
+                    <li class="list__item {{ config.jsName }}__error is-hidden"></li>
+                </ul>
+            </div>
+
+            {{ form_errors(data.form.braintreePayPal) }}
+            {{ form_widget(data.form.braintreePayPal) }}
+
+            <input type="hidden" name="payment_method_nonce">
+        </div>
+    </div>
+{% endblock %}
