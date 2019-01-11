@@ -2,15 +2,15 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Shared\Braintree;
 
 interface BraintreeConfig
 {
-    const PROVIDER_NAME = 'Braintree';
+    public const PROVIDER_NAME = 'Braintree';
 
-    const PAYMENT_METHOD_PAY_PAL = 'braintreePayPal';
-    const PAYMENT_METHOD_CREDIT_CARD = 'braintreeCreditCard';
+    public const PAYMENT_METHOD_PAY_PAL = 'braintreePayPal';
+    public const PAYMENT_METHOD_CREDIT_CARD = 'braintreeCreditCard';
 }
