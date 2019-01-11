@@ -2,28 +2,28 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Method;
 
-interface ApiConstants
+class ApiConstants
 {
-    const SALE = 'sale';
-    const CREDIT = 'credit';
+    public const SALE = 'sale';
+    public const CREDIT = 'credit';
 
-    const TRANSACTION_CODE_AUTHORIZE = 'authorize';
-    const TRANSACTION_CODE_CAPTURE = 'capture';
-    const TRANSACTION_CODE_REVERSAL = 'reversal';
-    const TRANSACTION_CODE_REFUND = 'refund';
+    public const TRANSACTION_CODE_AUTHORIZE = 'authorize';
+    public const TRANSACTION_CODE_CAPTURE = 'capture';
+    public const TRANSACTION_CODE_REVERSAL = 'reversal';
+    public const TRANSACTION_CODE_REFUND = 'refund';
 
-    const STATUS_CODE_PRE_CHECK = 'pre check';
-    const STATUS_CODE_AUTHORIZE = 'authorized';
-    const STATUS_CODE_CAPTURE = 'settling'; // Braintree\Transaction::SETTLEMENT_CONFIRMED
-    const STATUS_CODE_CAPTURE_SUBMITTED = 'submitted_for_settlement';
-    const STATUS_CODE_REVERSAL = 'voided';
-    const STATUS_CODE_REFUND = 'settling';
+    public const STATUS_CODE_PRE_CHECK = 'pre check';
+    public const STATUS_CODE_AUTHORIZE = 'authorized';
+    public const STATUS_CODE_CAPTURE = 'settling'; // Braintree\Transaction::SETTLEMENT_CONFIRMED
+    public const STATUS_CODE_CAPTURE_SUBMITTED = 'submitted_for_settlement';
+    public const STATUS_CODE_REVERSAL = 'voided';
+    public const STATUS_CODE_REFUND = 'settling';
 
-    const PAYMENT_CODE_AUTHORIZE_SUCCESS = '1000';
-    const STATUS_REASON_CODE_SUCCESS = '1';
+    public const PAYMENT_CODE_AUTHORIZE_SUCCESS = '1000';
+    public const STATUS_REASON_CODE_SUCCESS = '1';
 }

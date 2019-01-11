@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Braintree;
@@ -59,7 +59,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface
      */
-    protected function getCurrencyPlugin()
+    public function getCurrencyPlugin()
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_CURRENCY);
     }

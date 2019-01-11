@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEcoTest\Zed\Braintree\Business\Order;
@@ -10,7 +10,6 @@ namespace SprykerEcoTest\Zed\Braintree\Business\Order;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
-use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
@@ -47,14 +46,14 @@ class SaverTest extends Unit
      */
     public function testSaveOrderPaymentCreatesPersistentPaymentData()
     {
-        $checkoutResponseTransfer = $this->createCheckoutResponse();
-        $quoteTransfer = $this->getQuoteTransfer($checkoutResponseTransfer);
+        $saveOrderTransfer = $this->createSaveOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
         $orderManager = new Saver();
 
-        $orderManager->saveOrderPayment($quoteTransfer, $checkoutResponseTransfer);
+        $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder(
-            $checkoutResponseTransfer->getSaveOrder()->getIdSalesOrder()
+            $saveOrderTransfer->getIdSalesOrder()
         );
         $this->assertInstanceOf(SpyPaymentBraintree::class, $paymentEntity);
 
@@ -67,16 +66,16 @@ class SaverTest extends Unit
      */
     public function testSaveOrderPaymentHasAddressData()
     {
-        $checkoutResponseTransfer = $this->createCheckoutResponse();
-        $quoteTransfer = $this->getQuoteTransfer($checkoutResponseTransfer);
+        $saveOrderTransfer = $this->createSaveOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
         $orderManager = new Saver();
 
-        $orderManager->saveOrderPayment($quoteTransfer, $checkoutResponseTransfer);
+        $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         $paymentTransfer = $quoteTransfer->getPayment()->getBraintree();
         $addressTransfer = $paymentTransfer->getBillingAddress();
 
-        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($checkoutResponseTransfer->getSaveOrder()->getIdSalesOrder());
+        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($saveOrderTransfer->getIdSalesOrder());
         $this->assertEquals($addressTransfer->getCity(), $paymentEntity->getCity());
         $this->assertEquals($addressTransfer->getIso2Code(), $paymentEntity->getCountryIso2Code());
         $this->assertEquals($addressTransfer->getZipCode(), $paymentEntity->getZipCode());
@@ -92,11 +91,11 @@ class SaverTest extends Unit
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
-    protected function getQuoteTransfer(CheckoutResponseTransfer $checkoutResponseTransfer)
+    protected function getQuoteTransfer(SaveOrderTransfer $saveOrderTransfer)
     {
         $orderEntity = $this->createOrderEntity();
 
@@ -131,7 +130,7 @@ class SaverTest extends Unit
         $customerTransfer->setIsGuest(true);
         $quoteTransfer->setCustomer($customerTransfer);
 
-        $checkoutResponseTransfer->getSaveOrder()->setIdSalesOrder($orderEntity->getIdSalesOrder());
+        $saveOrderTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
 
         $paymentTransfer = new PaymentTransfer();
         $paymentTransfer->setBraintree($braintreePaymentTransfer);
@@ -146,7 +145,7 @@ class SaverTest extends Unit
                 ->setUnitGrossPrice($orderItemEntity->getGrossPrice())
                 ->setFkSalesOrder($orderItemEntity->getFkSalesOrder())
                 ->setIdSalesOrderItem($orderItemEntity->getIdSalesOrderItem());
-            $checkoutResponseTransfer->getSaveOrder()->addOrderItem($itemTransfer);
+            $saveOrderTransfer->addOrderItem($itemTransfer);
         }
 
         return $quoteTransfer;
@@ -219,15 +218,11 @@ class SaverTest extends Unit
     }
 
     /**
-     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     * @return \Generated\Shared\Transfer\SaveOrderTransfer
      */
-    protected function createCheckoutResponse()
+    protected function createSaveOrderTransfer()
     {
-        $checkoutResponseTransfer = new CheckoutResponseTransfer();
-        $saveOrderTransfer = new SaveOrderTransfer();
-        $checkoutResponseTransfer->setSaveOrder($saveOrderTransfer);
-
-        return $checkoutResponseTransfer;
+        return new SaveOrderTransfer();
     }
 
     /**

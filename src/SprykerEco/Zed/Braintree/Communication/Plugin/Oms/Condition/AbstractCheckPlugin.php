@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Condition;
@@ -19,6 +19,8 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
 abstract class AbstractCheckPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
+     * @api
+     *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderItem
      *
      * @return bool

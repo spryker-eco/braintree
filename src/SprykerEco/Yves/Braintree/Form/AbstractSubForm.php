@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Braintree\Form;
@@ -17,11 +17,10 @@ use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
-    const CLIENT_TOKEN = 'clientToken';
+    protected const CLIENT_TOKEN = 'clientToken';
 
     /**
      * @var string
@@ -39,18 +38,6 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
             'data_class' => BraintreePaymentTransfer::class,
             SubFormInterface::OPTIONS_FIELD_NAME => [],
         ]);
-    }
-
-    /**
-     * @deprecated Use `configureOptions()` instead.
-     *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
-     *
-     * @return void
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
     }
 
     /**

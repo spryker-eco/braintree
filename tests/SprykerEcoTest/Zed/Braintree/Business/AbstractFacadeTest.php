@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEcoTest\Zed\Braintree\Business;
@@ -14,10 +14,10 @@ use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery;
 use Orm\Zed\Country\Persistence\SpyCountryQuery;
 use Orm\Zed\Customer\Persistence\Map\SpyCustomerTableMap;
 use Orm\Zed\Customer\Persistence\SpyCustomerQuery;
-use Orm\Zed\Payolution\Persistence\SpyPaymentPayolutionTransactionStatusLogQuery;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Spryker\Zed\Kernel\Container;
@@ -66,7 +66,7 @@ class AbstractFacadeTest extends Unit
      *
      * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getBraintreeFacade(BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
+    protected function getBraintreeFacade(?BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
     {
         $braintreeFacade = new BraintreeFacade();
         if ($braintreeBusinessFactoryMock) {
@@ -192,7 +192,7 @@ class AbstractFacadeTest extends Unit
      */
     private function getTransactionStatusLogQueryMock()
     {
-        $transactionStatusLogQueryMock = $this->getMockBuilder(SpyPaymentPayolutionTransactionStatusLogQuery::class)->getMock();
+        $transactionStatusLogQueryMock = $this->getMockBuilder(SpyPaymentBraintreeTransactionStatusLogQuery::class)->getMock();
         $transactionStatusLogQueryMock->method('findOne')->willReturn($this->paymentEntity);
 
         return $transactionStatusLogQueryMock;

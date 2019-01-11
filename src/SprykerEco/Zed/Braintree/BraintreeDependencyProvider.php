@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree;
@@ -15,9 +15,9 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeBridge;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
-    const FACADE_CURRENCY = 'FACADE_CURRENCY';
-    const FACADE_MONEY = 'FACADE_MONEY';
-    const FACADE_REFUND = 'FACADE_REFUND';
+    public const FACADE_CURRENCY = 'FACADE_CURRENCY';
+    public const FACADE_MONEY = 'FACADE_MONEY';
+    public const FACADE_REFUND = 'FACADE_REFUND';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container

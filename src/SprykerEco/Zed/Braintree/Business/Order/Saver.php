@@ -2,14 +2,14 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Braintree\Business\Order;
 
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
-use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\SaveOrderTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
 
@@ -17,19 +17,19 @@ class Saver implements SaverInterface
 {
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return void
      */
-    public function saveOrderPayment(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer)
+    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
         $paymentEntity = $this->savePaymentForOrder(
             $quoteTransfer->getPayment()->getBraintree(),
-            $checkoutResponseTransfer->getSaveOrder()->getIdSalesOrder()
+            $saveOrderTransfer->getIdSalesOrder()
         );
 
         $this->savePaymentForOrderItems(
-            $checkoutResponseTransfer->getSaveOrder()->getOrderItems(),
+            $saveOrderTransfer->getOrderItems(),
             $paymentEntity->getIdPaymentBraintree()
         );
     }
