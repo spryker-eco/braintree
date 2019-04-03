@@ -12,11 +12,13 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
     /**
      * @param \Silex\Application $app
      *
-     * @return void
+     * @return $this
      */
     protected function defineControllers(Application $app)
     {
         $this->addPaypalExpressSuccessResponseRoute();
+
+        return $this;
     }
 
     /**
@@ -31,7 +33,7 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
             static::ROUTE_PAYPAL_EXPRESS_SUCCESS_RESPONSE,
             'Braintree',
             'PaypalExpress',
-            '/paypal-express/payment/success'
+            'success'
         );
 
         return $this;
