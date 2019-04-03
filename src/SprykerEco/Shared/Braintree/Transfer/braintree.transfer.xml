@@ -91,4 +91,7 @@
         <property name="quote" type="Quote"/>
     </transfer>
 
+    <transfer name="PaypalExpressSuccessResponse">
+    </transfer>
+
 </transfers>

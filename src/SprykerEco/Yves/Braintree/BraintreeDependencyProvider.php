@@ -14,6 +14,7 @@ use Spryker\Yves\Kernel\Container;
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const PLUGIN_CURRENCY = 'PLUGIN_CURRENCY';
+    public const CLIENT_QUOTE = 'QUOTE_CLIENT';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -36,6 +37,20 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::PLUGIN_CURRENCY] = function (Container $container) {
             return new CurrencyPlugin();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function addQuoteClinet(Container $container): Container
+    {
+        $container[static::CLIENT_QUOTE] = function (Container $container) {
+            return $container->getLocator()->quote()->client();
         };
 
         return $container;

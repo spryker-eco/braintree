@@ -8,16 +8,6 @@ class PaypalExpressController extends AbstractController
 {
     public function successAction()
     {
-
-    }
-
-    public function failureAction()
-    {
-
-    }
-
-    public function cancelAction()
-    {
-
+        var_dump('here'); exit;
     }
 }
