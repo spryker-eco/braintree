@@ -92,6 +92,17 @@
     </transfer>
 
     <transfer name="PaypalExpressSuccessResponse">
+        <property name="nonce" type="string"/>
+        <property name="email" type="string"/>
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
+        <property name="payerId" type="string"/>
+        <property name="recipientName" type="int"/>
+        <property name="line1" type="int"/>
+        <property name="city" type="int"/>
+        <property name="state" type="int"/>
+        <property name="postalCode" type="int"/>
+        <property name="countryCode" type="int"/>
     </transfer>
 
 </transfers>

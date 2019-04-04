@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Yves\Kernel\AbstractFactory;
+use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
@@ -84,5 +85,13 @@ class BraintreeFactory extends AbstractFactory
     public function createPaypalResponseMapper(): PaypalResponseMapperInterface
     {
         return new PaypalResponseMapper();
+    }
+
+    /**
+     * @return BraintreeToUtilEncodingServiceInterface
+     */
+    public function getUtilEncodingService(): BraintreeToUtilEncodingServiceInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::SERVICE_UTIL_ENCODING);
     }
 }

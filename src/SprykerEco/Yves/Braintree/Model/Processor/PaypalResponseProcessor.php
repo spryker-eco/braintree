@@ -26,7 +26,7 @@ class PaypalResponseProcessor implements PaypalResponseProcessorInterface
      *
      * @return PaypalExpressSuccessResponseTransfer
      */
-    public function successResponse(array $payload): PaypalExpressSuccessResponseTransfer
+    public function successResponse(string $payload): PaypalExpressSuccessResponseTransfer
     {
         $responseTransfer = $this->paypalResponseMapper->mapSuccessResponse($payload);
     }
