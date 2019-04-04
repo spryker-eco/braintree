@@ -18,16 +18,16 @@ interface IPaypalCheckoutInstance {
 };
 
 export default class PayPalExpress extends Component {
-    parsedBraintreeData: IBraintreeData;
+    braintreeData: IBraintreeData;
 
     protected readyCallback(): void {
-        this.parsedBraintreeData = <IBraintreeData>this.parseBraintreeData();
+        this.braintreeData = <IBraintreeData>this.parseBraintreeData();
         this.registerClient();
     };
 
     protected registerClient(): void {
         client.create({
-            authorization: this.parsedBraintreeData.token
+            authorization: this.braintreeData.token
         }, this.registerCallback.bind(this));
     };
 
@@ -50,9 +50,11 @@ export default class PayPalExpress extends Component {
         });
 
         paypal.Button.render({
-            env: this.parsedBraintreeData.env,
+            env: this.braintreeData.env,
             commit: false,
-            style: { size: 'responsive' },
+            style: {
+                size: 'responsive'
+            },
             payment: () => this.onPaymentHandler(paypalCheckoutInstance),
             onAuthorize: (data, actions) => this.onAuthorizeHandler(data, actions, paypalCheckoutInstance),
             onError: (error) => {
@@ -65,9 +67,10 @@ export default class PayPalExpress extends Component {
         return paypalCheckoutInstance.createPayment({
             flow: 'checkout',
             intent: 'authorize',
-            amount: this.parsedBraintreeData.amount,
-            currency: this.parsedBraintreeData.currency,
-            enableShippingAddress: true
+            amount: this.braintreeData.amount,
+            currency: this.braintreeData.currency,
+            enableShippingAddress: true,
+            shippingAddressEditable: true
         });
     };
 
@@ -76,7 +79,7 @@ export default class PayPalExpress extends Component {
             const xhr = new XMLHttpRequest();
             const userData = JSON.stringify(payload);
 
-            xhr.open('POST', this.parsedBraintreeData.successUrl, true);
+            xhr.open('POST', this.braintreeData.successUrl, true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
