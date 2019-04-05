@@ -23,4 +23,6 @@ interface BraintreeConstants
 
     public const IS_3D_SECURE = 'BRAINTREE:IS_3D_SECURE';
     public const IS_VAULTED = 'BRAINTREE:IS_VAULTED';
+
+    public const DEFAULT_PAYPAL_EXPRESS_SHIPMENT_METHOD_ID = 'BRAINTREE:DEFAULT_PAYPAL_EXPRESS_SHIPMENT_ID';
 }

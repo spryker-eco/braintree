@@ -6,6 +6,11 @@ use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\ShipmentCarrierTransfer;
+use Generated\Shared\Transfer\ShipmentMethodTransfer;
+use Generated\Shared\Transfer\ShipmentTransfer;
+use SprykerEco\Yves\Braintree\BraintreeConfig;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 
 class PaypalResponseMapper implements PaypalResponseMapperInterface
 {
@@ -22,6 +27,28 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     protected const KEY_STATE = 'state';
     protected const KEY_POSTAL_CODE = 'postalCode';
     protected const KEY_COUNTRY_CODE = 'countryCode';
+
+    /**
+     * @var BraintreeToShipmentClientInterface
+     */
+    protected $shipmentClient;
+
+    /**
+     * @var BraintreeConfig
+     */
+    protected $braintreeConfig;
+
+    /**
+     * @param BraintreeToShipmentClientInterface $shipmentClient
+     * @param BraintreeConfig $braintreeConfig
+     */
+    public function __construct(
+        BraintreeToShipmentClientInterface $shipmentClient,
+        BraintreeConfig $braintreeConfig
+    ) {
+        $this->shipmentClient = $shipmentClient;
+        $this->braintreeConfig = $braintreeConfig;
+    }
 
     /**
      * @param array $payload
@@ -57,7 +84,6 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
         QuoteTransfer $quoteTransfer
     ): QuoteTransfer {
-        //Nonce, payerId
         $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
         $shippingAddressTransfer = $quoteTransfer->getShippingAddress() ?? new AddressTransfer();
 
@@ -77,10 +103,52 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
         $quoteTransfer->setBillingSameAsShipping(true);
+        $quoteTransfer->setShipment($this->getShipmentTransfer($quoteTransfer));
 
         //TODO: Get country code
-//        $quoteTransfer->getShippingAddress()->setCountry($paypalExpressSuccessResponseTransfer->getPostalCode());
+        //TODO: Nonce, payerId
+
 
         return $quoteTransfer;
+    }
+
+    /**
+     * @param QuoteTransfer $quoteTransfer
+     *
+     * @return ShipmentTransfer
+     */
+    protected function getShipmentTransfer(QuoteTransfer $quoteTransfer): ShipmentTransfer
+    {
+        $shipmentMethodsTransfer = $this->shipmentClient->getAvailableMethods($quoteTransfer);
+        $shipmentMethodTransferSelected = null;
+
+        foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
+            if ($this->braintreeConfig->getDefaultPaypalExpressShipmentMethodId() === $shipmentMethodTransfer->getIdShipmentMethod()) {
+                $shipmentMethodTransferSelected = $shipmentMethodTransfer;
+            }
+        }
+
+        $shipmentTransfer = new ShipmentTransfer();
+        $shipmentTransfer->setMethod($shipmentMethodTransferSelected);
+        $shipmentTransfer->setCarrier($this->createShipmentCarrierTransfer($shipmentMethodTransferSelected));
+
+        return $shipmentTransfer;
+    }
+
+
+    /**
+     * @param ShipmentMethodTransfer $shipmentMethodTransfer
+     *
+     * @return ShipmentCarrierTransfer
+     */
+    protected function createShipmentCarrierTransfer(ShipmentMethodTransfer $shipmentMethodTransfer): ShipmentCarrierTransfer
+    {
+        $shipmentCarrierTransfer = new ShipmentCarrierTransfer();
+
+        $shipmentCarrierTransfer->setName($shipmentMethodTransfer->getCarrierName() ?? null);
+        $shipmentCarrierTransfer->setIdShipmentCarrier($shipmentMethodTransfer->getFkShipmentCarrier() ?? null);
+        $shipmentCarrierTransfer->setIsActive(true);
+
+        return $shipmentCarrierTransfer;
     }
 }

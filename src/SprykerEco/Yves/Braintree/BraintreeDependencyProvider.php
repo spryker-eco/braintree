@@ -11,12 +11,16 @@ use Spryker\Yves\Currency\Plugin\CurrencyPlugin;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientBridge;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceBridge;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const PLUGIN_CURRENCY = 'PLUGIN_CURRENCY';
-    public const CLIENT_QUOTE = 'QUOTE_CLIENT';
+
+    public const CLIENT_QUOTE = 'CLIENT_QUOTE';
+    public const CLIENT_SHIPMENT = 'CLIENT_SHIPMENT';
+
     public const SERVICE_UTIL_ENCODING = 'UTIL_ENCODING_SERVICE';
 
     /**
@@ -29,6 +33,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addCurrencyPlugin($container);
         $container = $this->addQuoteClient($container);
         $container = $this->addUtilEncodingService($container);
+        $container = $this->addShipmentClient($container);
 
         return $container;
     }
@@ -70,6 +75,20 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::SERVICE_UTIL_ENCODING] = function (Container $container) {
             return new BraintreeToUtilEncodingServiceBridge($container->getLocator()->utilEncoding()->service());
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function addShipmentClient(Container $container): Container
+    {
+        $container[static::CLIENT_SHIPMENT] = function (Container $container) {
+            return new BraintreeToShipmentClientBridge($container->getLocator()->shipment()->client());
         };
 
         return $container;
