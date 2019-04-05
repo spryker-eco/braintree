@@ -1,8 +1,11 @@
 <?php
 
-namespace SprykerEco\Yves\Braintree\Mapper\PaypalResponse;
+namespace SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse;
 
+use Generated\Shared\Transfer\AddressTransfer;
+use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 
 class PaypalResponseMapper implements PaypalResponseMapperInterface
 {
@@ -25,7 +28,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      *
      * @return PaypalExpressSuccessResponseTransfer
      */
-    public function mapSuccessResponse(array $payload): PaypalExpressSuccessResponseTransfer
+    public function mapSuccessResponseToPaypalExpressSuccessResponseTransfer(array $payload): PaypalExpressSuccessResponseTransfer
     {
         $transfer = new PaypalExpressSuccessResponseTransfer();
 
@@ -42,5 +45,42 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $transfer->setCountryCode($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_COUNTRY_CODE] ?? null);
 
         return $transfer;
+    }
+
+    /**
+     * @param PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     * @param QuoteTransfer $quoteTransfer
+     *
+     * @return QuoteTransfer
+     */
+    public function mapPaypalExpressSuccessResponseTransferToQuoteTransfer(
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
+        QuoteTransfer $quoteTransfer
+    ): QuoteTransfer {
+        //Nonce, payerId
+        $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
+        $shippingAddressTransfer = $quoteTransfer->getShippingAddress() ?? new AddressTransfer();
+
+        $quoteTransfer->setCustomer($customerTransfer);
+        $quoteTransfer->setShippingAddress($shippingAddressTransfer);
+
+        $quoteTransfer->getCustomer()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
+        $quoteTransfer->getCustomer()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
+        $quoteTransfer->getCustomer()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
+        $quoteTransfer->getShippingAddress()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
+        $quoteTransfer->getShippingAddress()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
+        $quoteTransfer->getShippingAddress()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
+        $quoteTransfer->getShippingAddress()->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
+        $quoteTransfer->getShippingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
+        $quoteTransfer->getShippingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
+        $quoteTransfer->getShippingAddress()->setState($paypalExpressSuccessResponseTransfer->getState());
+        $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
+        $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
+        $quoteTransfer->setBillingSameAsShipping(true);
+
+        //TODO: Get country code
+//        $quoteTransfer->getShippingAddress()->setCountry($paypalExpressSuccessResponseTransfer->getPostalCode());
+
+        return $quoteTransfer;
     }
 }

@@ -1,15 +1,16 @@
 <?php
 
-namespace SprykerEco\Yves\Braintree\Processor;
+namespace SprykerEco\Yves\Braintree\Model\Processor;
 
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 
 interface PaypalResponseProcessorInterface
 {
     /**
      * @param array $payload
      *
-     * @return PaypalExpressSuccessResponseTransfer
+     * @return QuoteTransfer
      */
-    public function successResponse(array $payload): PaypalExpressSuccessResponseTransfer;
+    public function processSuccessResponse(array $payload): QuoteTransfer;
 }

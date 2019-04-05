@@ -14,8 +14,10 @@ class PaypalExpressController extends AbstractController
     {
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 
+        $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
 
-        var_dump($payload); exit;
-        var_dump('here'); exit;
+        return $this->jsonResponse([
+            'redirectUrl' => 'http://www.de.suite-nonsplit.local/checkout/summary'
+        ]);
     }
 }

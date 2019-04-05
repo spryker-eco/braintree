@@ -8,16 +8,17 @@
 namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Yves\Kernel\AbstractFactory;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
-use SprykerEco\Yves\Braintree\Mapper\PaypalResponse\PaypalResponseMapper;
-use SprykerEco\Yves\Braintree\Mapper\PaypalResponse\PaypalResponseMapperInterface;
-use SprykerEco\Yves\Braintree\Processor\PaypalResponseProcessor;
-use SprykerEco\Yves\Braintree\Processor\PaypalResponseProcessorInterface;
+use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapper;
+use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface;
+use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessor;
+use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessorInterface;
 
 class BraintreeFactory extends AbstractFactory
 {
@@ -70,17 +71,18 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Processor\PaypalResponseProcessorInterface
+     * @return \SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessorInterface
      */
     public function createResponseProcessor(): PaypalResponseProcessorInterface
     {
         return new PaypalResponseProcessor(
-            $this->createPaypalResponseMapper()
+            $this->createPaypalResponseMapper(),
+            $this->getQuoteClient()
         );
     }
 
     /**
-     * @return \SprykerEco\Yves\Braintree\Mapper\PaypalResponse\PaypalResponseMapperInterface
+     * @return \SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface
      */
     public function createPaypalResponseMapper(): PaypalResponseMapperInterface
     {
@@ -93,5 +95,13 @@ class BraintreeFactory extends AbstractFactory
     public function getUtilEncodingService(): BraintreeToUtilEncodingServiceInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::SERVICE_UTIL_ENCODING);
+    }
+
+    /**
+     * @return BraintreeToQuoteClientInterface
+     */
+    public function getQuoteClient(): BraintreeToQuoteClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_QUOTE);
     }
 }

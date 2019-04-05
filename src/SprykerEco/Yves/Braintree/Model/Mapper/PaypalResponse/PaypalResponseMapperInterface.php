@@ -1,8 +1,9 @@
 <?php
 
-namespace SprykerEco\Yves\Braintree\Mapper\PaypalResponse;
+namespace SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse;
 
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 
 interface PaypalResponseMapperInterface
 {
@@ -11,5 +12,16 @@ interface PaypalResponseMapperInterface
      *
      * @return PaypalExpressSuccessResponseTransfer
      */
-    public function mapSuccessResponse(array $payload): PaypalExpressSuccessResponseTransfer;
+    public function mapSuccessResponseToPaypalExpressSuccessResponseTransfer(array $payload): PaypalExpressSuccessResponseTransfer;
+
+    /**
+     * @param PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     * @param QuoteTransfer $quoteTransfer
+     *
+     * @return QuoteTransfer
+     */
+    public function mapPaypalExpressSuccessResponseTransferToQuoteTransfer(
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
+        QuoteTransfer $quoteTransfer
+    ): QuoteTransfer;
 }
