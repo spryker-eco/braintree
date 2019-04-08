@@ -80,6 +80,7 @@
     <transfer name="Payment">
         <property name="braintree" type="BraintreePayment"/>
         <property name="braintreePayPal" type="BraintreePayment"/>
+        <property name="braintreePayPalExpress" type="BraintreePayment"/>
         <property name="braintreeCreditCard" type="BraintreePayment"/>
     </transfer>
 

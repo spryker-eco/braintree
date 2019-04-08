@@ -14,6 +14,7 @@ use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceI
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
+use SprykerEco\Yves\Braintree\Form\PayPalExpressSubForm;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
 use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapper;
@@ -37,6 +38,14 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
+    public function createPayPalExpressForm()
+    {
+        return new PayPalExpressSubForm();
+    }
+
+    /**
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
+     */
     public function createCreditCardForm()
     {
         return new CreditCardSubForm();
@@ -46,6 +55,14 @@ class BraintreeFactory extends AbstractFactory
      * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createPayPalFormDataProvider()
+    {
+        return new PayPalDataProvider();
+    }
+
+    /**
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
+     */
+    public function createPayPalExpressFormDataProvider()
     {
         return new PayPalDataProvider();
     }
