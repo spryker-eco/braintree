@@ -10,8 +10,8 @@ namespace SprykerEco\Yves\Braintree;
 use Spryker\Yves\Currency\Plugin\CurrencyPlugin;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientBridge;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceBridge;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
@@ -19,7 +19,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     public const PLUGIN_CURRENCY = 'PLUGIN_CURRENCY';
 
     public const CLIENT_QUOTE = 'CLIENT_QUOTE';
-    public const CLIENT_SHIPMENT = 'CLIENT_SHIPMENT';
+    public const CLIENT_PAYMENT = 'CLIENT_PAYMENT';
 
     public const SERVICE_UTIL_ENCODING = 'UTIL_ENCODING_SERVICE';
 
@@ -33,7 +33,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addCurrencyPlugin($container);
         $container = $this->addQuoteClient($container);
         $container = $this->addUtilEncodingService($container);
-        $container = $this->addShipmentClient($container);
+        $container = $this->addPaymentClient($container);
 
         return $container;
     }
@@ -85,10 +85,10 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addShipmentClient(Container $container): Container
+    protected function addPaymentClient(Container $container): Container
     {
-        $container[static::CLIENT_SHIPMENT] = function (Container $container) {
-            return new BraintreeToShipmentClientBridge($container->getLocator()->shipment()->client());
+        $container[static::CLIENT_PAYMENT] = function (Container $container) {
+            return new BraintreeToPaymentClientBridge($container->getLocator()->payment()->client());
         };
 
         return $container;

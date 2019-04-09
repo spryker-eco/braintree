@@ -3,14 +3,13 @@
 namespace SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse;
 
 use Generated\Shared\Transfer\AddressTransfer;
+use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\ShipmentCarrierTransfer;
-use Generated\Shared\Transfer\ShipmentMethodTransfer;
-use Generated\Shared\Transfer\ShipmentTransfer;
-use SprykerEco\Yves\Braintree\BraintreeConfig;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
 
 class PaypalResponseMapper implements PaypalResponseMapperInterface
 {
@@ -29,25 +28,17 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     protected const KEY_COUNTRY_CODE = 'countryCode';
 
     /**
-     * @var BraintreeToShipmentClientInterface
+     * @var BraintreeToPaymentClientInterface
      */
-    protected $shipmentClient;
+    protected $paymentClient;
 
     /**
-     * @var BraintreeConfig
-     */
-    protected $braintreeConfig;
-
-    /**
-     * @param BraintreeToShipmentClientInterface $shipmentClient
-     * @param BraintreeConfig $braintreeConfig
+     * @param BraintreeToPaymentClientInterface $paymentClient
      */
     public function __construct(
-        BraintreeToShipmentClientInterface $shipmentClient,
-        BraintreeConfig $braintreeConfig
+        BraintreeToPaymentClientInterface $paymentClient
     ) {
-        $this->shipmentClient = $shipmentClient;
-        $this->braintreeConfig = $braintreeConfig;
+        $this->paymentClient = $paymentClient;
     }
 
     /**
@@ -103,7 +94,8 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
         $quoteTransfer->setBillingSameAsShipping(true);
-        $quoteTransfer->setShipment($this->getShipmentTransfer($quoteTransfer));
+
+        $quoteTransfer->setPayment();
 
         //TODO: Get country code
         //TODO: Nonce, payerId
@@ -114,41 +106,16 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
 
     /**
      * @param QuoteTransfer $quoteTransfer
-     *
-     * @return ShipmentTransfer
+     * @return PaymentTransfer
      */
-    protected function getShipmentTransfer(QuoteTransfer $quoteTransfer): ShipmentTransfer
+    protected function getPaymentTransfer(QuoteTransfer $quoteTransfer): PaymentTransfer
     {
-        $shipmentMethodsTransfer = $this->shipmentClient->getAvailableMethods($quoteTransfer);
-        $shipmentMethodTransferSelected = null;
+        $paymentTransfer = new PaymentTransfer();
+        $paymentTransfer->setPaymentProvider(BraintreeConfig::PROVIDER_NAME);
 
-        foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
-            if ($this->braintreeConfig->getDefaultPaypalExpressShipmentMethodId() === $shipmentMethodTransfer->getIdShipmentMethod()) {
-                $shipmentMethodTransferSelected = $shipmentMethodTransfer;
-            }
-        }
+        $brainTreePaymentTransfer = new BraintreePaymentTransfer();
+        $paymentTransfer->setBraintreePayPalExpress($brainTreePaymentTransfer);
 
-        $shipmentTransfer = new ShipmentTransfer();
-        $shipmentTransfer->setMethod($shipmentMethodTransferSelected);
-        $shipmentTransfer->setCarrier($this->createShipmentCarrierTransfer($shipmentMethodTransferSelected));
-
-        return $shipmentTransfer;
-    }
-
-
-    /**
-     * @param ShipmentMethodTransfer $shipmentMethodTransfer
-     *
-     * @return ShipmentCarrierTransfer
-     */
-    protected function createShipmentCarrierTransfer(ShipmentMethodTransfer $shipmentMethodTransfer): ShipmentCarrierTransfer
-    {
-        $shipmentCarrierTransfer = new ShipmentCarrierTransfer();
-
-        $shipmentCarrierTransfer->setName($shipmentMethodTransfer->getCarrierName() ?? null);
-        $shipmentCarrierTransfer->setIdShipmentCarrier($shipmentMethodTransfer->getFkShipmentCarrier() ?? null);
-        $shipmentCarrierTransfer->setIsActive(true);
-
-        return $shipmentCarrierTransfer;
+        $quoteTransfer->setPayment($paymentTransfer);
     }
 }

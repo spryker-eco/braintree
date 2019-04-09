@@ -9,28 +9,28 @@ namespace SprykerEco\Yves\Braintree\Dependency\Client;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 
-class BraintreeToShipmentClientBridge implements BraintreeToShipmentClientInterface
+class BraintreeToPaymentClientBridge implements BraintreeToPaymentClientInterface
 {
     /**
-     * @var \Spryker\Client\Shipment\ShipmentClientInterface
+     * @var \Spryker\Client\Payment\PaymentClientInterface
      */
-    protected $shipmentClient;
+    protected $paymentClient;
 
     /**
-     * @param \Spryker\Client\Shipment\ShipmentClientInterface $shipmentClient
+     * @param \Spryker\Client\Payment\PaymentClientInterface $paymentClient
      */
-    public function __construct($shipmentClient)
+    public function __construct($paymentClient)
     {
-        $this->shipmentClient = $shipmentClient;
+        $this->paymentClient = $paymentClient;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
+     * @return \Generated\Shared\Transfer\PaymentMethodsTransfer
      */
     public function getAvailableMethods(QuoteTransfer $quoteTransfer)
     {
-        return $this->shipmentClient->getAvailableMethods($quoteTransfer);
+        return $this->paymentClient->getAvailableMethods($quoteTransfer);
     }
 }

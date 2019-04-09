@@ -9,12 +9,12 @@ namespace SprykerEco\Yves\Braintree\Dependency\Client;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 
-interface BraintreeToShipmentClientInterface
+interface BraintreeToPaymentClientInterface
 {
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
+     * @return \Generated\Shared\Transfer\PaymentMethodsTransfer
      */
     public function getAvailableMethods(QuoteTransfer $quoteTransfer);
 }

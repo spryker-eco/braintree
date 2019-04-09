@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Yves\Kernel\AbstractFactory;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
@@ -107,7 +108,7 @@ class BraintreeFactory extends AbstractFactory
      */
     public function createPaypalResponseMapper(): PaypalResponseMapperInterface
     {
-        return new PaypalResponseMapper($this->getShipmentClient(), $this->getConfig());
+        return new PaypalResponseMapper($this->getPaymentClient());
     }
 
     /**
@@ -127,10 +128,10 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToShipmentClientInterface
+     * @return BraintreeToPaymentClientInterface
      */
-    public function getShipmentClient(): BraintreeToShipmentClientInterface
+    public function getPaymentClient(): BraintreeToPaymentClientInterface
     {
-        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_SHIPMENT);
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_PAYMENT);
     }
 }
