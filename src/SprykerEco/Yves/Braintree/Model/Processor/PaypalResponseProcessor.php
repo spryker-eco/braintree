@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace SprykerEco\Yves\Braintree\Model\Processor;
 
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
@@ -10,18 +15,18 @@ use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperIn
 class PaypalResponseProcessor implements PaypalResponseProcessorInterface
 {
     /**
-     * @var PaypalResponseMapperInterface
+     * @var \SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface
      */
     protected $paypalResponseMapper;
 
     /**
-     * @var BraintreeToQuoteClientInterface
+     * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface
      */
     protected $quoteClient;
 
     /**
-     * @param PaypalResponseMapperInterface $paypalResponseMapper
-     * @param BraintreeToQuoteClientInterface $quoteClient
+     * @param \SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface $paypalResponseMapper
+     * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface $quoteClient
      */
     public function __construct(
         PaypalResponseMapperInterface $paypalResponseMapper,
@@ -34,7 +39,7 @@ class PaypalResponseProcessor implements PaypalResponseProcessorInterface
     /**
      * @param array $payload
      *
-     * @return QuoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function processSuccessResponse(array $payload): QuoteTransfer
     {
@@ -45,9 +50,9 @@ class PaypalResponseProcessor implements PaypalResponseProcessorInterface
     }
 
     /**
-     * @param PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return QuoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     protected function updateQuoteDependOnResponse(PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer): QuoteTransfer
     {

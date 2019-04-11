@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse;
 
 use Generated\Shared\Transfer\AddressTransfer;
@@ -28,12 +33,12 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     protected const KEY_COUNTRY_CODE = 'countryCode';
 
     /**
-     * @var BraintreeToPaymentClientInterface
+     * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface
      */
     protected $paymentClient;
 
     /**
-     * @param BraintreeToPaymentClientInterface $paymentClient
+     * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface $paymentClient
      */
     public function __construct(
         BraintreeToPaymentClientInterface $paymentClient
@@ -44,7 +49,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     /**
      * @param array $payload
      *
-     * @return PaypalExpressSuccessResponseTransfer
+     * @return \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer
      */
     public function mapSuccessResponseToPaypalExpressSuccessResponseTransfer(array $payload): PaypalExpressSuccessResponseTransfer
     {
@@ -66,10 +71,10 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     }
 
     /**
-     * @param PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
-     * @param QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return QuoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function mapPaypalExpressSuccessResponseTransferToQuoteTransfer(
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
@@ -104,7 +109,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     }
 
     /**
-     * @param QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
      * @return void
      */

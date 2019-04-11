@@ -16,6 +16,7 @@ use SprykerEco\Zed\Braintree\Communication\Table\StatusLog;
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  */
 class BraintreeCommunicationFactory extends AbstractCommunicationFactory
 {

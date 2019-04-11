@@ -15,12 +15,9 @@ use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
-use SprykerEco\Yves\Braintree\Form\DataProvider\BraintreePaypalExpressShipmentFormDataProvider;
-use SprykerEco\Yves\Braintree\Form\DataProvider\BraintreePaypalExpressShipmentFormDataProviderInterface;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CheckoutShipmentFormDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
-use SprykerEco\Yves\Braintree\Form\DataProvider\SummaryFormDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalExpressSubForm;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
@@ -118,7 +115,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToUtilEncodingServiceInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface
      */
     public function getUtilEncodingService(): BraintreeToUtilEncodingServiceInterface
     {
@@ -126,7 +123,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToQuoteClientInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface
      */
     public function getQuoteClient(): BraintreeToQuoteClientInterface
     {
@@ -134,7 +131,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToShipmentClientInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface
      */
     public function getShipmentClient(): BraintreeToShipmentClientInterface
     {
@@ -142,7 +139,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToGlossaryClientInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface
      */
     public function getGlossaryClient(): BraintreeToGlossaryClientInterface
     {
@@ -150,7 +147,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToPaymentClientInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface
      */
     public function getPaymentClient(): BraintreeToPaymentClientInterface
     {
@@ -174,7 +171,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return StepEngineFormDataProviderInterface
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createBraintreePaypalExpressShipmentFormDataProvider(): StepEngineFormDataProviderInterface
     {

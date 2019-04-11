@@ -9,8 +9,6 @@ namespace SprykerEco\Yves\Braintree\Form;
 
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PayPalExpressSubForm extends AbstractSubForm

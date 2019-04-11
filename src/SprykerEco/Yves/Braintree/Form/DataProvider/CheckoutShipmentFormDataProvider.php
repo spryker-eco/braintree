@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
@@ -23,12 +23,12 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
 
     /**
-     * @var BraintreeToShipmentClientInterface
+     * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface
      */
     protected $shipmentClient;
 
     /**
-     * @var BraintreeToGlossaryClientInterface
+     * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface
      */
     protected $glossaryClient;
 
@@ -43,10 +43,10 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected $moneyPlugin;
 
     /**
-     * @param BraintreeToShipmentClientInterface $shipmentClient
-     * @param BraintreeToGlossaryClientInterface $glossaryClient
-     * @param Store $store
-     * @param MoneyPluginInterface $moneyPlugin
+     * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface $shipmentClient
+     * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface $glossaryClient
+     * @param \Spryker\Shared\Kernel\Store $store
+     * @param \Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface $moneyPlugin
      */
     public function __construct(
         BraintreeToShipmentClientInterface $shipmentClient,

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace SprykerEco\Yves\Braintree\Controller;
 
 use Spryker\Yves\Kernel\Controller\AbstractController;
@@ -10,6 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PaypalExpressController extends AbstractController
 {
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function successAction(Request $request)
     {
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
@@ -17,7 +27,7 @@ class PaypalExpressController extends AbstractController
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
 
         return $this->jsonResponse([
-            'redirectUrl' => 'http://www.de.suite-nonsplit.local/checkout/summary'
+            'redirectUrl' => 'http://www.de.suite-nonsplit.local/checkout/summary',
         ]);
     }
 }
