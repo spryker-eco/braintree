@@ -8,13 +8,19 @@
 namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Yves\Kernel\AbstractFactory;
+use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
+use SprykerEco\Yves\Braintree\Form\DataProvider\BraintreePaypalExpressShipmentFormDataProvider;
+use SprykerEco\Yves\Braintree\Form\DataProvider\BraintreePaypalExpressShipmentFormDataProviderInterface;
+use SprykerEco\Yves\Braintree\Form\DataProvider\CheckoutShipmentFormDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\CreditCardDataProvider;
 use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
+use SprykerEco\Yves\Braintree\Form\DataProvider\SummaryFormDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalExpressSubForm;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
@@ -128,10 +134,55 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
+     * @return BraintreeToShipmentClientInterface
+     */
+    public function getShipmentClient(): BraintreeToShipmentClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_SHIPMENT);
+    }
+
+    /**
+     * @return BraintreeToGlossaryClientInterface
+     */
+    public function getGlossaryClient(): BraintreeToGlossaryClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_GLOSSARY);
+    }
+
+    /**
      * @return BraintreeToPaymentClientInterface
      */
     public function getPaymentClient(): BraintreeToPaymentClientInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_PAYMENT);
+    }
+
+    /**
+     * @return \Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface
+     */
+    public function getMoneyPlugin()
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_MONEY);
+    }
+
+    /**
+     * @return \Spryker\Shared\Kernel\Store
+     */
+    public function getStore()
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::STORE);
+    }
+
+    /**
+     * @return StepEngineFormDataProviderInterface
+     */
+    public function createBraintreePaypalExpressShipmentFormDataProvider(): StepEngineFormDataProviderInterface
+    {
+        return new CheckoutShipmentFormDataProvider(
+            $this->getShipmentClient(),
+            $this->getGlossaryClient(),
+            $this->getStore(),
+            $this->getMoneyPlugin()
+        );
     }
 }

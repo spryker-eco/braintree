@@ -95,20 +95,20 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
         $quoteTransfer->setBillingSameAsShipping(true);
 
-        $quoteTransfer->setPayment();
+        $this->addPaymentTransfer($quoteTransfer);
 
         //TODO: Get country code
         //TODO: Nonce, payerId
-
 
         return $quoteTransfer;
     }
 
     /**
      * @param QuoteTransfer $quoteTransfer
-     * @return PaymentTransfer
+     *
+     * @return void
      */
-    protected function getPaymentTransfer(QuoteTransfer $quoteTransfer): PaymentTransfer
+    protected function addPaymentTransfer(QuoteTransfer $quoteTransfer): void
     {
         $paymentTransfer = new PaymentTransfer();
         $paymentTransfer->setPaymentProvider(BraintreeConfig::PROVIDER_NAME);
