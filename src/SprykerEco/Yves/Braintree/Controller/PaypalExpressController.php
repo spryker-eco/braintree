@@ -26,6 +26,7 @@ class PaypalExpressController extends AbstractController
 
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
 
+        //TODO: Update route
         return $this->jsonResponse([
             'redirectUrl' => 'http://www.de.suite-nonsplit.local/checkout/summary',
         ]);
