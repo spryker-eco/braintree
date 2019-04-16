@@ -16,7 +16,7 @@ use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
-use SprykerShop\Yves\CheckoutPage\Form\Steps\ShipmentForm;
+use SprykerEco\Yves\Braintree\Form\CheckoutShipmentForm;
 
 class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInterface
 {
@@ -83,7 +83,8 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     public function getOptions(AbstractTransfer $quoteTransfer)
     {
         return [
-            ShipmentForm::OPTION_SHIPMENT_METHODS => $this->createAvailableShipmentChoiceList($quoteTransfer),
+            CheckoutShipmentForm::OPTION_SHIPMENT_METHODS => $this->createAvailableShipmentChoiceList($quoteTransfer),
+            CheckoutShipmentForm::OPTION_ID_SELECTED_SHIPMENT_METHOD => $this->getSelectedShipmentMethodId($quoteTransfer),
         ];
     }
 
@@ -207,5 +208,21 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected function translate($translationKey)
     {
         return $this->glossaryClient->translate($translationKey, $this->store->getCurrentLocale());
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return int|null
+     */
+    protected function getSelectedShipmentMethodId(QuoteTransfer $quoteTransfer): ?int
+    {
+        $shipment = $quoteTransfer->getShipment();
+
+        if (!$shipment) {
+            return null;
+        }
+
+        return $shipment->getMethod() ? $shipment->getMethod()->getIdShipmentMethod() : null;
     }
 }

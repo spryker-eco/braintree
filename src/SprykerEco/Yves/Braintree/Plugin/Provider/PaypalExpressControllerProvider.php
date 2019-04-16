@@ -13,6 +13,7 @@ use SprykerShop\Yves\ShopApplication\Plugin\Provider\AbstractYvesControllerProvi
 class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
 {
     public const ROUTE_PAYPAL_EXPRESS_SUCCESS_RESPONSE = 'paypal-express-success';
+    public const ROUTE_PAYPAL_EXPRESS_SHIPMENT_ADD = 'paypal-express-shipment-add';
 
     /**
      * @param \Silex\Application $app
@@ -22,6 +23,7 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
     protected function defineControllers(Application $app)
     {
         $this->addPaypalExpressSuccessResponseRoute();
+        $this->addPaypalExpressAddShipmentRoute();
 
         return $this;
     }
@@ -39,6 +41,24 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
             'Braintree',
             'PaypalExpress',
             'success'
+        );
+
+        return $this;
+    }
+
+    /**
+     * @uses \SprykerEco\Yves\Braintree\Controller\PaypalExpressController::successAction()
+     *
+     * @return $this
+     */
+    protected function addPaypalExpressAddShipmentRoute()
+    {
+        $this->createController(
+            '/paypal-express/shipment/add',
+            static::ROUTE_PAYPAL_EXPRESS_SHIPMENT_ADD,
+            'Braintree',
+            'PaypalExpress',
+            'addShipment'
         );
 
         return $this;

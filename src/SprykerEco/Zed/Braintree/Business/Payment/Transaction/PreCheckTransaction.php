@@ -303,6 +303,7 @@ class PreCheckTransaction extends AbstractTransaction
         $matching = [
             SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,
             SharedBraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => PaymentInstrumentType::CREDIT_CARD,
+            SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS => PaymentInstrumentType::PAYPAL_ACCOUNT,
         ];
 
         return ($matching[$this->getPaymentSelection()] === $returnedType);

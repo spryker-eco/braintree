@@ -9,11 +9,14 @@ namespace SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse;
 
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Generated\Shared\Transfer\CountryCollectionTransfer;
+use Generated\Shared\Transfer\CountryTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
 use Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
 
 class PaypalResponseMapper implements PaypalResponseMapperInterface
@@ -38,12 +41,20 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     protected $paymentClient;
 
     /**
+     * @var BraintreeToCountryClientInterface
+     */
+    protected $countryClient;
+
+    /**
      * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface $paymentClient
+     * @param BraintreeToCountryClientInterface $countryClient
      */
     public function __construct(
-        BraintreeToPaymentClientInterface $paymentClient
+        BraintreeToPaymentClientInterface $paymentClient,
+        BraintreeToCountryClientInterface $countryClient
     ) {
         $this->paymentClient = $paymentClient;
+        $this->countryClient = $countryClient;
     }
 
     /**
@@ -60,12 +71,12 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $transfer->setFirstName($payload[static::KEY_DETAILS][static::KEY_FIRST_NAME] ?? null);
         $transfer->setLastName($payload[static::KEY_DETAILS][static::KEY_LAST_NAME] ?? null);
         $transfer->setPayerId($payload[static::KEY_DETAILS][static::KEY_PAYER_ID] ?? null);
-        $transfer->setRecipientName($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_RECIPIENT_NAME] ?? null);
-        $transfer->setLine1($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_LINE1] ?? null);
-        $transfer->setCity($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_CITY] ?? null);
-        $transfer->setState($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_STATE] ?? null);
-        $transfer->setPostalCode($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_POSTAL_CODE] ?? null);
-        $transfer->setCountryCode($payload[static::KEY_SHIPPING_ADDRESS][static::KEY_COUNTRY_CODE] ?? null);
+        $transfer->setRecipientName($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_RECIPIENT_NAME] ?? null);
+        $transfer->setLine1($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_LINE1] ?? null);
+        $transfer->setCity($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_CITY] ?? null);
+        $transfer->setState($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_STATE] ?? null);
+        $transfer->setPostalCode($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_POSTAL_CODE] ?? null);
+        $transfer->setCountryCode($payload[static::KEY_DETAILS][static::KEY_SHIPPING_ADDRESS][static::KEY_COUNTRY_CODE] ?? null);
 
         return $transfer;
     }
@@ -82,6 +93,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
     ): QuoteTransfer {
         $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
         $shippingAddressTransfer = $quoteTransfer->getShippingAddress() ?? new AddressTransfer();
+        $countryTransfer = $this->getCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCode());
 
         $quoteTransfer->setCustomer($customerTransfer);
         $quoteTransfer->setShippingAddress($shippingAddressTransfer);
@@ -97,30 +109,73 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $quoteTransfer->getShippingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
         $quoteTransfer->getShippingAddress()->setState($paypalExpressSuccessResponseTransfer->getState());
         $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
-        $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
-        $quoteTransfer->setBillingSameAsShipping(true);
+        $quoteTransfer->getShippingAddress()->setCountry($countryTransfer);
+        $quoteTransfer->getShippingAddress()->setIso2Code($countryTransfer->getIso2Code());
 
-        $this->addPaymentTransfer($quoteTransfer);
+        $quoteTransfer->getBillingAddress()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
+        $quoteTransfer->getBillingAddress()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
+        $quoteTransfer->getBillingAddress()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
+        $quoteTransfer->getBillingAddress()->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
+        $quoteTransfer->getBillingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
+        $quoteTransfer->getBillingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
+        $quoteTransfer->getBillingAddress()->setState($paypalExpressSuccessResponseTransfer->getState());
+        $quoteTransfer->getBillingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
+        $quoteTransfer->getBillingAddress()->setCountry($countryTransfer);
+        $quoteTransfer->getBillingAddress()->setIso2Code($countryTransfer->getIso2Code());
 
-        //TODO: Get country code
-        //TODO: Nonce, payerId
+
+        $this->addPaymentTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
 
         return $quoteTransfer;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
      * @return void
      */
-    protected function addPaymentTransfer(QuoteTransfer $quoteTransfer): void
+    protected function addPaymentTransfer(
+        QuoteTransfer $quoteTransfer,
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer): void
     {
+        $brainTreePaymentTransfer = new BraintreePaymentTransfer();
+        $brainTreePaymentTransfer->setNonce($paypalExpressSuccessResponseTransfer->getNonce());
+        $brainTreePaymentTransfer->setBillingAddress($quoteTransfer->getBillingAddress());
+        $brainTreePaymentTransfer->setClientIp('ip'); //TODO: ???
+        $brainTreePaymentTransfer->setLanguageIso2Code(strtolower($quoteTransfer->getBillingAddress()->getIso2Code()));
+        $brainTreePaymentTransfer->setCurrencyIso3Code('EUR'); // TODO: ???
+        $brainTreePaymentTransfer->setEmail($quoteTransfer->getShippingAddress()->getEmail());
+
         $paymentTransfer = new PaymentTransfer();
         $paymentTransfer->setPaymentProvider(BraintreeConfig::PROVIDER_NAME);
-
-        $brainTreePaymentTransfer = new BraintreePaymentTransfer();
         $paymentTransfer->setBraintreePayPalExpress($brainTreePaymentTransfer);
+        $paymentTransfer->setBraintree($brainTreePaymentTransfer);
+        $paymentTransfer->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS);
+        $paymentTransfer->setAmount(72335); //TODO: ???
 
         $quoteTransfer->setPayment($paymentTransfer);
+    }
+
+    /**
+     * @param string $iso2Code
+     *
+     * @return CountryTransfer|null
+     */
+    protected function getCountryTransfer(string $iso2Code): ?CountryTransfer
+    {
+        $countryTransfer = (new CountryTransfer())
+            ->setIso2Code($iso2Code);
+
+        $countryCollectionTransfer = new CountryCollectionTransfer();
+        $countryCollectionTransfer->addCountries($countryTransfer);
+
+        $countries = $this->countryClient->findCountriesByIso2Codes($countryCollectionTransfer);
+
+        foreach ($countries->getCountries() as $country) {
+            return $country;
+        }
+
+        return null;
     }
 }

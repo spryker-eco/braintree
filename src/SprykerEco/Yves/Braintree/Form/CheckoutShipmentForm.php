@@ -19,15 +19,18 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class CheckoutShipmentForm extends AbstractType
 {
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
+
     public const OPTION_SHIPMENT_METHODS = 'shipmentMethods';
+    public const OPTION_ID_SELECTED_SHIPMENT_METHOD = 'idSelectedShipmentMethod';
 
     public const SHIPMENT_PROPERTY_PATH = 'shipment';
     public const SHIPMENT_SELECTION = 'shipmentSelection';
     public const SHIPMENT_SELECTION_PROPERTY_PATH = self::SHIPMENT_PROPERTY_PATH . '.' . self::SHIPMENT_SELECTION;
 
-    protected const VALIDATION_NOT_BLANK_MESSAGE = 'validation.not_blank';
-
     public const FORM_NAME = 'checkoutShipmentForm';
+
+    protected const VALIDATION_NOT_BLANK_MESSAGE = 'validation.not_blank';
+    protected const ACTION_URL = '/paypal-express/shipment/add';
 
     /**
      * @return string
@@ -45,7 +48,7 @@ class CheckoutShipmentForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->setAction('/test');
+        $builder->setAction(static::ACTION_URL);
 
         $this->addIdShipmentMethod($builder, $options);
     }
@@ -69,6 +72,7 @@ class CheckoutShipmentForm extends AbstractType
                 new NotBlank(),
             ],
             'label' => false,
+            'data' => $options[self::OPTION_ID_SELECTED_SHIPMENT_METHOD],
         ]);
     }
 
@@ -79,6 +83,7 @@ class CheckoutShipmentForm extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('shipmentMethods');
+        $resolver->setRequired(static::OPTION_SHIPMENT_METHODS);
+        $resolver->setRequired(static::OPTION_ID_SELECTED_SHIPMENT_METHOD);
     }
 }

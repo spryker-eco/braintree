@@ -7,15 +7,15 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Plugin\Checkout;
 
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\SaveOrderTransfer;
-use Spryker\Zed\CheckoutExtension\Dependency\Plugin\CheckoutDoSaveOrderInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
+use Spryker\Zed\Payment\Dependency\Plugin\Checkout\CheckoutSaveOrderPluginInterface;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  */
-class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutDoSaveOrderInterface
+class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutSaveOrderPluginInterface
 {
     /**
      * Specification:
@@ -25,12 +25,12 @@ class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutDoS
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     * @param CheckoutResponseTransfer $checkoutResponse
      *
      * @return void
      */
-    public function saveOrder(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
+    public function execute(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
-        $this->getFacade()->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+        $this->getFacade()->saveOrderPayment($quoteTransfer, $checkoutResponse->getSaveOrder());
     }
 }

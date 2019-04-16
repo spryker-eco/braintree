@@ -7,10 +7,15 @@
 
 namespace SprykerEco\Yves\Braintree;
 
+use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
+use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPriceClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
@@ -25,6 +30,8 @@ use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapper;
 use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface;
 use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessor;
 use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessorInterface;
+use SprykerEco\Yves\Braintree\Model\QuoteExpander\QuoteExpander;
+use SprykerEco\Yves\Braintree\Model\QuoteExpander\QuoteExpanderInterface;
 
 /**
  * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
@@ -111,7 +118,7 @@ class BraintreeFactory extends AbstractFactory
      */
     public function createPaypalResponseMapper(): PaypalResponseMapperInterface
     {
-        return new PaypalResponseMapper($this->getPaymentClient());
+        return new PaypalResponseMapper($this->getPaymentClient(), $this->getCountryClient());
     }
 
     /**
@@ -157,9 +164,17 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface
      */
-    public function getMoneyPlugin()
+    public function getMoneyPlugin(): MoneyPluginInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_MONEY);
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface
+     */
+    public function getCalculationClient(): BraintreeToCalculationClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_CALCULATION);
     }
 
     /**
@@ -181,5 +196,33 @@ class BraintreeFactory extends AbstractFactory
             $this->getStore(),
             $this->getMoneyPlugin()
         );
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Braintree\Model\QuoteExpander\QuoteExpanderInterface
+     */
+    public function createQuoteExpander(): QuoteExpanderInterface
+    {
+        return new QuoteExpander(
+            $this->getQuoteClient(),
+            $this->getCalculationClient(),
+            $this->getShipmentHandlerPlugin()
+        );
+    }
+
+    /**
+     * @return StepHandlerPluginInterface
+     */
+    public function getShipmentHandlerPlugin(): StepHandlerPluginInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_SHIPMENT_HANDLER);
+    }
+
+    /**
+     * @return BraintreeToCountryClientInterface
+     */
+    public function getCountryClient(): BraintreeToCountryClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_COUNTRY);
     }
 }
