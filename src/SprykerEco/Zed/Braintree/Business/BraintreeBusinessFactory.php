@@ -29,6 +29,8 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {

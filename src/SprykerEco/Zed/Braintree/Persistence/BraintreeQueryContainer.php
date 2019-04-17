@@ -9,7 +9,6 @@ namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionRequestLogTableMap;
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionStatusLogTableMap;
-use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\Propel;
 use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
 
@@ -18,111 +17,111 @@ use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
  */
 class BraintreeQueryContainer extends AbstractQueryContainer implements BraintreeQueryContainerInterface
 {
-    /**
-     * @api
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
-     */
-    public function queryPayments()
-    {
-        return $this->getFactory()->createPaymentBraintreeQuery();
-    }
+//    /**
+//     * @api
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
+//     */
+//    public function queryPayments()
+//    {
+//        return $this->getFactory()->createPaymentBraintreeQuery();
+//    }
 
-    /**
-     * @api
-     *
-     * @param int $idPayment
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
-     */
-    public function queryPaymentById($idPayment)
-    {
-        return $this
-            ->queryPayments()
-            ->filterByIdPaymentBraintree($idPayment);
-    }
+//    /**
+//     * @api
+//     *
+//     * @param int $idPayment
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
+//     */
+//    public function queryPaymentById($idPayment)
+//    {
+//        return $this
+//            ->queryPayments()
+//            ->filterByIdPaymentBraintree($idPayment);
+//    }
+//
+//    /**
+//     * @api
+//     *
+//     * @param int $idSalesOrder
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
+//     */
+//    public function queryPaymentBySalesOrderId($idSalesOrder)
+//    {
+//        return $this
+//            ->queryPayments()
+//            ->filterByFkSalesOrder($idSalesOrder);
+//    }
 
-    /**
-     * @api
-     *
-     * @param int $idSalesOrder
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
-     */
-    public function queryPaymentBySalesOrderId($idSalesOrder)
-    {
-        return $this
-            ->queryPayments()
-            ->filterByFkSalesOrder($idSalesOrder);
-    }
+//    /**
+//     * @api
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+//     */
+//    public function queryTransactionStatusLog()
+//    {
+//        return $this->getFactory()->createPaymentBraintreeTransactionStatusLogQuery();
+//    }
 
-    /**
-     * @api
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
-     */
-    public function queryTransactionStatusLog()
-    {
-        return $this->getFactory()->createPaymentBraintreeTransactionStatusLogQuery();
-    }
+//    /**
+//     * @api
+//     *
+//     * @param int $idPayment
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+//     */
+//    public function queryTransactionStatusLogByPaymentId($idPayment)
+//    {
+//        return $this
+//            ->queryTransactionStatusLog()
+//            ->filterByFkPaymentBraintree($idPayment);
+//    }
 
-    /**
-     * @api
-     *
-     * @param int $idPayment
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
-     */
-    public function queryTransactionStatusLogByPaymentId($idPayment)
-    {
-        return $this
-            ->queryTransactionStatusLog()
-            ->filterByFkPaymentBraintree($idPayment);
-    }
+//    /**
+//     * @api
+//     *
+//     * @param int $idPayment
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+//     */
+//    public function queryTransactionStatusLogByPaymentIdLatestFirst($idPayment)
+//    {
+//        return $this
+//            ->queryTransactionStatusLogByPaymentId($idPayment)
+//            ->orderByIdPaymentBraintreeTransactionStatusLog(Criteria::DESC);
+//    }
 
-    /**
-     * @api
-     *
-     * @param int $idPayment
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
-     */
-    public function queryTransactionStatusLogByPaymentIdLatestFirst($idPayment)
-    {
-        return $this
-            ->queryTransactionStatusLogByPaymentId($idPayment)
-            ->orderByIdPaymentBraintreeTransactionStatusLog(Criteria::DESC);
-    }
+//    /**
+//     * @api
+//     *
+//     * @param int $idSalesOrder
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+//     */
+//    public function queryTransactionStatusLogBySalesOrderId($idSalesOrder)
+//    {
+//        return $this
+//            ->queryTransactionStatusLog()
+//            ->useSpyPaymentBraintreeQuery()
+//                ->filterByFkSalesOrder($idSalesOrder)
+//            ->endUse();
+//    }
 
-    /**
-     * @api
-     *
-     * @param int $idSalesOrder
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
-     */
-    public function queryTransactionStatusLogBySalesOrderId($idSalesOrder)
-    {
-        return $this
-            ->queryTransactionStatusLog()
-            ->useSpyPaymentBraintreeQuery()
-                ->filterByFkSalesOrder($idSalesOrder)
-            ->endUse();
-    }
-
-    /**
-     * @api
-     *
-     * @param int $idSalesOrder
-     *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
-     */
-    public function queryTransactionStatusLogBySalesOrderIdLatestFirst($idSalesOrder)
-    {
-        return $this
-            ->queryTransactionStatusLogBySalesOrderId($idSalesOrder)
-            ->orderByIdPaymentBraintreeTransactionStatusLog(Criteria::DESC);
-    }
+//    /**
+//     * @api
+//     *
+//     * @param int $idSalesOrder
+//     *
+//     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+//     */
+//    public function queryTransactionStatusLogBySalesOrderIdLatestFirst($idSalesOrder)
+//    {
+//        return $this
+//            ->queryTransactionStatusLogBySalesOrderId($idSalesOrder)
+//            ->orderByIdPaymentBraintreeTransactionStatusLog(Criteria::DESC);
+//    }
 
     /**
      * @api
