@@ -9,6 +9,7 @@ namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionRequestLogTableMap;
 use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionStatusLogTableMap;
+use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\Propel;
 use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
 
