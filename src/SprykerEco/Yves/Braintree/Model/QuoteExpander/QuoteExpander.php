@@ -10,7 +10,6 @@ namespace SprykerEco\Yves\Braintree\Model\QuoteExpander;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPriceClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,14 +26,14 @@ class QuoteExpander implements QuoteExpanderInterface
     public $calculationClient;
 
     /**
-     * @var StepHandlerPluginInterface
+     * @var \Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface
      */
     public $shipmentHandlerPlugin;
 
     /**
      * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface $quoteClient
      * @param \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface $calculationClient
-     * @param StepHandlerPluginInterface $shipmentHandlerPlugin
+     * @param \Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface $shipmentHandlerPlugin
      */
     public function __construct(
         BraintreeToQuoteClientInterface $quoteClient,
@@ -47,7 +46,7 @@ class QuoteExpander implements QuoteExpanderInterface
     }
 
     /**
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $idShipmentMethod
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer

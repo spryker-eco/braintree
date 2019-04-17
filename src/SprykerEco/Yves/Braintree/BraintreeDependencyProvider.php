@@ -15,7 +15,6 @@ use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientBrid
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientBridge;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPriceClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceBridge;

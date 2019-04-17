@@ -98,12 +98,14 @@
         <property name="firstName" type="string"/>
         <property name="lastName" type="string"/>
         <property name="payerId" type="string"/>
-        <property name="recipientName" type="int"/>
-        <property name="line1" type="int"/>
-        <property name="city" type="int"/>
-        <property name="state" type="int"/>
-        <property name="postalCode" type="int"/>
-        <property name="countryCode" type="int"/>
+        <property name="recipientName" type="string"/>
+        <property name="line1" type="string"/>
+        <property name="city" type="string"/>
+        <property name="state" type="string"/>
+        <property name="postalCode" type="string"/>
+        <property name="countryCode" type="string"/>
+        <property name="currency" type="string"/>
+        <property name="amount" type="float"/>
     </transfer>
 
 </transfers>

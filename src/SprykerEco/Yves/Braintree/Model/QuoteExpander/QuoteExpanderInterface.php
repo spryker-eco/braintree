@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 interface QuoteExpanderInterface
 {
     /**
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $idShipmentMethod
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer

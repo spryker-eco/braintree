@@ -15,7 +15,6 @@ use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInte
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPriceClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceInterface;
@@ -118,7 +117,7 @@ class BraintreeFactory extends AbstractFactory
      */
     public function createPaypalResponseMapper(): PaypalResponseMapperInterface
     {
-        return new PaypalResponseMapper($this->getPaymentClient(), $this->getCountryClient());
+        return new PaypalResponseMapper($this->getPaymentClient(), $this->getCountryClient(), $this->getMoneyPlugin());
     }
 
     /**
@@ -211,7 +210,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return StepHandlerPluginInterface
+     * @return \Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface
      */
     public function getShipmentHandlerPlugin(): StepHandlerPluginInterface
     {
@@ -219,7 +218,7 @@ class BraintreeFactory extends AbstractFactory
     }
 
     /**
-     * @return BraintreeToCountryClientInterface
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface
      */
     public function getCountryClient(): BraintreeToCountryClientInterface
     {

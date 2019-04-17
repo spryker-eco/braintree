@@ -25,7 +25,7 @@ class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutSav
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param CheckoutResponseTransfer $checkoutResponse
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
      *
      * @return void
      */

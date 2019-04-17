@@ -76,6 +76,9 @@ export default class PayPalExpress extends Component {
 
     protected onAuthorizeHandler(data, actions, paypalCheckoutInstance: IPaypalCheckoutInstance) {
         return paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
+            payload['amount'] = this.braintreeData.amount;
+            payload['currency'] = this.braintreeData.currency;
+
             const xhr = new XMLHttpRequest();
             const userData = JSON.stringify(payload);
 
