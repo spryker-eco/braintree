@@ -44,12 +44,14 @@ interface BraintreeRepositoryInterface
     /**
      * @param int $idSalesOrder
      * @param string $transactionCode
+     * @param string|array $statusCode
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer
      */
     public function findPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCodeLatestFirst(
         int $idSalesOrder,
-        string $transactionCode
+        string $transactionCode,
+        $statusCode
     ): PaymentBraintreeTransactionStatusLogTransfer;
 
     /**

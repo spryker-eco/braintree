@@ -107,12 +107,14 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     /**
      * @param int $idSalesOrder
      * @param string $transactionCode
+     * @param string|array $statusCode
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer
      */
     public function findPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCodeLatestFirst(
         int $idSalesOrder,
-        string $transactionCode
+        string $transactionCode,
+        $statusCode
     ): PaymentBraintreeTransactionStatusLogTransfer {
         $paymentBraintreeTransactionStatusLog = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
@@ -131,6 +133,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
                     Propel::getConnection()->quote($transactionCode),
                 ]
             )
+            ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
             ->findOne();
 
         if ($paymentBraintreeTransactionStatusLog === null) {

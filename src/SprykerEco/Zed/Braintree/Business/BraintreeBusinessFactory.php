@@ -28,9 +28,9 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {
@@ -103,7 +103,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createTransactionStatusLog()
     {
-        return new TransactionStatusLog($this->getQueryContainer());
+        return new TransactionStatusLog($this->getRepository());
     }
 
     /**
@@ -111,7 +111,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createPostSaveHook()
     {
-        return new PostSaveHook($this->getQueryContainer());
+        return new PostSaveHook($this->getRepository());
     }
 
     /**

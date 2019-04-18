@@ -121,6 +121,7 @@
         <property name="languageIso2Code" type="string"/>
         <property name="currencyIso3Code" type="string"/>
         <property name="transactionId" type="string"/>
+        <property name="createdAt" type="string"/>
     </transfer>
 
     <transfer name="PaymentBraintreeTransactionStatusLog">

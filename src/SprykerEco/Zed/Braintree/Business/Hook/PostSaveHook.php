@@ -11,21 +11,21 @@ use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class PostSaveHook implements PostSaveHookInterface
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
      */
-    protected $queryContainer;
+    protected $repository;
 
     /**
-     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $repository
      */
-    public function __construct(BraintreeQueryContainerInterface $queryContainer)
+    public function __construct(BraintreeRepositoryInterface $repository)
     {
-        $this->queryContainer = $queryContainer;
+        $this->repository = $repository;
     }
 
     /**
@@ -36,8 +36,7 @@ class PostSaveHook implements PostSaveHookInterface
      */
     public function postSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
-        $queryLog = $this->queryContainer->queryTransactionStatusLogBySalesOrderId($checkoutResponse->getSaveOrder()->getIdSalesOrder());
-        $logRecord = $queryLog->findOne();
+        $logRecord = $this->repository->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId($checkoutResponse->getSaveOrder()->getIdSalesOrder());
 
         if ($logRecord && $logRecord->getCode() != ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS) {
             $errorTransfer = new CheckoutErrorTransfer();
