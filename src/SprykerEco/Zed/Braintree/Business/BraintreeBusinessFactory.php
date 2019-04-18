@@ -146,7 +146,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createPaymentTransactionMetaVisitor()
     {
-        return new PaymentTransactionMetaVisitor($this->getQueryContainer());
+        return new PaymentTransactionMetaVisitor($this->getRepository());
     }
 
     /**
