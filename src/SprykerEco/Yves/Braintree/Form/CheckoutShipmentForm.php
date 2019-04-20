@@ -35,7 +35,7 @@ class CheckoutShipmentForm extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return static::FORM_NAME;
     }
@@ -61,8 +61,8 @@ class CheckoutShipmentForm extends AbstractType
      */
     protected function addIdShipmentMethod(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(self::FIELD_ID_SHIPMENT_METHOD, ChoiceType::class, [
-            'choices' => $options[self::OPTION_SHIPMENT_METHODS],
+        $builder->add(static::FIELD_ID_SHIPMENT_METHOD, ChoiceType::class, [
+            'choices' => $options[static::OPTION_SHIPMENT_METHODS],
             'expanded' => true,
             'multiple' => false,
             'required' => true,
@@ -72,7 +72,7 @@ class CheckoutShipmentForm extends AbstractType
                 new NotBlank(),
             ],
             'label' => false,
-            'data' => $options[self::OPTION_ID_SELECTED_SHIPMENT_METHOD],
+            'data' => $options[static::OPTION_ID_SELECTED_SHIPMENT_METHOD],
         ]);
     }
 
@@ -81,7 +81,7 @@ class CheckoutShipmentForm extends AbstractType
      *
      * @return void
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(static::OPTION_SHIPMENT_METHODS);
         $resolver->setRequired(static::OPTION_ID_SELECTED_SHIPMENT_METHOD);

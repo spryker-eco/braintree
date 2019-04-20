@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree\Dependency\Client;
 
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 
 class BraintreeToShipmentClientBridge implements BraintreeToShipmentClientInterface
 {
@@ -29,7 +30,7 @@ class BraintreeToShipmentClientBridge implements BraintreeToShipmentClientInterf
      *
      * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
      */
-    public function getAvailableMethods(QuoteTransfer $quoteTransfer)
+    public function getAvailableMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsTransfer
     {
         return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }

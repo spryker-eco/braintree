@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
 
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 use Generated\Shared\Transfer\ShipmentMethodTransfer;
 use Generated\Shared\Transfer\ShipmentTransfer;
 use Spryker\Shared\Kernel\Store;
@@ -65,7 +66,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
-    public function getData(AbstractTransfer $quoteTransfer)
+    public function getData(AbstractTransfer $quoteTransfer): QuoteTransfer
     {
         if ($quoteTransfer->getShipment() === null) {
             $shipmentTransfer = new ShipmentTransfer();
@@ -80,7 +81,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return array
      */
-    public function getOptions(AbstractTransfer $quoteTransfer)
+    public function getOptions(AbstractTransfer $quoteTransfer): array
     {
         return [
             CheckoutShipmentForm::OPTION_SHIPMENT_METHODS => $this->createAvailableShipmentChoiceList($quoteTransfer),
@@ -93,7 +94,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return array
      */
-    protected function createAvailableShipmentChoiceList(QuoteTransfer $quoteTransfer)
+    protected function createAvailableShipmentChoiceList(QuoteTransfer $quoteTransfer): array
     {
         $shipmentMethods = [];
 
@@ -116,7 +117,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
      */
-    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer)
+    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsTransfer
     {
         return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }
@@ -126,7 +127,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return string
      */
-    protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer)
+    protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
         $shipmentDescription = $this->translate($shipmentMethodTransfer->getName());
 
@@ -142,7 +143,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return string
      */
-    protected function appendDeliveryTime(ShipmentMethodTransfer $shipmentMethodTransfer, $shipmentDescription)
+    protected function appendDeliveryTime(ShipmentMethodTransfer $shipmentMethodTransfer, $shipmentDescription): string
     {
         $deliveryTime = $this->getDeliveryTime($shipmentMethodTransfer);
 
@@ -165,7 +166,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return string
      */
-    protected function appendShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer, $shipmentDescription)
+    protected function appendShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer, $shipmentDescription): string
     {
         $shipmentPrice = $this->getFormattedShipmentPrice($shipmentMethodTransfer);
         $shipmentDescription .= ': ' . $shipmentPrice;
@@ -178,7 +179,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return int
      */
-    protected function getDeliveryTime(ShipmentMethodTransfer $method)
+    protected function getDeliveryTime(ShipmentMethodTransfer $method): int
     {
         if (!$method->getDeliveryTime()) {
             return 0;
@@ -192,7 +193,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return string
      */
-    protected function getFormattedShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer)
+    protected function getFormattedShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
         $moneyTransfer = $this->moneyPlugin
             ->fromInteger($shipmentMethodTransfer->getStoreCurrencyPrice());
@@ -205,7 +206,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return string
      */
-    protected function translate($translationKey)
+    protected function translate($translationKey): string
     {
         return $this->glossaryClient->translate($translationKey, $this->store->getCurrentLocale());
     }

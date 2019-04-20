@@ -8,8 +8,10 @@
 namespace SprykerEco\Yves\Braintree;
 
 use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
+use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
+use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface;
@@ -25,6 +27,7 @@ use SprykerEco\Yves\Braintree\Form\DataProvider\PayPalDataProvider;
 use SprykerEco\Yves\Braintree\Form\PayPalExpressSubForm;
 use SprykerEco\Yves\Braintree\Form\PayPalSubForm;
 use SprykerEco\Yves\Braintree\Handler\BraintreeHandler;
+use SprykerEco\Yves\Braintree\Handler\BraintreeHandlerInterface;
 use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapper;
 use SprykerEco\Yves\Braintree\Model\Mapper\PaypalResponse\PaypalResponseMapperInterface;
 use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessor;
@@ -40,7 +43,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
-    public function createPayPalForm()
+    public function createPayPalForm(): SubFormInterface
     {
         return new PayPalSubForm();
     }
@@ -48,7 +51,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
-    public function createPayPalExpressForm()
+    public function createPayPalExpressForm(): SubFormInterface
     {
         return new PayPalExpressSubForm();
     }
@@ -56,7 +59,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
-    public function createCreditCardForm()
+    public function createCreditCardForm(): SubFormInterface
     {
         return new CreditCardSubForm();
     }
@@ -64,7 +67,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
-    public function createPayPalFormDataProvider()
+    public function createPayPalFormDataProvider(): StepEngineFormDataProviderInterface
     {
         return new PayPalDataProvider();
     }
@@ -72,7 +75,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
-    public function createPayPalExpressFormDataProvider()
+    public function createPayPalExpressFormDataProvider(): StepEngineFormDataProviderInterface
     {
         return new PayPalDataProvider();
     }
@@ -88,7 +91,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \SprykerEco\Yves\Braintree\Handler\BraintreeHandlerInterface
      */
-    public function createBraintreeHandler()
+    public function createBraintreeHandler(): BraintreeHandlerInterface
     {
         return new BraintreeHandler($this->getCurrencyPlugin());
     }
@@ -96,7 +99,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface
      */
-    public function getCurrencyPlugin()
+    public function getCurrencyPlugin(): CurrencyPluginInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::PLUGIN_CURRENCY);
     }
