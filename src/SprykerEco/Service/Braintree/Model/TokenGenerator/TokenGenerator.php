@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace SprykerEco\Service\Braintree\Model\TokenGenerator;
 
 use Braintree\ClientToken;
@@ -9,7 +14,7 @@ use SprykerEco\Service\Braintree\BraintreeConfig;
 class TokenGenerator implements TokenGeneratorInterface
 {
     /**
-     * @var BraintreeConfig
+     * @var \SprykerEco\Service\Braintree\BraintreeConfig
      */
     protected $config;
 
@@ -19,7 +24,7 @@ class TokenGenerator implements TokenGeneratorInterface
     protected static $clientToken;
 
     /**
-     * @param BraintreeConfig $config
+     * @param \SprykerEco\Service\Braintree\BraintreeConfig $config
      */
     public function __construct(BraintreeConfig $config)
     {

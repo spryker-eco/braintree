@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Controller;
 
+use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  */
 class DetailsController extends AbstractController
 {
@@ -42,11 +45,11 @@ class DetailsController extends AbstractController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
      */
-    protected function getPaymentEntity($idPayment)
+    protected function getPaymentEntity($idPayment): PaymentBraintreeTransfer
     {
-        $paymentEntity = $this->getQueryContainer()->queryPaymentById($idPayment)->findOne();
+        $paymentEntity = $this->getRepository()->findPaymentBraintreeById($idPayment);
 
         if ($paymentEntity === null) {
             throw new NotFoundHttpException('Payment entity could not be found');

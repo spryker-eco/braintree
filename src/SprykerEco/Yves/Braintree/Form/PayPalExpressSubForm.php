@@ -9,8 +9,6 @@ namespace SprykerEco\Yves\Braintree\Form;
 
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PayPalExpressSubForm extends AbstractSubForm
@@ -20,7 +18,7 @@ class PayPalExpressSubForm extends AbstractSubForm
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS;
     }
@@ -28,7 +26,7 @@ class PayPalExpressSubForm extends AbstractSubForm
     /**
      * @return string
      */
-    public function getPropertyPath()
+    public function getPropertyPath(): string
     {
         return BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS;
     }
@@ -36,7 +34,7 @@ class PayPalExpressSubForm extends AbstractSubForm
     /**
      * @return string
      */
-    public function getTemplatePath()
+    public function getTemplatePath(): string
     {
         return BraintreeConfig::PROVIDER_NAME . '/' . static::PAYMENT_METHOD;
     }

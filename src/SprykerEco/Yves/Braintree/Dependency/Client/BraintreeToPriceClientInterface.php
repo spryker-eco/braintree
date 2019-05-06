@@ -5,12 +5,12 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEco\Service\Braintree\Model\TokenGenerator;
+namespace SprykerEco\Yves\Braintree\Dependency\Client;
 
-interface TokenGeneratorInterface
+interface BraintreeToPriceClientInterface
 {
     /**
      * @return string
      */
-    public function generateToken(): string;
+    public function getNetPriceModeIdentifier();
 }
