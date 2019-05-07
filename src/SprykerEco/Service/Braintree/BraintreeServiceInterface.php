@@ -13,6 +13,8 @@ interface BraintreeServiceInterface
      * Specification:
      * - Generates a token for initialising a payment via js library
      *
+     * @api
+     *
      * @return string
      */
     public function generateToken(): string;
