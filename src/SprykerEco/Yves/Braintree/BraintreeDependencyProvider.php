@@ -44,7 +44,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Yves\Kernel\Container|\Spryker\Zed\Kernel\Container
      */
-    public function provideDependencies(Container $container)
+    public function provideDependencies(Container $container): Container
     {
         $container = $this->addCurrencyPlugin($container);
         $container = $this->addQuoteClient($container);
@@ -66,7 +66,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addCurrencyPlugin(Container $container)
+    protected function addCurrencyPlugin(Container $container): Container
     {
         $container[static::PLUGIN_CURRENCY] = function (Container $container) {
             return new CurrencyPlugin();
@@ -178,7 +178,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addStore(Container $container)
+    protected function addStore(Container $container): Container
     {
         $container[static::STORE] = function () {
             return Store::getInstance();
