@@ -35,16 +35,18 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
     {
         $paymentEntity = $this->getPaymentEntity($transactionMetaTransfer);
 
-        $transactionMetaTransfer->setIdPayment($paymentEntity->getIdPaymentBraintree());
-        $transactionMetaTransfer->setTransactionIdentifier($paymentEntity->getTransactionId());
+        if ($paymentEntity) {
+            $transactionMetaTransfer->setIdPayment($paymentEntity->getIdPaymentBraintree());
+            $transactionMetaTransfer->setTransactionIdentifier($paymentEntity->getTransactionId());
+        }
     }
 
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer|null
      */
-    protected function getPaymentEntity(TransactionMetaTransfer $transactionMetaTransfer): PaymentBraintreeTransfer
+    protected function getPaymentEntity(TransactionMetaTransfer $transactionMetaTransfer): ?PaymentBraintreeTransfer
     {
         $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
 

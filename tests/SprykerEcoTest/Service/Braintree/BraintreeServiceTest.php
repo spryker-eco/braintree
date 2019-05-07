@@ -22,7 +22,7 @@ use SprykerEco\Service\Braintree\Model\TokenGenerator\TokenGeneratorInterface;
  */
 class BraintreeServiceTest extends Unit
 {
-    public static $tokenValue;
+    protected static $tokenValue;
 
     /**
      * @return void

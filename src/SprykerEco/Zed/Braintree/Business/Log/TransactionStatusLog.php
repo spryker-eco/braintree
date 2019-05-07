@@ -107,17 +107,17 @@ class TransactionStatusLog implements TransactionStatusLogInterface
     {
         $idSalesOrder = $orderTransfer->getIdSalesOrder();
 
-        $logEntity = $this->repository
+        $paymentBraintreeTransactionStatusLogTransfer = $this->repository
             ->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCodeLatestFirst(
                 $idSalesOrder,
                 $transactionCode,
                 $statusCode
             );
 
-        if (!$logEntity) {
+        if (!$paymentBraintreeTransactionStatusLogTransfer) {
             return false;
         }
 
-        return $logEntity->getIsSuccess() === (bool)$expectedStatusReasonCode;
+        return $paymentBraintreeTransactionStatusLogTransfer->getIsSuccess() === (bool)$expectedStatusReasonCode;
     }
 }

@@ -53,7 +53,7 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
      */
     protected function addPaypalExpressAddShipmentRoute()
     {
-        $this->createController(
+        $this->createPostController(
             '/paypal-express/shipment/add',
             static::ROUTE_PAYPAL_EXPRESS_SHIPMENT_ADD,
             'Braintree',

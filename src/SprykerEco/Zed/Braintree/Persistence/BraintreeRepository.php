@@ -91,7 +91,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
         $paymentBraintreeTransactionStatusLog = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->useSpyPaymentBraintreeQuery()
-            ->filterByFkSalesOrder($idSalesOrder)
+                ->filterByFkSalesOrder($idSalesOrder)
             ->endUse()
             ->findOne();
 
@@ -116,10 +116,10 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
         string $transactionCode,
         $statusCode
     ): PaymentBraintreeTransactionStatusLogTransfer {
-        $paymentBraintreeTransactionStatusLog = $this->getFactory()
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->useSpyPaymentBraintreeQuery()
-            ->filterByFkSalesOrder($idSalesOrder)
+                ->filterByFkSalesOrder($idSalesOrder)
             ->endUse()
             ->orderByIdPaymentBraintreeTransactionStatusLog(Criteria::DESC)
             ->withColumn(SpyPaymentBraintreeTransactionRequestLogTableMap::COL_TRANSACTION_CODE)
@@ -136,13 +136,13 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
             ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
             ->findOne();
 
-        if ($paymentBraintreeTransactionStatusLog === null) {
+        if ($paymentBraintreeTransactionStatusLogEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLog, new PaymentBraintreeTransactionStatusLogTransfer());
+            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
     }
 
     /**

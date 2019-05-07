@@ -39,8 +39,8 @@
   },
   "suggest": {
     "spryker/checkout": "To use checkout process",
-    "spryker/oms": "To use oms process",
-    "spryker/silex": "To use silex functionality",
+    "spryker/oms": "To use OMS process",
+    "spryker/silex": "To use Silex functionality",
     "spryker-shop/shop-application": "To use shop application UI"
   },
   "replace": {

@@ -11,7 +11,7 @@ interface BraintreeServiceInterface
 {
     /**
      * Specification:
-     * - Generates a token for initialising a payment via js library
+     * - Generates a token for initialising a payment via js library.
      *
      * @api
      *

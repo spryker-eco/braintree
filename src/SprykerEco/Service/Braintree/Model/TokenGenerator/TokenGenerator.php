@@ -40,13 +40,19 @@ class TokenGenerator implements TokenGeneratorInterface
             return static::$clientToken;
         }
 
+        $this->configure();
+
+        return ClientToken::generate();
+    }
+
+    /**
+     * @return void
+     */
+    protected function configure(): void
+    {
         Configuration::environment($this->config->getEnvironment());
         Configuration::merchantId($this->config->getMerchantId());
         Configuration::publicKey($this->config->getPublicKey());
         Configuration::privateKey($this->config->getPrivateKey());
-
-        static::$clientToken = ClientToken::generate();
-
-        return static::$clientToken;
     }
 }

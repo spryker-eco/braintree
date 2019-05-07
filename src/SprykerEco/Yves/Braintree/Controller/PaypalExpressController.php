@@ -11,6 +11,7 @@ use Spryker\Yves\Kernel\Controller\AbstractController;
 use SprykerEco\Yves\Braintree\Form\CheckoutShipmentForm;
 use SprykerShop\Yves\CheckoutPage\Plugin\Provider\CheckoutPageControllerProvider;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \SprykerEco\Yves\Braintree\BraintreeFactory getFactory()
@@ -22,7 +23,7 @@ class PaypalExpressController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function successAction(Request $request)
+    public function successAction(Request $request): Response
     {
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 
@@ -38,7 +39,7 @@ class PaypalExpressController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function addShipmentAction(Request $request)
+    public function addShipmentAction(Request $request): Response
     {
         $idShipmentMethod = $request->get(CheckoutShipmentForm::FORM_NAME)[CheckoutShipmentForm::FIELD_ID_SHIPMENT_METHOD];
 

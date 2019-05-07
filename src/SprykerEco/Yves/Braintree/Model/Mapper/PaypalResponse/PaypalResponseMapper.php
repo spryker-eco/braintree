@@ -104,41 +104,9 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
         QuoteTransfer $quoteTransfer
     ): QuoteTransfer {
-        $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
-        $shippingAddressTransfer = $quoteTransfer->getShippingAddress() ?? new AddressTransfer();
-        $billingAddressTransfer = $quoteTransfer->getBillingAddress() ?? new AddressTransfer();
-        $countryTransfer = $this->getCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCode());
-
-        $quoteTransfer->setCustomer($customerTransfer);
-        $quoteTransfer->setShippingAddress($shippingAddressTransfer);
-        $quoteTransfer->setBillingAddress($billingAddressTransfer);
-
-        $quoteTransfer->getCustomer()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
-        $quoteTransfer->getCustomer()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
-        $quoteTransfer->getCustomer()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
-
-        $quoteTransfer->getShippingAddress()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
-        $quoteTransfer->getShippingAddress()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
-        $quoteTransfer->getShippingAddress()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
-        $quoteTransfer->getShippingAddress()->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
-        $quoteTransfer->getShippingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
-        $quoteTransfer->getShippingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
-        $quoteTransfer->getShippingAddress()->setState($paypalExpressSuccessResponseTransfer->getState());
-        $quoteTransfer->getShippingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
-        $quoteTransfer->getShippingAddress()->setCountry($countryTransfer);
-        $quoteTransfer->getShippingAddress()->setIso2Code($countryTransfer->getIso2Code());
-
-        $quoteTransfer->getBillingAddress()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
-        $quoteTransfer->getBillingAddress()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
-        $quoteTransfer->getBillingAddress()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
-        $quoteTransfer->getBillingAddress()->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
-        $quoteTransfer->getBillingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
-        $quoteTransfer->getBillingAddress()->setCity($paypalExpressSuccessResponseTransfer->getCity());
-        $quoteTransfer->getBillingAddress()->setState($paypalExpressSuccessResponseTransfer->getState());
-        $quoteTransfer->getBillingAddress()->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
-        $quoteTransfer->getBillingAddress()->setCountry($countryTransfer);
-        $quoteTransfer->getBillingAddress()->setIso2Code($countryTransfer->getIso2Code());
-
+        $this->addCustomer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $this->addShippingAddress($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $this->addBillingTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
         $this->addPaymentTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
 
         return $quoteTransfer;
@@ -176,20 +144,90 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      *
      * @return \Generated\Shared\Transfer\CountryTransfer|null
      */
-    protected function getCountryTransfer(string $iso2Code): ?CountryTransfer
+    protected function findCountryTransfer(string $iso2Code): ?CountryTransfer
     {
         $countryTransfer = (new CountryTransfer())
             ->setIso2Code($iso2Code);
 
         $countryCollectionTransfer = new CountryCollectionTransfer();
         $countryCollectionTransfer->addCountries($countryTransfer);
+        $countryCollectionTransfer = $this->countryClient->findCountriesByIso2Codes($countryCollectionTransfer);
 
-        $countries = $this->countryClient->findCountriesByIso2Codes($countryCollectionTransfer);
+        return array_shift($countryCollectionTransfer->getCountries());
+    }
 
-        foreach ($countries->getCountries() as $country) {
-            return $country;
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     *
+     * @return void
+     */
+    protected function addShippingAddress(
+        QuoteTransfer $quoteTransfer,
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+    ): void {
+        if (!$quoteTransfer->getBillingAddress()) {
+            $quoteTransfer->setBillingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     *
+     * @return void
+     */
+    protected function addBillingTransfer(
+        QuoteTransfer $quoteTransfer,
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+    ): void {
+        if (!$quoteTransfer->getBillingAddress()) {
+            $quoteTransfer->setBillingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     *
+     * @return void
+     */
+    protected function addCustomer(
+        QuoteTransfer $quoteTransfer,
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+    ): void {
+        $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
+
+        $quoteTransfer->getCustomer()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
+        $quoteTransfer->getCustomer()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
+        $quoteTransfer->getCustomer()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
+
+        if (!$quoteTransfer->getCustomer()->getIdCustomer()) {
+            $quoteTransfer->getCustomer()->setIsGuest(true);
         }
 
-        return null;
+        $quoteTransfer->setCustomer($customerTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\AddressTransfer
+     */
+    protected function getAddressTransfer(
+        PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
+    ): AddressTransfer {
+        $addressTransfer = new AddressTransfer();
+        $addressTransfer->fromArray($paypalExpressSuccessResponseTransfer->toArray());
+        $addressTransfer->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
+        $addressTransfer->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
+
+        $countryTransfer = $this->findCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCode());
+        if ($countryTransfer) {
+            $addressTransfer->setCountry($countryTransfer);
+            $addressTransfer->setIso2Code($countryTransfer->getIso2Code());
+        }
+
+        return $addressTransfer;
     }
 }

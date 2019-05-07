@@ -22,6 +22,9 @@ use SprykerEco\Yves\Braintree\Form\CheckoutShipmentForm;
 class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInterface
 {
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
+    public const TRANSLATION_KEY_DELIVERY_TIME = 'page.checkout.shipping.delivery_time';
+
+    protected const SECOND_IN_A_DAY = 86400;
 
     /**
      * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface
@@ -151,9 +154,9 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
             $shipmentDescription = sprintf(
                 '%s (%s %d %s)',
                 $shipmentDescription,
-                $this->translate('page.checkout.shipping.delivery_time'),
+                $this->translate(static::TRANSLATION_KEY_DELIVERY_TIME),
                 $deliveryTime,
-                ($deliveryTime === 1) ? 'day' : 'days'
+                $this->getTranslatedDayName($deliveryTime)
             );
         }
 
@@ -185,7 +188,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
             return 0;
         }
 
-        return (int)($method->getDeliveryTime() / 86400);
+        return (int)ceil($method->getDeliveryTime() / static::SECOND_IN_A_DAY);
     }
 
     /**
@@ -225,5 +228,19 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
         }
 
         return $shipment->getMethod() ? $shipment->getMethod()->getIdShipmentMethod() : null;
+    }
+
+    /**
+     * @param int $deliveryTime
+     *
+     * @return string
+     */
+    protected function getTranslatedDayName(int $deliveryTime): string
+    {
+        if ($deliveryTime === 1) {
+            return $this->translate('page.checkout.shipping.day');
+        }
+
+        return $this->translate('page.checkout.shipping.days');
     }
 }

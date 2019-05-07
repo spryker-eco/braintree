@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Yves\Braintree;
 
+use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
@@ -182,7 +183,7 @@ class BraintreeFactory extends AbstractFactory
     /**
      * @return \Spryker\Shared\Kernel\Store
      */
-    public function getStore()
+    public function getStore(): Store
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::STORE);
     }
