@@ -10,6 +10,9 @@ namespace SprykerEco\Service\Braintree;
 interface BraintreeServiceInterface
 {
     /**
+     * Specification:
+     * - Generates a token for initialising a payment via js library
+     *
      * @return string
      */
     public function generateToken(): string;

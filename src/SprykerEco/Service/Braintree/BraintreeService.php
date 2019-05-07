@@ -15,6 +15,10 @@ use Spryker\Service\Kernel\AbstractService;
 class BraintreeService extends AbstractService implements BraintreeServiceInterface
 {
     /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @return string
      */
     public function generateToken(): string
