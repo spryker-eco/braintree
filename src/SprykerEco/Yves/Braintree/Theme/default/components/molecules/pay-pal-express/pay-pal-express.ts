@@ -17,8 +17,18 @@ interface IPaypalCheckoutInstance {
     tokenizePayment: Function;
 };
 
+interface IStatuses {
+    [key: string]: number
+};
+
 export default class PayPalExpress extends Component {
-    braintreeData: IBraintreeData;
+    protected braintreeData: IBraintreeData;
+    protected stateStatus: IStatuses = {
+        done: 4
+    };
+    protected xhrStatuses: IStatuses = {
+        success: 200
+    };
 
     protected readyCallback(): void {
         this.braintreeData = <IBraintreeData>this.parseBraintreeData();
@@ -31,7 +41,7 @@ export default class PayPalExpress extends Component {
         }, this.registerCallback.bind(this));
     };
 
-    protected registerCallback(error, clientInstance) {
+    protected registerCallback(error, clientInstance): void {
         if (error) {
             console.error('PayPal checkout register error!', error);
             return;
@@ -63,7 +73,7 @@ export default class PayPalExpress extends Component {
         }, `.${ this.name }`);
     };
 
-    protected onPaymentHandler(paypalCheckoutInstance: IPaypalCheckoutInstance) {
+    protected onPaymentHandler(paypalCheckoutInstance: IPaypalCheckoutInstance): Function {
         return paypalCheckoutInstance.createPayment({
             flow: 'checkout',
             intent: 'authorize',
@@ -74,7 +84,7 @@ export default class PayPalExpress extends Component {
         });
     };
 
-    protected onAuthorizeHandler(data, actions, paypalCheckoutInstance: IPaypalCheckoutInstance) {
+    protected onAuthorizeHandler(data, actions, paypalCheckoutInstance: IPaypalCheckoutInstance): Function {
         return paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
             payload['amount'] = this.braintreeData.amount;
             payload['currency'] = this.braintreeData.currency;
@@ -85,7 +95,7 @@ export default class PayPalExpress extends Component {
             xhr.open('POST', this.braintreeData.successUrl, true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState === this.stateStatus.done && xhr.status === this.xhrStatuses.success) {
                     const response = JSON.parse(xhr.responseText);
 
                     window.location.href = response.redirectUrl;
