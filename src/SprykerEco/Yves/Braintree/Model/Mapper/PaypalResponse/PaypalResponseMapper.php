@@ -155,7 +155,15 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $countryCollectionTransfer->addCountries($countryTransfer);
         $countryCollectionTransfer = $this->countryClient->findCountriesByIso2Codes($countryCollectionTransfer);
 
-        return array_shift($countryCollectionTransfer->getCountries());
+        $countryTransfers = $countryCollectionTransfer->getCountries();
+
+        if ($countryTransfers === null) {
+            return null;
+        }
+
+        $countryTransfer = array_shift($countryTransfers->getArrayCopy());
+
+        return $countryTransfer;
     }
 
     /**
@@ -222,7 +230,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
     ): AddressTransfer {
         $addressTransfer = new AddressTransfer();
-        $addressTransfer->fromArray($paypalExpressSuccessResponseTransfer->toArray());
+        $addressTransfer->fromArray($paypalExpressSuccessResponseTransfer->toArray(), true);
         $addressTransfer->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
         $addressTransfer->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
 
