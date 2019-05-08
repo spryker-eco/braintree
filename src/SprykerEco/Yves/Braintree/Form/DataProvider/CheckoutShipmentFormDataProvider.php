@@ -22,7 +22,10 @@ use SprykerEco\Yves\Braintree\Form\CheckoutShipmentForm;
 class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInterface
 {
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
+
     public const TRANSLATION_KEY_DELIVERY_TIME = 'page.checkout.shipping.delivery_time';
+    public const TRANSLATION_KEY_DAY = 'page.checkout.shipping.day';
+    public const TRANSLATION_KEY_DAYS = 'page.checkout.shipping.days';
 
     protected const SECOND_IN_A_DAY = 86400;
 
@@ -238,9 +241,9 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected function getTranslatedDayName(int $deliveryTime): string
     {
         if ($deliveryTime === 1) {
-            return $this->translate('page.checkout.shipping.day');
+            return $this->translate(static::TRANSLATION_KEY_DAY);
         }
 
-        return $this->translate('page.checkout.shipping.days');
+        return $this->translate(static::TRANSLATION_KEY_DAYS);
     }
 }
