@@ -19,7 +19,7 @@ class TokenGenerator implements TokenGeneratorInterface
     protected $config;
 
     /**
-     * @var
+     * @var string
      */
     protected static $clientToken;
 
