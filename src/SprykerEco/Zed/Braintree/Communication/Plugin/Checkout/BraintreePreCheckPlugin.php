@@ -38,7 +38,7 @@ class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreC
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ) {
-        if (!$quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
+        if ($quoteTransfer->getPayment()->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
             return true;
         }
 
