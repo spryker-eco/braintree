@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 class Saver implements SaverInterface
 {
@@ -23,15 +24,17 @@ class Saver implements SaverInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        $paymentEntity = $this->savePaymentForOrder(
-            $quoteTransfer->getPayment()->getBraintree(),
-            $saveOrderTransfer->getIdSalesOrder()
-        );
+        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
+            $paymentEntity = $this->savePaymentForOrder(
+                $quoteTransfer->getPayment()->getBraintree(),
+                $saveOrderTransfer->getIdSalesOrder()
+            );
 
-        $this->savePaymentForOrderItems(
-            $saveOrderTransfer->getOrderItems(),
-            $paymentEntity->getIdPaymentBraintree()
-        );
+            $this->savePaymentForOrderItems(
+                $saveOrderTransfer->getOrderItems(),
+                $paymentEntity->getIdPaymentBraintree()
+            );
+        }
     }
 
     /**
