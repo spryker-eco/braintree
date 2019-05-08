@@ -22,6 +22,9 @@ use SprykerEco\Service\Braintree\Model\TokenGenerator\TokenGeneratorInterface;
  */
 class BraintreeServiceTest extends Unit
 {
+    /**
+     * @var string
+     */
     protected static $tokenValue;
 
     /**
@@ -29,11 +32,15 @@ class BraintreeServiceTest extends Unit
      */
     public function testGenerateToken(): void
     {
+        //Arrange
         $service = $this->prepareService();
 
-        $this->assertNotEmpty($service->generateToken());
-        $this->assertNotNull($service->generateToken());
-        $this->assertEquals($this->getToken(), $service->generateToken());
+        //Act
+        $token = $service->generateToken();
+
+        //Assert
+        $this->assertNotNull($token);
+        $this->assertEquals($this->getToken(), $token);
     }
 
     protected function prepareService(): BraintreeServiceInterface

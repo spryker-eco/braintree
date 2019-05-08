@@ -28,17 +28,17 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findPaymentBraintreeById(int $idPaymentBraintree): ?PaymentBraintreeTransfer
     {
-        $paymentBraintree = $this->getFactory()
+        $paymentBraintreeEntity = $this->getFactory()
             ->createPaymentBraintreeQuery()
             ->findOneByIdPaymentBraintree($idPaymentBraintree);
 
-        if ($paymentBraintree === null) {
+        if ($paymentBraintreeEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransfer($paymentBraintree, new PaymentBraintreeTransfer());
+            ->mapEntityToPaymentBraintreeTransfer($paymentBraintreeEntity, new PaymentBraintreeTransfer());
     }
 
     /**
@@ -48,17 +48,17 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findPaymentBraintreeBySalesOrderId(int $idSalesOrder): ?PaymentBraintreeTransfer
     {
-        $paymentBraintree = $this->getFactory()
+        $paymentBraintreeEntity = $this->getFactory()
             ->createPaymentBraintreeQuery()
             ->findOneByFkSalesOrder($idSalesOrder);
 
-        if ($paymentBraintree === null) {
+        if ($paymentBraintreeEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransfer($paymentBraintree, new PaymentBraintreeTransfer());
+            ->mapEntityToPaymentBraintreeTransfer($paymentBraintreeEntity, new PaymentBraintreeTransfer());
     }
 
     /**
@@ -68,17 +68,17 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeId(int $idPaymentBraintree): ?PaymentBraintreeTransactionStatusLogTransfer
     {
-        $paymentBraintreeTransactionStatusLog = $this->getFactory()
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->findOneByFkPaymentBraintree($idPaymentBraintree);
 
-        if ($paymentBraintreeTransactionStatusLog === null) {
+        if ($paymentBraintreeTransactionStatusLogEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLog, new PaymentBraintreeTransactionStatusLogTransfer());
+            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
     }
 
     /**
@@ -88,20 +88,20 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId(int $idSalesOrder): ?PaymentBraintreeTransactionStatusLogTransfer
     {
-        $paymentBraintreeTransactionStatusLog = $this->getFactory()
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->useSpyPaymentBraintreeQuery()
                 ->filterByFkSalesOrder($idSalesOrder)
             ->endUse()
             ->findOne();
 
-        if ($paymentBraintreeTransactionStatusLog === null) {
+        if ($paymentBraintreeTransactionStatusLogEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLog, new PaymentBraintreeTransactionStatusLogTransfer());
+            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
     }
 
     /**
@@ -152,16 +152,16 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findTransactionRequestLogByPaymentBraintreeId(int $idPaymentBraintree): ?PaymentBraintreeTransactionRequestLogTransfer
     {
-        $paymentBraintreeTransactionRequestLog = $this->getFactory()
+        $paymentBraintreeTransactionRequestLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionRequestLogQuery()
             ->findOneByFkPaymentBraintree($idPaymentBraintree);
 
-        if ($paymentBraintreeTransactionRequestLog === null) {
+        if ($paymentBraintreeTransactionRequestLogEntity === null) {
             return null;
         }
 
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransactionRequestLogTransfer($paymentBraintreeTransactionRequestLog, new PaymentBraintreeTransactionRequestLogTransfer());
+            ->mapEntityToPaymentBraintreeTransactionRequestLogTransfer($paymentBraintreeTransactionRequestLogEntity, new PaymentBraintreeTransactionRequestLogTransfer());
     }
 }

@@ -28,13 +28,13 @@ class DetailsController extends AbstractController
     public function indexAction(Request $request)
     {
         $idPayment = $this->castId($request->get('id-payment'));
-        $paymentEntity = $this->getPaymentEntity($idPayment);
+        $paymentBraintreeTransfer = $this->getPaymentBraintreeTransfer($idPayment);
         $requestLogTable = $this->getFactory()->createRequestLogTable($idPayment);
         $statusLogTable = $this->getFactory()->createStatusLogTable($idPayment);
 
         return [
             'idPayment' => $idPayment,
-            'paymentDetails' => $paymentEntity,
+            'paymentDetails' => $paymentBraintreeTransfer,
             'requestLogTable' => $requestLogTable->render(),
             'statusLogTable' => $statusLogTable->render(),
         ];
@@ -47,15 +47,15 @@ class DetailsController extends AbstractController
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
      */
-    protected function getPaymentEntity($idPayment): PaymentBraintreeTransfer
+    protected function getPaymentBraintreeTransfer($idPayment): PaymentBraintreeTransfer
     {
-        $paymentEntity = $this->getRepository()->findPaymentBraintreeById($idPayment);
+        $paymentBraintreeTransfer = $this->getRepository()->findPaymentBraintreeById($idPayment);
 
-        if ($paymentEntity === null) {
+        if ($paymentBraintreeTransfer === null) {
             throw new NotFoundHttpException('Payment entity could not be found');
         }
 
-        return $paymentEntity;
+        return $paymentBraintreeTransfer;
     }
 
     /**

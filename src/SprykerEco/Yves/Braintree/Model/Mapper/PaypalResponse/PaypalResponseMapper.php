@@ -104,10 +104,10 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer,
         QuoteTransfer $quoteTransfer
     ): QuoteTransfer {
-        $this->addCustomer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
-        $this->addShippingAddress($quoteTransfer, $paypalExpressSuccessResponseTransfer);
-        $this->addBillingTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
-        $this->addPaymentTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $quoteTransfer = $this->addCustomer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $quoteTransfer = $this->addShippingAddress($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $quoteTransfer = $this->addBillingTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
+        $quoteTransfer = $this->addPaymentTransfer($quoteTransfer, $paypalExpressSuccessResponseTransfer);
 
         return $quoteTransfer;
     }
@@ -116,12 +116,12 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      */
     protected function addPaymentTransfer(
         QuoteTransfer $quoteTransfer,
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
-    ): void {
+    ): QuoteTransfer {
         $brainTreePaymentTransfer = new BraintreePaymentTransfer();
         $brainTreePaymentTransfer->setNonce($paypalExpressSuccessResponseTransfer->getNonce());
         $brainTreePaymentTransfer->setBillingAddress($quoteTransfer->getBillingAddress());
@@ -137,6 +137,8 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $paymentTransfer->setAmount($this->moneyPlugin->convertDecimalToInteger($paypalExpressSuccessResponseTransfer->getAmount()));
 
         $quoteTransfer->setPayment($paymentTransfer);
+
+        return $quoteTransfer;
     }
 
     /**
@@ -160,53 +162,55 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      */
     protected function addShippingAddress(
         QuoteTransfer $quoteTransfer,
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
-    ): void {
-        if (!$quoteTransfer->getBillingAddress()) {
-            $quoteTransfer->setBillingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
-        }
+    ): QuoteTransfer {
+        $quoteTransfer->setShippingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
+
+        return $quoteTransfer;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      */
     protected function addBillingTransfer(
         QuoteTransfer $quoteTransfer,
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
-    ): void {
-        if (!$quoteTransfer->getBillingAddress()) {
-            $quoteTransfer->setBillingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
-        }
+    ): QuoteTransfer {
+        $quoteTransfer->setBillingAddress($this->getAddressTransfer($paypalExpressSuccessResponseTransfer));
+
+        return $quoteTransfer;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      */
     protected function addCustomer(
         QuoteTransfer $quoteTransfer,
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
-    ): void {
+    ): QuoteTransfer {
         $customerTransfer = $quoteTransfer->getCustomer() ?? new CustomerTransfer();
 
-        $quoteTransfer->getCustomer()->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
-        $quoteTransfer->getCustomer()->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
-        $quoteTransfer->getCustomer()->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
+        $customerTransfer->setEmail($paypalExpressSuccessResponseTransfer->getEmail());
+        $customerTransfer->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
+        $customerTransfer->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
 
-        if (!$quoteTransfer->getCustomer()->getIdCustomer()) {
-            $quoteTransfer->getCustomer()->setIsGuest(true);
+        if (!$customerTransfer->getIdCustomer()) {
+            $customerTransfer->setIsGuest(true);
         }
 
         $quoteTransfer->setCustomer($customerTransfer);
+
+        return $quoteTransfer;
     }
 
     /**

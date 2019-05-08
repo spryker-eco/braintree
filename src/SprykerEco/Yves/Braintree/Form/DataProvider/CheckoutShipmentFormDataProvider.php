@@ -27,7 +27,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     public const TRANSLATION_KEY_DAY = 'page.checkout.shipping.day';
     public const TRANSLATION_KEY_DAYS = 'page.checkout.shipping.days';
 
-    protected const SECOND_IN_A_DAY = 86400;
+    protected const SECONDS_IN_A_DAY = 86400;
 
     /**
      * @var \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface
