@@ -33,7 +33,7 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
      */
     public function visit(TransactionMetaTransfer $transactionMetaTransfer)
     {
-        $paymentBraintreeTransfer = $this->findPaymentEntity($transactionMetaTransfer);
+        $paymentBraintreeTransfer = $this->findPaymentBraintreeTransfer($transactionMetaTransfer);
 
         if ($paymentBraintreeTransfer) {
             $transactionMetaTransfer->setIdPayment($paymentBraintreeTransfer->getIdPaymentBraintree());
@@ -46,7 +46,7 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer|null
      */
-    protected function findPaymentEntity(TransactionMetaTransfer $transactionMetaTransfer): ?PaymentBraintreeTransfer
+    protected function findPaymentBraintreeTransfer(TransactionMetaTransfer $transactionMetaTransfer): ?PaymentBraintreeTransfer
     {
         $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
 
