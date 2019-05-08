@@ -42,7 +42,9 @@ class TokenGenerator implements TokenGeneratorInterface
 
         $this->configure();
 
-        return ClientToken::generate();
+        static::$clientToken = ClientToken::generate();
+
+        return static::$clientToken;
     }
 
     /**
