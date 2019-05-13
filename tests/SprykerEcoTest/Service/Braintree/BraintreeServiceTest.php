@@ -43,6 +43,9 @@ class BraintreeServiceTest extends Unit
         $this->assertEquals($this->getToken(), $token);
     }
 
+    /**
+     * @return \SprykerEco\Service\Braintree\BraintreeServiceInterface
+     */
     protected function prepareService(): BraintreeServiceInterface
     {
         $service = new BraintreeService();
@@ -52,7 +55,7 @@ class BraintreeServiceTest extends Unit
     }
 
     /**
-     * @return BraintreeServiceFactory
+     * @return \SprykerEco\Service\Braintree\BraintreeServiceFactory
      */
     protected function getBraintreeServiceFactoryMock(): BraintreeServiceFactory
     {
@@ -67,7 +70,7 @@ class BraintreeServiceTest extends Unit
     }
 
     /**
-     * @return TokenGeneratorInterface
+     * @return \SprykerEco\Service\Braintree\Model\TokenGenerator\TokenGeneratorInterface
      */
     protected function getTokenGeneratorMock(): TokenGeneratorInterface
     {
