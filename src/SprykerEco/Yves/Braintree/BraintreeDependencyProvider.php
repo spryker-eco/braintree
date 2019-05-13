@@ -42,7 +42,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
-     * @return \Spryker\Yves\Kernel\Container|\Spryker\Zed\Kernel\Container
+     * @return \Spryker\Yves\Kernel\Container
      */
     public function provideDependencies(Container $container): Container
     {

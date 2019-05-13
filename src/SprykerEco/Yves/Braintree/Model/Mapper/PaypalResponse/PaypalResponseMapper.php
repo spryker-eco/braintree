@@ -161,7 +161,8 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
             return null;
         }
 
-        $countryTransfer = array_shift($countryTransfers->getArrayCopy());
+        $countryTransfersArrayCopy = $countryTransfers->getArrayCopy();
+        $countryTransfer = array_shift($countryTransfersArrayCopy);
 
         return $countryTransfer;
     }

@@ -31,7 +31,7 @@ export default class PayPalExpress extends Component {
     };
 
     protected readyCallback(): void {
-        this.braintreeData = <IBraintreeData>this.parseBraintreeData();
+        this.braintreeData = this.parseBraintreeData();
         this.registerClient();
     };
 

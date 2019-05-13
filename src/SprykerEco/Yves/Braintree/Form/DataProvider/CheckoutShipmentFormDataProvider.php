@@ -191,7 +191,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
             return 0;
         }
 
-        return (int)ceil($method->getDeliveryTime() / static::SECOND_IN_A_DAY);
+        return (int)ceil($method->getDeliveryTime() / static::SECONDS_IN_A_DAY);
     }
 
     /**
