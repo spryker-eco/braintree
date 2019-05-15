@@ -15,6 +15,8 @@ use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLog;
 use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLogInterface;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilter;
+use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilterInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
@@ -40,7 +42,6 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
- * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -207,5 +208,13 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function getRefundFacade(): BraintreeToRefundFacadeInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_REFUND);
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilterInterface
+     */
+    public function createPaypalExpressCheckoutPaymentMethod(): PaypalExpressPaymentMethodFilterInterface
+    {
+        return new PaypalExpressPaymentMethodFilter();
     }
 }
