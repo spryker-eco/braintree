@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Yves\Braintree;
 
+use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
@@ -17,6 +18,7 @@ use Spryker\Yves\StepEngine\Dependency\Plugin\Handler\StepHandlerPluginInterface
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToMessengerClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientInterface;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
@@ -35,6 +37,7 @@ use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessor;
 use SprykerEco\Yves\Braintree\Model\Processor\PaypalResponseProcessorInterface;
 use SprykerEco\Yves\Braintree\Model\QuoteExpander\QuoteExpander;
 use SprykerEco\Yves\Braintree\Model\QuoteExpander\QuoteExpanderInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
@@ -227,5 +230,21 @@ class BraintreeFactory extends AbstractFactory
     public function getCountryClient(): BraintreeToCountryClientInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_COUNTRY);
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormFactoryInterface
+     */
+    public function getFormFactory(): FormFactoryInterface
+    {
+        return $this->getProvidedDependency(ApplicationConstants::FORM_FACTORY);
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToMessengerClientInterface
+     */
+    public function getMessengerClient(): BraintreeToMessengerClientInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::CLIENT_MESSENGER);
     }
 }

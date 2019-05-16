@@ -14,6 +14,7 @@ use Spryker\Yves\Kernel\Container;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCalculationClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToCountryClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientBridge;
+use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToMessengerClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToQuoteClientBridge;
 use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientBridge;
@@ -31,6 +32,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     public const CLIENT_GLOSSARY = 'CLIENT_GLOSSARY';
     public const CLIENT_CALCULATION = 'CLIENT_CALCULATION';
     public const CLIENT_COUNTRY = 'CLIENT_COUNTRY';
+    public const CLIENT_MESSENGER = 'CLIENT_MESSENGER';
 
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
 
@@ -57,6 +59,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addShipmentHandlerPlugin($container);
         $container = $this->addStore($container);
         $container = $this->addCalculationClient($container);
+        $container = $this->addMessengerClient($container);
 
         return $container;
     }
@@ -210,6 +213,20 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::PLUGIN_SHIPMENT_HANDLER] = function () {
             return new ShipmentHandlerPlugin();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function addMessengerClient(Container $container): Container
+    {
+        $container[static::CLIENT_MESSENGER] = function (Container $container) {
+            return new BraintreeToMessengerClientBridge($container->getLocator()->messenger()->client());
         };
 
         return $container;

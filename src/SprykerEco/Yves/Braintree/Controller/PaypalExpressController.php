@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PaypalExpressController extends AbstractController
 {
+    public const TRANSLATION_INVALID_SHIPMENT_METHOD = 'checkout.pre.check.shipment.failed';
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
@@ -41,9 +43,26 @@ class PaypalExpressController extends AbstractController
      */
     public function addShipmentAction(Request $request): Response
     {
-        $idShipmentMethod = $request->get(CheckoutShipmentForm::FORM_NAME)[CheckoutShipmentForm::FIELD_ID_SHIPMENT_METHOD];
+        $quoteTransfer = $this->getFactory()->getQuoteClient()->getQuote();
 
-        $this->getFactory()->createQuoteExpander()->expandQuoteWithShipmentMethod($request, $idShipmentMethod);
+        $form = $this->getFactory()->getFormFactory()->create(
+            CheckoutShipmentForm::class,
+            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getData($quoteTransfer),
+            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getOptions($quoteTransfer)
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->getFactory()->createQuoteExpander()->expandQuoteWithShipmentMethod(
+                $request,
+                $form->getData()->getShipment()->getShipmentSelection()
+            );
+
+            return $this->redirectResponseInternal(CheckoutPageControllerProvider::CHECKOUT_SUMMARY);
+        }
+
+        $this->getFactory()->getMessengerClient()->addErrorMessage(static::TRANSLATION_INVALID_SHIPMENT_METHOD);
 
         return $this->redirectResponseInternal(CheckoutPageControllerProvider::CHECKOUT_SUMMARY);
     }
