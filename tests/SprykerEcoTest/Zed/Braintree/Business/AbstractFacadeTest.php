@@ -11,6 +11,7 @@ use Braintree\Result\Error;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
@@ -27,6 +28,8 @@ use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
 use SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory;
 use SprykerEco\Zed\Braintree\Business\BraintreeFacade;
 use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainer;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepository;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 /**
  * Auto-generated group annotations
@@ -166,6 +169,7 @@ class AbstractFacadeTest extends Unit
         $factoryMock = $this->getFactory($methods);
         $factoryMock->setContainer($this->getContainer());
         $factoryMock->setQueryContainer($this->getQueryContainerMock());
+        $factoryMock->setRepository($this->getRepositoryMock());
         $factoryMock->setConfig(new BraintreeConfig());
 
         return $factoryMock;
@@ -188,6 +192,27 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
+     * @return \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
+     */
+    protected function getRepositoryMock(): BraintreeRepositoryInterface
+    {
+        $queryContainerMock = $this->getMockBuilder(BraintreeRepository::class)->getMock();
+
+        $transactionStatusLogQueryMock = $this->getTransactionStatusLogQueryMock();
+        $paymentBraintreeTransfer = $this->getPaymentBraintreeTransfer();
+
+        $queryContainerMock->expects($this->any())
+            ->method('findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId')
+            ->willReturn($transactionStatusLogQueryMock);
+
+        $queryContainerMock->expects($this->any())
+            ->method('findPaymentBraintreeBySalesOrderId')
+            ->willReturn($paymentBraintreeTransfer);
+
+        return $queryContainerMock;
+    }
+
+    /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
      */
     private function getTransactionStatusLogQueryMock()
@@ -196,6 +221,26 @@ class AbstractFacadeTest extends Unit
         $transactionStatusLogQueryMock->method('findOne')->willReturn($this->paymentEntity);
 
         return $transactionStatusLogQueryMock;
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
+     */
+    public function getPaymentBraintreeTransfer(): PaymentBraintreeTransfer
+    {
+        return (new PaymentBraintreeTransfer())
+            ->setFkSalesOrder($this->getOrderEntity()->getIdSalesOrder())
+            ->setIdPaymentBraintree($this->paymentEntity->getIdPaymentBraintree())
+            ->setPaymentType(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
+            ->setTransactionId('abc')
+            ->setClientIp('127.0.0.1')
+            ->setEmail('jane@family-doe.org')
+            ->setCountryIso2Code('DE')
+            ->setCity('Berlin')
+            ->setStreet('Straße des 17. Juni 135')
+            ->setZipCode('10623')
+            ->setLanguageIso2Code('DE')
+            ->setCurrencyIso3Code('EUR');
     }
 
     /**

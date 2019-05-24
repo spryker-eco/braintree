@@ -8,23 +8,22 @@
 namespace SprykerEco\Zed\Braintree\Business\Log;
 
 use Generated\Shared\Transfer\OrderTransfer;
-use Propel\Runtime\ActiveQuery\Criteria;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
-use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class TransactionStatusLog implements TransactionStatusLogInterface
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
      */
-    protected $queryContainer;
+    protected $repository;
 
     /**
-     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $repository
      */
-    public function __construct(BraintreeQueryContainerInterface $queryContainer)
+    public function __construct(BraintreeRepositoryInterface $repository)
     {
-        $this->queryContainer = $queryContainer;
+        $this->repository = $repository;
     }
 
     /**
@@ -107,19 +106,18 @@ class TransactionStatusLog implements TransactionStatusLogInterface
     protected function hasTransactionStatusLog(OrderTransfer $orderTransfer, $transactionCode, $statusCode, $expectedStatusReasonCode)
     {
         $idSalesOrder = $orderTransfer->getIdSalesOrder();
-        $logEntity = $this
-            ->queryContainer
-            ->queryTransactionStatusLogBySalesOrderIdAndTransactionCodeLatestFirst(
-                $idSalesOrder,
-                $transactionCode
-            )
-            ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
-            ->findOne();
 
-        if (!$logEntity) {
+        $paymentBraintreeTransactionStatusLogTransfer = $this->repository
+            ->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCodeLatestFirst(
+                $idSalesOrder,
+                $transactionCode,
+                $statusCode
+            );
+
+        if (!$paymentBraintreeTransactionStatusLogTransfer) {
             return false;
         }
 
-        return $logEntity->getIsSuccess() === (bool)$expectedStatusReasonCode;
+        return $paymentBraintreeTransactionStatusLogTransfer->getIsSuccess() === (bool)$expectedStatusReasonCode;
     }
 }

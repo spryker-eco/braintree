@@ -7,22 +7,23 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
 
+use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
-use SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
      */
-    protected $queryContainer;
+    protected $repository;
 
     /**
-     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface $queryContainer
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $repository
      */
-    public function __construct(BraintreeQueryContainerInterface $queryContainer)
+    public function __construct(BraintreeRepositoryInterface $repository)
     {
-        $this->queryContainer = $queryContainer;
+        $this->repository = $repository;
     }
 
     /**
@@ -32,21 +33,23 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
      */
     public function visit(TransactionMetaTransfer $transactionMetaTransfer)
     {
-        $paymentEntity = $this->getPaymentEntity($transactionMetaTransfer);
+        $paymentBraintreeTransfer = $this->findPaymentBraintreeTransfer($transactionMetaTransfer);
 
-        $transactionMetaTransfer->setIdPayment($paymentEntity->getIdPaymentBraintree());
-        $transactionMetaTransfer->setTransactionIdentifier($paymentEntity->getTransactionId());
+        if ($paymentBraintreeTransfer) {
+            $transactionMetaTransfer->setIdPayment($paymentBraintreeTransfer->getIdPaymentBraintree());
+            $transactionMetaTransfer->setTransactionIdentifier($paymentBraintreeTransfer->getTransactionId());
+        }
     }
 
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer|null
      */
-    protected function getPaymentEntity(TransactionMetaTransfer $transactionMetaTransfer)
+    protected function findPaymentBraintreeTransfer(TransactionMetaTransfer $transactionMetaTransfer): ?PaymentBraintreeTransfer
     {
         $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
 
-        return $this->queryContainer->queryPaymentBySalesOrderId($idSalesOrderEntity)->findOne();
+        return $this->repository->findPaymentBraintreeBySalesOrderId($idSalesOrderEntity);
     }
 }

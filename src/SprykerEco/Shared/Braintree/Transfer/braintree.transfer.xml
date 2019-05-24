@@ -4,10 +4,10 @@
            xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
 
     <transfer name="BraintreePayment">
-        <property name="fkSalesOrder" type="int" />
-        <property name="accountBrand" type="string" />
-        <property name="paymentType" type="string" />
-        <property name="clientIp" type="string" />
+        <property name="fkSalesOrder" type="int"/>
+        <property name="accountBrand" type="string"/>
+        <property name="paymentType" type="string"/>
+        <property name="clientIp" type="string"/>
         <property name="email" type="string"/>
         <property name="dateOfBirth" type="string"/>
         <property name="languageIso2Code" type="string"/>
@@ -27,7 +27,7 @@
         <property name="isSuccess" type="bool"/>
         <property name="code" type="int"/>
         <property name="message" type="string"/>
-        <property name="paymentType" type="string" />
+        <property name="paymentType" type="string"/>
         <property name="transactionCode" type="string"/>
         <property name="transactionType" type="string"/>
         <property name="transactionStatus" type="string"/>
@@ -40,7 +40,7 @@
     </transfer>
 
     <transfer name="Order">
-        <property name="idSalesOrder" type="int" />
+        <property name="idSalesOrder" type="int"/>
         <property name="braintreePayment" type="BraintreePayment"/>
         <property name="items" type="Item[]" singular="item"/>
     </transfer>
@@ -52,25 +52,25 @@
 
     <!-- Data dependency on the Customer transfer object -->
     <transfer name="Customer">
-        <property name="firstName" type="string" />
-        <property name="lastName" type="string" />
-        <property name="company" type="string" />
-        <property name="email" type="string" />
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
+        <property name="company" type="string"/>
+        <property name="email" type="string"/>
     </transfer>
 
     <!-- Data dependency on the Address transfer object -->
     <transfer name="Address">
-        <property name="firstName" type="string" />
-        <property name="lastName" type="string" />
-        <property name="address1" type="string" />
-        <property name="address2" type="string" />
-        <property name="address3" type="string" />
-        <property name="company" type="string" />
-        <property name="city" type="string" />
-        <property name="zipCode" type="string" />
-        <property name="iso2Code" type="string" />
-        <property name="salutation" type="string" />
-        <property name="region" type="string" />
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
+        <property name="address1" type="string"/>
+        <property name="address2" type="string"/>
+        <property name="address3" type="string"/>
+        <property name="company" type="string"/>
+        <property name="city" type="string"/>
+        <property name="zipCode" type="string"/>
+        <property name="iso2Code" type="string"/>
+        <property name="salutation" type="string"/>
+        <property name="region" type="string"/>
     </transfer>
 
     <transfer name="Item">
@@ -80,6 +80,7 @@
     <transfer name="Payment">
         <property name="braintree" type="BraintreePayment"/>
         <property name="braintreePayPal" type="BraintreePayment"/>
+        <property name="braintreePayPalExpress" type="BraintreePayment"/>
         <property name="braintreeCreditCard" type="BraintreePayment"/>
     </transfer>
 
@@ -89,6 +90,63 @@
         <property name="transactionIdentifier" type="string"/>
         <property name="refund" type="Refund"/>
         <property name="quote" type="Quote"/>
+    </transfer>
+
+    <transfer name="PaypalExpressSuccessResponse">
+        <property name="nonce" type="string"/>
+        <property name="email" type="string"/>
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
+        <property name="payerId" type="string"/>
+        <property name="recipientName" type="string"/>
+        <property name="line1" type="string"/>
+        <property name="city" type="string"/>
+        <property name="state" type="string"/>
+        <property name="postalCode" type="string"/>
+        <property name="countryCode" type="string"/>
+        <property name="currency" type="string"/>
+        <property name="amount" type="float"/>
+    </transfer>
+
+    <transfer name="PaymentBraintree">
+        <property name="idPaymentBraintree" type="int"/>
+        <property name="fkSalesOrder" type="int"/>
+        <property name="paymentType" type="string"/>
+        <property name="clientIp" type="string"/>
+        <property name="countryIso2Code" type="string"/>
+        <property name="city" type="string"/>
+        <property name="street" type="string"/>
+        <property name="zipCode" type="string"/>
+        <property name="email" type="string"/>
+        <property name="languageIso2Code" type="string"/>
+        <property name="currencyIso3Code" type="string"/>
+        <property name="transactionId" type="string"/>
+        <property name="createdAt" type="string"/>
+    </transfer>
+
+    <transfer name="PaymentBraintreeTransactionStatusLog">
+        <property name="idPaymentBraintreeTransactionStatusLog" type="int"/>
+        <property name="fkPaymentBraintree" type="int"/>
+        <property name="isSuccess" type="bool"/>
+        <property name="code" type="int"/>
+        <property name="message" type="string"/>
+        <property name="transactionId" type="string"/>
+        <property name="transactionCode" type="string"/>
+        <property name="transactionType" type="string"/>
+        <property name="transactionStatus" type="string"/>
+        <property name="transactionAmount" type="string"/>
+        <property name="merchantAccount" type="string"/>
+        <property name="processingTimestamp" type="string"/>
+    </transfer>
+
+    <transfer name="PaymentBraintreeTransactionRequestLog">
+        <property name="idPaymentBraintreeTransactionRequestLog" type="int"/>
+        <property name="fkPaymentBraintree" type="int"/>
+        <property name="transactionId" type="string"/>
+        <property name="transactionCode" type="string"/>
+        <property name="transactionType" type="string"/>
+        <property name="presentationAmount" type="string"/>
+        <property name="presentationCurrency" type="string"/>
     </transfer>
 
 </transfers>

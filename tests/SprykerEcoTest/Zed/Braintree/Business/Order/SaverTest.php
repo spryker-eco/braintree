@@ -134,6 +134,7 @@ class SaverTest extends Unit
 
         $paymentTransfer = new PaymentTransfer();
         $paymentTransfer->setBraintree($braintreePaymentTransfer);
+        $paymentTransfer->setPaymentProvider(BraintreeConfig::PROVIDER_NAME);
 
         $quoteTransfer->setPayment($paymentTransfer);
 

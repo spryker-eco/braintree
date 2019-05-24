@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Controller;
 
+use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Spryker\Zed\Kernel\Communication\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  */
 class DetailsController extends AbstractController
 {
@@ -25,13 +28,13 @@ class DetailsController extends AbstractController
     public function indexAction(Request $request)
     {
         $idPayment = $this->castId($request->get('id-payment'));
-        $paymentEntity = $this->getPaymentEntity($idPayment);
+        $paymentBraintreeTransfer = $this->getPaymentBraintreeTransfer($idPayment);
         $requestLogTable = $this->getFactory()->createRequestLogTable($idPayment);
         $statusLogTable = $this->getFactory()->createStatusLogTable($idPayment);
 
         return [
             'idPayment' => $idPayment,
-            'paymentDetails' => $paymentEntity,
+            'paymentDetails' => $paymentBraintreeTransfer,
             'requestLogTable' => $requestLogTable->render(),
             'statusLogTable' => $statusLogTable->render(),
         ];
@@ -42,17 +45,17 @@ class DetailsController extends AbstractController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
      */
-    protected function getPaymentEntity($idPayment)
+    protected function getPaymentBraintreeTransfer($idPayment): PaymentBraintreeTransfer
     {
-        $paymentEntity = $this->getQueryContainer()->queryPaymentById($idPayment)->findOne();
+        $paymentBraintreeTransfer = $this->getRepository()->findPaymentBraintreeById($idPayment);
 
-        if ($paymentEntity === null) {
+        if ($paymentBraintreeTransfer === null) {
             throw new NotFoundHttpException('Payment entity could not be found');
         }
 
-        return $paymentEntity;
+        return $paymentBraintreeTransfer;
     }
 
     /**

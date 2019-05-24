@@ -269,13 +269,9 @@ class PreCheckTransaction extends AbstractTransaction
         $braintreePaymentTransfer->setPaymentType($response->transaction->paymentInstrumentType);
 
         if ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::PAYPAL_ACCOUNT) {
-            $this->getPayment()->setPaymentMethod(PaymentTransfer::BRAINTREE_PAY_PAL);
-            $this->getPayment()->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
-            $this->getPayment()->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL);
+            $this->setPaypalPaymentMethod($this->getPayment());
         } elseif ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::CREDIT_CARD) {
-            $this->getPayment()->setPaymentMethod(PaymentTransfer::BRAINTREE_CREDIT_CARD);
-            $this->getPayment()->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
-            $this->getPayment()->setPaymentSelection(PaymentTransfer::BRAINTREE_CREDIT_CARD);
+            $this->setCreditCardMethod($this->getPayment());
         }
     }
 
@@ -303,8 +299,41 @@ class PreCheckTransaction extends AbstractTransaction
         $matching = [
             SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,
             SharedBraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => PaymentInstrumentType::CREDIT_CARD,
+            SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS => PaymentInstrumentType::PAYPAL_ACCOUNT,
         ];
 
         return ($matching[$this->getPaymentSelection()] === $returnedType);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\PaymentTransfer $paymentTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentTransfer
+     */
+    protected function setPaypalPaymentMethod(PaymentTransfer $paymentTransfer): PaymentTransfer
+    {
+        $paymentTransfer->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
+        $paymentTransfer->setPaymentMethod(PaymentTransfer::BRAINTREE_PAY_PAL);
+
+        if ($this->transactionMetaTransfer->getQuote()->getPayment()->getPaymentSelection() === PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS) {
+            $paymentTransfer->setPaymentMethod(PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS);
+            $paymentTransfer->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS);
+        }
+
+        return $paymentTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\PaymentTransfer $paymentTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentTransfer
+     */
+    protected function setCreditCardMethod(PaymentTransfer $paymentTransfer): PaymentTransfer
+    {
+        $paymentTransfer->setPaymentMethod(PaymentTransfer::BRAINTREE_CREDIT_CARD);
+        $paymentTransfer->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
+        $paymentTransfer->setPaymentSelection(PaymentTransfer::BRAINTREE_CREDIT_CARD);
+
+        return $paymentTransfer;
     }
 }

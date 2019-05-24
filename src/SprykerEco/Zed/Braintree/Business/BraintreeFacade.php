@@ -9,6 +9,7 @@ namespace SprykerEco\Zed\Braintree\Business;
 
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\PaymentMethodsTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
@@ -17,6 +18,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory getFactory()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  */
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {
@@ -207,5 +209,23 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
             ->getFactory()
             ->createPostSaveHook()
             ->postSaveHook($quoteTransfer, $checkoutResponse);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentMethodsTransfer $paymentMethodsTransfer
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentMethodsTransfer
+     */
+    public function filterPaypalExpressPaymentMethod(PaymentMethodsTransfer $paymentMethodsTransfer, QuoteTransfer $quoteTransfer): PaymentMethodsTransfer
+    {
+        return $this
+            ->getFactory()
+            ->createPaypalExpressCheckoutPaymentMethod()
+            ->filterPaymentMethods($paymentMethodsTransfer, $quoteTransfer);
     }
 }

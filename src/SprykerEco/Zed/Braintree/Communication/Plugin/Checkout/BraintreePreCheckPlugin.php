@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Zed\Checkout\Dependency\Plugin\CheckoutPreConditionInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
@@ -37,6 +38,10 @@ class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreC
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ) {
+        if ($quoteTransfer->getPayment()->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
+            return true;
+        }
+
         $braintreeTransactionResponseTransfer = $this->getFacade()->preCheckPayment($quoteTransfer);
         $isPassed = $this->checkForErrors($braintreeTransactionResponseTransfer, $checkoutResponseTransfer);
 
