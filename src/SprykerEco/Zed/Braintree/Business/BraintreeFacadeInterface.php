@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Business;
 
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentMethodsTransfer;
@@ -61,11 +62,37 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::captureOrderPayment()` instead.
+     *
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function capturePayment(TransactionMetaTransfer $transactionMetaTransfer);
+
+    /**
+     * Specification:
+     * - Processes capture order payment request to Braintree gateway.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureOrderPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer;
+
+    /**
+     * Specification:
+     * - Processes capture items payment request to Braintree gateway.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureItemsPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer;
 
     /**
      * Specification:

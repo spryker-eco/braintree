@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Business;
 
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentMethodsTransfer;
@@ -35,8 +36,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
         $this->getFactory()
-             ->createOrderSaver()
-             ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+            ->createOrderSaver()
+            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
     }
 
     /**
@@ -227,5 +228,33 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
             ->getFactory()
             ->createPaypalExpressCheckoutPaymentMethod()
             ->filterPaymentMethods($paymentMethodsTransfer, $quoteTransfer);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureOrderPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
+    {
+        // TODO: Implement captureOrderPayment() method.
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureItemsPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
+    {
+        // TODO: Implement captureItemsPayment() method.
     }
 }
