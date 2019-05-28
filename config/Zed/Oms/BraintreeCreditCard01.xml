@@ -81,7 +81,7 @@
     </process>
 
     <process name="Shipment" file="BraintreeSubProcesses/Shipment.xml"/>
-    <process name="Capture" file="BraintreeSubProcesses/Capture.xml"/>
+    <process name="Capture" file="BraintreeSubProcesses/OrderCapture.xml"/>
     <process name="Refund" file="BraintreeSubProcesses/Refund.xml"/>
     <process name="Closing" file="BraintreeSubProcesses/Closing.xml"/>
 </statemachine>
