@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 use Braintree\Transaction as BraintreeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
-class CaptureTransaction extends AbstractTransaction
+class CaptureItemsTransaction extends AbstractTransaction
 {
     /**
      * @return string

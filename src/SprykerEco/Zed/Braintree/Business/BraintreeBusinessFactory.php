@@ -18,7 +18,8 @@ use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilter;
 use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilterInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandler;
@@ -66,7 +67,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function createCaptureItemsTransactionHandler(): CaptureItemsTransactionHandlerInterface
     {
         return new CaptureItemsTransactionHandler(
-            $this->createCaptureTransaction(),
+            $this->createCaptureItemsTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );
     }
@@ -77,7 +78,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function createCaptureOrderTransactionHandler(): CaptureOrderTransactionHandlerInterface
     {
         return new CaptureOrderTransactionHandler(
-            $this->createCaptureTransaction(),
+            $this->createCaptureOrderTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );
     }
@@ -178,9 +179,17 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    public function createCaptureTransaction(): TransactionInterface
+    public function createCaptureOrderTransaction(): TransactionInterface
     {
-        return new CaptureTransaction($this->getConfig());
+        return new CaptureOrderTransaction($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createCaptureItemsTransaction(): TransactionInterface
+    {
+        return new CaptureItemsTransaction($this->getConfig());
     }
 
     /**
