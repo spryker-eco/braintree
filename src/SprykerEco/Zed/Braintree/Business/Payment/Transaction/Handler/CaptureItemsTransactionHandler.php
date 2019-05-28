@@ -7,16 +7,17 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
-class CaptureTransactionHandler extends AbstractTransactionHandler implements CaptureTransactionHandlerInterface
+class CaptureItemsTransactionHandler extends AbstractTransactionHandler implements CaptureItemsTransactionHandlerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
-    public function capture(TransactionMetaTransfer $transactionMetaTransfer)
+    public function capture(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
     {
         $this->transactionMetaVisitor->visit($transactionMetaTransfer);
 

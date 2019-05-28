@@ -21,8 +21,10 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandlerInterface;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
@@ -59,11 +61,22 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandlerInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandlerInterface
      */
-    public function createCaptureTransactionHandler(): CaptureTransactionHandlerInterface
+    public function createCaptureItemsTransactionHandler(): CaptureItemsTransactionHandlerInterface
     {
-        return new CaptureTransactionHandler(
+        return new CaptureItemsTransactionHandler(
+            $this->createCaptureTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface
+     */
+    public function createCaptureOrderTransactionHandler(): CaptureOrderTransactionHandlerInterface
+    {
+        return new CaptureOrderTransactionHandler(
             $this->createCaptureTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );

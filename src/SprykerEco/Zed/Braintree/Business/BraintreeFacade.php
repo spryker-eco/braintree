@@ -79,16 +79,15 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::captureOrderPayment()` instead.
+     *
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function capturePayment(TransactionMetaTransfer $transactionMetaTransfer)
     {
-        return $this
-            ->getFactory()
-            ->createCaptureTransactionHandler()
-            ->capture($transactionMetaTransfer);
+        return $this->captureOrderPayment($transactionMetaTransfer);
     }
 
     /**
@@ -241,7 +240,10 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function captureOrderPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
     {
-        // TODO: Implement captureOrderPayment() method.
+        return $this
+            ->getFactory()
+            ->createCaptureOrderTransactionHandler()
+            ->capture($transactionMetaTransfer);
     }
 
     /**
@@ -255,6 +257,9 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function captureItemsPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
     {
-        // TODO: Implement captureItemsPayment() method.
+        return $this
+            ->getFactory()
+            ->createCaptureItemsTransactionHandler()
+            ->capture($transactionMetaTransfer);
     }
 }
