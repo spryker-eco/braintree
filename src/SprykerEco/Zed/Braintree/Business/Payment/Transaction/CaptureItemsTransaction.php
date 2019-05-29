@@ -8,10 +8,29 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
+use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 
 class CaptureItemsTransaction extends AbstractTransaction
 {
+    /**
+     * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
+     */
+    protected $moneyFacade;
+
+    /**
+     * @param \SprykerEco\Zed\Braintree\BraintreeConfig $config
+     * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
+     */
+    public function __construct(
+        BraintreeConfig $config,
+        BraintreeToMoneyFacadeInterface $moneyFacade
+    ) {
+        parent::__construct($config);
+        $this->moneyFacade = $moneyFacade;
+    }
+
     /**
      * @return string
      */
@@ -41,6 +60,19 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function capture()
     {
-        return BraintreeTransaction::submitForSettlement($this->getTransactionIdentifier());
+        return BraintreeTransaction::submitForPartialSettlement(
+            $this->getTransactionIdentifier(),
+            $this->getDecimalAmountValueFromInt($this->transactionMetaTransfer->getCaptureAmount())
+        );
+    }
+
+    /**
+     * @param int $amount
+     *
+     * @return float
+     */
+    protected function getDecimalAmountValueFromInt(int $amount): float
+    {
+        return $this->moneyFacade->convertIntegerToDecimal($amount);
     }
 }

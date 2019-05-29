@@ -90,6 +90,7 @@
         <property name="transactionIdentifier" type="string"/>
         <property name="refund" type="Refund"/>
         <property name="quote" type="Quote"/>
+        <property name="captureAmount" type="int"/>
     </transfer>
 
     <transfer name="PaypalExpressSuccessResponse">

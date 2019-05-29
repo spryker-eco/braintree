@@ -189,7 +189,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createCaptureItemsTransaction(): TransactionInterface
     {
-        return new CaptureItemsTransaction($this->getConfig());
+        return new CaptureItemsTransaction($this->getConfig(), $this->getMoneyFacade());
     }
 
     /**
