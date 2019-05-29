@@ -41,12 +41,14 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {
@@ -189,7 +191,13 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createCaptureItemsTransaction(): TransactionInterface
     {
-        return new CaptureItemsTransaction($this->getConfig(), $this->getMoneyFacade());
+        return new CaptureItemsTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->getRepository(),
+            $this->getEntityManager(),
+            $this->getSalesFacade()
+        );
     }
 
     /**
@@ -238,5 +246,13 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function createPaypalExpressCheckoutPaymentMethod(): PaypalExpressPaymentMethodFilterInterface
     {
         return new PaypalExpressPaymentMethodFilter();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface
+     */
+    public function getSalesFacade(): BraintreeToSalesFacadeInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_SALES);
     }
 }

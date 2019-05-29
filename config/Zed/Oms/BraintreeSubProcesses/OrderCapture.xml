@@ -19,7 +19,7 @@
         </transitions>
 
         <events>
-            <event name="capture payment" onEnter="true" manual="true" command="Braintree/OrderCapture"/>
+            <event name="capture payment" manual="true" command="Braintree/OrderCapture"/>
         </events>
     </process>
 </statemachine>

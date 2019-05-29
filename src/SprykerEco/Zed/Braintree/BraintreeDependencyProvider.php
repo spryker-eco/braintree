@@ -12,12 +12,14 @@ use Spryker\Zed\Kernel\Container;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToCurrencyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeBridge;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeBridge;
 
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const FACADE_CURRENCY = 'FACADE_CURRENCY';
     public const FACADE_MONEY = 'FACADE_MONEY';
     public const FACADE_REFUND = 'FACADE_REFUND';
+    public const FACADE_SALES = 'FACADE_SALES';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -29,6 +31,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addRefundFacade($container);
         $container = $this->addCurrencyFacade($container);
         $container = $this->addMoneyFacade($container);
+        $container = $this->addSalesFacade($container);
 
         return $container;
     }
@@ -70,6 +73,20 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::FACADE_MONEY] = function (Container $container) {
             return new BraintreeToMoneyFacadeBridge($container->getLocator()->money()->facade());
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addSalesFacade(Container $container)
+    {
+        $container[static::FACADE_SALES] = function (Container $container) {
+            return new BraintreeToSalesFacadeBridge($container->getLocator()->sales()->facade());
         };
 
         return $container;

@@ -20,6 +20,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory getFactory()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  */
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {

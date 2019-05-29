@@ -123,6 +123,7 @@
         <property name="currencyIso3Code" type="string"/>
         <property name="transactionId" type="string"/>
         <property name="createdAt" type="string"/>
+        <property name="isShipmentPaid" type="bool"/>
     </transfer>
 
     <transfer name="PaymentBraintreeTransactionStatusLog">
