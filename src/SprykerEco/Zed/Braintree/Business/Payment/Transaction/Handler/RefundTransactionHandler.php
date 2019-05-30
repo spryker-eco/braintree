@@ -47,7 +47,7 @@ class RefundTransactionHandler extends AbstractTransactionHandler implements Ref
 
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($salesOrderEntity->getIdSalesOrder());
-        $transactionMetaTransfer->setRefund($this->getRefund($salesOrderItems, $salesOrderEntity));
+        $transactionMetaTransfer->setRefund($refundTransfer);
 
         $this->transactionMetaVisitor->visit($transactionMetaTransfer);
 

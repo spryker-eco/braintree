@@ -68,6 +68,15 @@ interface BraintreeRepositoryInterface
     ): ?PaymentBraintreeTransactionStatusLogTransfer;
 
     /**
+     * @param int $idSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    public function findPaymentBraintreeTransactionStatusLogQueryByOrderItem(
+        int $idSalesOrderItem
+    ): ?PaymentBraintreeTransactionStatusLogTransfer;
+
+    /**
      * @param int $idPaymentBraintree
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer|null

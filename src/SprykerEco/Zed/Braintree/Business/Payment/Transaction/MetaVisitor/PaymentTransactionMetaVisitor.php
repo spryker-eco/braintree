@@ -13,6 +13,9 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 {
+    protected const TRANSACTION_STATUS = 'settling';
+    protected const TRANSACTION_CODE = 'capture';
+
     /**
      * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
      */
@@ -38,6 +41,10 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
         if ($paymentBraintreeTransfer) {
             $transactionMetaTransfer->setIdPayment($paymentBraintreeTransfer->getIdPaymentBraintree());
             $transactionMetaTransfer->setTransactionIdentifier($paymentBraintreeTransfer->getTransactionId());
+
+            if ($transactionMetaTransfer->getRefund() && $this->countRefundedUniqItems($transactionMetaTransfer->getRefund()->getItems()) === 1) {
+                $transactionMetaTransfer->setTransactionIdentifier($this->getTransactionId($transactionMetaTransfer));
+            }
         }
     }
 
@@ -51,5 +58,53 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
         $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
 
         return $this->repository->findPaymentBraintreeBySalesOrderId($idSalesOrderEntity);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return string
+     */
+    protected function getTransactionId(TransactionMetaTransfer $transactionMetaTransfer): string
+    {
+        $idSalesOrderItem = $transactionMetaTransfer->getRefund()->getItems()[0]->getIdSalesOrderItem();
+
+        $transactionId = $this->repository
+            ->findSucceededPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCode(
+                $transactionMetaTransfer->getIdSalesOrder(),
+                static::TRANSACTION_CODE,
+                static::TRANSACTION_STATUS
+            )
+            ->getTransactionId();
+
+        $paymentBraintreeTransactionStatusLogTransferByOrderItem = $this->repository
+            ->findPaymentBraintreeTransactionStatusLogQueryByOrderItem($idSalesOrderItem);
+
+        if ($paymentBraintreeTransactionStatusLogTransferByOrderItem) {
+            $transactionId = $this->repository
+                ->findPaymentBraintreeTransactionStatusLogQueryByOrderItem($idSalesOrderItem)->getTransactionId();
+        }
+
+        return $transactionId;
+    }
+
+    /**
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     *
+     * @return int
+     */
+    protected function countRefundedUniqItems(iterable $itemTransfers): int
+    {
+        $uniqItems = [];
+        $count = 0;
+
+        foreach ($itemTransfers as $itemTransfer) {
+            if (!in_array($itemTransfer->getIdSalesOrderItem(), $uniqItems)) {
+                $uniqItems[] = $itemTransfer->getIdSalesOrderItem();
+                $count++;
+            }
+        }
+
+        return $count;
     }
 }

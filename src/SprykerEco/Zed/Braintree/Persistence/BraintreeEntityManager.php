@@ -29,4 +29,21 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
             $paymentBraintreeEntity->save();
         }
     }
+
+    /**
+     * @param int $idPaymentBraintree
+     * @param int $idPaymentBrainreeOrderItem
+     *
+     * @return void
+     */
+    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem): void
+    {
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
+            ->createPaymentBraintreeTransactionStatusLogQuery()->findOneByFkPaymentBraintree($idPaymentBraintree);
+
+        if ($paymentBraintreeTransactionStatusLogEntity) {
+            $paymentBraintreeTransactionStatusLogEntity->setFkPaymentBraintreeOrderItem($idPaymentBrainreeOrderItem);
+            $paymentBraintreeTransactionStatusLogEntity->save();
+        }
+    }
 }

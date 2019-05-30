@@ -35,6 +35,7 @@ class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterfa
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
         $transactionMetaTransfer->setCaptureAmount($this->getCaptureAmount($orderItems));
+        $transactionMetaTransfer->setIdItems($this->getItemIds($orderItems));
 
         $this->getFacade()->captureItemsPayment($transactionMetaTransfer);
 
@@ -55,5 +56,21 @@ class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterfa
         }
 
         return $amount;
+    }
+
+    /**
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
+     *
+     * @return array
+     */
+    protected function getItemIds(array $orderItems): array
+    {
+        $itemIds = [];
+
+        foreach ($orderItems as $orderItem) {
+            $itemIds[] = $orderItem->getIdSalesOrderItem();
+        }
+
+        return $itemIds;
     }
 }

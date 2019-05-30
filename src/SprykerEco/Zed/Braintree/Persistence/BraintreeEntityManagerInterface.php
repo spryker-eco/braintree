@@ -16,4 +16,12 @@ interface BraintreeEntityManagerInterface
      * @return void
      */
     public function updateIsShipmentPaidValue(int $idPaymentBraintree, bool $isShipmentPaid): void;
+
+    /**
+     * @param int $idPaymentBraintree
+     * @param int $idPaymentBrainreeOrderItem
+     *
+     * @return void
+     */
+    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem): void;
 }

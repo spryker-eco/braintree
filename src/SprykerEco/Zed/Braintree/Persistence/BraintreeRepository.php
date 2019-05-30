@@ -177,6 +177,28 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     }
 
     /**
+     * @param int $idSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    public function findPaymentBraintreeTransactionStatusLogQueryByOrderItem(
+        int $idSalesOrderItem
+    ): ?PaymentBraintreeTransactionStatusLogTransfer {
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
+            ->createPaymentBraintreeTransactionStatusLogQuery()
+            ->filterByFkPaymentBraintreeOrderItem($idSalesOrderItem)
+            ->findOne();
+
+        if ($paymentBraintreeTransactionStatusLogEntity === null) {
+            return null;
+        }
+
+        return $this->getFactory()
+            ->createBraintreePersistenceMapper()
+            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
+    }
+
+    /**
      * @param int $idPaymentBraintree
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer|null

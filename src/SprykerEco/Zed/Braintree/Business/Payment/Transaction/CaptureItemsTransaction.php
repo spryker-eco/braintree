@@ -29,7 +29,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     protected $braintreeRepository;
 
     /**
-     * @var BraintreeEntityManagerInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface
      */
     protected $braintreeEntityManager;
 
@@ -38,12 +38,11 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected $salesFacade;
 
-
     /**
      * @param \SprykerEco\Zed\Braintree\BraintreeConfig $config
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
      * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $braintreeRepository
-     * @param BraintreeEntityManagerInterface $braintreeEntityManager
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface $braintreeEntityManager
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface $salesFacade
      */
     public function __construct(
@@ -96,6 +95,10 @@ class CaptureItemsTransaction extends AbstractTransaction
             $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
 
             $this->braintreeEntityManager->updateIsShipmentPaidValue($this->getIdPayment(), true);
+
+            if (count($this->transactionMetaTransfer->getIdItems()) === 1) {
+                $this->braintreeEntityManager->addOrderItemToSuccessLog($this->getIdPayment(), $this->transactionMetaTransfer->getIdItems()[0]);
+            }
 
             return $braintreeTransactionResponseTransfer;
         }
