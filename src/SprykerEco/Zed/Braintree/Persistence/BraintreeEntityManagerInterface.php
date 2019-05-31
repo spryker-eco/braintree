@@ -20,8 +20,9 @@ interface BraintreeEntityManagerInterface
     /**
      * @param int $idPaymentBraintree
      * @param int $idPaymentBrainreeOrderItem
+     * @param string $transactionId
      *
      * @return void
      */
-    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem): void;
+    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem, string $transactionId): void;
 }

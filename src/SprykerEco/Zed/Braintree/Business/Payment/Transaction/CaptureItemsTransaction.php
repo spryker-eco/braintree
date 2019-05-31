@@ -97,7 +97,11 @@ class CaptureItemsTransaction extends AbstractTransaction
             $this->braintreeEntityManager->updateIsShipmentPaidValue($this->getIdPayment(), true);
 
             if (count($this->transactionMetaTransfer->getIdItems()) === 1) {
-                $this->braintreeEntityManager->addOrderItemToSuccessLog($this->getIdPayment(), $this->transactionMetaTransfer->getIdItems()[0]);
+                $this->braintreeEntityManager->addOrderItemToSuccessLog(
+                    $this->getIdPayment(),
+                    $this->transactionMetaTransfer->getIdItems()[0],
+                    $braintreeTransactionResponseTransfer->getTransactionId()
+                );
             }
 
             return $braintreeTransactionResponseTransfer;
