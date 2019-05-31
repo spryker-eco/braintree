@@ -9,11 +9,11 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor;
 
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
+use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
 {
-    protected const TRANSACTION_STATUS = 'settling';
     protected const TRANSACTION_CODE = 'capture';
 
     /**
@@ -72,8 +72,8 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
         $transactionId = $this->repository
             ->findSucceededPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCode(
                 $transactionMetaTransfer->getIdSalesOrder(),
-                static::TRANSACTION_CODE,
-                static::TRANSACTION_STATUS
+                ApiConstants::TRANSACTION_CODE_CAPTURE,
+                ApiConstants::STATUS_CODE_CAPTURE
             )
             ->getTransactionId();
 

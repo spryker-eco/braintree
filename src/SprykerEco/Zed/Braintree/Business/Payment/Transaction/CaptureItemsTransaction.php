@@ -11,6 +11,7 @@ use Braintree\Transaction as BraintreeTransaction;
 use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface;
 use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface;
@@ -39,24 +40,32 @@ class CaptureItemsTransaction extends AbstractTransaction
     protected $salesFacade;
 
     /**
+     * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface
+     */
+    protected $shipmentTransactionHandler;
+
+    /**
      * @param \SprykerEco\Zed\Braintree\BraintreeConfig $config
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
      * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $braintreeRepository
      * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface $braintreeEntityManager
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface $salesFacade
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface $shipmentTransactionHandler
      */
     public function __construct(
         BraintreeConfig $config,
         BraintreeToMoneyFacadeInterface $moneyFacade,
         BraintreeRepositoryInterface $braintreeRepository,
         BraintreeEntityManagerInterface $braintreeEntityManager,
-        BraintreeToSalesFacadeInterface $salesFacade
+        BraintreeToSalesFacadeInterface $salesFacade,
+        ShipmentTransactionHandlerInterface $shipmentTransactionHandler
     ) {
         parent::__construct($config);
         $this->moneyFacade = $moneyFacade;
         $this->braintreeRepository = $braintreeRepository;
         $this->braintreeEntityManager = $braintreeEntityManager;
         $this->salesFacade = $salesFacade;
+        $this->shipmentTransactionHandler = $shipmentTransactionHandler;
     }
 
     /**
@@ -118,8 +127,9 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function capture()
     {
+        $this->captureShipmentAmount();
+
         $amount = $this->transactionMetaTransfer->getCaptureAmount();
-        $amount = $this->addShipmentAmount($amount);
         $amount = $this->getDecimalAmountValueFromInt($amount);
 
         return BraintreeTransaction::submitForPartialSettlement(
@@ -139,22 +149,25 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param int $amount
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
-     * @return int
+     * @return void
      */
-    protected function addShipmentAmount(int $amount): int
+    protected function captureShipmentAmount(): void
     {
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrder());
         $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
 
         if (!$braintreePayment || $braintreePayment->getIsShipmentPaid()) {
-            return $amount;
+            return;
         }
 
-        $amount = $amount + $this->getShipmentExpenses($orderTransfer->getExpenses());
+        $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
-        return $amount;
+        $shipmentTransactionMetaTransfer = clone $this->transactionMetaTransfer;
+        $shipmentTransactionMetaTransfer->setCaptureAmount($this->getDecimalAmountValueFromInt($amount));
+
+        $this->shipmentTransactionHandler->captureShipment($shipmentTransactionMetaTransfer);
     }
 
     /**

@@ -41,6 +41,7 @@
         <column name="fk_payment_braintree" required="true" type="INTEGER"/>
         <column name="fk_payment_braintree_order_item" required="false" type="INTEGER"/>
         <column name="is_success" required="true" type="boolean"/>
+        <column name="is_shipment_operation" required="true" type="boolean" default="false"/>
         <column name="code" required="false" type="integer"/>
         <column name="message" required="false" type="VARCHAR"/>
         <column name="transaction_id" required="true" type="VARCHAR"/>

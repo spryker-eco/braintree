@@ -32,12 +32,18 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransact
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentRefundTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
@@ -196,7 +202,52 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->getMoneyFacade(),
             $this->getRepository(),
             $this->getEntityManager(),
-            $this->getSalesFacade()
+            $this->getSalesFacade(),
+            $this->createShipmentTransactionHandler()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createShipmentTransaction(): TransactionInterface
+    {
+        return new ShipmentTransaction(
+            $this->getConfig(),
+            $this->getEntityManager()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createShipmentRefundTransaction(): TransactionInterface
+    {
+        return new ShipmentRefundTransaction(
+            $this->getConfig(),
+            $this->getEntityManager()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface
+     */
+    public function createShipmentTransactionHandler(): ShipmentTransactionHandlerInterface
+    {
+        return new ShipmentTransactionHandler(
+            $this->createShipmentTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface
+     */
+    public function createShipmentRefundTransactionHandler(): ShipmentRefundTransactionHandlerInterface
+    {
+        return new ShipmentRefundTransactionHandler(
+            $this->createShipmentRefundTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
         );
     }
 
@@ -221,7 +272,12 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createRefundTransaction(): TransactionInterface
     {
-        return new RefundTransaction($this->getConfig(), $this->getMoneyFacade());
+        return new RefundTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->createShipmentRefundTransactionHandler(),
+            $this->getRepository()
+        );
     }
 
     /**

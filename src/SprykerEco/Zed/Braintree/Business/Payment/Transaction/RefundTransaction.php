@@ -8,9 +8,15 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
+use Generated\Shared\Transfer\ExpenseTransfer;
+use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
+use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class RefundTransaction extends AbstractTransaction
 {
@@ -20,14 +26,31 @@ class RefundTransaction extends AbstractTransaction
     protected $moneyFacade;
 
     /**
+     * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface
+     */
+    protected $shipmentRefundTransactionHandler;
+
+    /**
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
+     */
+    protected $braintreeRepository;
+
+    /**
      * @param \SprykerEco\Zed\Braintree\BraintreeConfig $brainTreeConfig
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface $moneyFacade
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface $shipmentRefundTransactionHandler
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $braintreeRepository
      */
-    public function __construct(BraintreeConfig $brainTreeConfig, BraintreeToMoneyFacadeInterface $moneyFacade)
-    {
+    public function __construct(
+        BraintreeConfig $brainTreeConfig,
+        BraintreeToMoneyFacadeInterface $moneyFacade,
+        ShipmentRefundTransactionHandlerInterface $shipmentRefundTransactionHandler,
+        BraintreeRepositoryInterface $braintreeRepository
+    ) {
         parent::__construct($brainTreeConfig);
-
         $this->moneyFacade = $moneyFacade;
+        $this->shipmentRefundTransactionHandler = $shipmentRefundTransactionHandler;
+        $this->braintreeRepository = $braintreeRepository;
     }
 
     /**
@@ -55,6 +78,29 @@ class RefundTransaction extends AbstractTransaction
     }
 
     /**
+     * @param \Braintree\Result\Error|\Braintree\Result\Successful $response
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function afterTransaction($response): BraintreeTransactionResponseTransfer
+    {
+        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
+
+        if ($shipmentExpenseTransfer) {
+            $paymentBraintreeTransactionStatusLogTransfer = $this->getPaymentBraintreeTransactionStatusLogTransfer();
+            if ($paymentBraintreeTransactionStatusLogTransfer) {
+                $shipmentRefundTransitionMetaTransfer = clone $this->transactionMetaTransfer;
+                $shipmentRefundTransitionMetaTransfer->setShipmentRefundTransactionId($paymentBraintreeTransactionStatusLogTransfer->getTransactionId());
+                $shipmentRefundTransitionMetaTransfer->setRefundAmount($paymentBraintreeTransactionStatusLogTransfer->getTransactionAmount());
+
+                $this->shipmentRefundTransactionHandler->refundShipment($shipmentRefundTransitionMetaTransfer);
+            }
+        }
+
+        return parent::afterTransaction($response);
+    }
+
+    /**
      * @return \Braintree\Result\Error|\Braintree\Result\Successful
      */
     protected function refund()
@@ -77,11 +123,19 @@ class RefundTransaction extends AbstractTransaction
     protected function getAmount()
     {
         $refundTransfer = $this->transactionMetaTransfer->requireRefund()->getRefund();
+        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
+
         if ($refundTransfer->getAmount() === null) {
             return null;
         }
 
-        return $this->moneyFacade->convertIntegerToDecimal($refundTransfer->getAmount());
+        $amount = $refundTransfer->getAmount();
+
+        if ($shipmentExpenseTransfer) {
+            $amount = $amount - $shipmentExpenseTransfer->getUnitPriceToPayAggregation();
+        }
+
+        return $this->moneyFacade->convertIntegerToDecimal($amount);
     }
 
     /**
@@ -90,5 +144,28 @@ class RefundTransaction extends AbstractTransaction
     protected function findTransaction()
     {
         return BraintreeTransaction::find($this->getTransactionIdentifier());
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\ExpenseTransfer|null
+     */
+    protected function getShipmentExpenseTransfer(): ?ExpenseTransfer
+    {
+        foreach ($this->transactionMetaTransfer->getRefund()->getExpenses() as $expenseTransfer) {
+            if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+                return $expenseTransfer;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    protected function getPaymentBraintreeTransactionStatusLogTransfer(): ?PaymentBraintreeTransactionStatusLogTransfer
+    {
+        return $this->braintreeRepository
+                ->findTransactionRequestLogByIdSalesOrderForShipment($this->transactionMetaTransfer->getIdSalesOrder());
     }
 }

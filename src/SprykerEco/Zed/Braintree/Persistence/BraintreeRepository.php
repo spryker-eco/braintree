@@ -161,6 +161,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->filterByTransactionCode($transactionCode)
             ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
+            ->filterByIsShipmentOperation(false)
             ->useSpyPaymentBraintreeQuery()
                 ->filterByFkSalesOrder($idSalesOrder)
             ->endUse()
@@ -186,7 +187,9 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     ): ?PaymentBraintreeTransactionStatusLogTransfer {
         $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
-            ->filterByFkPaymentBraintreeOrderItem($idSalesOrderItem)
+            ->useSpyPaymentBraintreeOrderItemQuery()
+                ->filterByFkSalesOrderItem($idSalesOrderItem)
+            ->endUse()
             ->findOne();
 
         if ($paymentBraintreeTransactionStatusLogEntity === null) {
@@ -216,5 +219,29 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
         return $this->getFactory()
             ->createBraintreePersistenceMapper()
             ->mapEntityToPaymentBraintreeTransactionRequestLogTransfer($paymentBraintreeTransactionRequestLogEntity, new PaymentBraintreeTransactionRequestLogTransfer());
+    }
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    public function findTransactionRequestLogByIdSalesOrderForShipment(int $idSalesOrder): ?PaymentBraintreeTransactionStatusLogTransfer
+    {
+        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
+            ->createPaymentBraintreeTransactionStatusLogQuery()
+            ->useSpyPaymentBraintreeQuery()
+                ->filterByFkSalesOrder($idSalesOrder)
+            ->endUse()
+            ->filterByIsShipmentOperation(true)
+            ->findOne();
+
+        if ($paymentBraintreeTransactionStatusLogEntity === null) {
+            return null;
+        }
+
+        return $this->getFactory()
+            ->createBraintreePersistenceMapper()
+            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
     }
 }

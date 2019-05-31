@@ -82,4 +82,11 @@ interface BraintreeRepositoryInterface
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer|null
      */
     public function findTransactionRequestLogByPaymentBraintreeId(int $idPaymentBraintree): ?PaymentBraintreeTransactionRequestLogTransfer;
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    public function findTransactionRequestLogByIdSalesOrderForShipment(int $idSalesOrder): ?PaymentBraintreeTransactionStatusLogTransfer;
 }

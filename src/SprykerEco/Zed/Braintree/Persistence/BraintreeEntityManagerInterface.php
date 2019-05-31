@@ -19,6 +19,15 @@ interface BraintreeEntityManagerInterface
 
     /**
      * @param int $idPaymentBraintree
+     * @param string $transactionId
+     * @param bool $isShipmentOperation
+     *
+     * @return void
+     */
+    public function updateIsShipmentOperationValue(int $idPaymentBraintree, string $transactionId, bool $isShipmentOperation): void;
+
+    /**
+     * @param int $idPaymentBraintree
      * @param int $idPaymentBrainreeOrderItem
      * @param string $transactionId
      *
