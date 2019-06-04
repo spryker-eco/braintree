@@ -78,7 +78,10 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
             }
         }
 
-        $refundTransfer->getExpenses()->append($shipmentExpense);
+        if ($shipmentExpense) {
+            $refundTransfer->getExpenses()->append($shipmentExpense);
+        }
+
         $this->refundFacade->saveRefund($refundTransfer);
     }
 
