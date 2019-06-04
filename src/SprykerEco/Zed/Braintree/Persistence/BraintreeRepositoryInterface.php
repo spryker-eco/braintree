@@ -8,7 +8,6 @@
 namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer;
-use Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 

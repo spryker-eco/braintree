@@ -147,7 +147,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
-     * @param TransactionMetaTransfer $transactionMetaTransfer
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer|array $transactionMetaTransfer
      *
      * @return void
      */

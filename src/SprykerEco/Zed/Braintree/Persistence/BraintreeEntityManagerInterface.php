@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
-use Generated\Shared\Transfer\ItemTransfer;
-
 interface BraintreeEntityManagerInterface
 {
     /**
@@ -30,7 +28,7 @@ interface BraintreeEntityManagerInterface
 
     /**
      * @param int $idPaymentBraintree
-     * @param ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      * @param string $transactionId
      *
      * @return void

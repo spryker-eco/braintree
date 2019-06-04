@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
-
 use ArrayObject;
+use Generated\Shared\Transfer\ExpenseTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
@@ -26,7 +30,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     protected $refundFacade;
 
     /**
-     * @var BraintreeRepositoryInterface
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
      */
     protected $braintreeRepository;
 
@@ -34,7 +38,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $transaction
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $transactionMetaVisitor
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface $refundFacade
-     * @param BraintreeRepositoryInterface $braintreeRepository
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $braintreeRepository
      */
     public function __construct(
         TransactionInterface $transaction,
@@ -60,7 +64,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         $transactionMetaTransfer = $this->getTransactionMetaTransfer($salesOrderItems, $salesOrderEntity, $refundTransfer);
 
         $orderItemsGroupedByTransaction = $this->getOrderItemsGroupedByTransaction($transactionMetaTransfer);
-
+        $shipmentExpense = $this->getShipmentExpenseTransfer($refundTransfer);
 
         foreach ($orderItemsGroupedByTransaction as $transactionId => $data) {
             $transactionMetaTransfer->setIdPayment($data[static::KEY_PAYMENT_ID]);
@@ -70,10 +74,12 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
             $braintreeTransactionResponseTransfer = $this->transaction->executeTransaction($transactionMetaTransfer);
 
             if ($braintreeTransactionResponseTransfer->getIsSuccess()) {
-                $this->refundFacade->saveRefund($refundTransfer);
                 $refundTransfer = $this->removeShipmentExpense($refundTransfer);
             }
         }
+
+        $refundTransfer->getExpenses()->append($shipmentExpense);
+        $this->refundFacade->saveRefund($refundTransfer);
     }
 
     /**
@@ -108,9 +114,9 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
-     * @param RefundTransfer $refundTransfer
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
      *
-     * @return TransactionMetaTransfer
+     * @return \Generated\Shared\Transfer\TransactionMetaTransfer
      */
     protected function getTransactionMetaTransfer(array $salesOrderItems, SpySalesOrder $salesOrderEntity, RefundTransfer $refundTransfer): TransactionMetaTransfer
     {
@@ -145,7 +151,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param TransactionMetaTransfer $transactionMetaTransfer
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return array
      */
@@ -172,9 +178,9 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param RefundTransfer $refundTransfer
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
      *
-     * @return RefundTransfer
+     * @return \Generated\Shared\Transfer\RefundTransfer
      */
     protected function removeShipmentExpense(RefundTransfer $refundTransfer): RefundTransfer
     {
@@ -186,8 +192,24 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
             }
         }
 
-        $refundTransfer->setExpenses(new \ArrayObject($expenses));
+        $refundTransfer->setExpenses(new ArrayObject($expenses));
 
         return $refundTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return \Generated\Shared\Transfer\ExpenseTransfer|null
+     */
+    protected function getShipmentExpenseTransfer(RefundTransfer $refundTransfer): ?ExpenseTransfer
+    {
+        foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
+            if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+                return $expenseTransfer;
+            }
+        }
+
+        return null;
     }
 }

@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
-use Generated\Shared\Transfer\ItemTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionOrderItem;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
@@ -34,7 +33,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
 
     /**
      * @param int $idPaymentBraintree
-     * @param ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      * @param string $transactionId
      *
      * @return void
@@ -45,7 +44,6 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->filterByTransactionId($transactionId)
             ->findOneByFkPaymentBraintree($idPaymentBraintree);
-
 
         if ($paymentBraintreeTransactionStatusLogEntity) {
             foreach ($itemTransfers as $itemTransfer) {
@@ -62,7 +60,6 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
                     $paymentBraintreeTransactionOrderItemEntity->save();
                 }
             }
-
         }
     }
 

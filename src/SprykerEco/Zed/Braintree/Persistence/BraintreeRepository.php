@@ -8,13 +8,9 @@
 namespace SprykerEco\Zed\Braintree\Persistence;
 
 use Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer;
-use Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
-use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionRequestLogTableMap;
-use Orm\Zed\Braintree\Persistence\Map\SpyPaymentBraintreeTransactionStatusLogTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\Propel;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**

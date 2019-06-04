@@ -32,8 +32,6 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTra
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandlerInterface;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandler;
@@ -46,7 +44,6 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\Transactio
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentRefundTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentTransaction;

@@ -106,10 +106,10 @@ class BraintreePersistenceMapper implements BraintreePersistenceMapperInterface
     }
 
     /**
-     * @param PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
-     * @param SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
+     * @param \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
+     * @param \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
      *
-     * @return SpyPaymentBraintreeOrderItem
+     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem
      */
     public function mapPaymentBraintreeOrderItemTransferToEntity(
         PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer,
@@ -122,10 +122,10 @@ class BraintreePersistenceMapper implements BraintreePersistenceMapperInterface
     }
 
     /**
-     * @param SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
-     * @param PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
+     * @param \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
+     * @param \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
      *
-     * @return PaymentBraintreeOrderItemTransfer
+     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer
      */
     public function mapEntityToPaymentBraintreeOrderItemTransfer(
         SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity,

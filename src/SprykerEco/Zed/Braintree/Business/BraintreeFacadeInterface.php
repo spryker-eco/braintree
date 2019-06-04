@@ -130,9 +130,9 @@ interface BraintreeFacadeInterface
      * @api
      *
      * @param array $salesOrderItems
-     * @param SpySalesOrder $salesOrderEntity
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
-     * @return BraintreeTransactionResponseTransfer
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function refundOrderPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): BraintreeTransactionResponseTransfer;
 
@@ -144,7 +144,7 @@ interface BraintreeFacadeInterface
      * @api
      *
      * @param array $salesOrderItems
-     * @param SpySalesOrder $salesOrderEntity
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
      * @return void
      */

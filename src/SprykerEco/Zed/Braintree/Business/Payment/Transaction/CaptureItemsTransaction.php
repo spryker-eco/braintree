@@ -8,7 +8,6 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
-use Generated\Shared\Transfer\ItemTransfer;
 use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
@@ -137,7 +136,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      *
      * @return int
      */
