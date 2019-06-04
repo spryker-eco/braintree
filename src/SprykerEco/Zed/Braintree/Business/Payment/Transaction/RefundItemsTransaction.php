@@ -162,23 +162,6 @@ class RefundItemsTransaction extends AbstractTransaction
             $shipmentRefundTransitionMetaTransfer->setRefundAmount($paymentBraintreeTransactionStatusLogTransfer->getTransactionAmount());
 
             $this->shipmentRefundTransactionHandler->refundShipment($shipmentRefundTransitionMetaTransfer);
-            $this->removeShipmentExpense();
         }
-    }
-
-    /**
-     * @return void
-     */
-    protected function removeShipmentExpense(): void
-    {
-        $expenses = [];
-
-        foreach ($this->transactionMetaTransfer->getRefund()->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() !== ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
-                $expenses[] = $expenseTransfer;
-            }
-        }
-
-        $this->transactionMetaTransfer->getRefund()->setExpenses(new \ArrayObject($expenses));
     }
 }

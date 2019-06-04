@@ -9,6 +9,7 @@ use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
+use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
@@ -70,6 +71,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
 
             if ($braintreeTransactionResponseTransfer->getIsSuccess()) {
                 $this->refundFacade->saveRefund($refundTransfer);
+                $refundTransfer = $this->removeShipmentExpense($refundTransfer);
             }
         }
     }
@@ -167,5 +169,25 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         }
 
         return $itemsByTransactions;
+    }
+
+    /**
+     * @param RefundTransfer $refundTransfer
+     *
+     * @return RefundTransfer
+     */
+    protected function removeShipmentExpense(RefundTransfer $refundTransfer): RefundTransfer
+    {
+        $expenses = [];
+
+        foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
+            if ($expenseTransfer->getType() !== ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+                $expenses[] = $expenseTransfer;
+            }
+        }
+
+        $refundTransfer->setExpenses(new \ArrayObject($expenses));
+
+        return $refundTransfer;
     }
 }
