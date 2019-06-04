@@ -21,7 +21,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  */
-class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterface
+class ItemsRefundPlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
      * @api
@@ -32,34 +32,10 @@ class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterfa
      *
      * @return array
      */
-    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): array
+    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data)
     {
-        $transactionMetaTransfer = new TransactionMetaTransfer();
-        $transactionMetaTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
-        $transactionMetaTransfer->setItems($this->getItemsForCapturing($orderItems));
-
-        $this->getFacade()->captureItemsPayment($transactionMetaTransfer);
+        $this->getFacade()->refundItemsPayment($orderItems, $orderEntity);
 
         return [];
-    }
-
-    /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
-     *
-     * @return \ArrayObject
-     */
-    protected function getItemsForCapturing(array $orderItems): ArrayObject
-    {
-        $itemsForCapturing = [];
-
-        foreach ($orderItems as $orderItem) {
-            $itemTransfer = new ItemTransfer();
-            $itemTransfer->fromArray($orderItem->toArray(), true);
-            $itemsForCapturing[] = $itemTransfer;
-        }
-
-        $itemsForCapturing = new ArrayObject($itemsForCapturing);
-
-        return $itemsForCapturing;
     }
 }

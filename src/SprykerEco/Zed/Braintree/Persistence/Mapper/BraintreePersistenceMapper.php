@@ -7,10 +7,12 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence\Mapper;
 
+use Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLog;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLog;
 
@@ -101,5 +103,34 @@ class BraintreePersistenceMapper implements BraintreePersistenceMapperInterface
         PaymentBraintreeTransactionRequestLogTransfer $paymentBraintreeTransactionRequestLogTransfer
     ): PaymentBraintreeTransactionRequestLogTransfer {
         return $paymentBraintreeTransactionRequestLogTransfer->fromArray($paymentBraintreeTransactionRequestLogEntity->toArray(), true);
+    }
+
+    /**
+     * @param PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
+     * @param SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
+     *
+     * @return SpyPaymentBraintreeOrderItem
+     */
+    public function mapPaymentBraintreeOrderItemTransferToEntity(
+        PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer,
+        SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
+    ): SpyPaymentBraintreeOrderItem {
+        $paymentBraintreeOrderItemEntity->fromArray($paymentBraintreeOrderItemTransfer->modifiedToArray());
+        $paymentBraintreeOrderItemEntity->setNew($paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeTransactionRequestLog() === null);
+
+        return $paymentBraintreeOrderItemEntity;
+    }
+
+    /**
+     * @param SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
+     * @param PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
+     *
+     * @return PaymentBraintreeOrderItemTransfer
+     */
+    public function mapEntityToPaymentBraintreeOrderItemTransfer(
+        SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity,
+        PaymentBraintreeOrderItemTransfer $paymentBraintreeOrderItemTransfer
+    ): PaymentBraintreeOrderItemTransfer {
+        return $paymentBraintreeOrderItemTransfer->fromArray($paymentBraintreeOrderItemEntity->toArray(), true);
     }
 }

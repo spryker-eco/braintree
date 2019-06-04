@@ -113,6 +113,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::refundOrderPayment()` instead.
+     *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
@@ -120,9 +122,39 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function refundPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity)
     {
-        return $this
-            ->getFactory()
-            ->createRefundTransactionHandler()
+        return $this->refundOrderPayment($salesOrderItems, $salesOrderEntity);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function refundOrderPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): BraintreeTransactionResponseTransfer
+    {
+        return $this->getFactory()
+            ->createRefundOrderTransactionHandler()
+            ->refund($salesOrderItems, $salesOrderEntity);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return void
+     */
+    public function refundItemsPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): void
+    {
+        $this->getFactory()
+            ->createRefundItemsTransactionHandler()
             ->refund($salesOrderItems, $salesOrderEntity);
     }
 

@@ -28,6 +28,10 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTr
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
@@ -40,6 +44,8 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTra
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentRefundTransaction;
@@ -103,14 +109,27 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandlerInterface
      */
-    public function createRefundTransactionHandler(): RefundTransactionHandlerInterface
+    public function createRefundOrderTransactionHandler(): RefundOrderTransactionHandlerInterface
     {
-        return new RefundTransactionHandler(
-            $this->createRefundTransaction(),
+        return new RefundOrderTransactionHandler(
+            $this->createRefundOrderTransaction(),
             $this->createDefaultTransactionMetaVisitor(),
             $this->getRefundFacade()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandlerInterface
+     */
+    public function createRefundItemsTransactionHandler(): RefundItemsTransactionHandlerInterface
+    {
+        return new RefundItemsTransactionHandler(
+            $this->createRefundItemsTransaction(),
+            $this->createDefaultTransactionMetaVisitor(),
+            $this->getRefundFacade(),
+            $this->getRepository()
         );
     }
 
@@ -270,9 +289,22 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    public function createRefundTransaction(): TransactionInterface
+    public function createRefundOrderTransaction(): TransactionInterface
     {
-        return new RefundTransaction(
+        return new RefundOrderTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->createShipmentRefundTransactionHandler(),
+            $this->getRepository()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createRefundItemsTransaction(): TransactionInterface
+    {
+        return new RefundItemsTransaction(
             $this->getConfig(),
             $this->getMoneyFacade(),
             $this->createShipmentRefundTransactionHandler(),

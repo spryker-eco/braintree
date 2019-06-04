@@ -1,19 +1,18 @@
 <?php
 
-/**
- * MIT License
- * For full license information, please view the LICENSE file that was distributed with this source code.
- */
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
+
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
+use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 
-class RefundTransactionHandler extends AbstractTransactionHandler implements RefundTransactionHandlerInterface
+class RefundOrderTransactionHandler extends AbstractTransactionHandler implements RefundOrderTransactionHandlerInterface
 {
     /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface
@@ -41,7 +40,7 @@ class RefundTransactionHandler extends AbstractTransactionHandler implements Ref
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
-    public function refund(array $salesOrderItems, SpySalesOrder $salesOrderEntity)
+    public function refund(array $salesOrderItems, SpySalesOrder $salesOrderEntity): BraintreeTransactionResponseTransfer
     {
         $refundTransfer = $this->getRefund($salesOrderItems, $salesOrderEntity);
 
@@ -66,7 +65,7 @@ class RefundTransactionHandler extends AbstractTransactionHandler implements Ref
      *
      * @return \Generated\Shared\Transfer\RefundTransfer
      */
-    protected function getRefund(array $salesOrderItems, SpySalesOrder $salesOrderEntity)
+    protected function getRefund(array $salesOrderItems, SpySalesOrder $salesOrderEntity): RefundTransfer
     {
         return $this->refundFacade->calculateRefund($salesOrderItems, $salesOrderEntity);
     }

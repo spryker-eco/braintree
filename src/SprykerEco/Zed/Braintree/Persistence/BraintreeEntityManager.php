@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
+use Generated\Shared\Transfer\ItemTransfer;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionOrderItem;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
@@ -32,21 +34,35 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
 
     /**
      * @param int $idPaymentBraintree
-     * @param int $idPaymentBrainreeOrderItem
+     * @param ItemTransfer[] $itemTransfers
      * @param string $transactionId
      *
      * @return void
      */
-    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem, string $transactionId): void
+    public function addOrderItemsToTransactionLog(int $idPaymentBraintree, iterable $itemTransfers, string $transactionId): void
     {
         $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->filterByTransactionId($transactionId)
             ->findOneByFkPaymentBraintree($idPaymentBraintree);
 
+
         if ($paymentBraintreeTransactionStatusLogEntity) {
-            $paymentBraintreeTransactionStatusLogEntity->setFkPaymentBraintreeOrderItem($idPaymentBrainreeOrderItem);
-            $paymentBraintreeTransactionStatusLogEntity->save();
+            foreach ($itemTransfers as $itemTransfer) {
+                $paymentBraintreeOrderItemEntity = $this->getFactory()
+                    ->createPaymentBraintreeOrderItemQuery()
+                    ->findOneByFkSalesOrderItem($itemTransfer->getIdSalesOrderItem());
+
+                if ($paymentBraintreeOrderItemEntity) {
+                    $paymentBraintreeTransactionOrderItemEntity = new SpyPaymentBraintreeTransactionOrderItem();
+                    $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeTransactionStatusLog(
+                        $paymentBraintreeTransactionStatusLogEntity->getIdPaymentBraintreeTransactionStatusLog()
+                    );
+                    $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeOrderItem($paymentBraintreeOrderItemEntity->getIdPaymentBraintreeOrderItem());
+                    $paymentBraintreeTransactionOrderItemEntity->save();
+                }
+            }
+
         }
     }
 

@@ -19,7 +19,7 @@
         </transitions>
 
         <events>
-            <event name="refund payment" manual="true" onEnter="true" command="Braintree/Refund"/>
+            <event name="refund payment" manual="true" onEnter="true" command="Braintree/ItemsRefund"/>
         </events>
     </process>
 </statemachine>

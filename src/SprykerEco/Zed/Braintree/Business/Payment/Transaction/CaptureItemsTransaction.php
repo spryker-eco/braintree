@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
+use Generated\Shared\Transfer\ItemTransfer;
 use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
@@ -104,14 +105,11 @@ class CaptureItemsTransaction extends AbstractTransaction
             $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
 
             $this->braintreeEntityManager->updateIsShipmentPaidValue($this->getIdPayment(), true);
-
-            if (count($this->transactionMetaTransfer->getIdItems()) === 1) {
-                $this->braintreeEntityManager->addOrderItemToSuccessLog(
-                    $this->getIdPayment(),
-                    $this->transactionMetaTransfer->getIdItems()[0],
-                    $braintreeTransactionResponseTransfer->getTransactionId()
-                );
-            }
+            $this->braintreeEntityManager->addOrderItemsToTransactionLog(
+                $this->getIdPayment(),
+                $this->transactionMetaTransfer->getItems(),
+                $braintreeTransactionResponseTransfer->getTransactionId()
+            );
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -129,13 +127,29 @@ class CaptureItemsTransaction extends AbstractTransaction
     {
         $this->captureShipmentAmount();
 
-        $amount = $this->transactionMetaTransfer->getCaptureAmount();
+        $amount = $this->getCaptureAmount($this->transactionMetaTransfer->getItems());
         $amount = $this->getDecimalAmountValueFromInt($amount);
 
         return BraintreeTransaction::submitForPartialSettlement(
             $this->getTransactionIdentifier(),
             $amount
         );
+    }
+
+    /**
+     * @param ItemTransfer[] $itemTransfers
+     *
+     * @return int
+     */
+    protected function getCaptureAmount(iterable $itemTransfers): int
+    {
+        $amount = 0;
+
+        foreach ($itemTransfers as $itemTransfer) {
+            $amount += $itemTransfer->getPriceToPayAggregation();
+        }
+
+        return $amount;
     }
 
     /**
@@ -165,7 +179,7 @@ class CaptureItemsTransaction extends AbstractTransaction
         $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
         $shipmentTransactionMetaTransfer = clone $this->transactionMetaTransfer;
-        $shipmentTransactionMetaTransfer->setCaptureAmount($this->getDecimalAmountValueFromInt($amount));
+        $shipmentTransactionMetaTransfer->setCaptureShipmentAmount($this->getDecimalAmountValueFromInt($amount));
 
         $this->shipmentTransactionHandler->captureShipment($shipmentTransactionMetaTransfer);
     }

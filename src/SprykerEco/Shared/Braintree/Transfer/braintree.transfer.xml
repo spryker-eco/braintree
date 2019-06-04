@@ -75,6 +75,7 @@
 
     <transfer name="Item">
         <property name="idSalesOrderItem" type="int"/>
+        <property name="priceToPayAggregation" type="int"/>
     </transfer>
 
     <transfer name="Payment">
@@ -90,10 +91,10 @@
         <property name="transactionIdentifier" type="string"/>
         <property name="refund" type="Refund"/>
         <property name="quote" type="Quote"/>
-        <property name="captureAmount" type="int"/>
+        <property name="captureShipmentAmount" type="int"/>
         <property name="refundAmount" type="float"/>
         <property name="shipmentRefundTransactionId" type="float"/>
-        <property name="idItems" type="array"/>
+        <property name="items" type="Item[]" singular="item"/>
     </transfer>
 
     <transfer name="PaypalExpressSuccessResponse">
@@ -154,4 +155,9 @@
         <property name="presentationCurrency" type="string"/>
     </transfer>
 
+    <transfer name="PaymentBraintreeOrderItem">
+        <property name="idPaymentBraintreeOrderItem" type="int"/>
+        <property name="fkPaymentBraintree" type="int"/>
+        <property name="fkSalesOrderItem" type="int"/>
+    </transfer>
 </transfers>

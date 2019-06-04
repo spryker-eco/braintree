@@ -84,7 +84,7 @@ class ShipmentTransaction extends AbstractTransaction
     {
         return BraintreeTransaction::submitForPartialSettlement(
             $this->getTransactionIdentifier(),
-            $this->transactionMetaTransfer->getCaptureAmount()
+            $this->transactionMetaTransfer->getCaptureShipmentAmount()
         );
     }
 }

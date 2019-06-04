@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
+use Generated\Shared\Transfer\ItemTransfer;
+
 interface BraintreeEntityManagerInterface
 {
     /**
@@ -28,10 +30,10 @@ interface BraintreeEntityManagerInterface
 
     /**
      * @param int $idPaymentBraintree
-     * @param int $idPaymentBrainreeOrderItem
+     * @param ItemTransfer[] $itemTransfers
      * @param string $transactionId
      *
      * @return void
      */
-    public function addOrderItemToSuccessLog(int $idPaymentBraintree, int $idPaymentBrainreeOrderItem, string $transactionId): void;
+    public function addOrderItemsToTransactionLog(int $idPaymentBraintree, iterable $itemTransfers, string $transactionId): void;
 }

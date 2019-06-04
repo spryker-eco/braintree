@@ -7,7 +7,10 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItemQuery;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionOrderItem;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionOrderItemQuery;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLogQuery;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
@@ -52,5 +55,13 @@ class BraintreePersistenceFactory extends AbstractPersistenceFactory
     public function createPaymentBraintreeTransactionRequestLogQuery()
     {
         return SpyPaymentBraintreeTransactionRequestLogQuery::create();
+    }
+
+    /**
+     * @return SpyPaymentBraintreeOrderItemQuery
+     */
+    public function createPaymentBraintreeOrderItemQuery(): SpyPaymentBraintreeOrderItemQuery
+    {
+        return SpyPaymentBraintreeOrderItemQuery::create();
     }
 }

@@ -113,12 +113,42 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::refundOrderPayment()` instead.
+     *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function refundPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity);
+
+    /**
+     * Specification:
+     * - Calculate RefundTransfer for given $salesOrderItems and $salesOrderEntity.
+     * - Processes refund request to Braintree gateway by calculated RefundTransfer.
+     *
+     * @api
+     *
+     * @param array $salesOrderItems
+     * @param SpySalesOrder $salesOrderEntity
+     *
+     * @return BraintreeTransactionResponseTransfer
+     */
+    public function refundOrderPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): BraintreeTransactionResponseTransfer;
+
+    /**
+     * Specification:
+     * - Calculate RefundTransfer for given TransactionMetaTransfer.
+     * - Processes refund requests to Braintree gateway by calculated RefundTransfer for every order item.
+     *
+     * @api
+     *
+     * @param array $salesOrderItems
+     * @param SpySalesOrder $salesOrderEntity
+     *
+     * @return void
+     */
+    public function refundItemsPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): void;
 
     /**
      * Specification:
