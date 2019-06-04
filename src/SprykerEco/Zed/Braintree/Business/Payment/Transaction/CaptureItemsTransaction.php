@@ -171,12 +171,11 @@ class CaptureItemsTransaction extends AbstractTransaction
     {
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrder());
         $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
+        $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
-        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid()) {
+        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount == 0) {
             return;
         }
-
-        $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
         $shipmentTransactionMetaTransfer = clone $this->transactionMetaTransfer;
         $shipmentTransactionMetaTransfer->setCaptureShipmentAmount($this->getDecimalAmountValueFromInt($amount));
