@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
+use Braintree\Transaction;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\ExpenseTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
@@ -56,7 +57,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::CREDIT;
     }
@@ -64,7 +65,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_REFUND;
     }
@@ -113,7 +114,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return float|null
      */
-    protected function getAmount()
+    protected function getAmount(): ?float
     {
         return $this->moneyFacade->convertIntegerToDecimal($this->transactionMetaTransfer->getRefundAmount());
     }
@@ -121,7 +122,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return \Braintree\Transaction
      */
-    protected function findTransaction()
+    protected function findTransaction(): Transaction
     {
         return BraintreeTransaction::find($this->getTransactionIdentifier());
     }

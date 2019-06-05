@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface;
@@ -34,7 +35,7 @@ class ShipmentTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::SALE;
     }
@@ -42,7 +43,7 @@ class ShipmentTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_CAPTURE;
     }
@@ -60,7 +61,7 @@ class ShipmentTransaction extends AbstractTransaction
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
-    protected function afterTransaction($response)
+    protected function afterTransaction($response): BraintreeTransactionResponseTransfer
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);

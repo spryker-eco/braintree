@@ -15,7 +15,7 @@ class CaptureOrderTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::SALE;
     }
@@ -23,7 +23,7 @@ class CaptureOrderTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_CAPTURE;
     }

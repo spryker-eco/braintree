@@ -34,7 +34,7 @@ class ShipmentRefundTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::CREDIT;
     }
@@ -42,7 +42,7 @@ class ShipmentRefundTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_REFUND;
     }

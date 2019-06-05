@@ -85,5 +85,6 @@
         <behavior name="timestampable">
             <parameter name="disable_updated_at" value="true"/>
         </behavior>
-    <id-method-parameter value="spy_payment_braintree_order_item_pk_seq"/></table>
+        <id-method-parameter value="spy_payment_braintree_order_item_pk_seq"/>
+    </table>
 </database>

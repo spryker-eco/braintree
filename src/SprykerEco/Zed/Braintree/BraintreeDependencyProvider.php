@@ -26,7 +26,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    public function provideBusinessLayerDependencies(Container $container)
+    public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = $this->addRefundFacade($container);
         $container = $this->addCurrencyFacade($container);
@@ -41,7 +41,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addRefundFacade(Container $container)
+    protected function addRefundFacade(Container $container): Container
     {
         $container[static::FACADE_REFUND] = function (Container $container) {
             return new BraintreeToRefundFacadeBridge($container->getLocator()->refund()->facade());
@@ -55,7 +55,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addCurrencyFacade(Container $container)
+    protected function addCurrencyFacade(Container $container): Container
     {
         $container[static::FACADE_CURRENCY] = function (Container $container) {
             return new BraintreeToCurrencyFacadeBridge($container->getLocator()->currency()->facade());
@@ -69,7 +69,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addMoneyFacade(Container $container)
+    protected function addMoneyFacade(Container $container): Container
     {
         $container[static::FACADE_MONEY] = function (Container $container) {
             return new BraintreeToMoneyFacadeBridge($container->getLocator()->money()->facade());
@@ -83,7 +83,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function addSalesFacade(Container $container)
+    protected function addSalesFacade(Container $container): Container
     {
         $container[static::FACADE_SALES] = function (Container $container) {
             return new BraintreeToSalesFacadeBridge($container->getLocator()->sales()->facade());

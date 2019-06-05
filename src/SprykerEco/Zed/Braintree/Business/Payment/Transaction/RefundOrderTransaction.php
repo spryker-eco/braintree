@@ -7,9 +7,9 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
+use Braintree\Transaction;
 use Braintree\Transaction as BraintreeTransaction;
 use Generated\Shared\Transfer\ExpenseTransfer;
-use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Spryker\Shared\Shipment\ShipmentConstants;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
@@ -55,7 +55,7 @@ class RefundOrderTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::CREDIT;
     }
@@ -63,7 +63,7 @@ class RefundOrderTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_REFUND;
     }
@@ -96,7 +96,7 @@ class RefundOrderTransaction extends AbstractTransaction
     /**
      * @return float|null
      */
-    protected function getAmount()
+    protected function getAmount(): ?float
     {
         $refundTransfer = $this->transactionMetaTransfer->requireRefund()->getRefund();
         $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
@@ -117,7 +117,7 @@ class RefundOrderTransaction extends AbstractTransaction
     /**
      * @return \Braintree\Transaction
      */
-    protected function findTransaction()
+    protected function findTransaction(): Transaction
     {
         return BraintreeTransaction::find($this->getTransactionIdentifier());
     }
@@ -134,14 +134,5 @@ class RefundOrderTransaction extends AbstractTransaction
         }
 
         return null;
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
-     */
-    protected function getPaymentBraintreeTransactionStatusLogTransfer(): ?PaymentBraintreeTransactionStatusLogTransfer
-    {
-        return $this->braintreeRepository
-            ->findTransactionRequestLogByIdSalesOrderForShipment($this->transactionMetaTransfer->getIdSalesOrder());
     }
 }
