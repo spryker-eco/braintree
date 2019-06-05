@@ -79,6 +79,29 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     }
 
     /**
+     * @param array $idsSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer[]
+     */
+    public function findPaymentBraintreeOrderItemsByIdsSalesOrderItem(array $idsSalesOrderItem): array
+    {
+        $result = [];
+
+        $paymentBraintreeOrderItemEntities = $this->getFactory()
+            ->createPaymentBraintreeOrderItemQuery()
+            ->filterByFkSalesOrderItem_In($idsSalesOrderItem)
+            ->find();
+
+        foreach ($paymentBraintreeOrderItemEntities as $paymentBraintreeOrderItemEntity) {
+            $result[] = $this->getFactory()
+                ->createBraintreePersistenceMapper()
+                ->mapEntityToPaymentBraintreeOrderItemTransfer($paymentBraintreeOrderItemEntity, new PaymentBraintreeOrderItemTransfer());
+        }
+
+        return $result;
+    }
+
+    /**
      * @param int $idSalesOrder
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
@@ -106,14 +129,14 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      * @param string $transactionCode
      * @param string|array $statusCode
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     * @return bool
      */
-    public function findSucceededPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCode(
+    public function isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
         int $idSalesOrder,
         string $transactionCode,
         $statusCode
-    ): ?PaymentBraintreeTransactionStatusLogTransfer {
-        $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
+    ): bool {
+        return $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->filterByTransactionCode($transactionCode)
             ->filterByTransactionStatus((array)$statusCode, Criteria::IN)
@@ -122,15 +145,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
                 ->filterByFkSalesOrder($idSalesOrder)
             ->endUse()
             ->filterByIsSuccess(true)
-            ->findOne();
-
-        if ($paymentBraintreeTransactionStatusLogEntity === null) {
-            return null;
-        }
-
-        return $this->getFactory()
-            ->createBraintreePersistenceMapper()
-            ->mapEntityToPaymentBraintreeTransactionStatusLogTransfer($paymentBraintreeTransactionStatusLogEntity, new PaymentBraintreeTransactionStatusLogTransfer());
+            ->exists();
     }
 
     /**
@@ -143,7 +158,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     ): ?PaymentBraintreeTransactionStatusLogTransfer {
         $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
-            ->useSpyPaymentBraintreeTransactionOrderItemQuery()
+            ->useSpyPaymentBraintreeTransactionStatusLogToOrderItemQuery()
                 ->filterByFkPaymentBraintreeOrderItem($idPaymentBraintreeOrderItem)
             ->endUse()
             ->findOne();

@@ -61,7 +61,7 @@
         <id-method-parameter value="spy_payment_braintree_transaction_status_log_pk_seq"/>
     </table>
 
-    <table name="spy_payment_braintree_transaction_order_item">
+    <table name="spy_payment_braintree_transaction_status_log_to_order_item">
         <column name="fk_payment_braintree_transaction_status_log" required="true" type="INTEGER" />
         <column name="fk_payment_braintree_order_item" required="true" type="INTEGER" />
         <foreign-key name="spy_payment_transaction_order_item-fk_transaction_status_log" foreignTable="spy_payment_braintree_transaction_status_log">

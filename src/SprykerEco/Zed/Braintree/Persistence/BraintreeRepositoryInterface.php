@@ -35,6 +35,13 @@ interface BraintreeRepositoryInterface
     public function findPaymentBraintreeOrderItemByIdSalesOrderItem(int $idSalesOrderItem): ?PaymentBraintreeOrderItemTransfer;
 
     /**
+     * @param array $idsSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer[]
+     */
+    public function findPaymentBraintreeOrderItemsByIdsSalesOrderItem(array $idsSalesOrderItem): array;
+
+    /**
      * @param int $idSalesOrder
      *
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
@@ -46,13 +53,13 @@ interface BraintreeRepositoryInterface
      * @param string $transactionCode
      * @param string|array $statusCode
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     * @return bool
      */
-    public function findSucceededPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCode(
+    public function isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
         int $idSalesOrder,
         string $transactionCode,
         $statusCode
-    ): ?PaymentBraintreeTransactionStatusLogTransfer;
+    ): bool;
 
     /**
      * @param int $idPaymentBraintreeOrderItem

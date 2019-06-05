@@ -7,7 +7,8 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
-use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionOrderItem;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogToOrderItem;
+use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
@@ -33,7 +34,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
 
     /**
      * @param int $idPaymentBraintree
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      * @param string $transactionId
      *
      * @return void
@@ -46,20 +47,25 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
             ->findOneByFkPaymentBraintree($idPaymentBraintree);
 
         if ($paymentBraintreeTransactionStatusLogEntity) {
-            foreach ($itemTransfers as $itemTransfer) {
-                $paymentBraintreeOrderItemEntity = $this->getFactory()
-                    ->createPaymentBraintreeOrderItemQuery()
-                    ->findOneByFkSalesOrderItem($itemTransfer->getIdSalesOrderItem());
+            $paymentBraintreeOrderItemEntities = $this->getFactory()
+                ->createPaymentBraintreeOrderItemQuery()
+                ->filterByFkSalesOrderItem_In($this->getSalesOrderItemIds($itemTransfers))
+                ->find();
 
-                if ($paymentBraintreeOrderItemEntity) {
-                    $paymentBraintreeTransactionOrderItemEntity = new SpyPaymentBraintreeTransactionOrderItem();
-                    $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeTransactionStatusLog(
-                        $paymentBraintreeTransactionStatusLogEntity->getIdPaymentBraintreeTransactionStatusLog()
-                    );
-                    $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeOrderItem($paymentBraintreeOrderItemEntity->getIdPaymentBraintreeOrderItem());
-                    $paymentBraintreeTransactionOrderItemEntity->save();
-                }
+            $objectCollection = new ObjectCollection();
+            $objectCollection->setModel(SpyPaymentBraintreeTransactionStatusLogToOrderItem::class);
+
+            foreach ($paymentBraintreeOrderItemEntities as $paymentBraintreeOrderItemEntity) {
+                $paymentBraintreeTransactionOrderItemEntity = new SpyPaymentBraintreeTransactionStatusLogToOrderItem();
+                $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeTransactionStatusLog(
+                    $paymentBraintreeTransactionStatusLogEntity->getIdPaymentBraintreeTransactionStatusLog()
+                );
+                $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeOrderItem($paymentBraintreeOrderItemEntity->getIdPaymentBraintreeOrderItem());
+
+                $objectCollection->append($paymentBraintreeTransactionOrderItemEntity);
             }
+
+            $objectCollection->save();
         }
     }
 
@@ -81,5 +87,21 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
             $paymentBraintreeTransactionStatusLogEntity->setIsShipmentOperation($isShipmentOperation);
             $paymentBraintreeTransactionStatusLogEntity->save();
         }
+    }
+
+    /**
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     *
+     * @return array
+     */
+    protected function getSalesOrderItemIds(iterable $itemTransfers): array
+    {
+        $salesOrderItemIds = [];
+
+        foreach ($itemTransfers as $itemTransfer) {
+            $salesOrderItemIds[] = $itemTransfer->getIdSalesOrderItem();
+        }
+
+        return $salesOrderItemIds;
     }
 }

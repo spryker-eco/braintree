@@ -99,13 +99,13 @@ class RefundOrderTransaction extends AbstractTransaction
     protected function getAmount(): ?float
     {
         $refundTransfer = $this->transactionMetaTransfer->requireRefund()->getRefund();
-        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
+        $amount = $refundTransfer->getAmount();
 
-        if ($refundTransfer->getAmount() === null) {
+        if (!$amount) {
             return null;
         }
 
-        $amount = $refundTransfer->getAmount();
+        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
 
         if ($shipmentExpenseTransfer) {
             $amount = $amount - $shipmentExpenseTransfer->getUnitPriceToPayAggregation();

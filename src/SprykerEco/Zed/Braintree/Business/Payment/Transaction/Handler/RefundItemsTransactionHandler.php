@@ -35,18 +35,18 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     protected $braintreeRepository;
 
     /**
-     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $transaction
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface $refundItemsTranasction
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface $transactionMetaVisitor
      * @param \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface $refundFacade
      * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface $braintreeRepository
      */
     public function __construct(
-        TransactionInterface $transaction,
+        TransactionInterface $refundItemsTranasction,
         TransactionMetaVisitorInterface $transactionMetaVisitor,
         BraintreeToRefundFacadeInterface $refundFacade,
         BraintreeRepositoryInterface $braintreeRepository
     ) {
-        parent::__construct($transaction, $transactionMetaVisitor);
+        parent::__construct($refundItemsTranasction, $transactionMetaVisitor);
 
         $this->refundFacade = $refundFacade;
         $this->braintreeRepository = $braintreeRepository;
@@ -61,22 +61,12 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     public function refund(array $salesOrderItems, SpySalesOrder $salesOrderEntity): void
     {
         $refundTransfer = $this->getRefund($salesOrderItems, $salesOrderEntity);
-        $transactionMetaTransfer = $this->getTransactionMetaTransfer($salesOrderItems, $salesOrderEntity, $refundTransfer);
+        $transactionMetaTransfer = $this->createTransactionMetaTransfer($salesOrderItems, $salesOrderEntity, $refundTransfer);
 
         $orderItemsGroupedByTransaction = $this->getOrderItemsGroupedByTransaction($transactionMetaTransfer);
         $shipmentExpense = $this->getShipmentExpenseTransfer($refundTransfer);
 
-        foreach ($orderItemsGroupedByTransaction as $transactionId => $data) {
-            $transactionMetaTransfer->setIdPayment($data[static::KEY_PAYMENT_ID]);
-            $transactionMetaTransfer->setTransactionIdentifier($transactionId);
-            $transactionMetaTransfer->setRefundAmount($data[static::KEY_AMOUNT]);
-
-            $braintreeTransactionResponseTransfer = $this->transaction->executeTransaction($transactionMetaTransfer);
-
-            if ($braintreeTransactionResponseTransfer->getIsSuccess()) {
-                $refundTransfer = $this->removeShipmentExpense($refundTransfer);
-            }
-        }
+        $this->executeTransactionByItems($orderItemsGroupedByTransaction, $transactionMetaTransfer, $refundTransfer);
 
         if ($shipmentExpense) {
             $refundTransfer->getExpenses()->append($shipmentExpense);
@@ -111,7 +101,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
             $itemsForRefunding[] = $itemTransfer;
         }
 
-        return $this->getRefundedUniqItems($itemsForRefunding);
+        return $this->getRefundedUniqueItems($itemsForRefunding);
     }
 
     /**
@@ -121,7 +111,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
      *
      * @return \Generated\Shared\Transfer\TransactionMetaTransfer
      */
-    protected function getTransactionMetaTransfer(array $salesOrderItems, SpySalesOrder $salesOrderEntity, RefundTransfer $refundTransfer): TransactionMetaTransfer
+    protected function createTransactionMetaTransfer(array $salesOrderItems, SpySalesOrder $salesOrderEntity, RefundTransfer $refundTransfer): TransactionMetaTransfer
     {
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($salesOrderEntity->getIdSalesOrder());
@@ -136,21 +126,21 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[]
      */
-    protected function getRefundedUniqItems(array $itemTransfers): iterable
+    protected function getRefundedUniqueItems(array $itemTransfers): ArrayObject
     {
-        $uniqItems = [];
-        $uniqItemIds = [];
+        $uniqueItemTransfers = [];
+        $uniqueItemIds = [];
 
         foreach ($itemTransfers as $itemTransfer) {
-            if (!in_array($itemTransfer->getIdSalesOrderItem(), $uniqItemIds)) {
-                $uniqItems[] = $itemTransfer;
-                $uniqItemIds[] = $uniqItemIds;
+            if (!in_array($itemTransfer->getIdSalesOrderItem(), $uniqueItemIds)) {
+                $uniqueItemTransfers[] = $itemTransfer;
+                $uniqueItemIds[] = $itemTransfer->getIdSalesOrderItem();
             }
         }
 
-        $uniqItems = new ArrayObject($uniqItems);
+        $uniqueItemTransfers = new ArrayObject($uniqueItemTransfers);
 
-        return $uniqItems;
+        return $uniqueItemTransfers;
     }
 
     /**
@@ -162,18 +152,20 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     {
         $itemsByTransactions = [];
 
-        foreach ($transactionMetaTransfer->getItems() as $itemTransfer) {
-            $paymentBraintreeOrderItemTransfer = $this->braintreeRepository
-                ->findPaymentBraintreeOrderItemByIdSalesOrderItem($itemTransfer->getIdSalesOrderItem());
+        $refundedItemMap = $this->mapItemsAmount($transactionMetaTransfer->getItems());
 
-            $paymentBraintreeTransactionSatusLogTransfer = $this->braintreeRepository
+        $paymentBraintreeOrderItemTransfers = $this->braintreeRepository
+            ->findPaymentBraintreeOrderItemsByIdsSalesOrderItem(array_keys($refundedItemMap));
+
+        foreach ($paymentBraintreeOrderItemTransfers as $paymentBraintreeOrderItemTransfer) {
+            $paymentBraintreeTransactionStatusLogTransfer = $this->braintreeRepository
                 ->findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeOrderItem($paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeOrderItem());
 
-            $amount = $itemsByTransactions[$paymentBraintreeTransactionSatusLogTransfer->getTransactionId()][static::KEY_AMOUNT] ?? 0;
+            $amount = $itemsByTransactions[$paymentBraintreeTransactionStatusLogTransfer->getTransactionId()][static::KEY_AMOUNT] ?? 0;
 
-            $itemsByTransactions[$paymentBraintreeTransactionSatusLogTransfer->getTransactionId()] = [
+            $itemsByTransactions[$paymentBraintreeTransactionStatusLogTransfer->getTransactionId()] = [
                 static::KEY_PAYMENT_ID => $paymentBraintreeOrderItemTransfer->getFkPaymentBraintree(),
-                static::KEY_AMOUNT => $amount + $itemTransfer->getPriceToPayAggregation(),
+                static::KEY_AMOUNT => $amount + $refundedItemMap[$paymentBraintreeOrderItemTransfer->getFkSalesOrderItem()],
             ];
         }
 
@@ -214,5 +206,46 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         }
 
         return null;
+    }
+
+    /**
+     * @param array $orderItemsGroupedByTransaction
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return void
+     */
+    protected function executeTransactionByItems(
+        array $orderItemsGroupedByTransaction,
+        TransactionMetaTransfer $transactionMetaTransfer,
+        RefundTransfer $refundTransfer
+    ): void {
+        foreach ($orderItemsGroupedByTransaction as $transactionId => $data) {
+            $transactionMetaTransfer->setIdPayment($data[static::KEY_PAYMENT_ID]);
+            $transactionMetaTransfer->setTransactionIdentifier($transactionId);
+            $transactionMetaTransfer->setRefundAmount($data[static::KEY_AMOUNT]);
+
+            $braintreeTransactionResponseTransfer = $this->transaction->executeTransaction($transactionMetaTransfer);
+
+            if ($braintreeTransactionResponseTransfer->getIsSuccess()) {
+                $refundTransfer = $this->removeShipmentExpense($refundTransfer);
+            }
+        }
+    }
+
+    /**
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     *
+     * @return array
+     */
+    protected function mapItemsAmount(iterable $itemTransfers): array
+    {
+        $itemsAmountMap = [];
+
+        foreach ($itemTransfers as $itemTransfer) {
+            $itemsAmountMap[$itemTransfer->getIdSalesOrderItem()] = $itemTransfer->getPriceToPayAggregation();
+        }
+
+        return $itemsAmountMap;
     }
 }

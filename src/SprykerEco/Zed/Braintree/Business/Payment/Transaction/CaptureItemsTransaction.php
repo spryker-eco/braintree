@@ -173,7 +173,7 @@ class CaptureItemsTransaction extends AbstractTransaction
         $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
         $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
-        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount == 0) {
+        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount === 0) {
             return;
         }
 
@@ -188,7 +188,7 @@ class CaptureItemsTransaction extends AbstractTransaction
      *
      * @return int
      */
-    protected function getShipmentExpenses($expenseTransfers): int
+    protected function getShipmentExpenses(iterable $expenseTransfers): int
     {
         foreach ($expenseTransfers as $expenseTransfer) {
             if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {

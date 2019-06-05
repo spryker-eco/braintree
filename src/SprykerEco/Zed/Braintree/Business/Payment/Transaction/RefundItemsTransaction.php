@@ -112,9 +112,9 @@ class RefundItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @return float|null
+     * @return float
      */
-    protected function getAmount(): ?float
+    protected function getAmount(): float
     {
         return $this->moneyFacade->convertIntegerToDecimal($this->transactionMetaTransfer->getRefundAmount());
     }
@@ -144,7 +144,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
      */
-    protected function getPaymentBraintreeTransactionStatusLogTransfer(): ?PaymentBraintreeTransactionStatusLogTransfer
+    protected function findPaymentBraintreeTransactionStatusLogTransfer(): ?PaymentBraintreeTransactionStatusLogTransfer
     {
         return $this->braintreeRepository
             ->findTransactionRequestLogByIdSalesOrderForShipment($this->transactionMetaTransfer->getIdSalesOrder());
@@ -155,7 +155,7 @@ class RefundItemsTransaction extends AbstractTransaction
      */
     protected function refundShipmentExpense(): void
     {
-        $paymentBraintreeTransactionStatusLogTransfer = $this->getPaymentBraintreeTransactionStatusLogTransfer();
+        $paymentBraintreeTransactionStatusLogTransfer = $this->findPaymentBraintreeTransactionStatusLogTransfer();
 
         if ($paymentBraintreeTransactionStatusLogTransfer) {
             $shipmentRefundTransitionMetaTransfer = clone $this->transactionMetaTransfer;

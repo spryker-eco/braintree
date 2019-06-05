@@ -93,7 +93,7 @@
         <property name="quote" type="Quote"/>
         <property name="captureShipmentAmount" type="int"/>
         <property name="refundAmount" type="float"/>
-        <property name="shipmentRefundTransactionId" type="float"/>
+        <property name="shipmentRefundTransactionId" type="int"/>
         <property name="items" type="Item[]" singular="item"/>
     </transfer>
 

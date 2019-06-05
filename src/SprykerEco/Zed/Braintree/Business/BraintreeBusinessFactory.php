@@ -56,8 +56,8 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface;
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
 {

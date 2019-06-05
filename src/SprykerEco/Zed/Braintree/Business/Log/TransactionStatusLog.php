@@ -36,8 +36,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_AUTHORIZE,
-            ApiConstants::STATUS_CODE_AUTHORIZE,
-            ApiConstants::STATUS_REASON_CODE_SUCCESS
+            ApiConstants::STATUS_CODE_AUTHORIZE
         );
     }
 
@@ -51,8 +50,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_REVERSAL,
-            ApiConstants::STATUS_CODE_REVERSAL,
-            ApiConstants::STATUS_REASON_CODE_SUCCESS
+            ApiConstants::STATUS_CODE_REVERSAL
         );
     }
 
@@ -66,8 +64,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         if ($this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_CAPTURE,
-            ApiConstants::STATUS_CODE_CAPTURE,
-            ApiConstants::STATUS_REASON_CODE_SUCCESS
+            ApiConstants::STATUS_CODE_CAPTURE
         )) {
             return true;
         }
@@ -75,8 +72,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_CAPTURE,
-            ApiConstants::STATUS_CODE_CAPTURE_SUBMITTED,
-            ApiConstants::STATUS_REASON_CODE_SUCCESS
+            ApiConstants::STATUS_CODE_CAPTURE_SUBMITTED
         );
     }
 
@@ -90,8 +86,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_REFUND,
-            [ApiConstants::STATUS_CODE_REVERSAL, ApiConstants::STATUS_CODE_REFUND],
-            ApiConstants::STATUS_REASON_CODE_SUCCESS
+            [ApiConstants::STATUS_CODE_REVERSAL, ApiConstants::STATUS_CODE_REFUND]
         );
     }
 
@@ -99,25 +94,18 @@ class TransactionStatusLog implements TransactionStatusLogInterface
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      * @param string $transactionCode
      * @param string|array $statusCode
-     * @param string $expectedStatusReasonCode
      *
      * @return bool
      */
-    protected function hasTransactionStatusLog(OrderTransfer $orderTransfer, $transactionCode, $statusCode, $expectedStatusReasonCode)
+    protected function hasTransactionStatusLog(OrderTransfer $orderTransfer, $transactionCode, $statusCode): bool
     {
         $idSalesOrder = $orderTransfer->getIdSalesOrder();
 
-        $paymentBraintreeTransactionStatusLogTransfer = $this->repository
-            ->findSucceededPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCode(
+        return $this->repository
+            ->isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
                 $idSalesOrder,
                 $transactionCode,
                 $statusCode
             );
-
-        if (!$paymentBraintreeTransactionStatusLogTransfer) {
-            return false;
-        }
-
-        return true;
     }
 }
