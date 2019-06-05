@@ -116,7 +116,7 @@ class BraintreePersistenceMapper implements BraintreePersistenceMapperInterface
         SpyPaymentBraintreeOrderItem $paymentBraintreeOrderItemEntity
     ): SpyPaymentBraintreeOrderItem {
         $paymentBraintreeOrderItemEntity->fromArray($paymentBraintreeOrderItemTransfer->modifiedToArray());
-        $paymentBraintreeOrderItemEntity->setNew($paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeTransactionRequestLog() === null);
+        $paymentBraintreeOrderItemEntity->setNew($paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeOrderItem() === null);
 
         return $paymentBraintreeOrderItemEntity;
     }

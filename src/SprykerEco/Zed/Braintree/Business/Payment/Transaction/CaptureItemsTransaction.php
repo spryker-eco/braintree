@@ -163,8 +163,6 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
-     *
      * @return void
      */
     protected function captureShipmentAmount(): void

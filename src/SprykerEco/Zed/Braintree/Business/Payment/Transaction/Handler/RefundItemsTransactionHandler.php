@@ -122,7 +122,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      *
      * @return \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[]
      */
