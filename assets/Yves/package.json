@@ -4,6 +4,6 @@
   "version": "1.0.0",
   "dependencies": {
     "braintree-web": "~2.23.0",
-    "jquery": "~3.0"
+    "jquery": "~3.4"
   }
 }
