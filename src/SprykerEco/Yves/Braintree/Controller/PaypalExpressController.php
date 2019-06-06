@@ -29,7 +29,10 @@ class PaypalExpressController extends AbstractController
     {
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 
-        $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
+        $processor = $this->getFactory()
+            ->createResponseProcessor();
+
+        $processor->processSuccessResponse($payload);
 
         return $this->jsonResponse([
             'redirectUrl' => $this->getApplication()->path(CheckoutPageControllerProvider::CHECKOUT_SUMMARY),
