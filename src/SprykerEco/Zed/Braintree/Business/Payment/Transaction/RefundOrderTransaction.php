@@ -89,14 +89,14 @@ class RefundOrderTransaction extends AbstractTransaction
 
         return BraintreeTransaction::refund(
             $this->getTransactionIdentifier(),
-            $this->getAmount()
+            $this->findAmount()
         );
     }
 
     /**
      * @return float|null
      */
-    protected function getAmount(): ?float
+    protected function findAmount(): ?float
     {
         $refundTransfer = $this->transactionMetaTransfer->requireRefund()->getRefund();
         $amount = $refundTransfer->getAmount();
@@ -105,7 +105,7 @@ class RefundOrderTransaction extends AbstractTransaction
             return null;
         }
 
-        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
+        $shipmentExpenseTransfer = $this->findShipmentExpenseTransfer();
 
         if ($shipmentExpenseTransfer) {
             $amount = $amount - $shipmentExpenseTransfer->getUnitPriceToPayAggregation();
@@ -125,7 +125,7 @@ class RefundOrderTransaction extends AbstractTransaction
     /**
      * @return \Generated\Shared\Transfer\ExpenseTransfer|null
      */
-    protected function getShipmentExpenseTransfer(): ?ExpenseTransfer
+    protected function findShipmentExpenseTransfer(): ?ExpenseTransfer
     {
         foreach ($this->transactionMetaTransfer->getRefund()->getExpenses() as $expenseTransfer) {
             if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {

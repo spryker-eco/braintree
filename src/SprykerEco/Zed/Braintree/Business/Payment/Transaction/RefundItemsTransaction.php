@@ -85,7 +85,7 @@ class RefundItemsTransaction extends AbstractTransaction
      */
     public function afterTransaction($response): BraintreeTransactionResponseTransfer
     {
-        $shipmentExpenseTransfer = $this->getShipmentExpenseTransfer();
+        $shipmentExpenseTransfer = $this->findShipmentExpenseTransfer();
 
         if ($shipmentExpenseTransfer) {
             $this->refundShipmentExpense();
@@ -130,7 +130,7 @@ class RefundItemsTransaction extends AbstractTransaction
     /**
      * @return \Generated\Shared\Transfer\ExpenseTransfer|null
      */
-    protected function getShipmentExpenseTransfer(): ?ExpenseTransfer
+    protected function findShipmentExpenseTransfer(): ?ExpenseTransfer
     {
         foreach ($this->transactionMetaTransfer->getRefund()->getExpenses() as $expenseTransfer) {
             if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
