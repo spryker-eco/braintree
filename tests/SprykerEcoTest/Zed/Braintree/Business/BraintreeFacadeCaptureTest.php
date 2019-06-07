@@ -124,7 +124,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
      *
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction
      */
-    protected function getCaptureOrderTransactionMock($success = true)
+    protected function getCaptureOrderTransactionMock(bool $success = true)
     {
         $captureTransactionMock = $this
             ->getMockBuilder(CaptureOrderTransaction::class)
@@ -150,9 +150,9 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction
+     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction
      */
-    protected function getCaptureItemsTransactionMock($success = true)
+    protected function getCaptureItemsTransactionMock(bool $success = true): CaptureItemsTransaction
     {
         $captureTransactionMock = $this
             ->getMockBuilder(CaptureItemsTransaction::class)
@@ -186,7 +186,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     /**
      * @return \Braintree\Result\Successful
      */
-    protected function getSuccessResponse()
+    protected function getSuccessResponse(): Successful
     {
         $transaction = Transaction::factory([
             'id' => 123,

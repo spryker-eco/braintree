@@ -64,7 +64,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         $transactionMetaTransfer = $this->createTransactionMetaTransfer($salesOrderItems, $salesOrderEntity, $refundTransfer);
 
         $orderItemsGroupedByTransaction = $this->getOrderItemsGroupedByTransaction($transactionMetaTransfer);
-        $shipmentExpense = $this->getShipmentExpenseTransfer($refundTransfer);
+        $shipmentExpense = $this->findShipmentExpenseTransfer($refundTransfer);
 
         $this->executeTransactionByItems($orderItemsGroupedByTransaction, $transactionMetaTransfer, $refundTransfer);
 
@@ -197,7 +197,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
      *
      * @return \Generated\Shared\Transfer\ExpenseTransfer|null
      */
-    protected function getShipmentExpenseTransfer(RefundTransfer $refundTransfer): ?ExpenseTransfer
+    protected function findShipmentExpenseTransfer(RefundTransfer $refundTransfer): ?ExpenseTransfer
     {
         foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
             if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
