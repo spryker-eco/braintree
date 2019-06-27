@@ -5,7 +5,7 @@
 } %}
 
 {% block body %}
-    {% include molecule('pay-pal', 'Braintree') with {
+    {% include molecule('braintree-pay-pal', 'Braintree') with {
         data: {
             form: data.form
         }

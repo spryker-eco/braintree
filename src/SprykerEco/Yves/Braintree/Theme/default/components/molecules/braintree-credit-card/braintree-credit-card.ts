@@ -1,4 +1,4 @@
-import PaymentForm from '../payment-form/payment-form';
+import PaymentForm from '../braintree-payment-form/braintree-payment-form';
 
 export default class BraintreeCreditCard extends PaymentForm {
     form: HTMLFormElement;
