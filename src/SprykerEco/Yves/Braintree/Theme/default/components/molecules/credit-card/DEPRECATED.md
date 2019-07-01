@@ -1,0 +1,1 @@
+This component is deprecated. Use molecule braintree-credit-card instead.
