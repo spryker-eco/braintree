@@ -20,12 +20,12 @@ export default class BraintreePaymentForm extends Component {
     protected scriptLoader: ScriptLoader;
     protected currentPaymentMethodValue: string = '';
 
-    readonly formId: string = 'payment-form';
-    readonly nonceInputName: string = 'payment_method_nonce';
-    readonly paymentSelection: string = 'paymentForm[paymentSelection]';
-    readonly integrationType: string = 'custom';
-    readonly paymentMethodName: string = '';
-    readonly paymentMethodTypeName: string = '';
+    protected readonly formId: string = 'payment-form';
+    protected readonly nonceInputName: string = 'payment_method_nonce';
+    protected readonly paymentSelection: string = 'paymentForm[paymentSelection]';
+    protected readonly integrationType: string = 'custom';
+    protected readonly paymentMethodName: string = '';
+    protected readonly paymentMethodTypeName: string = '';
 
     constructor() {
         super();

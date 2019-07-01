@@ -4,8 +4,8 @@ export default class BraintreePayPal extends BraintreePaymentForm {
     protected form: HTMLFormElement;
     protected braintreePayPalMethod: HTMLElement;
 
-    readonly paymentMethodName: string = 'braintreePayPal';
-    readonly paymentMethodTypeName: string = 'PayPalAccount';
+    protected readonly paymentMethodName: string = 'braintreePayPal';
+    protected readonly paymentMethodTypeName: string = 'PayPalAccount';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);

@@ -4,8 +4,8 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
     protected form: HTMLFormElement;
     protected braintreeCreditCardMethod: HTMLElement;
 
-    readonly paymentMethodName: string = 'braintreeCreditCard';
-    readonly paymentMethodTypeName: string = 'CreditCard';
+    protected readonly paymentMethodName: string = 'braintreeCreditCard';
+    protected readonly paymentMethodTypeName: string = 'CreditCard';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
