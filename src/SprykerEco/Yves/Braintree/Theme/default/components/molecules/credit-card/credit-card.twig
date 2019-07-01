@@ -3,11 +3,11 @@
 
 {% define config = {
     name: 'credit-card',
-    tag: 'credit-card'
+    tag: 'credit-card',
 } %}
 
 {% define attributes = {
-    'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken
+    'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken,
 } %}
 
 {% block body %}

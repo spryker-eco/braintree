@@ -1,1 +1,1 @@
-This component is deprecated. Use molecule braintree-pay-pal instead.
+This component is deprecated. Use molecule molecule('braintree-pay-pal', 'Braintree') instead.

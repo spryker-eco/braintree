@@ -3,11 +3,11 @@
 
 {% define config = {
     name: 'pay-pal',
-    tag: 'pay-pal'
+    tag: 'pay-pal',
 } %}
 
 {% define attributes = {
-    'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken
+    'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken,
 } %}
 
 {% block body %}

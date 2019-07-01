@@ -13,12 +13,12 @@ interface braintreeErrorConfig {
 }
 
 export default class BraintreePaymentForm extends Component {
-    form: HTMLFormElement;
-    paymentMethods: HTMLInputElement[];
-    nonceInputSelector: HTMLInputElement;
-    braintreeSetupSettings: any;
-    scriptLoader: ScriptLoader;
-    currentPaymentMethodValue: string = '';
+    protected form: HTMLFormElement;
+    protected paymentMethods: HTMLInputElement[];
+    protected nonceInputSelector: HTMLInputElement;
+    protected braintreeSetupSettings: any;
+    protected scriptLoader: ScriptLoader;
+    protected currentPaymentMethodValue: string = '';
 
     readonly formId: string = 'payment-form';
     readonly nonceInputName: string = 'payment_method_nonce';
@@ -146,7 +146,7 @@ export default class BraintreePaymentForm extends Component {
     }
 
     showErrorMessage(errorContainer: HTMLElement): void {
-        errorContainer.classList.remove('is-hidden');
+        errorContainer.classList.remove(this.braintreeErrorMessageToggleClass);
     }
 
     removeErrorMessage(): void {
@@ -156,7 +156,11 @@ export default class BraintreePaymentForm extends Component {
     }
 
     hideErrorMessage(errorContainer: HTMLElement): void {
-        errorContainer.classList.add('is-hidden');
+        errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
+    }
+
+    get braintreeErrorMessageToggleClass(): string {
+        return this.getAttribute('data-error-message-toggle-class');
     }
 
     get braintreeClientToken(): string {

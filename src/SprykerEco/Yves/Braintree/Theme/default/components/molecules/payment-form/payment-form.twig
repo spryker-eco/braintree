@@ -3,22 +3,22 @@
 
 {% define config = {
     name: 'payment-form',
-    tag: 'payment-form'
+    tag: 'payment-form',
 } %}
 
 {% define data = {
     form: required,
-    scriptSrc: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js'
+    scriptSrc: 'https://js.braintreegateway.com/js/braintree-2.32.1.min.js',
 } %}
 
 {% define attributes = {
-    'data-error-message': 'Braintree.payment_method.error_message' | trans
+    'data-error-message': 'Braintree.payment_method.error_message' | trans,
 } %}
 
 {% block body %}
     {% include molecule('script-loader') with {
         attributes: {
-            src: data.scriptSrc
+            src: data.scriptSrc,
         }
     } only %}
 {% endblock %}

@@ -1,1 +1,1 @@
-This component is deprecated. Use molecule braintree-credit-card instead.
+This component is deprecated. Use molecule molecule('braintree-credit-card', 'Braintree') instead.

@@ -1,8 +1,8 @@
 import BraintreePaymentForm from '../braintree-payment-form/braintree-payment-form';
 
 export default class BraintreeCreditCard extends BraintreePaymentForm {
-    form: HTMLFormElement;
-    braintreeCreditCardMethod: HTMLElement;
+    protected form: HTMLFormElement;
+    protected braintreeCreditCardMethod: HTMLElement;
 
     readonly paymentMethodName: string = 'braintreeCreditCard';
     readonly paymentMethodTypeName: string = 'CreditCard';

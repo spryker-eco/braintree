@@ -1,8 +1,8 @@
 import BraintreePaymentForm from '../braintree-payment-form/braintree-payment-form';
 
 export default class BraintreePayPal extends BraintreePaymentForm {
-    form: HTMLFormElement;
-    braintreePayPalMethod: HTMLElement;
+    protected form: HTMLFormElement;
+    protected braintreePayPalMethod: HTMLElement;
 
     readonly paymentMethodName: string = 'braintreePayPal';
     readonly paymentMethodTypeName: string = 'PayPalAccount';
