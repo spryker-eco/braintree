@@ -159,15 +159,15 @@ export default class BraintreePaymentForm extends Component {
         errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
     }
 
-    get braintreeErrorMessageToggleClass(): string {
+    protected get braintreeErrorMessageToggleClass(): string {
         return this.getAttribute('data-error-message-toggle-class');
     }
 
-    get braintreeClientToken(): string {
+    protected get braintreeClientToken(): string {
         return this.getAttribute('data-braintree-client-token');
     }
 
-    get braintreeErrorMessage(): string {
+    protected get braintreeErrorMessage(): string {
         return this.getAttribute('data-error-message');
     }
 }
