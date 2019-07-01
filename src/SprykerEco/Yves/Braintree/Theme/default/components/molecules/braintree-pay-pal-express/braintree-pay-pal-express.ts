@@ -18,7 +18,7 @@ interface IPaypalCheckoutInstance {
 };
 
 interface IStatuses {
-    [key: string]: number
+    [key: string]: number;
 };
 
 export default class BraintreePayPalExpress extends Component {
@@ -44,6 +44,7 @@ export default class BraintreePayPalExpress extends Component {
     protected registerCallback(error, clientInstance): void {
         if (error) {
             console.error('PayPal checkout register error!', error);
+
             return;
         }
 

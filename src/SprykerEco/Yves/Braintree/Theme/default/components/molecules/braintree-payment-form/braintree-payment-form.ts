@@ -63,7 +63,6 @@ export default class BraintreePaymentForm extends Component {
 
     protected submitForm(nonce: string = ''): void {
         this.initTokenValue(nonce);
-
         this.form.submit();
     }
 
@@ -81,7 +80,6 @@ export default class BraintreePaymentForm extends Component {
 
     protected clearTokenValue(): void {
         const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
-
         nonceInputSelector.value = '';
     }
 
@@ -92,6 +90,7 @@ export default class BraintreePaymentForm extends Component {
 
         if (paymentMethod === this.paymentMethodName) {
             this.addErrorMessage(error.message);
+
             return;
         }
 
@@ -108,6 +107,7 @@ export default class BraintreePaymentForm extends Component {
             this.errorHandler({
                 message: this.braintreeErrorMessage
             });
+
             return;
         }
 
@@ -126,36 +126,36 @@ export default class BraintreePaymentForm extends Component {
         braintree.setup(this.braintreeClientToken, this.integrationType, this.braintreeSetupSettings);
     }
 
-    setCurrentPaymentMethod(): void {
+    protected setCurrentPaymentMethod(): void {
         this.paymentMethods.forEach((method: HTMLInputElement) => {
             this.setCurrentPaymentMethodValue(method);
         });
     }
 
-    setCurrentPaymentMethodValue(method: HTMLInputElement): void {
+    protected setCurrentPaymentMethodValue(method: HTMLInputElement): void {
         if (method.checked) {
             this.currentPaymentMethodValue = method.value;
         }
     }
 
-    addErrorMessage(message: string = ''): void {
+    protected addErrorMessage(message: string = ''): void {
         const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
         this.showErrorMessage(errorContainer);
 
         errorContainer.innerHTML = message;
     }
 
-    showErrorMessage(errorContainer: HTMLElement): void {
+    protected showErrorMessage(errorContainer: HTMLElement): void {
         errorContainer.classList.remove(this.braintreeErrorMessageToggleClass);
     }
 
-    removeErrorMessage(): void {
+    protected removeErrorMessage(): void {
         const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
         this.hideErrorMessage(errorContainer);
         errorContainer.innerHTML = '';
     }
 
-    hideErrorMessage(errorContainer: HTMLElement): void {
+    protected hideErrorMessage(errorContainer: HTMLElement): void {
         errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
     }
 
