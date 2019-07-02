@@ -20,7 +20,7 @@
     "spryker/symfony": "^3.0.0",
     "spryker/util-text": "^1.1.0",
     "spryker-shop/money-widget": "^1.0.0",
-    "spryker-shop/checkout-page": "^1.0.0",
+    "spryker-shop/checkout-page": "^1.0.0 || ^2.0.0",
     "spryker/calculation": "^4.0.0",
     "spryker/quote": "^2.0.0",
     "spryker/shipment": "^6.0.0",
