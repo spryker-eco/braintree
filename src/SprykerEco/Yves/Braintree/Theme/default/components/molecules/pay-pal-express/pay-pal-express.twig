@@ -1,12 +1,13 @@
+{# @deprecated Use molecule('braintree-pay-pal-express', 'Braintree') instead. #}
 {% extends model('component') %}
 
 {% define config = {
     name: 'pay-pal-express',
-    tag: 'pay-pal-express'
+    tag: 'pay-pal-express',
 } %}
 
 {% define attributes = {
-    'data-braintree': required
+    'data-braintree': required,
 } %}
 
 {% block body %}{% endblock %}
