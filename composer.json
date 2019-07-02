@@ -31,8 +31,8 @@
     "spryker/propel": "*",
     "spryker/testify": "*",
     "spryker/application": "^3.0.0",
-    "spryker/checkout": "^3.0.0 || ^4.0.0",
-    "spryker/oms": "^7.0.0 || ^8.0.0",
+    "spryker/checkout": "^3.0.0 || ^4.0.0 || ^6.0.0",
+    "spryker/oms": "^7.0.0 || ^8.0.0 || ^10.0.0",
     "spryker/zed-navigation": "^1.0.0",
     "spryker/silex": "*",
     "spryker-shop/shop-application": "^1.0.0"
