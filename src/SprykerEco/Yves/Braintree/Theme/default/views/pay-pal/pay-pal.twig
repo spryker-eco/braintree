@@ -1,13 +1,13 @@
 {% extends model('template') %}
 
 {% define data = {
-    form: form
+    form: form,
 } %}
 
 {% block body %}
-    {% include molecule('pay-pal', 'Braintree') with {
+    {% include molecule('braintree-pay-pal', 'Braintree') with {
         data: {
-            form: data.form
-        }
+            form: data.form,
+        },
     } only %}
 {% endblock %}

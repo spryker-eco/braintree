@@ -1,9 +1,8 @@
-{# @deprecated Use molecule('braintree-payment-form', 'Braintree') instead. #}
 {% extends model('component') %}
 
 {% define config = {
-    name: 'payment-form',
-    tag: 'payment-form',
+    name: 'braintree-payment-form',
+    tag: 'braintree-payment-form',
 } %}
 
 {% define data = {
@@ -13,6 +12,7 @@
 
 {% define attributes = {
     'data-error-message': 'Braintree.payment_method.error_message' | trans,
+    'data-error-message-toggle-class': 'is-hidden',
 } %}
 
 {% block body %}

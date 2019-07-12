@@ -1,9 +1,8 @@
-{# @deprecated Use molecule('braintree-pay-pal', 'Braintree') instead. #}
-{% extends molecule('payment-form', 'Braintree') %}
+{% extends molecule('braintree-payment-form', 'Braintree') %}
 
 {% define config = {
-    name: 'pay-pal',
-    tag: 'pay-pal',
+    name: 'braintree-pay-pal',
+    tag: 'braintree-pay-pal',
 } %}
 
 {% define attributes = {
@@ -13,7 +12,7 @@
 {% block body %}
     {{ parent() }}
 
-    <div class="grid" id="braintreePayPal">
+    <div class="form grid" id="braintreePayPal">
         <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
             <div class="form__field">
                 <div id="{{ config.jsName }}__container"></div>

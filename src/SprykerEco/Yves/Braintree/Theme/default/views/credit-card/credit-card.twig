@@ -1,13 +1,13 @@
 {% extends model('template') %}
 
 {% define data = {
-    form: form
+    form: form,
 } %}
 
 {% block body %}
-    {% include molecule('credit-card', 'Braintree') with {
+    {% include molecule('braintree-credit-card', 'Braintree') with {
         data: {
-            form: data.form
-        }
+            form: data.form,
+        },
     } only %}
 {% endblock %}
