@@ -194,13 +194,6 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function addOrderIdToAttributes(array $attributes): array
     {
-        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrder());
-        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
-
-        if (!$braintreePayment || $braintreePayment->getIsOrderIdSent()) {
-            return $attributes;
-        }
-
         $attributes[static::ATTRIBUTE_KEY_ORDER_ID] = $this->transactionMetaTransfer->getOrderReference();
 
         return $attributes;
