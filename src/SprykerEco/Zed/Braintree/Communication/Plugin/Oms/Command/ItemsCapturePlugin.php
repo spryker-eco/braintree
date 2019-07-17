@@ -39,6 +39,7 @@ class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterfa
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
         $transactionMetaTransfer->setItems($this->getItemsForCapturing($orderItems));
+        $transactionMetaTransfer->setOrderReference($orderEntity->getOrderReference());
 
         $this->getFacade()->captureItemsPayment($transactionMetaTransfer);
 

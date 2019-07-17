@@ -20,6 +20,8 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class CaptureItemsTransaction extends AbstractTransaction
 {
+    protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
+
     /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
@@ -130,9 +132,13 @@ class CaptureItemsTransaction extends AbstractTransaction
         $amount = $this->getCaptureAmount($this->transactionMetaTransfer->getItems());
         $amount = $this->getDecimalAmountValueFromInt($amount);
 
+        $attributes = [];
+        $attributes = $this->addOrderIdToAttributes($attributes);
+
         return BraintreeTransaction::submitForPartialSettlement(
             $this->getTransactionIdentifier(),
-            $amount
+            $amount,
+            $attributes
         );
     }
 
@@ -179,6 +185,18 @@ class CaptureItemsTransaction extends AbstractTransaction
         $shipmentTransactionMetaTransfer->setCaptureShipmentAmount($this->getDecimalAmountValueFromInt($amount));
 
         $this->shipmentTransactionHandler->captureShipment($shipmentTransactionMetaTransfer);
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return array
+     */
+    protected function addOrderIdToAttributes(array $attributes): array
+    {
+        $attributes[static::ATTRIBUTE_KEY_ORDER_ID] = $this->transactionMetaTransfer->getOrderReference();
+
+        return $attributes;
     }
 
     /**
