@@ -12,6 +12,8 @@ use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
 class CaptureOrderTransaction extends AbstractTransaction
 {
+    protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
+
     /**
      * @return string
      */
@@ -41,6 +43,8 @@ class CaptureOrderTransaction extends AbstractTransaction
      */
     protected function capture()
     {
-        return BraintreeTransaction::submitForSettlement($this->getTransactionIdentifier());
+        return BraintreeTransaction::submitForSettlement($this->getTransactionIdentifier(), null, [
+            static::ATTRIBUTE_KEY_ORDER_ID => $this->transactionMetaTransfer->getOrderReference(),
+        ]);
     }
 }
