@@ -36,6 +36,7 @@ export default class PayPalExpress extends Component {
     };
 
     protected registerClient(): void {
+        alert('The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.');
         client.create({
             authorization: this.braintreeData.token
         }, this.registerCallback.bind(this));
