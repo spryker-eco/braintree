@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command;
 
+use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject;
@@ -18,7 +19,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  */
-class RefundPlugin extends AbstractPlugin implements CommandByOrderInterface
+class OrderCapturePlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
      * {@inheritDoc}
@@ -31,9 +32,13 @@ class RefundPlugin extends AbstractPlugin implements CommandByOrderInterface
      *
      * @return array
      */
-    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data)
+    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): array
     {
-        $this->getFacade()->refundPayment($orderItems, $orderEntity);
+        $transactionMetaTransfer = new TransactionMetaTransfer();
+        $transactionMetaTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
+        $transactionMetaTransfer->setOrderReference($orderEntity->getOrderReference());
+
+        $this->getFacade()->captureOrderPayment($transactionMetaTransfer);
 
         return [];
     }

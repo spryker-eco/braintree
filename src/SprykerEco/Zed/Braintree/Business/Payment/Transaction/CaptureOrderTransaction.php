@@ -10,12 +10,14 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 use Braintree\Transaction as BraintreeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
-class CaptureTransaction extends AbstractTransaction
+class CaptureOrderTransaction extends AbstractTransaction
 {
+    protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
+
     /**
      * @return string
      */
-    protected function getTransactionType()
+    protected function getTransactionType(): string
     {
         return ApiConstants::SALE;
     }
@@ -23,7 +25,7 @@ class CaptureTransaction extends AbstractTransaction
     /**
      * @return string
      */
-    protected function getTransactionCode()
+    protected function getTransactionCode(): string
     {
         return ApiConstants::TRANSACTION_CODE_CAPTURE;
     }
@@ -41,6 +43,8 @@ class CaptureTransaction extends AbstractTransaction
      */
     protected function capture()
     {
-        return BraintreeTransaction::submitForSettlement($this->getTransactionIdentifier());
+        return BraintreeTransaction::submitForSettlement($this->getTransactionIdentifier(), null, [
+            static::ATTRIBUTE_KEY_ORDER_ID => $this->transactionMetaTransfer->getOrderReference(),
+        ]);
     }
 }

@@ -18,31 +18,45 @@ use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilter;
 use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodFilterInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandlerInterface;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandler;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandler;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RevertTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentRefundTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\ShipmentTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
+use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class BraintreeBusinessFactory extends AbstractBusinessFactory
@@ -59,12 +73,23 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureTransactionHandlerInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandlerInterface
      */
-    public function createCaptureTransactionHandler(): CaptureTransactionHandlerInterface
+    public function createCaptureItemsTransactionHandler(): CaptureItemsTransactionHandlerInterface
     {
-        return new CaptureTransactionHandler(
-            $this->createCaptureTransaction(),
+        return new CaptureItemsTransactionHandler(
+            $this->createCaptureItemsTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface
+     */
+    public function createCaptureOrderTransactionHandler(): CaptureOrderTransactionHandlerInterface
+    {
+        return new CaptureOrderTransactionHandler(
+            $this->createCaptureOrderTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );
     }
@@ -81,14 +106,27 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundTransactionHandlerInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundOrderTransactionHandlerInterface
      */
-    public function createRefundTransactionHandler(): RefundTransactionHandlerInterface
+    public function createRefundOrderTransactionHandler(): RefundOrderTransactionHandlerInterface
     {
-        return new RefundTransactionHandler(
-            $this->createRefundTransaction(),
+        return new RefundOrderTransactionHandler(
+            $this->createRefundOrderTransaction(),
             $this->createDefaultTransactionMetaVisitor(),
             $this->getRefundFacade()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandlerInterface
+     */
+    public function createRefundItemsTransactionHandler(): RefundItemsTransactionHandlerInterface
+    {
+        return new RefundItemsTransactionHandler(
+            $this->createRefundItemsTransaction(),
+            $this->createDefaultTransactionMetaVisitor(),
+            $this->getRefundFacade(),
+            $this->getRepository()
         );
     }
 
@@ -165,9 +203,68 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    public function createCaptureTransaction(): TransactionInterface
+    public function createCaptureOrderTransaction(): TransactionInterface
     {
-        return new CaptureTransaction($this->getConfig());
+        return new CaptureOrderTransaction($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createCaptureItemsTransaction(): TransactionInterface
+    {
+        return new CaptureItemsTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->getRepository(),
+            $this->getEntityManager(),
+            $this->getSalesFacade(),
+            $this->createShipmentTransactionHandler()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createShipmentTransaction(): TransactionInterface
+    {
+        return new ShipmentTransaction(
+            $this->getConfig(),
+            $this->getEntityManager()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createShipmentRefundTransaction(): TransactionInterface
+    {
+        return new ShipmentRefundTransaction(
+            $this->getConfig(),
+            $this->getEntityManager()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface
+     */
+    public function createShipmentTransactionHandler(): ShipmentTransactionHandlerInterface
+    {
+        return new ShipmentTransactionHandler(
+            $this->createShipmentTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface
+     */
+    public function createShipmentRefundTransactionHandler(): ShipmentRefundTransactionHandlerInterface
+    {
+        return new ShipmentRefundTransactionHandler(
+            $this->createShipmentRefundTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
     }
 
     /**
@@ -189,9 +286,27 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
      */
-    public function createRefundTransaction(): TransactionInterface
+    public function createRefundOrderTransaction(): TransactionInterface
     {
-        return new RefundTransaction($this->getConfig(), $this->getMoneyFacade());
+        return new RefundOrderTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->createShipmentRefundTransactionHandler(),
+            $this->getRepository()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createRefundItemsTransaction(): TransactionInterface
+    {
+        return new RefundItemsTransaction(
+            $this->getConfig(),
+            $this->getMoneyFacade(),
+            $this->createShipmentRefundTransactionHandler(),
+            $this->getRepository()
+        );
     }
 
     /**
@@ -216,5 +331,13 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function createPaypalExpressCheckoutPaymentMethod(): PaypalExpressPaymentMethodFilterInterface
     {
         return new PaypalExpressPaymentMethodFilter();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeInterface
+     */
+    public function getSalesFacade(): BraintreeToSalesFacadeInterface
+    {
+        return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_SALES);
     }
 }

@@ -18,7 +18,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  */
-class RefundPlugin extends AbstractPlugin implements CommandByOrderInterface
+class ItemsRefundPlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
      * {@inheritDoc}
@@ -31,9 +31,9 @@ class RefundPlugin extends AbstractPlugin implements CommandByOrderInterface
      *
      * @return array
      */
-    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data)
+    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): array
     {
-        $this->getFacade()->refundPayment($orderItems, $orderEntity);
+        $this->getFacade()->refundItemsPayment($orderItems, $orderEntity);
 
         return [];
     }

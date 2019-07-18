@@ -31,7 +31,7 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
      *
      * @return void
      */
-    public function visit(TransactionMetaTransfer $transactionMetaTransfer)
+    public function visit(TransactionMetaTransfer $transactionMetaTransfer): void
     {
         $paymentBraintreeTransfer = $this->findPaymentBraintreeTransfer($transactionMetaTransfer);
 

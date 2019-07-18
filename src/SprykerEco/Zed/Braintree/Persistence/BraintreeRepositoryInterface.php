@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
-use Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer;
+use Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 
@@ -28,11 +28,18 @@ interface BraintreeRepositoryInterface
     public function findPaymentBraintreeBySalesOrderId(int $idSalesOrder): ?PaymentBraintreeTransfer;
 
     /**
-     * @param int $idPaymentBraintree
+     * @param int $idSalesOrderItem
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer|null
      */
-    public function findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeId(int $idPaymentBraintree): ?PaymentBraintreeTransactionStatusLogTransfer;
+    public function findPaymentBraintreeOrderItemByIdSalesOrderItem(int $idSalesOrderItem): ?PaymentBraintreeOrderItemTransfer;
+
+    /**
+     * @param array $idsSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer[]
+     */
+    public function findPaymentBraintreeOrderItemsByIdsSalesOrderItem(array $idsSalesOrderItem): array;
 
     /**
      * @param int $idSalesOrder
@@ -46,18 +53,27 @@ interface BraintreeRepositoryInterface
      * @param string $transactionCode
      * @param string|array $statusCode
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer
+     * @return bool
      */
-    public function findPaymentBraintreeTransactionStatusLogQueryBySalesOrderIdAndTransactionCodeLatestFirst(
+    public function isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
         int $idSalesOrder,
         string $transactionCode,
         $statusCode
-    ): PaymentBraintreeTransactionStatusLogTransfer;
+    ): bool;
 
     /**
-     * @param int $idPaymentBraintree
+     * @param int $idPaymentBraintreeOrderItem
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionRequestLogTransfer|null
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
      */
-    public function findTransactionRequestLogByPaymentBraintreeId(int $idPaymentBraintree): ?PaymentBraintreeTransactionRequestLogTransfer;
+    public function findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeOrderItem(
+        int $idPaymentBraintreeOrderItem
+    ): ?PaymentBraintreeTransactionStatusLogTransfer;
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer|null
+     */
+    public function findTransactionRequestLogByIdSalesOrderForShipment(int $idSalesOrder): ?PaymentBraintreeTransactionStatusLogTransfer;
 }

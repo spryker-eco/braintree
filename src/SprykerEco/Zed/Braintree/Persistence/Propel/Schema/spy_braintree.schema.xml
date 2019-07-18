@@ -1,12 +1,5 @@
 <?xml version="1.0"?>
-<database
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    name="zed"
-    defaultIdMethod="native"
-    xsi:noNamespaceSchemaLocation="http://static.spryker.com/schema-01.xsd"
-    namespace="Orm\Zed\Braintree\Persistence"
-    package="src.Orm.Zed.Braintree.Persistence"
->
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="zed" defaultIdMethod="native" xsi:noNamespaceSchemaLocation="http://static.spryker.com/schema-01.xsd" namespace="Orm\Zed\Braintree\Persistence" package="src.Orm.Zed.Braintree.Persistence">
     <table name="spy_payment_braintree" phpName="SpyPaymentBraintree">
         <column name="id_payment_braintree" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" required="true" type="INTEGER"/>
@@ -20,6 +13,7 @@
         <column name="language_iso2_code" required="true" type="CHAR" size="2"/>
         <column name="currency_iso3_code" required="true" type="CHAR" size="3"/>
         <column name="transaction_id" type="VARCHAR" size="100"/>
+        <column name="is_shipment_paid" type="boolean"/>
         <foreign-key name="spy_payment_braintree-fk_sales_order" foreignTable="spy_sales_order" phpName="SpySalesOrder">
             <reference foreign="id_sales_order" local="fk_sales_order"/>
         </foreign-key>
@@ -33,8 +27,8 @@
         <column name="transaction_id" required="true" type="VARCHAR"/>
         <column name="transaction_type" required="false" type="VARCHAR"/>
         <column name="transaction_code" required="true" type="VARCHAR"/>
-        <column name="presentation_amount" required="false"  type="VARCHAR"/>
-        <column name="presentation_currency" required="false"  type="VARCHAR"/>
+        <column name="presentation_amount" required="false" type="VARCHAR"/>
+        <column name="presentation_currency" required="false" type="VARCHAR"/>
         <foreign-key name="spy_braintree_transaction_request_log-fk_payment_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
@@ -45,7 +39,9 @@
     <table name="spy_payment_braintree_transaction_status_log">
         <column name="id_payment_braintree_transaction_status_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_payment_braintree" required="true" type="INTEGER"/>
+        <column name="fk_payment_braintree_order_item" required="false" type="INTEGER"/>
         <column name="is_success" required="true" type="boolean"/>
+        <column name="is_shipment_operation" required="true" type="boolean" default="false"/>
         <column name="code" required="false" type="integer"/>
         <column name="message" required="false" type="VARCHAR"/>
         <column name="transaction_id" required="true" type="VARCHAR"/>
@@ -58,13 +54,28 @@
         <foreign-key name="spy_braintree_transaction_status_log-fk_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
+        <foreign-key name="spy_braintree_transaction_status_log-fk_payment_braintree_order_item" foreignTable="spy_payment_braintree_order_item">
+            <reference foreign="id_payment_braintree_order_item" local="fk_payment_braintree_order_item"/>
+        </foreign-key>
         <behavior name="timestampable"/>
         <id-method-parameter value="spy_payment_braintree_transaction_status_log_pk_seq"/>
     </table>
 
+    <table name="spy_payment_braintree_transaction_status_log_to_order_item">
+        <column name="fk_payment_braintree_transaction_status_log" required="true" type="INTEGER" />
+        <column name="fk_payment_braintree_order_item" required="true" type="INTEGER" />
+        <foreign-key name="spy_payment_transaction_order_item-fk_transaction_status_log" foreignTable="spy_payment_braintree_transaction_status_log">
+            <reference foreign="id_payment_braintree_transaction_status_log" local="fk_payment_braintree_transaction_status_log"/>
+        </foreign-key>
+        <foreign-key name="spy_payment_transaction_order_item-fk_payment_braintree_order_item" foreignTable="spy_payment_braintree_order_item">
+            <reference foreign="id_payment_braintree_order_item" local="fk_payment_braintree_order_item"/>
+        </foreign-key>
+    </table>
+
     <table name="spy_payment_braintree_order_item">
-        <column name="fk_payment_braintree" type="INTEGER" primaryKey="true"/>
-        <column name="fk_sales_order_item" type="INTEGER" primaryKey="true"/>
+        <column name="id_payment_braintree_order_item" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="fk_payment_braintree" type="INTEGER"/>
+        <column name="fk_sales_order_item" type="INTEGER"/>
         <foreign-key name="spy_braintree_order_item-fk_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
@@ -74,5 +85,6 @@
         <behavior name="timestampable">
             <parameter name="disable_updated_at" value="true"/>
         </behavior>
+        <id-method-parameter value="spy_payment_braintree_order_item_pk_seq"/>
     </table>
 </database>

@@ -7,14 +7,15 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 
-interface CaptureTransactionHandlerInterface
+interface ShipmentRefundTransactionHandlerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
-    public function capture(TransactionMetaTransfer $transactionMetaTransfer);
+    public function refundShipment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer;
 }

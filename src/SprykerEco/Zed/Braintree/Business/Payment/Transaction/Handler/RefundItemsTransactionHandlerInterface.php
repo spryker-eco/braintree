@@ -9,13 +9,13 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler;
 
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 
-interface RefundTransactionHandlerInterface
+interface RefundItemsTransactionHandlerInterface
 {
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param array $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
-     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     * @return void
      */
-    public function refund(array $salesOrderItems, SpySalesOrder $salesOrderEntity);
+    public function refund(array $salesOrderItems, SpySalesOrder $salesOrderEntity): void;
 }

@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Business;
 
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentMethodsTransfer;
@@ -19,6 +20,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory getFactory()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface getRepository()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface getEntityManager()
  */
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {
@@ -35,8 +37,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
         $this->getFactory()
-             ->createOrderSaver()
-             ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+            ->createOrderSaver()
+            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
     }
 
     /**
@@ -78,16 +80,15 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::captureOrderPayment()` instead.
+     *
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function capturePayment(TransactionMetaTransfer $transactionMetaTransfer)
     {
-        return $this
-            ->getFactory()
-            ->createCaptureTransactionHandler()
-            ->capture($transactionMetaTransfer);
+        return $this->captureOrderPayment($transactionMetaTransfer);
     }
 
     /**
@@ -112,6 +113,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::refundOrderPayment()` instead.
+     *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
@@ -119,9 +122,40 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      */
     public function refundPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity)
     {
-        return $this
-            ->getFactory()
-            ->createRefundTransactionHandler()
+        return $this->refundOrderPayment($salesOrderItems, $salesOrderEntity);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderIBraintreeBusinessFactorytem[] $salesOrderItems
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function refundOrderPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): BraintreeTransactionResponseTransfer
+    {
+        return $this->getFactory()
+            ->createRefundOrderTransactionHandler()
+            ->refund($salesOrderItems, $salesOrderEntity);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
+     *
+     * @return void
+     */
+    public function refundItemsPayment(array $salesOrderItems, SpySalesOrder $salesOrderEntity): void
+    {
+        $this->getFactory()
+            ->createRefundItemsTransactionHandler()
             ->refund($salesOrderItems, $salesOrderEntity);
     }
 
@@ -227,5 +261,39 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
             ->getFactory()
             ->createPaypalExpressCheckoutPaymentMethod()
             ->filterPaymentMethods($paymentMethodsTransfer, $quoteTransfer);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureOrderPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
+    {
+        return $this
+            ->getFactory()
+            ->createCaptureOrderTransactionHandler()
+            ->capture($transactionMetaTransfer);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function captureItemsPayment(TransactionMetaTransfer $transactionMetaTransfer): BraintreeTransactionResponseTransfer
+    {
+        return $this
+            ->getFactory()
+            ->createCaptureItemsTransactionHandler()
+            ->capture($transactionMetaTransfer);
     }
 }

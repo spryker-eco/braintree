@@ -14,6 +14,8 @@ use Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject;
 use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
 
 /**
+ * @deprecated Use `\SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command\OrderCapturePlugin` instead.
+ *
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
@@ -22,6 +24,8 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
 class CapturePlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems

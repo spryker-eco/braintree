@@ -25,7 +25,9 @@ class PaypalExpressPaymentMethodFilter implements PaypalExpressPaymentMethodFilt
         $result = new ArrayObject();
 
         foreach ($paymentMethodsTransfer->getMethods() as $paymentMethod) {
-            if ($paymentMethod->getMethodName() === BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS) {
+            if ($paymentMethod->getMethodName() === BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS
+                && !$this->isPaymenMethodBraintreePayPalExpressSelected($quoteTransfer)
+            ) {
                 continue;
             }
             $result->append($paymentMethod);
@@ -34,5 +36,16 @@ class PaypalExpressPaymentMethodFilter implements PaypalExpressPaymentMethodFilt
         $paymentMethodsTransfer->setMethods($result);
 
         return $paymentMethodsTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return bool
+     */
+    protected function isPaymenMethodBraintreePayPalExpressSelected(QuoteTransfer $quoteTransfer): bool
+    {
+        return $quoteTransfer->getPayment()
+            && $quoteTransfer->getPayment()->getPaymentSelection() === BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS;
     }
 }

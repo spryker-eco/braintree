@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Plugin\Oms\Command;
 
+use ArrayObject;
+use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
@@ -19,7 +21,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  */
-class AuthorizePlugin extends AbstractPlugin implements CommandByOrderInterface
+class ItemsCapturePlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
      * {@inheritDoc}
@@ -32,13 +34,35 @@ class AuthorizePlugin extends AbstractPlugin implements CommandByOrderInterface
      *
      * @return array
      */
-    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data)
+    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): array
     {
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($orderEntity->getIdSalesOrder());
+        $transactionMetaTransfer->setItems($this->getItemsForCapturing($orderItems));
+        $transactionMetaTransfer->setOrderReference($orderEntity->getOrderReference());
 
-        $this->getFacade()->authorizePayment($transactionMetaTransfer);
+        $this->getFacade()->captureItemsPayment($transactionMetaTransfer);
 
         return [];
+    }
+
+    /**
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
+     *
+     * @return \ArrayObject
+     */
+    protected function getItemsForCapturing(array $orderItems): ArrayObject
+    {
+        $itemsForCapturing = [];
+
+        foreach ($orderItems as $orderItem) {
+            $itemTransfer = new ItemTransfer();
+            $itemTransfer->fromArray($orderItem->toArray(), true);
+            $itemsForCapturing[] = $itemTransfer;
+        }
+
+        $itemsForCapturing = new ArrayObject($itemsForCapturing);
+
+        return $itemsForCapturing;
     }
 }
