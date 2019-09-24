@@ -67,7 +67,7 @@
         <foreign-key name="spy_payment_transaction_order_item-fk_transaction_status_log" foreignTable="spy_payment_braintree_transaction_status_log">
             <reference foreign="id_payment_braintree_transaction_status_log" local="fk_payment_braintree_transaction_status_log"/>
         </foreign-key>
-        <foreign-key name="spy_payment_transaction_order_item-fk_payment_braintree_order_item" foreignTable="spy_payment_braintree_order_item">
+        <foreign-key name="spy_payment_order_item-fk_payment_braintree_order_item" foreignTable="spy_payment_braintree_order_item">
             <reference foreign="id_payment_braintree_order_item" local="fk_payment_braintree_order_item"/>
         </foreign-key>
     </table>
