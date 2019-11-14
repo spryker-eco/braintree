@@ -71,6 +71,7 @@ class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreC
 
         $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: 500;
         $error = new CheckoutErrorTransfer();
+
         $error
             ->setErrorCode($errorCode)
             ->setMessage($braintreeTransactionResponseTransfer->getMessage());

@@ -19,4 +19,12 @@ class BraintreeConfig extends AbstractBundleConfig
     {
         return $this->get(BraintreeConstants::DEFAULT_PAYPAL_EXPRESS_SHIPMENT_METHOD_ID);
     }
+
+    /**
+     * @return string
+     */
+    public function getFakePaymentMethodNonce(): string
+    {
+        return $this->get(BraintreeConstants::FAKE_PAYMENT_METHOD_NONCE);
+    }
 }

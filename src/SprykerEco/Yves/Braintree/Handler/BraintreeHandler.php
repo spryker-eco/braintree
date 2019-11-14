@@ -9,7 +9,8 @@ namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
-use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Yves\Braintree\BraintreeConfig;
+use SprykerEco\Shared\Braintree\BraintreeConfig as BraintreeSharedConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 class BraintreeHandler implements BraintreeHandlerInterface
@@ -21,8 +22,8 @@ class BraintreeHandler implements BraintreeHandlerInterface
      * @var array
      */
     protected static $paymentMethods = [
-        BraintreeConfig::PAYMENT_METHOD_PAY_PAL => 'pay_pal',
-        BraintreeConfig::PAYMENT_METHOD_CREDIT_CARD => 'credit_card',
+        BraintreeSharedConfig::PAYMENT_METHOD_PAY_PAL => 'pay_pal',
+        BraintreeSharedConfig::PAYMENT_METHOD_CREDIT_CARD => 'credit_card',
     ];
 
     /**
@@ -31,11 +32,18 @@ class BraintreeHandler implements BraintreeHandlerInterface
     protected $currencyPlugin;
 
     /**
-     * @param \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface $currencyPlugin
+     * @var \SprykerEco\Yves\Braintree\BraintreeConfig $braintreeConfig
      */
-    public function __construct(CurrencyPluginInterface $currencyPlugin)
+    protected $braintreeConfig;
+
+    /**
+     * @param \Spryker\Yves\Currency\Plugin\CurrencyPluginInterface $currencyPlugin
+     * @param \SprykerEco\Yves\Braintree\BraintreeConfig $braintreeConfig
+     */
+    public function __construct(CurrencyPluginInterface $currencyPlugin, BraintreeConfig $braintreeConfig)
     {
         $this->currencyPlugin = $currencyPlugin;
+        $this->braintreeConfig = $braintreeConfig;
     }
 
     /**
@@ -63,7 +71,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
     protected function setPaymentProviderAndMethod(QuoteTransfer $quoteTransfer, $paymentSelection)
     {
         $quoteTransfer->getPayment()
-            ->setPaymentProvider(BraintreeConfig::PROVIDER_NAME)
+            ->setPaymentProvider(BraintreeSharedConfig::PROVIDER_NAME)
             ->setPaymentMethod(static::$paymentMethods[$paymentSelection]);
     }
 
@@ -78,6 +86,11 @@ class BraintreeHandler implements BraintreeHandlerInterface
     {
         $braintreePaymentTransfer = $this->getBraintreePaymentTransfer($quoteTransfer, $paymentSelection);
         $nonce = $request->request->get(self::PAYMENT_METHOD_NONCE);
+
+        if ($this->braintreeConfig->getFakePaymentMethodNonce()) {
+            $nonce = $this->braintreeConfig->getFakePaymentMethodNonce();
+        }
+
         if ($nonce === null) {
             return;
         }
