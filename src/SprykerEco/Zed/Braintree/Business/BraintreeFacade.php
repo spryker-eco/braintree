@@ -25,7 +25,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -42,7 +42,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -59,7 +59,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -76,7 +76,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -92,7 +92,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -109,7 +109,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -126,7 +126,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -160,7 +160,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -177,7 +177,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -194,7 +194,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -211,7 +211,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -228,7 +228,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -246,7 +246,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -264,7 +264,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
@@ -281,7 +281,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *

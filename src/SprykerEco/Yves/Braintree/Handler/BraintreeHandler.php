@@ -9,8 +9,8 @@ namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Yves\Currency\Plugin\CurrencyPluginInterface;
-use SprykerEco\Yves\Braintree\BraintreeConfig;
 use SprykerEco\Shared\Braintree\BraintreeConfig as BraintreeSharedConfig;
+use SprykerEco\Yves\Braintree\BraintreeConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 class BraintreeHandler implements BraintreeHandlerInterface

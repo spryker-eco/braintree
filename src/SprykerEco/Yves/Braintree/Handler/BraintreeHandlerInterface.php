@@ -8,7 +8,6 @@
 namespace SprykerEco\Yves\Braintree\Handler;
 
 use Generated\Shared\Transfer\QuoteTransfer;
-use SprykerEco\Yves\Braintree\BraintreeConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 interface BraintreeHandlerInterface
