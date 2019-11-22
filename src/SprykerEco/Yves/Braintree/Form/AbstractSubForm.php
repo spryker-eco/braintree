@@ -61,7 +61,7 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
             return static::$clientToken;
         }
 
-        if (Config::get(BraintreeConstants::FAKE_CLIENT_TOKEN)) {
+        if (Config::hasKey(BraintreeConstants::FAKE_CLIENT_TOKEN)) {
             static::$clientToken = Config::get(BraintreeConstants::FAKE_CLIENT_TOKEN);
 
             return static::$clientToken;

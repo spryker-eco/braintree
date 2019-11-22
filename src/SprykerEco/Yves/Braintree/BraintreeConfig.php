@@ -25,6 +25,6 @@ class BraintreeConfig extends AbstractBundleConfig
      */
     public function getFakePaymentMethodNonce(): string
     {
-        return $this->get(BraintreeConstants::FAKE_PAYMENT_METHOD_NONCE);
+        return $this->get(BraintreeConstants::FAKE_PAYMENT_METHOD_NONCE, '');
     }
 }

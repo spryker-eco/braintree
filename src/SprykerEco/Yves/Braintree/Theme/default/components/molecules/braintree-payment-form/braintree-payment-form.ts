@@ -1,5 +1,3 @@
-declare var braintree: any;
-
 import Component from 'ShopUi/models/component';
 import ScriptLoader from 'ShopUi/components/molecules/script-loader/script-loader';
 import dropin from 'braintree-web-drop-in';
@@ -21,7 +19,6 @@ export default class BraintreePaymentForm extends Component {
     protected scriptLoader: ScriptLoader;
     protected currentPaymentMethodValue: string = '';
 
-    protected readonly dropInContainer: string = '#dropin';
     protected readonly formId: string = 'payment-form';
     protected readonly nonceInputName: string = 'payment_method_nonce';
     protected readonly paymentSelection: string = 'paymentForm[paymentSelection]';
@@ -125,12 +122,6 @@ export default class BraintreePaymentForm extends Component {
 
     protected setupBraintree(): void {
         this.loadBraintree();
-
-        dropin.create({
-            authorization: this.braintreeClientToken,
-            container: this.dropInContainer,
-            threeDSecure: true
-        });
     }
 
     protected setCurrentPaymentMethod(): void {

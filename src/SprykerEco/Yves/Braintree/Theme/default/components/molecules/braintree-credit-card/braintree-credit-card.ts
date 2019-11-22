@@ -1,70 +1,89 @@
+var dropinInstance;
+
 import BraintreePaymentForm from '../braintree-payment-form/braintree-payment-form';
 import dropin from 'braintree-web-drop-in';
 
 export default class BraintreeCreditCard extends BraintreePaymentForm {
     protected form: HTMLFormElement;
     protected braintreeCreditCardMethod: HTMLElement;
+    protected paymentMethods: HTMLInputElement[];
+    protected submitBtn: HTMLElement;
 
+    protected readonly dropInContainer: string = '#dropin_credit_card';
     protected readonly paymentMethodName: string = 'braintreeCreditCard';
     protected readonly paymentMethodTypeName: string = 'CreditCard';
+    protected readonly nonceInputName: string = 'payment_method_nonce';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
+        this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
         this.braintreeCreditCardMethod = <HTMLElement>this.form.querySelector(`.${this.jsName}__method`);
+        this.submitBtn = <HTMLElement>this.form.querySelector(`button[type='submit']`);
 
-        // console.log(this.braintreeEmail());
-        // console.log(this.braintreeBillingAddress());
+        dropin.create({
+            authorization: this.braintreeClientToken,
+            container: this.dropInContainer,
+            threeDSecure: !!this.braintreeIs3dSecure,
+        }, function (createErr, instance) {
+            dropinInstance = instance;
+        });
+
+        this.mapEvents();
     }
 
-    protected loadBraintree(): void {
-        super.loadBraintree();
-
-        console.log(this.braintreeEmail());
-        console.log(this.braintreeBillingAddress());
-
-        if (this.braintreeCreditCardMethod) {
-            // this.braintreeSetupSettings.id = this.formId;
-            // this.braintreeSetupSettings.hostedFields = {
-            //     styles: {
-            //         'input': {
-            //             'font-size': '14px',
-            //             'color': '#333',
-            //             'font-family': 'Arial, sans-serif'
-            //         },
-            //         '::-webkit-input-placeholder': {
-            //             'color': '#bbb'
-            //         },
-            //         ':-moz-placeholder': {
-            //             'color': '#bbb'
-            //         },
-            //         '::-moz-placeholder': {
-            //             'color': '#bbb'
-            //         },
-            //         ':-ms-input-placeholder': {
-            //             'color': '#bbb'
-            //         }
-            //     },
-            //     number: {
-            //         selector: `.${this.jsName}__number`,
-            //         placeholder: '4111 1111 1111 1111'
-            //     },
-            //     cvv: {
-            //         selector: `.${this.jsName}__cvv`,
-            //         placeholder: '123'
-            //     },
-            //     expirationDate: {
-            //         selector: `.${this.jsName}__expiration-date`,
-            //         placeholder: 'MM/YYYY'
-            //     }
-            // };
-        }
+    protected mapEvents(): void {
+        this.paymentMethods.forEach((method: HTMLInputElement) => {
+            method.addEventListener('change', () => {
+                if (method.value == this.paymentMethodName) {
+                    this.switchSubmitButton();
+                }
+            });
+        });
     }
 
-    protected braintreeEmail(): string {
+    protected switchSubmitButton(): void {
+        var self = this;
+        this.submitBtn.addEventListener('click', () => {
+            dropinInstance.requestPaymentMethod({
+                threeDSecure: {
+                    amount: this.braintreeAmount,
+                    email: this.braintreeEmail,
+                    billingAddress: this.braintreeBillingAddress
+                }
+            }, function(err, payload) {
+                if (err) {
+                    console.log('tokenization error:');
+                    console.log(err);
+                    dropinInstance.clearSelectedPaymentMethod();
+
+                    return;
+                }
+
+                if (!payload.liabilityShifted) {
+                    console.log('Liability did not shift', payload);
+                    return;
+                }
+
+                const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${self.nonceInputName}']`);
+                nonceInputSelector.value = payload.nonce;
+                self.form.submit();
+            });
+        });
+    }
+
+    protected get braintreeIs3dSecure(): string {
+        return this.getAttribute('data-braintree-is-3d-secure');
+    }
+
+    protected get braintreeAmount(): string {
+        return this.getAttribute('data-braintree-amount');
+    }
+
+    protected get braintreeEmail(): string {
         return this.getAttribute('data-braintree-email');
     }
 
-    protected braintreeBillingAddress(): any {
+    protected get braintreeBillingAddress(): any {
         return {
             givenName: this.getAttribute('data-braintree-billing-address-given-name'),
             surname: this.getAttribute('data-braintree-billing-address-surname'),
