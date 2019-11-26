@@ -74,9 +74,7 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
             'privateKey' => Config::get(BraintreeConstants::PRIVATE_KEY),
         ]);
 
-        static::$clientToken = $gateway->clientToken()->generate([
-            "merchantAccountId" => Config::get(BraintreeConstants::ACCOUNT_UNIQUE_IDENTIFIER),
-        ]);
+        static::$clientToken = $gateway->clientToken()->generate();
 
         return static::$clientToken;
     }

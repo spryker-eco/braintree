@@ -6,7 +6,11 @@
 } %}
 
 {% define attributes = {
+    'data-braintree-env': data.form.braintreePayPal.vars.env,
     'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken,
+    'data-braintree-amount': data.form.braintreePayPal.vars.amount | money(false),
+    'data-braintree-currency': data.form.braintreePayPal.vars.currency,
+    'data-braintree-locale': data.form.braintreePayPal.vars.locale
 } %}
 
 {% block body %}
@@ -15,6 +19,8 @@
     <div class="form grid" id="braintreePayPal">
         <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
             <div class="form__field">
+                <div id="paypal-button"></div>
+
                 <div id="{{ config.jsName }}__container"></div>
                 <ul class="list list--bullet list--alert">
                     <li class="list__item {{ config.jsName }}__error is-hidden"></li>
