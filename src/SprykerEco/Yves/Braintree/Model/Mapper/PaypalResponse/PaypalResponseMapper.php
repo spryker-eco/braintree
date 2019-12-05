@@ -213,6 +213,10 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $customerTransfer->setFirstName($paypalExpressSuccessResponseTransfer->getFirstName());
         $customerTransfer->setLastName($paypalExpressSuccessResponseTransfer->getLastName());
 
+        if ($quoteTransfer->getCustomer()->getCustomerReference()) {
+            $customerTransfer->setCustomerReference($quoteTransfer->getCustomer()->getCustomerReference());
+        }
+
         if (!$customerTransfer->getIdCustomer()) {
             $customerTransfer->setIsGuest(true);
         }
@@ -244,3 +248,4 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         return $addressTransfer;
     }
 }
+

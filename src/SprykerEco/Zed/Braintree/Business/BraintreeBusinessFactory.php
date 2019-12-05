@@ -20,12 +20,17 @@ use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodF
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CreateTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandlerInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CreateTransactionTransactionHandler;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CreateTransactionTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandler;
@@ -41,6 +46,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransa
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\PaymentTransactionMetaVisitor;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PaymentTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction;
@@ -101,6 +107,17 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new PreCheckTransactionHandler(
             $this->createPreCheckTransaction(),
+            $this->createDefaultTransactionMetaVisitor()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandlerInterface
+     */
+    public function createPaymentTransactionHandler(): PaymentTransactionHandlerInterface
+    {
+        return new PaymentTransactionHandler(
+            $this->createPaymentTransaction(),
             $this->createDefaultTransactionMetaVisitor()
         );
     }
@@ -273,6 +290,14 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function createPreCheckTransaction(): TransactionInterface
     {
         return new PreCheckTransaction($this->getConfig(), $this->getMoneyFacade());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface
+     */
+    public function createPaymentTransaction(): TransactionInterface
+    {
+        return new PaymentTransaction($this->getConfig(), $this->getMoneyFacade());
     }
 
     /**

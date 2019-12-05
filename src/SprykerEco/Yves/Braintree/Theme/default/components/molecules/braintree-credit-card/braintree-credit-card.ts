@@ -25,6 +25,10 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
             container: this.dropInContainer,
             threeDSecure: !!this.braintreeIs3dSecure,
         }, function (createErr, instance) {
+            if (createErr) {
+                console.log(createErr);
+            }
+
             dropinInstance = instance;
         });
 
@@ -43,7 +47,10 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
 
     protected switchSubmitButton(): void {
         var self = this;
-        this.submitBtn.addEventListener('click', () => {
+
+        this.submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
             dropinInstance.requestPaymentMethod({
                 threeDSecure: {
                     amount: this.braintreeAmount,
@@ -59,13 +66,14 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
                     return;
                 }
 
-                if (!payload.liabilityShifted) {
+                if (self.braintreeIs3dSecure && !payload.liabilityShifted) {
                     console.log('Liability did not shift', payload);
                     return;
                 }
 
                 const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${self.nonceInputName}']`);
                 nonceInputSelector.value = payload.nonce;
+                self.submitBtn.setAttribute('disabled', 'disabled');
                 self.form.submit();
             });
         });

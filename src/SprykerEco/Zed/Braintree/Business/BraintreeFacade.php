@@ -63,6 +63,24 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    public function createPayment(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer)
+    {
+        return $this
+            ->getFactory()
+            ->createPaymentTransactionHandler()
+            ->createPayment($quoteTransfer, $checkoutResponseTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @param \Generated\Shared\Transfer\TransactionMetaTransfer $transactionMetaTransfer
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer

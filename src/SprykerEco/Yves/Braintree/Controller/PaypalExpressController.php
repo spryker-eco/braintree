@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PaypalExpressController extends AbstractController
 {
     public const TRANSLATION_INVALID_SHIPMENT_METHOD = 'checkout.pre.check.shipment.failed';
-    public const IS_PAYPAL_ENABLED = false;
+    public const IS_PAYPAL_ENABLED = true;
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -32,8 +32,8 @@ class PaypalExpressController extends AbstractController
             echo 'The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.';
 
             return;
-        }
 
+        }
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);

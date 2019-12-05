@@ -4,16 +4,26 @@ import paypal from 'paypal-checkout';
 
 export default class BraintreePayPal extends BraintreePaymentForm {
     protected form: HTMLFormElement;
+    protected submitBtn: HTMLElement;
 
+    protected readonly formId: string = 'payment-form';
     protected readonly paymentMethodName: string = 'braintreePayPal';
     protected readonly paymentMethodTypeName: string = 'PayPalAccount';
+    protected readonly nonceInputName: string = 'payment_method_nonce';
 
     protected readyCallback(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
+        this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
+        this.submitBtn = <HTMLElement>this.form.querySelector(`button[type='submit']`);
 
-        console.log(this.getAttribute('data-braintree-locale'));
+        const tokenInput = document.createElement('input');
+        tokenInput.setAttribute('type', 'hidden');
+        tokenInput.setAttribute('name', `${this.nonceInputName}`);
+        this.form.appendChild(tokenInput);
 
         var self = this;
+
+        this.mapEvents();
 
         // // Create a client.
         braintree.client.create({
@@ -58,16 +68,10 @@ export default class BraintreePayPal extends BraintreePaymentForm {
                             const xhr = new XMLHttpRequest();
                             const userData = JSON.stringify(payload);
 
-                            xhr.open('POST', '/paypal-express/payment/success', true);
-                            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-                            xhr.onreadystatechange = () => {
-                                if (xhr.readyState === this.stateStatus.done && xhr.status === this.xhrStatuses.success) {
-                                    const response = JSON.parse(xhr.responseText);
-
-                                    window.location.href = response.redirectUrl;
-                                }
-                            };
-                            xhr.send(userData);
+                            const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${self.nonceInputName}']`);
+                            nonceInputSelector.value = payload.nonce;
+                            self.submitBtn.setAttribute('disabled', 'disabled');
+                            self.form.submit();
                         });
                     },
 
@@ -82,7 +86,22 @@ export default class BraintreePayPal extends BraintreePaymentForm {
                 }, '#paypal-button');
 
             });
+        });
+    }
 
+    protected mapEvents(): void {
+        this.paymentMethods.forEach((method: HTMLInputElement) => {
+            method.addEventListener('change', () => {
+                if (method.value == this.paymentMethodName) {
+                    this.switchSubmitButton();
+                }
+            });
+        });
+    }
+
+    protected switchSubmitButton(): void {
+        this.submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
         });
     }
 }

@@ -83,6 +83,7 @@
         <property name="braintreePayPal" type="BraintreePayment"/>
         <property name="braintreePayPalExpress" type="BraintreePayment"/>
         <property name="braintreeCreditCard" type="BraintreePayment"/>
+        <property name="braintreeTransactionResponse" type="BraintreeTransactionResponse"/>
     </transfer>
 
     <transfer name="TransactionMeta">

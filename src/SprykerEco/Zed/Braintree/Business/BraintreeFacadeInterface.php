@@ -46,6 +46,19 @@ interface BraintreeFacadeInterface
 
     /**
      * Specification:
+     * - Creates transaction on Braintree side and stores the response in quote.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    public function createPayment(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer);
+
+    /**
+     * Specification:
      * - Processes payment confirmation request to Braintree gateway.
      *
      * @api
