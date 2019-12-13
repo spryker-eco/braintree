@@ -10,6 +10,7 @@ namespace SprykerEcoTest\Zed\Braintree\Business\Order;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
@@ -135,6 +136,8 @@ class SaverTest extends Unit
         $paymentTransfer = new PaymentTransfer();
         $paymentTransfer->setBraintree($braintreePaymentTransfer);
         $paymentTransfer->setPaymentProvider(BraintreeConfig::PROVIDER_NAME);
+        $paymentTransfer
+            ->setBraintreeTransactionResponse((new BraintreeTransactionResponseTransfer())->setIsSuccess(true));
 
         $quoteTransfer->setPayment($paymentTransfer);
 
