@@ -9,6 +9,7 @@ namespace SprykerEco\Yves\Braintree\Form;
 
 use Braintree\ClientToken;
 use Braintree\Configuration;
+use Braintree\Gateway;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Spryker\Shared\Config\Config;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
@@ -60,16 +61,20 @@ abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInt
             return static::$clientToken;
         }
 
-        $environment = Config::get(BraintreeConstants::ENVIRONMENT);
-        $merchantId = Config::get(BraintreeConstants::MERCHANT_ID);
-        $publicKey = Config::get(BraintreeConstants::PUBLIC_KEY);
-        $privateKey = Config::get(BraintreeConstants::PRIVATE_KEY);
-        Configuration::environment($environment);
-        Configuration::merchantId($merchantId);
-        Configuration::publicKey($publicKey);
-        Configuration::privateKey($privateKey);
+        if (Config::hasKey(BraintreeConstants::FAKE_CLIENT_TOKEN)) {
+            static::$clientToken = Config::get(BraintreeConstants::FAKE_CLIENT_TOKEN);
 
-        static::$clientToken = ClientToken::generate();
+            return static::$clientToken;
+        }
+
+        $gateway = new Gateway([
+            'environment' => Config::get(BraintreeConstants::ENVIRONMENT),
+            'merchantId' => Config::get(BraintreeConstants::MERCHANT_ID),
+            'publicKey' => Config::get(BraintreeConstants::PUBLIC_KEY),
+            'privateKey' => Config::get(BraintreeConstants::PRIVATE_KEY),
+        ]);
+
+        static::$clientToken = $gateway->clientToken()->generate();
 
         return static::$clientToken;
     }

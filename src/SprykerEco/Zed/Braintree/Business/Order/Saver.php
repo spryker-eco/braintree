@@ -24,7 +24,9 @@ class Saver implements SaverInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
+        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME
+            && $quoteTransfer->getPayment()->getBraintreeTransactionResponse()->getIsSuccess()
+        ) {
             $paymentEntity = $this->savePaymentForOrder(
                 $quoteTransfer->getPayment()->getBraintree(),
                 $saveOrderTransfer->getIdSalesOrder()

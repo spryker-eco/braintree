@@ -97,7 +97,7 @@ class BraintreeFactory extends AbstractFactory
      */
     public function createBraintreeHandler(): BraintreeHandlerInterface
     {
-        return new BraintreeHandler($this->getCurrencyPlugin());
+        return new BraintreeHandler($this->getCurrencyPlugin(), $this->getConfig());
     }
 
     /**

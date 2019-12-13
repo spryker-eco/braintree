@@ -7,6 +7,18 @@
 
 {% define attributes = {
     'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken,
+    'data-braintree-is-3d-secure': data.form.braintreeCreditCard.vars.is3dSecure,
+    'data-braintree-amount': data.form.braintreeCreditCard.vars.amount | money(false),
+    'data-braintree-email': data.form.braintreeCreditCard.vars.email,
+    'data-braintree-billing-address-given-name': data.form.braintreeCreditCard.vars.billingAddress.givenName,
+    'data-braintree-billing-address-surname': data.form.braintreeCreditCard.vars.billingAddress.surname,
+    'data-braintree-billing-address-phoneNumber': data.form.braintreeCreditCard.vars.billingAddress.phoneNumber,
+    'data-braintree-billing-address-streetAddress': data.form.braintreeCreditCard.vars.billingAddress.streetAddress,
+    'data-braintree-billing-address-extendedAddress': data.form.braintreeCreditCard.vars.billingAddress.extendedAddress,
+    'data-braintree-billing-address-locality': data.form.braintreeCreditCard.vars.billingAddress.locality,
+    'data-braintree-billing-address-region': data.form.braintreeCreditCard.vars.billingAddress.region,
+    'data-braintree-billing-address-postalCode': data.form.braintreeCreditCard.vars.billingAddress.postalCode,
+    'data-braintree-billing-address-countryCodeAlpha2': data.form.braintreeCreditCard.vars.billingAddress.countryCodeAlpha2,
 } %}
 
 {% block body %}
@@ -14,34 +26,7 @@
 
     <div class="form grid" id="braintreeCreditCard">
         <div class="col col--sm-12 form__fields {{ config.jsName }}__method">
-            <div class="form__field">
-                <label for="{{ config.name }}__number">
-                    {{ 'braintreeCreditCard.credit_card_number' | trans }}*
-                </label>
-                <div id="{{ config.name }}__number" class="hosted-field {{ config.jsName }}__number {{ config.name }}__field"></div>
-            </div>
-
-            <div class="form__field">
-                <label for="{{ config.name }}__cvv">
-                    {{ 'braintreeCreditCard.ccv' | trans }}*
-                </label>
-                <div id="{{ config.name }}__cvv" class="hosted-field {{ config.jsName }}__cvv {{ config.name }}__field"></div>
-            </div>
-
-            <div class="form__field">
-                <label for="{{ config.name }}__expiration-date">
-                    {{ 'braintreeCreditCard.expiration_date' | trans }}*
-                </label>
-                <div id="{{ config.name }}__expiration-date" class="hosted-field {{ config.jsName }}__expiration-date {{ config.name }}__field"></div>
-            </div>
-
-            <div class="form__field">
-                <ul class="list list--bullet list--alert">
-                    <li class="list__item {{ config.jsName }}__error is-hidden"></li>
-                </ul>
-            </div>
-
-            {{ form_errors(data.form.braintreeCreditCard) }}
+            <div id="dropin_credit_card"></div>
             {{ form_widget(data.form.braintreeCreditCard) }}
         </div>
     </div>

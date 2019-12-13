@@ -28,6 +28,9 @@ $config[BraintreeConstants::ACCOUNT_ID] = '';
 // merchant account unique identifier (Marketplace master merchant is used by default)
 $config[BraintreeConstants::ACCOUNT_UNIQUE_IDENTIFIER] = '';
 
+// the fake pament method nonce for testing. Keep empty for the live mode.
+$config[BraintreeConstants::FAKE_PAYMENT_METHOD_NONCE] = '';
+
 $config[BraintreeConstants::IS_VAULTED] = true;
 $config[BraintreeConstants::IS_3D_SECURE] = true;
 
