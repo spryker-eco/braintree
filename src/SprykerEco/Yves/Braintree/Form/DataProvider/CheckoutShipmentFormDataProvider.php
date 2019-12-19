@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
 
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer;
 use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 use Generated\Shared\Transfer\ShipmentMethodTransfer;
 use Generated\Shared\Transfer\ShipmentTransfer;
@@ -105,14 +106,16 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
         $shipmentMethods = [];
 
         $shipmentMethodsTransfer = $this->getAvailableShipmentMethods($quoteTransfer);
-        foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
-            if (!isset($shipmentMethods[$shipmentMethodTransfer->getCarrierName()])) {
-                $shipmentMethods[$shipmentMethodTransfer->getCarrierName()] = [];
+        foreach ($shipmentMethodsTransfer->getShipmentMethods() as $shipmentMethodsTransfer) {
+            foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
+                if (!isset($shipmentMethods[$shipmentMethodTransfer->getCarrierName()])) {
+                    $shipmentMethods[$shipmentMethodTransfer->getCarrierName()] = [];
+                }
+                $description = $this->getShipmentDescription(
+                    $shipmentMethodTransfer
+                );
+                $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
             }
-            $description = $this->getShipmentDescription(
-                $shipmentMethodTransfer
-            );
-            $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
 
         return $shipmentMethods;
@@ -121,9 +124,9 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
+     * @return \Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer
      */
-    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsTransfer
+    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsCollectionTransfer
     {
         return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }
