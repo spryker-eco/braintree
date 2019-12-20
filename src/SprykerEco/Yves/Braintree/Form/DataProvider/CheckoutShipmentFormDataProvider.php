@@ -106,18 +106,18 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
         $shipmentMethods = [];
 
         $shipmentMethodsTransfer = $this->getAvailableShipmentMethods($quoteTransfer);
-        foreach ($shipmentMethodsTransfer->getShipmentMethods() as $shipmentMethodsTransfer) {
-            foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
-                $carrierName = $shipmentMethodTransfer->getCarrierName();
+        foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
+            $carrierName = $shipmentMethodTransfer->getCarrierName();
 
-                if (!isset($shipmentMethods[$carrierName])) {
-                    $shipmentMethods[$carrierName] = [];
-                }
-                $description = $this->getShipmentDescription(
-                    $shipmentMethodTransfer
-                );
-                $shipmentMethods[$carrierName][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
+            if (!isset($shipmentMethods[$carrierName])) {
+                $shipmentMethods[$carrierName] = [];
             }
+
+            $description = $this->getShipmentDescription(
+                    $shipmentMethodTransfer
+            );
+
+            $shipmentMethods[$carrierName][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
 
         return $shipmentMethods;
@@ -128,7 +128,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      *
      * @return \Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer
      */
-    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsCollectionTransfer
+    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer)
     {
         return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }

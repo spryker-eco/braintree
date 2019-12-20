@@ -31,8 +31,21 @@ class BraintreeToShipmentClientBridge implements BraintreeToShipmentClientInterf
      *
      * @return \Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer
      */
-    public function getAvailableMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsCollectionTransfer
+    public function getAvailableMethods(QuoteTransfer $quoteTransfer)
     {
+        if (method_exists($this->shipmentClient, 'getAvailableMethodsByShipment') === true) {
+            $shipmentMethodsCollectionTransfer = $this->shipmentClient->getAvailableMethodsByShipment($quoteTransfer);
+
+            if ($shipmentMethodsCollectionTransfer->getShipmentMethods()->count() > 1) {
+                throw new \RuntimeException('Split shipping is not supported');
+            }
+
+            $shipmentMethodsTransfer = $shipmentMethodsCollectionTransfer->getShipmentMethods()->getIterator()
+                ->current();
+
+            return  $shipmentMethodsTransfer;
+        }
+
         return $this->shipmentClient->getAvailableMethodsByShipment($quoteTransfer);
     }
 }
