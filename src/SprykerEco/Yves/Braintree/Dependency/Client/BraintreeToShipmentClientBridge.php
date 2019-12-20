@@ -46,6 +46,6 @@ class BraintreeToShipmentClientBridge implements BraintreeToShipmentClientInterf
             return  $shipmentMethodsTransfer;
         }
 
-        return $this->shipmentClient->getAvailableMethodsByShipment($quoteTransfer);
+        return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }
 }
