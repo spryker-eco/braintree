@@ -16,7 +16,7 @@ interface BraintreeToShipmentClientInterface
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer
+     * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
      */
-    public function getAvailableMethods(QuoteTransfer $quoteTransfer);
+    public function getAvailableMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsTransfer;
 }

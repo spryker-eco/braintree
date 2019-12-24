@@ -104,31 +104,25 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected function createAvailableShipmentChoiceList(QuoteTransfer $quoteTransfer): array
     {
         $shipmentMethods = [];
-
         $shipmentMethodsTransfer = $this->getAvailableShipmentMethods($quoteTransfer);
         foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
-            $carrierName = $shipmentMethodTransfer->getCarrierName();
-
-            if (!isset($shipmentMethods[$carrierName])) {
-                $shipmentMethods[$carrierName] = [];
+            if (!isset($shipmentMethods[$shipmentMethodTransfer->getCarrierName()])) {
+                $shipmentMethods[$shipmentMethodTransfer->getCarrierName()] = [];
             }
-
             $description = $this->getShipmentDescription(
-                    $shipmentMethodTransfer
+                $shipmentMethodTransfer
             );
-
-            $shipmentMethods[$carrierName][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
+            $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
-
         return $shipmentMethods;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer
+     * @return \Generated\Shared\Transfer\ShipmentMethodsTransfer
      */
-    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer)
+    protected function getAvailableShipmentMethods(QuoteTransfer $quoteTransfer): ShipmentMethodsTransfer
     {
         return $this->shipmentClient->getAvailableMethods($quoteTransfer);
     }
