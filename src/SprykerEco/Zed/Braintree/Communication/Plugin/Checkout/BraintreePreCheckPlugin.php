@@ -52,6 +52,8 @@ class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreC
         $quoteTransfer->getPayment()->getBraintree()
             ->setTransactionId($braintreeTransactionResponseTransfer->getTransactionId());
 
+        $quoteTransfer->getPayment()->setBraintreeTransactionResponse($braintreeTransactionResponseTransfer);
+
         return $isPassed;
     }
 
