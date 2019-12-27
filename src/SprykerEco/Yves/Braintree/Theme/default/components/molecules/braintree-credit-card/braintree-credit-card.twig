@@ -8,7 +8,7 @@
 {% define attributes = {
     'data-braintree-client-token': data.form.braintreeCreditCard.vars.clientToken,
     'data-braintree-is-3d-secure': data.form.braintreeCreditCard.vars.is3dSecure,
-    'data-braintree-amount': data.form.braintreeCreditCard.vars.amount | money(false),
+    'data-braintree-amount': data.form.braintreeCreditCard.vars.amount | moneyRaw,
     'data-braintree-email': data.form.braintreeCreditCard.vars.email,
     'data-braintree-billing-address-given-name': data.form.braintreeCreditCard.vars.billingAddress.givenName,
     'data-braintree-billing-address-surname': data.form.braintreeCreditCard.vars.billingAddress.surname,
