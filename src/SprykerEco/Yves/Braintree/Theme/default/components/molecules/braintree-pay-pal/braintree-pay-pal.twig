@@ -8,7 +8,7 @@
 {% define attributes = {
     'data-braintree-env': data.form.braintreePayPal.vars.env,
     'data-braintree-client-token': data.form.braintreePayPal.vars.clientToken,
-    'data-braintree-amount': data.form.braintreePayPal.vars.amount | money(false),
+    'data-braintree-amount': data.form.braintreePayPal.vars.amount | moneyRaw,
     'data-braintree-currency': data.form.braintreePayPal.vars.currency,
     'data-braintree-locale': data.form.braintreePayPal.vars.locale
 } %}
