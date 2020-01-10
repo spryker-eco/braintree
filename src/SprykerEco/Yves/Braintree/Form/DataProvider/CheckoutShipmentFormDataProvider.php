@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
 
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer;
 use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 use Generated\Shared\Transfer\ShipmentMethodTransfer;
 use Generated\Shared\Transfer\ShipmentTransfer;
@@ -103,7 +104,6 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected function createAvailableShipmentChoiceList(QuoteTransfer $quoteTransfer): array
     {
         $shipmentMethods = [];
-
         $shipmentMethodsTransfer = $this->getAvailableShipmentMethods($quoteTransfer);
         foreach ($shipmentMethodsTransfer->getMethods() as $shipmentMethodTransfer) {
             if (!isset($shipmentMethods[$shipmentMethodTransfer->getCarrierName()])) {
@@ -114,7 +114,6 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
             );
             $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
-
         return $shipmentMethods;
     }
 

@@ -11,6 +11,7 @@ use Braintree\Result\Error;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
@@ -200,10 +201,11 @@ class AbstractFacadeTest extends Unit
 
         $transactionStatusLogQueryMock = $this->getTransactionStatusLogQueryMock();
         $paymentBraintreeTransfer = $this->getPaymentBraintreeTransfer();
+        $paymentBraintreeTransactionStatusLogTransfer = $this->getPaymentBraintreeTransactionStatusLogTransfer();
 
         $queryContainerMock->expects($this->any())
             ->method('findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId')
-            ->willReturn($transactionStatusLogQueryMock);
+            ->willReturn($paymentBraintreeTransactionStatusLogTransfer);
 
         $queryContainerMock->expects($this->any())
             ->method('findPaymentBraintreeBySalesOrderId')
@@ -242,6 +244,15 @@ class AbstractFacadeTest extends Unit
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR');
     }
+
+    /**
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
+     */
+    public function getPaymentBraintreeTransactionStatusLogTransfer(): PaymentBraintreeTransactionStatusLogTransfer
+    {
+        return (new PaymentBraintreeTransactionStatusLogTransfer());
+    }
+
 
     /**
      * @param array $methods

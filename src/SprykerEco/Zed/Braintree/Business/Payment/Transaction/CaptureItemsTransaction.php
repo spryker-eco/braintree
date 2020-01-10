@@ -9,7 +9,7 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 
 use Braintree\Transaction as BraintreeTransaction;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
-use Spryker\Shared\Shipment\ShipmentConstants;
+use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentTransactionHandlerInterface;
@@ -21,6 +21,11 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 class CaptureItemsTransaction extends AbstractTransaction
 {
     protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
+
+    /**
+     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     */
+    protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
     /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
@@ -207,7 +212,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     protected function getShipmentExpenses(iterable $expenseTransfers): int
     {
         foreach ($expenseTransfers as $expenseTransfer) {
-            if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {
                 return $expenseTransfer->getUnitPriceToPayAggregation();
             }
         }

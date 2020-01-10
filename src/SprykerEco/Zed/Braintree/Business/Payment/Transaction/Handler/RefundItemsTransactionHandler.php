@@ -13,7 +13,7 @@ use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
-use Spryker\Shared\Shipment\ShipmentConstants;
+use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
@@ -21,6 +21,11 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class RefundItemsTransactionHandler extends AbstractTransactionHandler implements RefundItemsTransactionHandlerInterface
 {
+    /**
+     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     */
+    protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
+
     protected const KEY_AMOUNT = 'amount';
     protected const KEY_PAYMENT_ID = 'payment_id';
 
@@ -182,7 +187,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         $expenses = [];
 
         foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() !== ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() !== static::SHIPMENT_EXPENSE_TYPE) {
                 $expenses[] = $expenseTransfer;
             }
         }
@@ -200,7 +205,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     protected function findShipmentExpenseTransfer(RefundTransfer $refundTransfer): ?ExpenseTransfer
     {
         foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() === ShipmentConstants::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {
                 return $expenseTransfer;
             }
         }
