@@ -23,6 +23,11 @@ class CaptureItemsTransaction extends AbstractTransaction
     protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
 
     /**
+     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     */
+    protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
+
+    /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected $moneyFacade;
@@ -207,7 +212,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     protected function getShipmentExpenses(iterable $expenseTransfers): int
     {
         foreach ($expenseTransfers as $expenseTransfer) {
-            if ($expenseTransfer->getType() === ShipmentConfig::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {
                 return $expenseTransfer->getUnitPriceToPayAggregation();
             }
         }

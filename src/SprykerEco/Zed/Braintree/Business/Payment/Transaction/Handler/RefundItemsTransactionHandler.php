@@ -21,6 +21,11 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class RefundItemsTransactionHandler extends AbstractTransactionHandler implements RefundItemsTransactionHandlerInterface
 {
+    /**
+     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     */
+    protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
+
     protected const KEY_AMOUNT = 'amount';
     protected const KEY_PAYMENT_ID = 'payment_id';
 
@@ -182,7 +187,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
         $expenses = [];
 
         foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() !== ShipmentConfig::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() !== static::SHIPMENT_EXPENSE_TYPE) {
                 $expenses[] = $expenseTransfer;
             }
         }
@@ -200,7 +205,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     protected function findShipmentExpenseTransfer(RefundTransfer $refundTransfer): ?ExpenseTransfer
     {
         foreach ($refundTransfer->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() === ShipmentConfig::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {
                 return $expenseTransfer;
             }
         }

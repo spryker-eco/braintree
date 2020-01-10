@@ -22,6 +22,11 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 class RefundItemsTransaction extends AbstractTransaction
 {
     /**
+     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     */
+    protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
+
+    /**
      * @var \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected $moneyFacade;
@@ -133,7 +138,7 @@ class RefundItemsTransaction extends AbstractTransaction
     protected function findShipmentExpenseTransfer(): ?ExpenseTransfer
     {
         foreach ($this->transactionMetaTransfer->getRefund()->getExpenses() as $expenseTransfer) {
-            if ($expenseTransfer->getType() === ShipmentConfig::SHIPMENT_EXPENSE_TYPE) {
+            if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {
                 return $expenseTransfer;
             }
         }

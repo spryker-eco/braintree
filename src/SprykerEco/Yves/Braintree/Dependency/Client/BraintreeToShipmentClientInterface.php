@@ -8,7 +8,6 @@
 namespace SprykerEco\Yves\Braintree\Dependency\Client;
 
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer;
 use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 
 interface BraintreeToShipmentClientInterface
