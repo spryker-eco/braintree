@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import PaymentForm from '../payment-form/payment-form';
 
 export default class CreditCard extends PaymentForm {

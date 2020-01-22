@@ -4,46 +4,62 @@ import client from 'braintree-web/client';
 import paypalCheckout from 'braintree-web/paypal-checkout';
 import paypal from 'paypal-checkout';
 
-interface IBraintreeData {
+interface BraintreeData {
     env: string;
     token: string;
     currency: string;
     amount: number;
     successUrl: string;
-};
+}
 
-interface IPaypalCheckoutInstance {
+interface PaypalCheckoutInstance {
     createPayment: Function;
     tokenizePayment: Function;
-};
+}
 
-interface IStatuses {
+interface ClientInstance {
+    getConfiguration: Function;
+    request: Function;
+    configuration: object;
+}
+
+interface ClientError {
+    name: string;
+    code: string;
+    message: string;
+    type: string;
+    details: object;
+}
+
+interface Statuses {
     [key: string]: number;
-};
+}
 
 export default class BraintreePayPalExpress extends Component {
-    protected braintreeData: IBraintreeData;
-    protected stateStatus: IStatuses = {
+    protected braintreeData: BraintreeData;
+    protected stateStatus: Statuses = {
         done: 4
     };
-    protected xhrStatuses: IStatuses = {
+    protected xhrStatuses: Statuses = {
         success: 200
     };
 
-    protected readyCallback(): void {
+    protected readyCallback(): void {}
+
+    protected init(): void {
         this.braintreeData = this.parseBraintreeData();
         this.registerClient();
-    };
+    }
 
     protected registerClient(): void {
         client.create({
             authorization: this.braintreeData.token
         }, this.registerCallback.bind(this));
-    };
+    }
 
-    protected registerCallback(error, clientInstance): void {
-        if (error) {
-            console.error('PayPal checkout register error!', error);
+    protected registerCallback(clientError: ClientError, clientInstance: ClientInstance): void {
+        if (clientError) {
+            console.error('PayPal checkout register error!', clientError);
 
             return;
         }
@@ -53,10 +69,10 @@ export default class BraintreePayPalExpress extends Component {
         } catch (error) {
             console.error('Init PayPal checkout error!', error);
         }
-    };
+    }
 
-    protected async initPaypalCheckout(clientInstance): Promise<void> {
-        const paypalCheckoutInstance = <IPaypalCheckoutInstance>await paypalCheckout.create({
+    protected async initPaypalCheckout(clientInstance: ClientInstance): Promise<void> {
+        const checkoutInstance = <PaypalCheckoutInstance>await paypalCheckout.create({
             client: clientInstance
         });
 
@@ -66,16 +82,16 @@ export default class BraintreePayPalExpress extends Component {
             style: {
                 size: 'responsive'
             },
-            payment: () => this.onPaymentHandler(paypalCheckoutInstance),
-            onAuthorize: (data, actions) => this.onAuthorizeHandler(data, actions, paypalCheckoutInstance),
-            onError: (error) => {
+            payment: () => this.onPaymentHandler(checkoutInstance),
+            onAuthorize: (data, actions) => this.onAuthorizeHandler(data, actions, checkoutInstance),
+            onError: error => {
                 console.error('PayPal checkout button render error!', error);
             }
         }, `.${ this.name }`);
-    };
+    }
 
-    protected onPaymentHandler(paypalCheckoutInstance: IPaypalCheckoutInstance): Function {
-        return paypalCheckoutInstance.createPayment({
+    protected onPaymentHandler(checkoutInstance: PaypalCheckoutInstance): Function {
+        return checkoutInstance.createPayment({
             flow: 'checkout',
             intent: 'authorize',
             amount: this.braintreeData.amount,
@@ -83,12 +99,12 @@ export default class BraintreePayPalExpress extends Component {
             enableShippingAddress: true,
             shippingAddressEditable: true
         });
-    };
+    }
 
-    protected onAuthorizeHandler(data, actions, paypalCheckoutInstance: IPaypalCheckoutInstance): Function {
-        return paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
-            payload['amount'] = this.braintreeData.amount;
-            payload['currency'] = this.braintreeData.currency;
+    protected onAuthorizeHandler(data: object, actions: object, checkoutInstance: PaypalCheckoutInstance): Function {
+        return checkoutInstance.tokenizePayment(data).then(payload => {
+            payload.amount = this.braintreeData.amount;
+            payload.currency = this.braintreeData.currency;
 
             const xhr = new XMLHttpRequest();
             const userData = JSON.stringify(payload);
@@ -104,12 +120,12 @@ export default class BraintreePayPalExpress extends Component {
             };
             xhr.send(userData);
         });
-    };
+    }
 
-    protected parseBraintreeData(): IBraintreeData {
+    protected parseBraintreeData(): BraintreeData {
         const braintreeData = JSON.parse(this.dataset.braintree);
         this.dataset.braintree = '';
 
         return braintreeData;
-    };
+    }
 }

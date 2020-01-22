@@ -12,11 +12,12 @@
 
 {% define attributes = {
     'data-error-message': 'Braintree.payment_method.error_message' | trans,
-    'data-error-message-toggle-class': 'is-hidden'
+    'data-error-message-toggle-class': 'is-hidden',
 } %}
 
 {% block body %}
     {% include molecule('script-loader') with {
+        class: config.jsName ~ '__script-loader',
         attributes: {
             src: data.scriptSrc,
         },
