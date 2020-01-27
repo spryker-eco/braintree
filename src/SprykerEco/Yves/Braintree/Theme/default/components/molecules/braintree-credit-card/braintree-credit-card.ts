@@ -70,7 +70,7 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
     protected switchSubmitButton(): void {
         const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
 
-        this.submitBtn.addEventListener('click', e => {
+        this.submitBtn.addEventListener('click', (event: Event) => {
             e.preventDefault();
 
             this.dropinInstance.requestPaymentMethod({
