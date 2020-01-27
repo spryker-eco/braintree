@@ -79,7 +79,6 @@ export default class BraintreePayPal extends BraintreePaymentForm {
                     onCancel: data => {
                         /* tslint:disable: no-console */
                         console.log('checkout.js payment cancelled: ', data);
-
                         /* tslint:enable: no-console */
                     },
 
