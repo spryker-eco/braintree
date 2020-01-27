@@ -109,7 +109,7 @@ export default class BraintreePayPal extends BraintreePaymentForm {
 
     protected switchSubmitButton(): void {
         this.submitBtn.addEventListener('click', (event: Event) => {
-            e.preventDefault();
+            event.preventDefault();
         });
     }
 
