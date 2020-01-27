@@ -2,15 +2,7 @@ import BraintreePaymentForm from '../braintree-payment-form/braintree-payment-fo
 import dropin from 'braintree-web-drop-in';
 
 interface BraintreeBillingAddress {
-    givenName: string;
-    surname: string;
-    phoneNumber: string;
-    streetAddress: string;
-    extendedAddress: string;
-    locality: string;
-    region: string;
-    postalCode: string;
-    countryCodeAlpha2: string;
+    [key: string]: string;
 }
 
 export default class BraintreeCreditCard extends BraintreePaymentForm {
@@ -18,10 +10,8 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
     protected braintreeCreditCardMethod: HTMLElement;
     protected paymentMethods: HTMLInputElement[];
     protected submitBtn: HTMLElement;
-
     /* tslint:disable: no-any */
     protected dropinInstance: any;
-
     /* tslint:enable: no-any */
     protected readonly dropInContainer: string = '#dropin_credit_card';
     protected readonly paymentMethodName: string = 'braintreeCreditCard';
@@ -55,12 +45,9 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
             authorization: this.braintreeClientToken,
             container: this.dropInContainer,
             threeDSecure: !!this.braintreeIs3dSecure,
-        }, (createErr, instance) => {
-            if (createErr) {
-                /* tslint:disable: no-console */
-                console.log(createErr);
-
-                /* tslint:enable: no-console */
+        }, (error, instance) => {
+            if (error) {
+                console.error(error);
             }
 
             this.dropinInstance = instance;
@@ -79,22 +66,16 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
                     email: this.braintreeEmail,
                     billingAddress: this.braintreeBillingAddress
                 }
-            }, (err, payload) => {
-                if (err) {
-                    /* tslint:disable: no-console */
-                    console.log('tokenization error:', err);
-
-                    /* tslint:enable: no-console */
+            }, (error, payload) => {
+                if (error) {
+                    console.error('tokenization error:', error);
                     this.dropinInstance.clearSelectedPaymentMethod();
 
                     return;
                 }
 
                 if (this.braintreeIs3dSecure && !payload.liabilityShifted) {
-                    /* tslint:disable: no-console */
-                    console.log('Liability did not shift', payload);
-
-                    /* tslint:enable: no-console */
+                    console.error('Liability did not shift: ', payload);
 
                     return;
                 }

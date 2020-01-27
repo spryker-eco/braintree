@@ -27,16 +27,14 @@ export default class BraintreePayPal extends BraintreePaymentForm {
     protected createBrainTreeClient(): void {
         braintree.client.create({
             authorization: this.braintreeClientToken
-        }, (clientErr, clientInstance) => {
+        }, (clientError, clientInstance) => {
 
             // stop if there was a problem creating the client.
             // this could happen if there is a network error or if the authorization
             // is invalid.
-            if (clientErr) {
-                /* tslint:disable: no-console */
-                console.error('Error creating client:', clientErr);
+            if (clientError) {
+                console.error('Error creating client:', clientError);
 
-                /* tslint:enable: no-console */
                 return;
             }
 
@@ -86,10 +84,7 @@ export default class BraintreePayPal extends BraintreePaymentForm {
                     },
 
                     onError: error => {
-                        /* tslint:disable: no-console */
                         console.error('checkout.js error', error);
-
-                        /* tslint:enable: no-console */
                     }
                 }, this.paypalButtonSelector);
 
