@@ -32,7 +32,8 @@ interface ClientError {
 }
 
 interface Statuses {
-    [key: string]: number;
+    done?: number;
+    success?: number;
 }
 
 export default class BraintreePayPalExpress extends Component {

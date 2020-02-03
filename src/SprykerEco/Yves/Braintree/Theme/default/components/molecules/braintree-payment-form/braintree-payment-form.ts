@@ -10,17 +10,9 @@ interface BraintreeErrorConfig {
     message: string;
 }
 
-interface PaymentMethodHandler {
-    (response: BraintreeConfig): void;
-}
-
-interface ErrorHandler {
-    (error: BraintreeErrorConfig): void;
-}
-
 interface BraintreeSetupSettings {
-    onPaymentMethodReceived: PaymentMethodHandler;
-    onError: ErrorHandler;
+    onPaymentMethodReceived(response: BraintreeConfig): void;
+    onError(error: BraintreeErrorConfig): void;
 }
 
 export default class BraintreePaymentForm extends Component {

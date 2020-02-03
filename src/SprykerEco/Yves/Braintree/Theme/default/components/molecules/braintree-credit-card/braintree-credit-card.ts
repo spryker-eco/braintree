@@ -2,7 +2,15 @@ import BraintreePaymentForm from '../braintree-payment-form/braintree-payment-fo
 import dropin from 'braintree-web-drop-in';
 
 interface BraintreeBillingAddress {
-    [key: string]: string;
+    givenName: string;
+    surname: string;
+    phoneNumber: string;
+    streetAddress: string;
+    extendedAddress: string;
+    locality: string;
+    region: string;
+    postalCode: string;
+    countryCodeAlpha2: string;
 }
 
 export default class BraintreeCreditCard extends BraintreePaymentForm {

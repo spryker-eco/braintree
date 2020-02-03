@@ -41,7 +41,7 @@ export default class BraintreePayPal extends BraintreePaymentForm {
             // create a PayPal Checkout component.
             braintree.paypalCheckout.create({
                 client: clientInstance
-            }, (err, paypalCheckoutInstance) => {
+            }, (error, paypalCheckoutInstance) => {
 
                 // set up PayPal with the checkout.js library
                 paypal.Button.render({
@@ -82,8 +82,8 @@ export default class BraintreePayPal extends BraintreePaymentForm {
                         /* tslint:enable: no-console */
                     },
 
-                    onError: error => {
-                        console.error('checkout.js error', error);
+                    onError: checkoutError => {
+                        console.error('checkout.js error', checkoutError);
                     }
                 }, this.paypalButtonSelector);
 
