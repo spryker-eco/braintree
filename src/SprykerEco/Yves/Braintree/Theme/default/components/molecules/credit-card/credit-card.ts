@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import PaymentForm from '../payment-form/payment-form';
 
 export default class CreditCard extends PaymentForm {
@@ -22,6 +20,7 @@ export default class CreditCard extends PaymentForm {
         if (this.braintreeCreditCardMethod) {
             this.braintreeSetupSettings.id = this.formId;
             this.braintreeSetupSettings.hostedFields = {
+                /* tslint:disable: object-literal-key-quotes */
                 styles: {
                     'input': {
                         'font-size': '14px',
@@ -41,6 +40,7 @@ export default class CreditCard extends PaymentForm {
                         'color': '#bbb'
                     }
                 },
+                /* tslint:enable: object-literal-key-quotes */
                 number: {
                     selector: `.${this.jsName}__number`,
                     placeholder: '4111 1111 1111 1111'

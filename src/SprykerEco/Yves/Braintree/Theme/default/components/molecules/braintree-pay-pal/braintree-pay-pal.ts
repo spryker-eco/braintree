@@ -4,7 +4,7 @@ import paypal from 'paypal-checkout';
 
 export default class BraintreePayPal extends BraintreePaymentForm {
     protected form: HTMLFormElement;
-    protected submitBtn: HTMLElement;
+    protected submitBtn: HTMLButtonElement;
 
     protected readonly formId: string = 'payment-form';
     protected readonly paypalButtonSelector: string = '#paypal-button';
@@ -17,7 +17,7 @@ export default class BraintreePayPal extends BraintreePaymentForm {
     protected init(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
-        this.submitBtn = <HTMLElement>this.form.querySelector(`button[type='submit']`);
+        this.submitBtn = <HTMLButtonElement>this.form.querySelector(`button[type='submit']`);
 
         super.createTokenField();
         this.mapEvents();
@@ -29,65 +29,62 @@ export default class BraintreePayPal extends BraintreePaymentForm {
             authorization: this.braintreeClientToken
         }, (clientError, clientInstance) => {
 
-            // stop if there was a problem creating the client.
-            // this could happen if there is a network error or if the authorization
-            // is invalid.
             if (clientError) {
                 console.error('Error creating client:', clientError);
 
                 return;
             }
 
-            // create a PayPal Checkout component.
-            braintree.paypalCheckout.create({
-                client: clientInstance
-            }, (error, paypalCheckoutInstance) => {
+            this.createPayPalCheckoutComponent(clientInstance);
+        });
+    }
 
-                // set up PayPal with the checkout.js library
-                paypal.Button.render({
-                    env: this.environment,
-                    locale: this.locale,
-                    commit: true,
+    protected createPayPalCheckoutComponent(clientInstance: object): void {
+        braintree.paypalCheckout.create({
+            client: clientInstance
+        }, (error, paypalCheckoutInstance) => {
+            paypal.Button.render({
+                env: this.environment,
+                locale: this.locale,
+                commit: true,
 
-                    payment: () => {
-                        return paypalCheckoutInstance.createPayment({
-                            flow: 'checkout',
-                            intent: 'authorize',
-                            amount: this.amount,
-                            currency: this.currency,
-                            enableShippingAddress: true,
-                            shippingAddressEditable: true
-                        });
-                    },
+                payment: () => {
+                    return paypalCheckoutInstance.createPayment({
+                        flow: 'checkout',
+                        intent: 'authorize',
+                        amount: this.amount,
+                        currency: this.currency,
+                        enableShippingAddress: true,
+                        shippingAddressEditable: true
+                    });
+                },
 
-                    onAuthorize: (data, actions) => {
-                        const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
+                onAuthorize: (data, actions) => {
+                    const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
 
-                        return paypalCheckoutInstance.tokenizePayment(data).then(payload => {
-                            const xhr = new XMLHttpRequest();
-                            const userData = JSON.stringify(payload);
+                    return paypalCheckoutInstance.tokenizePayment(data).then(payload => {
+                        const xhr = new XMLHttpRequest();
+                        const userData = JSON.stringify(payload);
 
-                            payload.amount = this.amount;
-                            payload.currency = this.currency;
-                            nonceInputSelector.value = payload.nonce;
+                        payload.amount = this.amount;
+                        payload.currency = this.currency;
+                        nonceInputSelector.value = payload.nonce;
 
-                            this.submitBtn.setAttribute('disabled', 'disabled');
-                            this.form.submit();
-                        });
-                    },
+                        this.submitBtn.disabled = true;
+                        this.form.submit();
+                    });
+                },
 
-                    onCancel: data => {
-                        /* tslint:disable: no-console */
-                        console.log('checkout.js payment cancelled: ', data);
-                        /* tslint:enable: no-console */
-                    },
+                onCancel: data => {
+                    /* tslint:disable: no-console */
+                    console.log('checkout.js payment cancelled: ', data);
+                    /* tslint:enable: no-console */
+                },
 
-                    onError: checkoutError => {
-                        console.error('checkout.js error', checkoutError);
-                    }
-                }, this.paypalButtonSelector);
-
-            });
+                onError: checkoutError => {
+                    console.error('checkout.js error', checkoutError);
+                }
+            }, this.paypalButtonSelector);
         });
     }
 

@@ -67,7 +67,7 @@ export default class BraintreePaymentForm extends Component {
     }
 
     protected submitForm(nonce: string = ''): void {
-        this.initTokenValue = nonce;
+        this.tokenValue = nonce;
         this.form.submit();
     }
 
@@ -79,7 +79,7 @@ export default class BraintreePaymentForm extends Component {
     }
 
     protected clearTokenValue(): void {
-        this.nonceInputSelector.value = '';
+        this.tokenValue = '';
     }
 
     protected errorHandler(error: BraintreeErrorConfig): void {
@@ -153,7 +153,7 @@ export default class BraintreePaymentForm extends Component {
         this.errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
     }
 
-    protected set initTokenValue(nonce: string) {
+    protected set tokenValue(nonce: string) {
         this.nonceInputSelector.value = nonce;
     }
 

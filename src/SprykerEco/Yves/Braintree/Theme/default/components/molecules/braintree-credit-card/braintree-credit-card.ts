@@ -17,7 +17,7 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
     protected form: HTMLFormElement;
     protected braintreeCreditCardMethod: HTMLElement;
     protected paymentMethods: HTMLInputElement[];
-    protected submitBtn: HTMLElement;
+    protected submitBtn: HTMLButtonElement;
     /* tslint:disable: no-any */
     protected dropinInstance: any;
     /* tslint:enable: no-any */
@@ -32,7 +32,7 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
         this.braintreeCreditCardMethod = <HTMLElement>this.form.getElementsByClassName(`${this.jsName}__method`)[0];
-        this.submitBtn = <HTMLElement>this.form.querySelector(`button[type='submit']`);
+        this.submitBtn = <HTMLButtonElement>this.form.querySelector(`button[type='submit']`);
 
         this.createDropinInstance();
         this.mapEvents();
@@ -89,7 +89,7 @@ export default class BraintreeCreditCard extends BraintreePaymentForm {
                 }
 
                 nonceInputSelector.value = payload.nonce;
-                this.submitBtn.setAttribute('disabled', 'disabled');
+                this.submitBtn.disabled = true;
                 this.form.submit();
             });
         });

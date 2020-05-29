@@ -49,16 +49,16 @@ export default class BraintreePayPalExpress extends Component {
 
     protected init(): void {
         this.braintreeData = this.parseBraintreeData();
-        this.registerClient();
+        this.registerBraintreeClient();
     }
 
-    protected registerClient(): void {
+    protected registerBraintreeClient(): void {
         client.create({
             authorization: this.braintreeData.token
-        }, this.registerCallback.bind(this));
+        }, this.registerBraintreeClientCallback.bind(this));
     }
 
-    protected registerCallback(clientError: ClientError, clientInstance: ClientInstance): void {
+    protected registerBraintreeClientCallback(clientError: ClientError, clientInstance: ClientInstance): void {
         if (clientError) {
             console.error('PayPal checkout register error!', clientError);
 
