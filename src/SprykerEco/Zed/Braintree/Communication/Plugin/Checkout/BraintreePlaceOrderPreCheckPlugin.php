@@ -24,7 +24,7 @@ class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements Checko
      * Specification:
      * - Checks a condition before the order is placed. If the condition fails, an error is added to the response transfer and 'false' is returned.
      * - Check could be passed (returns 'true') along with errors added to the checkout response.
-     * - Don't use this plugin to write to a DB
+     * - Don't use this plugin to write to a DB.
      *
      * @api
      *
@@ -74,11 +74,11 @@ class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements Checko
         }
 
         $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: 500;
-        $error = new CheckoutErrorTransfer();
+        $checkoutErrorTransfer = new CheckoutErrorTransfer();
 
-        $error->setErrorCode($errorCode)
+        $checkoutErrorTransfer->setErrorCode($errorCode)
             ->setMessage($braintreeTransactionResponseTransfer->getMessage());
-        $checkoutResponseTransfer->addError($error);
+        $checkoutResponseTransfer->addError($checkoutErrorTransfer);
 
         return false;
     }
