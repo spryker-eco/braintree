@@ -17,10 +17,14 @@ use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
 class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements CheckoutPreConditionPluginInterface
 {
     /**
+     * {@inheritDoc}
      * Specification:
      * - Checks a condition before the order is placed. If the condition fails, an error is added to the response transfer and 'false' is returned.
      * - Check could be passed (returns 'true') along with errors added to the checkout response.

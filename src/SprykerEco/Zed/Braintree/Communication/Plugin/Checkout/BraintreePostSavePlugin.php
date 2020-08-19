@@ -18,6 +18,8 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
 class BraintreePostSavePlugin extends BaseAbstractPlugin implements CheckoutPostSaveHookInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
