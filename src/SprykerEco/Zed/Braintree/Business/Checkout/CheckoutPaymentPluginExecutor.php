@@ -5,39 +5,40 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEco\Zed\Braintree\Communication\Plugin\Checkout;
+namespace SprykerEco\Zed\Braintree\Business\Checkout;
 
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Spryker\Zed\CheckoutExtension\Dependency\Plugin\CheckoutPreConditionPluginInterface;
-use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
 
-/**
- * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
- * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
- * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
- * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
- */
-class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements CheckoutPreConditionPluginInterface
+class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInterface
 {
+    protected const HTTP_ERROR_SERVER = 500;
+
     /**
-     * {@inheritDoc}
-     * Specification:
-     * - Checks a condition before the order is placed. If the condition fails, an error is added to the response transfer and 'false' is returned.
-     * - Check could be passed (returns 'true') along with errors added to the checkout response.
-     * - Don't use this plugin to write to a DB.
-     *
-     * @api
-     *
+     * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface
+     */
+    protected $preCheckTransactionHandler;
+
+    /**
+     * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface $preCheckTransactionHandler
+     */
+    public function __construct(
+        PreCheckTransactionHandlerInterface $preCheckTransactionHandler
+    ) {
+        $this->preCheckTransactionHandler = $preCheckTransactionHandler;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
      */
-    public function checkCondition(
+    public function executePreCheckPlugin(
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): bool {
@@ -47,7 +48,7 @@ class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements Checko
             return true;
         }
 
-        $braintreeTransactionResponseTransfer = $this->getFacade()->preCheckPayment($quoteTransfer);
+        $braintreeTransactionResponseTransfer = $this->preCheckTransactionHandler->preCheck($quoteTransfer);
         $isPassed = $this->checkForErrors($braintreeTransactionResponseTransfer, $checkoutResponseTransfer);
 
         if (!$braintreeTransactionResponseTransfer->getIsSuccess()) {
@@ -77,7 +78,7 @@ class BraintreePlaceOrderPreCheckPlugin extends AbstractPlugin implements Checko
             return true;
         }
 
-        $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: 500;
+        $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: static::HTTP_ERROR_SERVER;
         $checkoutErrorTransfer = new CheckoutErrorTransfer();
 
         $checkoutErrorTransfer->setErrorCode($errorCode)

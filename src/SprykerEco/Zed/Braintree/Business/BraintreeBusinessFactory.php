@@ -9,6 +9,8 @@ namespace SprykerEco\Zed\Braintree\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
+use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutor;
+use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutorInterface;
 use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHook;
 use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHookInterface;
 use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLog;
@@ -20,7 +22,6 @@ use SprykerEco\Zed\Braintree\Business\Payment\Filter\PaypalExpressPaymentMethodF
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CreateTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\AuthorizeTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureItemsTransactionHandler;
@@ -29,8 +30,6 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTr
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CaptureOrderTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandlerInterface;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CreateTransactionTransactionHandler;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\CreateTransactionTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandler;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\RefundItemsTransactionHandler;
@@ -364,5 +363,15 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     public function getSalesFacade(): BraintreeToSalesFacadeInterface
     {
         return $this->getProvidedDependency(BraintreeDependencyProvider::FACADE_SALES);
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutorInterface
+     */
+    public function createCheckoutPaymentPluginExecutor(): CheckoutPaymentPluginExecutorInterface
+    {
+        return new CheckoutPaymentPluginExecutor(
+            $this->createPreCheckTransactionHandler()
+        );
     }
 }

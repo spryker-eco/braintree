@@ -314,4 +314,23 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
             ->createCaptureItemsTransactionHandler()
             ->capture($transactionMetaTransfer);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return bool
+     */
+    public function checkoutPreCheck(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponseTransfer
+    ): bool {
+        return $this->getFactory()
+            ->createCheckoutPaymentPluginExecutor()
+            ->executePreCheckPlugin($quoteTransfer, $checkoutResponseTransfer);
+    }
 }
