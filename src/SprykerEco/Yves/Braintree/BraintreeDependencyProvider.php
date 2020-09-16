@@ -71,9 +71,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addCurrencyPlugin(Container $container): Container
     {
-        $container[static::PLUGIN_CURRENCY] = function (Container $container) {
+        $container->set(static::PLUGIN_CURRENCY, function (Container $container) {
             return new CurrencyPlugin();
-        };
+        });
 
         return $container;
     }
@@ -85,9 +85,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addQuoteClient(Container $container): Container
     {
-        $container[static::CLIENT_QUOTE] = function (Container $container) {
+        $container>set(static::CLIENT_QUOTE, function (Container $container) {
             return new BraintreeToQuoteClientBridge($container->getLocator()->quote()->client());
-        };
+        });
 
         return $container;
     }
@@ -99,9 +99,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addUtilEncodingService(Container $container): Container
     {
-        $container[static::SERVICE_UTIL_ENCODING] = function (Container $container) {
+        $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
             return new BraintreeToUtilEncodingServiceBridge($container->getLocator()->utilEncoding()->service());
-        };
+        });
 
         return $container;
     }
@@ -113,9 +113,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addPaymentClient(Container $container): Container
     {
-        $container[static::CLIENT_PAYMENT] = function (Container $container) {
+        $container->set(static::CLIENT_PAYMENT, function (Container $container) {
             return new BraintreeToPaymentClientBridge($container->getLocator()->payment()->client());
-        };
+        });
 
         return $container;
     }
@@ -127,9 +127,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addShipmentClient(Container $container): Container
     {
-        $container[static::CLIENT_SHIPMENT] = function (Container $container) {
+        $container->set(static::CLIENT_SHIPMENT, function (Container $container) {
             return new BraintreeToShipmentClientBridge($container->getLocator()->shipment()->client());
-        };
+        });
 
         return $container;
     }
@@ -141,9 +141,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addGlossaryClient(Container $container): Container
     {
-        $container[static::CLIENT_GLOSSARY] = function (Container $container) {
+        $container->set(static::CLIENT_GLOSSARY, function (Container $container) {
             return new BraintreeToGlossaryClientBridge($container->getLocator()->glossary()->client());
-        };
+        });
 
         return $container;
     }
@@ -155,9 +155,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addCalculationClient(Container $container): Container
     {
-        $container[static::CLIENT_CALCULATION] = function (Container $container) {
+        $container->set(static::CLIENT_CALCULATION, function (Container $container) {
             return new BraintreeToCalculationClientBridge($container->getLocator()->calculation()->client());
-        };
+        });
 
         return $container;
     }
@@ -169,9 +169,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addCountryClient(Container $container): Container
     {
-        $container[static::CLIENT_COUNTRY] = function (Container $container) {
+        $container->set(static::CLIENT_COUNTRY, function (Container $container) {
             return new BraintreeToCountryClientBridge($container->getLocator()->country()->client());
-        };
+        });
 
         return $container;
     }
@@ -183,9 +183,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addStore(Container $container): Container
     {
-        $container[static::STORE] = function () {
+        $container->set(static::STORE, function () {
             return Store::getInstance();
-        };
+        });
 
         return $container;
     }
@@ -197,9 +197,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addMoneyPlugin(Container $container): Container
     {
-        $container[static::PLUGIN_MONEY] = function () {
+        $container->set(static::PLUGIN_MONEY, function () {
             return new MoneyPlugin();
-        };
+        });
 
         return $container;
     }
@@ -211,9 +211,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addShipmentHandlerPlugin(Container $container): Container
     {
-        $container[static::PLUGIN_SHIPMENT_HANDLER] = function () {
+        $container->set(static::PLUGIN_SHIPMENT_HANDLER,  function () {
             return new ShipmentHandlerPlugin();
-        };
+        });
 
         return $container;
     }
@@ -225,9 +225,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addMessengerClient(Container $container): Container
     {
-        $container[static::CLIENT_MESSENGER] = function (Container $container) {
+        $container->set(static::CLIENT_MESSENGER, function (Container $container) {
             return new BraintreeToMessengerClientBridge($container->getLocator()->messenger()->client());
-        };
+        });
 
         return $container;
     }
