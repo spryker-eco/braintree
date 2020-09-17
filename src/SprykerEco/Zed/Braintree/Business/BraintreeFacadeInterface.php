@@ -236,7 +236,10 @@ interface BraintreeFacadeInterface
 
     /**
      * Specification:
-     * - Runs pre-check plugins
+     *
+     * - Runs pre-check plugins.
+     * - QuoteTransfer.Payment must be set.
+     * - Checks Braintree response transfer for Errors. If so, adds error to response transfer.
      *
      * @api
      *

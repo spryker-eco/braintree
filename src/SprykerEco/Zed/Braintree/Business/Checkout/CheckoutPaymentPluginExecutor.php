@@ -10,14 +10,15 @@ namespace SprykerEco\Zed\Braintree\Business\Checkout;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use ArrayObject;
 
 class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInterface
 {
-    protected const HTTP_ERROR_SERVER = 500;
-
     /**
      * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface
      */
@@ -26,9 +27,7 @@ class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInte
     /**
      * @param \SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface $preCheckTransactionHandler
      */
-    public function __construct(
-        PreCheckTransactionHandlerInterface $preCheckTransactionHandler
-    ) {
+    public function __construct(PreCheckTransactionHandlerInterface $preCheckTransactionHandler) {
         $this->preCheckTransactionHandler = $preCheckTransactionHandler;
     }
 
@@ -42,16 +41,19 @@ class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInte
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): bool {
-        $quoteTransfer->requirePayment();
-        $paymentTransfer = $quoteTransfer->getPayment();
+        $paymentTransfer = $quoteTransfer
+            ->requirePayment()
+            ->getPayment();
+
         if ($paymentTransfer->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
             return true;
         }
 
         $braintreeTransactionResponseTransfer = $this->preCheckTransactionHandler->preCheck($quoteTransfer);
-        $isPassed = $this->checkForErrors($braintreeTransactionResponseTransfer, $checkoutResponseTransfer);
-
         if (!$braintreeTransactionResponseTransfer->getIsSuccess()) {
+            $checkoutErrorTransfer = $this->buildCheckoutErrorTransfer($braintreeTransactionResponseTransfer);
+            $checkoutResponseTransfer->addError($checkoutErrorTransfer);
+
             return false;
         }
 
@@ -61,30 +63,21 @@ class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInte
         $paymentTransfer->setBraintreeTransactionResponse($braintreeTransactionResponseTransfer);
         $quoteTransfer->setPayment($paymentTransfer);
 
-        return $isPassed;
+        return true;
     }
 
     /**
      * @param \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer $braintreeTransactionResponseTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
-     * @return bool
+     * @return CheckoutErrorTransfer
      */
-    protected function checkForErrors(
-        BraintreeTransactionResponseTransfer $braintreeTransactionResponseTransfer,
-        CheckoutResponseTransfer $checkoutResponseTransfer
-    ): bool {
-        if ($braintreeTransactionResponseTransfer->getIsSuccess()) {
-            return true;
-        }
-
-        $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: static::HTTP_ERROR_SERVER;
+    protected function buildCheckoutErrorTransfer(BraintreeTransactionResponseTransfer $braintreeTransactionResponseTransfer): CheckoutErrorTransfer {
+        $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR;
         $checkoutErrorTransfer = new CheckoutErrorTransfer();
 
         $checkoutErrorTransfer->setErrorCode($errorCode)
             ->setMessage($braintreeTransactionResponseTransfer->getMessage());
-        $checkoutResponseTransfer->addError($checkoutErrorTransfer);
 
-        return false;
+        return $checkoutErrorTransfer;
     }
 }

@@ -25,8 +25,8 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
 {
     /**
      * {@inheritDoc}
-     * Specification:
-     * - Checks Braintree response transfer for Errors.
+     *
+     * - Runs checkout pre-check plugin.
      *
      * @api
      *

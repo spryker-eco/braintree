@@ -20,6 +20,9 @@ class BraintreePostSavePlugin extends BaseAbstractPlugin implements CheckoutPost
     /**
      * {@inheritDoc}
      *
+     *  - Searches Braintree transaction status by sales order id.
+     *  - If status exists and is not a success - adds an error to response.
+     *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer

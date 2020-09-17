@@ -85,7 +85,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addQuoteClient(Container $container): Container
     {
-        $container>set(static::CLIENT_QUOTE, function (Container $container) {
+        $container->set(static::CLIENT_QUOTE, function (Container $container) {
             return new BraintreeToQuoteClientBridge($container->getLocator()->quote()->client());
         });
 

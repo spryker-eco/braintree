@@ -19,7 +19,7 @@ class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutDoS
 {
     /**
      * {@inheritDoc}
-     * Specification:
+     *
      * - Retrieves (its) data from the quote object and saves it to the database.
      * - These plugins are already enveloped into a transaction.
      *
