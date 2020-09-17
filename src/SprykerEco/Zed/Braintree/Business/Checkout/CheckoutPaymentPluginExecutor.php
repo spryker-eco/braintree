@@ -10,12 +10,10 @@ namespace SprykerEco\Zed\Braintree\Business\Checkout;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
-use Generated\Shared\Transfer\PaymentTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PreCheckTransactionHandlerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use ArrayObject;
 
 class CheckoutPaymentPluginExecutor implements CheckoutPaymentPluginExecutorInterface
 {
