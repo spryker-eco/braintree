@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
+use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 class Saver implements SaverInterface
@@ -24,9 +25,7 @@ class Saver implements SaverInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME
-            && $quoteTransfer->getPayment()->getBraintreeTransactionResponse()->getIsSuccess()
-        ) {
+        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
             $paymentEntity = $this->savePaymentForOrder(
                 $quoteTransfer->getPayment()->getBraintree(),
                 $saveOrderTransfer->getIdSalesOrder()
@@ -83,6 +82,29 @@ class Saver implements SaverInterface
                 ->setFkPaymentBraintree($idPayment)
                 ->setFkSalesOrderItem($orderItemTransfer->getIdSalesOrderItem());
             $paymentOrderItemEntity->save();
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     *
+     * @return void
+     */
+    public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
+    {
+        $paymentTransfer = $quoteTransfer
+            ->requirePayment()
+            ->getPayment();
+        if ($paymentTransfer->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
+            $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
+            $paymentEntity = SpyPaymentBraintreeQuery::create()
+                ->filterByFkSalesOrder($idSalesOrder)
+                ->findOne();
+
+            $paymentEntity->fromArray($paymentTransfer->getBraintree()->toArray());
+            $paymentEntity->setFkSalesOrder($idSalesOrder);
+            $paymentEntity->save();
         }
     }
 }

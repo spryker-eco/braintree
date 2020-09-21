@@ -9,8 +9,10 @@ namespace SprykerEco\Zed\Braintree\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerEco\Zed\Braintree\BraintreeDependencyProvider;
-use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutor;
-use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutorInterface;
+use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentChecker;
+use SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentCheckerInterface;
+use SprykerEco\Zed\Braintree\Business\Hook\CheckoutPostSaveHook;
+use SprykerEco\Zed\Braintree\Business\Hook\CheckoutPostSaveHookInterface;
 use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHook;
 use SprykerEco\Zed\Braintree\Business\Hook\PostSaveHookInterface;
 use SprykerEco\Zed\Braintree\Business\Log\TransactionStatusLog;
@@ -368,10 +370,19 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutorInterface
      */
-    public function createCheckoutPaymentPluginExecutor(): CheckoutPaymentPluginExecutorInterface
+    public function createCheckoutPaymentChecker(): CheckoutPaymentCheckerInterface
     {
-        return new CheckoutPaymentPluginExecutor(
-            $this->createPreCheckTransactionHandler()
+        return new CheckoutPaymentChecker();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Braintree\Business\Hook\CheckoutPostSaveHookInterface;
+     */
+    public function createCheckoutPostSaveHook(): CheckoutPostSaveHookInterface
+    {
+        return new CheckoutPostSaveHook(
+            $this->createPaymentTransactionHandler(),
+            $this->createOrderSaver()
         );
     }
 }

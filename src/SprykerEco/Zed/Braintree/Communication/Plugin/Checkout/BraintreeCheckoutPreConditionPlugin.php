@@ -7,13 +7,10 @@
 
 namespace SprykerEco\Zed\Braintree\Communication\Plugin\Checkout;
 
-use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
-use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Zed\CheckoutExtension\Dependency\Plugin\CheckoutPreConditionPluginInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
-use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
@@ -26,7 +23,7 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
     /**
      * {@inheritDoc}
      *
-     * - Runs checkout pre-check plugin.
+     * - Checks if quote payment is valid.
      *
      * @api
      *
@@ -39,6 +36,6 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): bool {
-        return $this->getFacade()->checkoutPreCheck($quoteTransfer, $checkoutResponseTransfer);
+        return $this->getFacade()->isQuotePaymentValid($quoteTransfer);
     }
 }

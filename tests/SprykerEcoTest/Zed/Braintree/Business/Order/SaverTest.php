@@ -8,6 +8,7 @@
 namespace SprykerEcoTest\Zed\Braintree\Business\Order;
 
 use Codeception\Test\Unit;
+use Generated\Shared\DataBuilder\PaymentBraintreeBuilder;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
@@ -92,6 +93,30 @@ class SaverTest extends Unit
     }
 
     /**
+     * @return void
+     */
+    public function testUpdateOrderPaymentUpdatesPaymentData()
+    {
+        $saveOrderTransfer = $this->createSaveOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
+        $braintreePaymentType = $quoteTransfer
+            ->getPayment()
+            ->getBraintree()
+            ->getPaymentType();
+
+        $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
+        $paymentEntity = $this->createPaymentEntity($idSalesOrder);
+
+        $this->assertNotSame($braintreePaymentType, $paymentEntity->getPaymentType());
+
+        $orderManager = new Saver();
+        $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
+        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
+
+        $this->assertSame($braintreePaymentType, $paymentEntity->getPaymentType());
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
@@ -122,6 +147,7 @@ class SaverTest extends Unit
             ->setAccountBrand(BraintreeConfig::PAYMENT_METHOD_PAY_PAL)
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR')
+            ->setPaymentType('credit_card')
             ->setBillingAddress($paymentAddressTransfer);
 
         $quoteTransfer = new QuoteTransfer();
@@ -283,5 +309,24 @@ class SaverTest extends Unit
         $orderEntity->save();
 
         return $orderEntity;
+    }
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    protected function createPaymentEntity(int $idSalesOrder): SpyPaymentBraintree
+    {
+        $paymentBraintreeData = (new PaymentBraintreeBuilder())->build();
+
+        $paymentEntity = (new SpyPaymentBraintree());
+        $paymentEntity->fromArray($paymentBraintreeData->toArray());
+        $paymentEntity->setFkSalesOrder($idSalesOrder);
+        $paymentEntity->save();
+
+        return $paymentEntity;
     }
 }

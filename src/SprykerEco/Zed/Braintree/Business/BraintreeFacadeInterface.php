@@ -214,6 +214,8 @@ interface BraintreeFacadeInterface
     /**
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::checkoutPostSaveHook()` instead.
+     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
      *
@@ -236,17 +238,28 @@ interface BraintreeFacadeInterface
 
     /**
      * Specification:
-     *
-     * - Runs pre-check plugins.
-     * - QuoteTransfer.Payment must be set.
-     * - Checks Braintree response transfer for Errors. If so, adds error to response transfer.
+     * - Checks if Braintree has a nonce.
+     * - QuoteTransfer.Payment and QuoteTransfer.Payment.Braintree must be set.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
      */
-    public function checkoutPreCheck(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): bool;
+    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool;
+
+    /**
+     * Specification:
+     * - Executes Braintree sale API request.
+     * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
+     * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
+     * - QuoteTransfer.Payment must be set.
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     *
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse): CheckoutResponseTransfer;
 }

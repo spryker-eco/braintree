@@ -10,16 +10,12 @@ namespace SprykerEco\Zed\Braintree\Business\Checkout;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 
-interface CheckoutPaymentPluginExecutorInterface
+interface CheckoutPaymentCheckerInterface
 {
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
      */
-    public function executePreCheckPlugin(
-        QuoteTransfer $quoteTransfer,
-        CheckoutResponseTransfer $checkoutResponseTransfer
-    ): bool;
+    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool;
 }

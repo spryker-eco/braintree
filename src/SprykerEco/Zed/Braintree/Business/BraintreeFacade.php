@@ -250,6 +250,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::checkoutPostSaveHook()` instead.
+     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
      *
@@ -321,16 +323,29 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
      */
-    public function checkoutPreCheck(
-        QuoteTransfer $quoteTransfer,
-        CheckoutResponseTransfer $checkoutResponseTransfer
-    ): bool {
+    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool {
         return $this->getFactory()
-            ->createCheckoutPaymentPluginExecutor()
-            ->executePreCheckPlugin($quoteTransfer, $checkoutResponseTransfer);
+            ->createCheckoutPaymentChecker()
+            ->isQuotePaymentValid($quoteTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): CheckoutResponseTransfer
+    {
+        return $this->getFactory()
+            ->createCheckoutPostSaveHook()
+            ->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
 }

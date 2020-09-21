@@ -9,7 +9,9 @@ namespace SprykerEcoTest\Zed\Braintree\Business;
 
 use Braintree\Result\Error;
 use Codeception\Test\Unit;
+use Generated\Shared\DataBuilder\BraintreePaymentBuilder;
 use Generated\Shared\Transfer\AddressTransfer;
+use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
