@@ -243,7 +243,7 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
      * @return bool
      */
