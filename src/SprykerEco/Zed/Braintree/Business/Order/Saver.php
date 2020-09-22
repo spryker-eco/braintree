@@ -112,8 +112,8 @@ class Saver implements SaverInterface
         }
 
         $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
-        $braintreePaymentData = $paymentTransfer->getBraintree()->toArray();
+        $braintreePaymentTransfer = $paymentTransfer->getBraintree();
 
-        $this->braintreeEntityManager->updateByIdSalesOrder($idSalesOrder, $braintreePaymentData);
+        $this->braintreeEntityManager->updateByIdSalesOrder($idSalesOrder, $braintreePaymentTransfer);
     }
 }

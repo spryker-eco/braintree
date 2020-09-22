@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Braintree\Persistence;
 
-use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery;
+use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogToOrderItem;
 use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
@@ -92,18 +92,18 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
 
     /**
      * @param int $idSalesOrder
-     * @param array $paymentData
+     * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $braintreePaymentTransfer
      *
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function updateByIdSalesOrder(int $idSalesOrder, array $paymentData): void
+    public function updateByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $braintreePaymentTransfer): void
     {
         $paymentBraintreeEntity = $this
             ->getFactory()
             ->createPaymentBraintreeQuery()
             ->findOneByFkSalesOrder($idSalesOrder);
 
-        $paymentBraintreeEntity->fromArray($paymentData);
+        $paymentBraintreeEntity->fromArray($braintreePaymentTransfer->toArray());
         $paymentBraintreeEntity->setFkSalesOrder($idSalesOrder);
         $paymentBraintreeEntity->save();
     }

@@ -19,7 +19,7 @@ class BraintreeCheckoutPostSaveHookPlugin extends BaseAbstractPlugin implements 
 {
     /**
      * {@inheritDoc}
-     * - Executes Braintree sail API call and updates order payment method data.
+     * - Executes Braintree sale API call and updates order payment method data.
      *
      * @api
      *
