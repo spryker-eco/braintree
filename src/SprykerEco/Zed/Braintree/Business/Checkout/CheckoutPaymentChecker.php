@@ -17,7 +17,8 @@ class CheckoutPaymentChecker implements CheckoutPaymentCheckerInterface
      *
      * @return bool
      */
-    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool {
+    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool
+    {
         $paymentTransfer = $quoteTransfer
             ->requirePayment()
             ->getPayment();

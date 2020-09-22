@@ -93,9 +93,7 @@ class Saver implements SaverInterface
      */
     public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
     {
-        $paymentTransfer = $quoteTransfer
-            ->requirePayment()
-            ->getPayment();
+        $paymentTransfer = $quoteTransfer->getPayment();
         if ($paymentTransfer->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
             $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
             $paymentEntity = SpyPaymentBraintreeQuery::create()

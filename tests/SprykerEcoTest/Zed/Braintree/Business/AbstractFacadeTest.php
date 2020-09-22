@@ -12,9 +12,12 @@ use Codeception\Test\Unit;
 use Generated\Shared\DataBuilder\BraintreePaymentBuilder;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
@@ -304,5 +307,32 @@ class AbstractFacadeTest extends Unit
     protected function getOrderEntity()
     {
         return $this->orderEntity;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    protected function getQuoteTransfer(OrderTransfer $orderTransfer): QuoteTransfer
+    {
+        $quoteTransfer = new QuoteTransfer();
+        $quoteTransfer->setCustomer(new CustomerTransfer());
+        $quoteTransfer->setBillingAddress($orderTransfer->getBillingAddress());
+        $quoteTransfer->setShippingAddress($orderTransfer->getShippingAddress());
+        $quoteTransfer->setOrderReference($orderTransfer->getOrderReference());
+        $quoteTransfer->setTotals($orderTransfer->getTotals());
+
+        $paymentTransfer = new PaymentTransfer();
+        $paymentTransfer->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL);
+        $paymentTransfer->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
+
+        $braintreeTransfer = new BraintreePaymentTransfer();
+        $braintreeTransfer->setNonce('fake_valid_nonce');
+        $paymentTransfer->setBraintree($braintreeTransfer);
+
+        $quoteTransfer->setPayment($paymentTransfer);
+
+        return $quoteTransfer;
     }
 }

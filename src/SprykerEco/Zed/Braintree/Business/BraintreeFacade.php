@@ -326,7 +326,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @return bool
      */
-    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool {
+    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool
+    {
         return $this->getFactory()
             ->createCheckoutPaymentChecker()
             ->isQuotePaymentValid($quoteTransfer);

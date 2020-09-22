@@ -322,7 +322,7 @@ class SaverTest extends Unit
     {
         $paymentBraintreeData = (new PaymentBraintreeBuilder())->build();
 
-        $paymentEntity = (new SpyPaymentBraintree());
+        $paymentEntity = new SpyPaymentBraintree();
         $paymentEntity->fromArray($paymentBraintreeData->toArray());
         $paymentEntity->setFkSalesOrder($idSalesOrder);
         $paymentEntity->save();

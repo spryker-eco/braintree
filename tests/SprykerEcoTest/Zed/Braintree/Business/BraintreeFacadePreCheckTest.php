@@ -45,7 +45,8 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
-        $quoteTransfer = $this->getQuoteTransfer();
+        $orderTransfer = $this->createOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
 
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
 
@@ -63,7 +64,8 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
-        $quoteTransfer = $this->getQuoteTransfer();
+        $orderTransfer = $this->createOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
 
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
 
@@ -126,32 +128,6 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         $response = new Successful($transaction);
 
         return $response;
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
-    protected function getQuoteTransfer()
-    {
-        $orderTransfer = $this->createOrderTransfer();
-
-        $quoteTransfer = new QuoteTransfer();
-        $quoteTransfer->setCustomer(new CustomerTransfer());
-        $quoteTransfer->setBillingAddress($orderTransfer->getBillingAddress());
-        $quoteTransfer->setShippingAddress($orderTransfer->getShippingAddress());
-        $quoteTransfer->setOrderReference($orderTransfer->getOrderReference());
-        $quoteTransfer->setTotals($orderTransfer->getTotals());
-
-        $paymentTransfer = new PaymentTransfer();
-        $paymentTransfer->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL);
-
-        $braintreeTransfer = new BraintreePaymentTransfer();
-        $braintreeTransfer->setNonce('fake_valid_nonce');
-        $paymentTransfer->setBraintree($braintreeTransfer);
-
-        $quoteTransfer->setPayment($paymentTransfer);
-
-        return $quoteTransfer;
     }
 
     /**

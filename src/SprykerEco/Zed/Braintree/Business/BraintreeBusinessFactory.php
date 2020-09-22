@@ -368,7 +368,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentPluginExecutorInterface
+     * @return \SprykerEco\Zed\Braintree\Business\Checkout\CheckoutPaymentCheckerInterface
      */
     public function createCheckoutPaymentChecker(): CheckoutPaymentCheckerInterface
     {

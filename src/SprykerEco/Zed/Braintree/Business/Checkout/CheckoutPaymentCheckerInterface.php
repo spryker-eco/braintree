@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Braintree\Business\Checkout;
 
-use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 
 interface CheckoutPaymentCheckerInterface

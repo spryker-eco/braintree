@@ -12,14 +12,9 @@ use Braintree\Transaction;
 use Braintree\Transaction\CreditCardDetails;
 use Braintree\Transaction\StatusDetails;
 use DateTime;
-use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
-use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
-use Generated\Shared\Transfer\PaymentTransfer;
-use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
-use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PaymentTransaction;
@@ -151,32 +146,6 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
         ]);
 
         return new Successful($transaction);
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
-    protected function getQuoteTransfer(OrderTransfer $orderTransfer): QuoteTransfer
-    {
-        $quoteTransfer = new QuoteTransfer();
-        $quoteTransfer->setCustomer(new CustomerTransfer());
-        $quoteTransfer->setBillingAddress($orderTransfer->getBillingAddress());
-        $quoteTransfer->setShippingAddress($orderTransfer->getShippingAddress());
-        $quoteTransfer->setOrderReference($orderTransfer->getOrderReference());
-        $quoteTransfer->setTotals($orderTransfer->getTotals());
-
-        $paymentTransfer = new PaymentTransfer();
-        $paymentTransfer->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL);
-
-        $braintreeTransfer = new BraintreePaymentTransfer();
-        $braintreeTransfer->setNonce('fake_valid_nonce');
-        $paymentTransfer->setBraintree($braintreeTransfer);
-
-        $quoteTransfer->setPayment($paymentTransfer);
-
-        return $quoteTransfer;
     }
 
     /**
