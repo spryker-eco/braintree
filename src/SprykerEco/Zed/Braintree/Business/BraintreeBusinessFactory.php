@@ -164,7 +164,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createOrderSaver(): SaverInterface
     {
-        return new Saver();
+        return new Saver($this->getEntityManager());
     }
 
     /**

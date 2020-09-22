@@ -15,11 +15,10 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  */
-class BraintreeCheckoutPostSavePlugin extends BaseAbstractPlugin implements CheckoutPostSaveHookInterface
+class BraintreeCheckoutPostSaveHookPlugin extends BaseAbstractPlugin implements CheckoutPostSaveHookInterface
 {
     /**
      * {@inheritDoc}
-     *
      * - Executes Braintree sail API call and updates order payment method data.
      *
      * @api

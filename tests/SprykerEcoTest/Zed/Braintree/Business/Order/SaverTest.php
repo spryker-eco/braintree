@@ -30,6 +30,7 @@ use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
 
 /**
  * Auto-generated group annotations
@@ -50,7 +51,7 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver();
+        $orderManager = new Saver(new BraintreeEntityManager());
 
         $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
@@ -70,7 +71,7 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver();
+        $orderManager = new Saver(new BraintreeEntityManager());
 
         $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
@@ -109,7 +110,7 @@ class SaverTest extends Unit
 
         $this->assertNotSame($braintreePaymentType, $paymentEntity->getPaymentType());
 
-        $orderManager = new Saver();
+        $orderManager = new Saver(new BraintreeEntityManager());
         $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
 

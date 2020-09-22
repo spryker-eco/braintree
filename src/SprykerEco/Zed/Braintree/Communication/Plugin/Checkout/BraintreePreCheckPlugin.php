@@ -24,7 +24,6 @@ class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreC
 {
     /**
      * {@inheritDoc}
-     *
      * - Checks a condition before the order is saved. If the condition fails, an error is added to the response transfer and 'false' is returned.
      * - Check could be passed (returns 'true') along with errors added to the checkout response.
      * - Quote transfer should not be changed

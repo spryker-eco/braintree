@@ -13,7 +13,7 @@ use Spryker\Zed\Checkout\Dependency\Plugin\CheckoutPostSaveHookInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
 
 /**
- * @deprecated Use {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPostSavePlugin} instead.
+ * @deprecated Use {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPostSaveHookPlugin} instead.
  *
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  */
@@ -21,7 +21,6 @@ class BraintreePostSavePlugin extends BaseAbstractPlugin implements CheckoutPost
 {
     /**
      * {@inheritDoc}
-     *
      *  - Searches Braintree transaction status by sales order id.
      *  - If status exists and is not a success - adds an error to response.
      *

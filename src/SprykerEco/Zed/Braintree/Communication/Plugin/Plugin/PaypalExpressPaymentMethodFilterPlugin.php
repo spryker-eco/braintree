@@ -22,7 +22,6 @@ class PaypalExpressPaymentMethodFilterPlugin extends AbstractPlugin implements P
 {
     /**
      * {@inheritDoc}
-     *
      * - Returns filtered by set of plugins array object of payments.
      *
      * @api

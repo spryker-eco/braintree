@@ -12,11 +12,24 @@ use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
-use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface;
 
 class Saver implements SaverInterface
 {
+    /**
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface
+     */
+    protected $braintreeEntityManager;
+
+    /**
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface $braintreeEntityManager
+     */
+    public function __construct(BraintreeEntityManagerInterface $braintreeEntityManager)
+    {
+        $this->braintreeEntityManager = $braintreeEntityManager;
+    }
+
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
@@ -94,15 +107,13 @@ class Saver implements SaverInterface
     public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
     {
         $paymentTransfer = $quoteTransfer->getPayment();
-        if ($paymentTransfer->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
-            $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
-            $paymentEntity = SpyPaymentBraintreeQuery::create()
-                ->filterByFkSalesOrder($idSalesOrder)
-                ->findOne();
-
-            $paymentEntity->fromArray($paymentTransfer->getBraintree()->toArray());
-            $paymentEntity->setFkSalesOrder($idSalesOrder);
-            $paymentEntity->save();
+        if ($paymentTransfer->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
+            return;
         }
+
+        $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
+        $braintreePaymentData = $paymentTransfer->getBraintree()->toArray();
+
+        $this->braintreeEntityManager->updateByIdSalesOrder($idSalesOrder, $braintreePaymentData);
     }
 }

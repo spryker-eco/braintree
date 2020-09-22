@@ -20,6 +20,7 @@ use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PaymentTransaction;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
 
 /**
  * Auto-generated group annotations
@@ -103,6 +104,7 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
     {
         return $this
             ->getMockBuilder(Saver::class)
+            ->setConstructorArgs([new BraintreeEntityManager()])
             ->getMock();
     }
 

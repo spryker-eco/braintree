@@ -22,7 +22,6 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
 {
     /**
      * {@inheritDoc}
-     *
      * - Checks if quote payment is valid.
      *
      * @api
