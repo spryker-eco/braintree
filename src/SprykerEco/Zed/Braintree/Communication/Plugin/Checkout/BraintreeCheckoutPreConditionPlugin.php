@@ -35,6 +35,6 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): bool {
-        return $this->getFacade()->isQuotePaymentValid($quoteTransfer);
+        return $this->getFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
     }
 }

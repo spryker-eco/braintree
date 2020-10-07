@@ -72,7 +72,7 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
         $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
         $checkoutResponseTransfer = $this->getCheckoutResponseTransfer($orderTransfer);
 
-        return $braintreeFacade->checkoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
+        return $braintreeFacade->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
 
     /**

@@ -323,11 +323,14 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
      */
-    public function isQuotePaymentValid(QuoteTransfer $quoteTransfer): bool
-    {
+    public function isQuotePaymentValid(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponseTransfer
+    ): bool {
         return $this->getFactory()
             ->createCheckoutPaymentChecker()
             ->isQuotePaymentValid($quoteTransfer);
@@ -343,7 +346,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */
-    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): CheckoutResponseTransfer
+    public function executeCheckoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): CheckoutResponseTransfer
     {
         return $this->getFactory()
             ->createCheckoutPostSaveHook()

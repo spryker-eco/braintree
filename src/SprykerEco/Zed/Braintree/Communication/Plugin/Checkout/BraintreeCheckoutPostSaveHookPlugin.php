@@ -30,6 +30,6 @@ class BraintreeCheckoutPostSaveHookPlugin extends BaseAbstractPlugin implements 
      */
     public function executeHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
-        $this->getFacade()->checkoutPostSaveHook($quoteTransfer, $checkoutResponse);
+        $this->getFacade()->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponse);
     }
 }
