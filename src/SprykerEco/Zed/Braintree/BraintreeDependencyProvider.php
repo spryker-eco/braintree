@@ -43,9 +43,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addRefundFacade(Container $container): Container
     {
-        $container[static::FACADE_REFUND] = function (Container $container) {
+        $container->set(static::FACADE_REFUND, function (Container $container) {
             return new BraintreeToRefundFacadeBridge($container->getLocator()->refund()->facade());
-        };
+        });
 
         return $container;
     }
@@ -57,9 +57,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addCurrencyFacade(Container $container): Container
     {
-        $container[static::FACADE_CURRENCY] = function (Container $container) {
+        $container->set(static::FACADE_CURRENCY, function (Container $container) {
             return new BraintreeToCurrencyFacadeBridge($container->getLocator()->currency()->facade());
-        };
+        });
 
         return $container;
     }
@@ -71,9 +71,9 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addMoneyFacade(Container $container): Container
     {
-        $container[static::FACADE_MONEY] = function (Container $container) {
+        $container->set(static::FACADE_MONEY, function (Container $container) {
             return new BraintreeToMoneyFacadeBridge($container->getLocator()->money()->facade());
-        };
+        });
 
         return $container;
     }
