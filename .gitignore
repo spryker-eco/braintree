@@ -29,3 +29,4 @@
 
 /tests/*/Yves/*/_support/_generated/*
 /tests/*/Zed/*/_support/_generated/*
+/tests/*/Service/*/_support/_generated/*
