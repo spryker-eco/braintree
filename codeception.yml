@@ -1,6 +1,7 @@
 namespace: Braintree
 
 include:
+    - tests/SprykerEcoTest/Zed/Braintree
     - tests/SprykerEcoTest/Yves/Braintree
     - tests/SprykerEcoTest/Service/Braintree
 
