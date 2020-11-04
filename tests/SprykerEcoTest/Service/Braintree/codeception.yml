@@ -15,7 +15,7 @@ coverage:
 suites:
   Service:
     path: .
-    class_name: BraintreeTester
+    class_name: BraintreeServiceTester
     modules:
       enabled:
       - Asserts
