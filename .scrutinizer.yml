@@ -8,7 +8,7 @@ build:
 
     nodes:
         analysis:
-            tests:.travis.yml
+            tests:
                 override:
                     - php-scrutinizer-run
 
