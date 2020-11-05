@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 declare var braintree: any;
 
 import Component from 'ShopUi/models/component';
