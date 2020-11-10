@@ -42,7 +42,7 @@ class CreditCardSubFormTest extends Unit
     {
         parent::setUp();
 
-        $this->setupConfig();
+        $this->tester->setConfig(BraintreeConstants::FAKE_CLIENT_TOKEN, 'FAKE_CLIENT_TOKEN');
     }
 
     /**
@@ -134,16 +134,5 @@ class CreditCardSubFormTest extends Unit
             ->create(CreditCardSubForm::class, new BraintreePaymentTransfer(), ['select_options' => []])
             ->setParent($formFactory->create(FakeParentForm::class, $quoteTransfer))
             ->createView();
-    }
-
-    /**
-     * @return void
-     */
-    protected function setupConfig(): void
-    {
-        $this->tester->setConfig(BraintreeConstants::ENVIRONMENT, 'sandbox');
-        $this->tester->setConfig(BraintreeConstants::MERCHANT_ID, 'cwd5zrcngwjmrfvg');
-        $this->tester->setConfig(BraintreeConstants::PUBLIC_KEY, '6qpxzjnwqbnnsfyt');
-        $this->tester->setConfig(BraintreeConstants::PRIVATE_KEY, '31d6202353068944bbceba4794cb7013');
     }
 }
