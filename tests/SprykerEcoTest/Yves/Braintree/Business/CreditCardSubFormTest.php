@@ -87,11 +87,37 @@ class CreditCardSubFormTest extends Unit
         $view = $this->buildCreditCardSubForm($quoteTransfer);
 
         $this->assertSame(
-            'Soniua',
+            'Soniuea',
             $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
         );
         $this->assertSame(
             'WDagner',
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildCreditCardSubFormConvertCustomerGermanNames(): void
+    {
+        $addressTransfer = (new AddressBuilder())->build()
+            ->setFirstName('Herr')
+            ->setLastName('Müßig');
+
+        $quoteTransfer = (new QuoteTransfer())
+            ->setCustomer((new CustomerBuilder())->build())
+            ->setTotals((new TotalsTransfer())->setGrandTotal(666))
+            ->setBillingAddress($addressTransfer);
+
+        $view = $this->buildCreditCardSubForm($quoteTransfer);
+
+        $this->assertSame(
+            'Herr',
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
+        );
+        $this->assertSame(
+            'Muessig',
             $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
         );
     }
@@ -113,7 +139,7 @@ class CreditCardSubFormTest extends Unit
         $view = $this->buildCreditCardSubForm($quoteTransfer);
 
         $this->assertSame(
-            'KoBu',
+            'KoBue',
             $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
         );
         $this->assertSame(
