@@ -13,6 +13,7 @@ use Generated\Shared\DataBuilder\CustomerBuilder;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use SprykerEco\Yves\Braintree\Form\CreditCardSubForm;
 use SprykerEcoTest\Yves\Braintree\Form\FakeParentForm;
 use Symfony\Component\Form\FormView;
@@ -33,6 +34,16 @@ class CreditCardSubFormTest extends Unit
      * @var \SprykerEcoTest\Yves\Braintree\BraintreeBusinessTester
      */
     protected $tester;
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setupConfig();
+    }
 
     /**
      * @return void
@@ -123,5 +134,16 @@ class CreditCardSubFormTest extends Unit
             ->create(CreditCardSubForm::class, new BraintreePaymentTransfer(), ['select_options' => []])
             ->setParent($formFactory->create(FakeParentForm::class, $quoteTransfer))
             ->createView();
+    }
+
+    /**
+     * @return void
+     */
+    protected function setupConfig(): void
+    {
+        $this->tester->setConfig(BraintreeConstants::ENVIRONMENT, 'sandbox');
+        $this->tester->setConfig(BraintreeConstants::MERCHANT_ID, 'cwd5zrcngwjmrfvg');
+        $this->tester->setConfig(BraintreeConstants::PUBLIC_KEY, '6qpxzjnwqbnnsfyt');
+        $this->tester->setConfig(BraintreeConstants::PRIVATE_KEY, '31d6202353068944bbceba4794cb7013');
     }
 }
