@@ -43,6 +43,7 @@ class CreditCardSubFormTest extends Unit
         parent::setUp();
 
         $this->tester->setConfig(BraintreeConstants::FAKE_CLIENT_TOKEN, 'FAKE_CLIENT_TOKEN');
+        $this->tester->setConfig(BraintreeConstants::IS_3D_SECURE, false);
     }
 
     /**
