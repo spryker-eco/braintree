@@ -13,6 +13,15 @@ coverage:
     whitelist: { include: ['../../../../src/*'] }
 
 suites:
+    Business:
+        path: Business
+        class_name: BraintreeBusinessTester
+        modules:
+            enabled:
+                - Asserts
+                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+
     Presentation:
         path: Presentation
         class_name: BraintreePresentationTester
