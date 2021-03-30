@@ -96,8 +96,9 @@ class SaverTest extends Unit
     /**
      * @return void
      */
-    public function testUpdateOrderPaymentUpdatesPaymentData()
+    public function testUpdateOrderPaymentUpdatesPaymentData(): void
     {
+        // Arrange
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
         $braintreePaymentType = $quoteTransfer
@@ -112,8 +113,11 @@ class SaverTest extends Unit
 
         $orderManager = new Saver(new BraintreeEntityManager());
         $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
+
+        // Act
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
 
+        // Asset
         $this->assertSame($braintreePaymentType, $paymentEntity->getPaymentType());
     }
 
@@ -316,8 +320,6 @@ class SaverTest extends Unit
      * @param int $idSalesOrder
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
      */
     protected function createPaymentEntity(int $idSalesOrder): SpyPaymentBraintree
     {

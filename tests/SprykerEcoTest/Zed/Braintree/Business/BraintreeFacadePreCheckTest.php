@@ -7,16 +7,7 @@
 
 namespace SprykerEcoTest\Zed\Braintree\Business;
 
-use Braintree\Result\Successful;
-use Braintree\Transaction;
 use Braintree\Transaction\CreditCardDetails;
-use Braintree\Transaction\StatusDetails;
-use DateTime;
-use Generated\Shared\Transfer\BraintreePaymentTransfer;
-use Generated\Shared\Transfer\CustomerTransfer;
-use Generated\Shared\Transfer\PaymentTransfer;
-use Generated\Shared\Transfer\QuoteTransfer;
-use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
@@ -37,48 +28,53 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    public function testPreCheckPaymentWithSuccessfulResponse()
+    public function testPreCheckPaymentWithSuccessfulResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
             $this->getPreCheckTransactionMock()
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
 
+        // Act
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
 
+        // Assert
         $this->assertTrue($response->getIsSuccess());
     }
 
     /**
      * @return void
      */
-    public function testPreCheckPaymentWithErrorResponse()
+    public function testPreCheckPaymentWithErrorResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
             $this->getPreCheckTransactionMock(false)
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
 
+        // Act
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
 
+        // Assert
         $this->assertFalse($response->getIsSuccess());
     }
 
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPreCheckTransactionMock($success = true)
+    protected function getPreCheckTransactionMock(bool $success = true): PreCheckTransaction
     {
+        /** @var \Spryker\Zed\Money\Business\MoneyFacadeInterface $moneyFacadeMock */
         $moneyFacadeMock = $this->getMoneyFacadeMock();
         $preCheckTransactionMock = $this
             ->getMockBuilder(PreCheckTransaction::class)
@@ -88,35 +84,18 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
             )
             ->getMock();
 
-        if ($success) {
-            $preCheckTransactionMock->expects($this->once())->method('preCheck')->willReturn($this->getSuccessResponse());
-        } else {
-            $preCheckTransactionMock->expects($this->once())->method('preCheck')->willReturn($this->getErrorResponse());
+        if (!$success) {
+            $preCheckTransactionMock->expects($this->once())
+                ->method('preCheck')
+                ->willReturn($this->getErrorResponse());
+
+            return $preCheckTransactionMock;
         }
 
-        return $preCheckTransactionMock;
-    }
-
-    /**
-     * @return \Braintree\Result\Successful
-     */
-    protected function getSuccessResponse()
-    {
-        $transaction = Transaction::factory([
-            'id' => 1,
+        $transactionResponse = $this->tester->getSuccessfulTransactionResponse([
             'paymentInstrumentType' => 'paypal_account',
             'processorSettlementResponseCode' => null,
-            'processorResponseCode' => '1000',
-            'processorResponseText' => 'Approved',
-            'createdAt' => new DateTime(),
-            'status' => 'authorized',
-            'type' => 'sale',
             'amount' => $this->createOrderTransfer()->getTotals()->getGrandTotal() / 100,
-            'merchantAccountId' => 'abc',
-            'statusHistory' => new StatusDetails([
-                'timestamp' => new DateTime(),
-                'status' => 'authorized',
-            ]),
             'creditCardDetails' => new CreditCardDetails([
                 'expirationMonth' => null,
                 'expirationYear' => null,
@@ -125,18 +104,18 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
                 'cardType' => null,
             ]),
         ]);
-        $response = new Successful($transaction);
+        $preCheckTransactionMock->expects($this->once())
+            ->method('preCheck')
+            ->willReturn($transactionResponse);
 
-        return $response;
+        return $preCheckTransactionMock;
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getMoneyFacadeMock()
+    protected function getMoneyFacadeMock(): BraintreeToMoneyFacadeInterface
     {
-        $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyFacadeInterface::class)->getMock();
-
-        return $moneyFacadeMock;
+        return $this->getMockBuilder(BraintreeToMoneyFacadeInterface::class)->getMock();
     }
 }

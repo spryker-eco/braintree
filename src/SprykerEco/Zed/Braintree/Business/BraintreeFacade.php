@@ -333,7 +333,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
     ): bool {
         return $this->getFactory()
             ->createCheckoutPaymentChecker()
-            ->isQuotePaymentValid($quoteTransfer);
+            ->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
     }
 
     /**

@@ -7,8 +7,6 @@
 
 namespace SprykerEcoTest\Zed\Braintree\Business;
 
-use Braintree\Result\Successful;
-use Braintree\Transaction;
 use Braintree\Transaction\StatusDetails;
 use DateTime;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
@@ -29,44 +27,49 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    public function testRevertPaymentWithSuccessResponse()
+    public function testRevertPaymentWithSuccessResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
             $this->getRevertTransactionMock()
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
 
+        // Act
         $response = $braintreeFacade->revertPayment($transactionMetaTransfer);
 
+        // Assert
         $this->assertTrue($response->getIsSuccess());
     }
 
     /**
      * @return void
      */
-    public function testRevertPaymentWithErrorResponse()
+    public function testRevertPaymentWithErrorResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
             $this->getRevertTransactionMock(false)
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
+
+        // Act
         $response = $braintreeFacade->revertPayment($transactionMetaTransfer);
 
+        // Assert
         $this->assertFalse($response->getIsSuccess());
     }
 
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
      */
-    protected function getRevertTransactionMock($success = true)
+    protected function getRevertTransactionMock($success = true): RevertTransaction
     {
         $revertTransactionMock = $this
             ->getMockBuilder(RevertTransaction::class)
@@ -74,36 +77,23 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
             ->setConstructorArgs([new BraintreeConfig()])
             ->getMock();
 
-        if ($success) {
-            $revertTransactionMock->method('revert')->willReturn($this->getSuccessResponse());
-        } else {
+        if (!$success) {
             $revertTransactionMock->method('revert')->willReturn($this->getErrorResponse());
+
+            return $revertTransactionMock;
         }
 
-        return $revertTransactionMock;
-    }
-
-    /**
-     * @return \Braintree\Result\Successful
-     */
-    protected function getSuccessResponse()
-    {
-        $transaction = Transaction::factory([
-            'id' => 123,
-            'processorResponseCode' => '1000',
-            'processorResponseText' => 'Approved',
-            'createdAt' => new DateTime(),
+        $transactionResponse = $this->tester->getSuccessfulTransactionResponse([
             'status' => 'revert',
-            'type' => 'sale',
             'amount' => $this->createOrderTransfer()->getTotals()->getGrandTotal() / 100,
-            'merchantAccountId' => 'abc',
             'statusHistory' => new StatusDetails([
                 'timestamp' => new DateTime(),
                 'status' => 'voided',
             ]),
         ]);
-        $response = new Successful([$transaction]);
 
-        return $response;
+        $revertTransactionMock->method('revert')->willReturn($transactionResponse);
+
+        return $revertTransactionMock;
     }
 }
