@@ -18,6 +18,7 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

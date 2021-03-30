@@ -38,6 +38,7 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -265,7 +266,7 @@ class AbstractFacadeTest extends Unit
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
-    protected function getFactory(array $methods)
+    protected function getFactory(array $methods): BraintreeBusinessFactory
     {
         return $this->getMockBuilder(BraintreeBusinessFactory::class)->setMethods($methods)->getMock();
     }

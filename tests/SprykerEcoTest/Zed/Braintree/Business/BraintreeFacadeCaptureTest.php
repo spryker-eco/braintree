@@ -13,6 +13,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransactio
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

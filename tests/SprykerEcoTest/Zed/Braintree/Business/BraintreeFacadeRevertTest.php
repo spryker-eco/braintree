@@ -14,6 +14,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

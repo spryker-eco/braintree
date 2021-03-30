@@ -19,6 +19,7 @@ use Generated\Shared\Transfer\SaveOrderTransfer;
 
 /**
  * Inherited Methods
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -41,9 +42,9 @@ class BraintreeBusinessTester extends Actor
      *
      * @return \Braintree\Transaction
      */
-   public function getSuccessfulTransaction($params = []): Transaction
-   {
-       $defaultParams = [
+    public function getSuccessfulTransaction($params = []): Transaction
+    {
+        $defaultParams = [
            'id' => 123,
            'processorResponseCode' => '1000',
            'processorResponseText' => 'Approved',
@@ -56,25 +57,25 @@ class BraintreeBusinessTester extends Actor
                'timestamp' => new DateTime(),
                'status' => 'authorized',
            ]),
-       ];
+        ];
 
-       return  Transaction::factory(array_merge($defaultParams, $params));
-   }
+        return Transaction::factory(array_merge($defaultParams, $params));
+    }
 
     /**
      * @param array $params
      *
      * @return \Braintree\Result\Successful
      */
-   public function getSuccessfulTransactionResponse($params = []): Successful
-   {
-       return new Successful($this->getSuccessfulTransaction($params));
-   }
+    public function getSuccessfulTransactionResponse($params = []): Successful
+    {
+        return new Successful($this->getSuccessfulTransaction($params));
+    }
 
     /**
      * @param bool $isSuccess
      *
-     * @return BraintreeTransactionResponseTransfer
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     public function getBraintreeTransactionResponseTransfer(bool $isSuccess): BraintreeTransactionResponseTransfer
     {

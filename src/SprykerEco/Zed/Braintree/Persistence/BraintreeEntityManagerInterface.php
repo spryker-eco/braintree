@@ -39,7 +39,9 @@ interface BraintreeEntityManagerInterface
 
     /**
      * @param int $idSalesOrder
-     * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $braintreePaymentTransfer
+     * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $paymentData
+     *
+     * @return void
      *
      * @throws \Propel\Runtime\Exception\PropelException
      */

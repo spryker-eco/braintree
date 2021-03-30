@@ -20,6 +20,7 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -254,7 +255,7 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|BraintreeToMoneyFacadeInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
     protected function getMoneyFacadeMock(): BraintreeToMoneyFacadeInterface
     {

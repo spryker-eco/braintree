@@ -13,7 +13,6 @@ use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
-use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
@@ -116,8 +115,11 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
      *
      * @return \Generated\Shared\Transfer\TransactionMetaTransfer
      */
-    protected function createTransactionMetaTransfer(array $salesOrderItems, SpySalesOrder $salesOrderEntity, RefundTransfer $refundTransfer): TransactionMetaTransfer
-    {
+    protected function createTransactionMetaTransfer(
+        array $salesOrderItems,
+        SpySalesOrder $salesOrderEntity,
+        RefundTransfer $refundTransfer
+    ): TransactionMetaTransfer {
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($salesOrderEntity->getIdSalesOrder());
         $transactionMetaTransfer->setRefund($refundTransfer);

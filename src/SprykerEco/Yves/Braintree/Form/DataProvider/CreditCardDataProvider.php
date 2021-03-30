@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
 
-use Generated\Shared\Transfer\BraintreePayment3dSecureBillingAddressTransfer;
-use Generated\Shared\Transfer\BraintreePayment3dSecureRequestTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\PaymentTransfer;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
@@ -16,7 +14,6 @@ use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 
 class CreditCardDataProvider implements StepEngineFormDataProviderInterface
 {
-
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *

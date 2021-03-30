@@ -94,7 +94,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
      * @param int $idSalesOrder
      * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $braintreePaymentTransfer
      *
-     * @throws \Propel\Runtime\Exception\PropelException
+     * @return void
      */
     public function updateByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $braintreePaymentTransfer): void
     {

@@ -9,12 +9,8 @@ namespace SprykerEco\Yves\Braintree\Form;
 
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Spryker\Shared\Config\Config;
-use Spryker\Shared\Kernel\Store;
-use Spryker\Shared\Money\Dependency\Plugin\MoneyPluginInterface;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Shared\Braintree\BraintreeConstants;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToGlossaryClientInterface;
-use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToShipmentClientInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -86,7 +82,7 @@ class CreditCardSubForm extends AbstractSubForm
         parent::buildView($view, $form, $options);
 
         $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
-        $view->vars[static::IS_3D_SECURE] = (string) Config::get(BraintreeConstants::IS_3D_SECURE);
+        $view->vars[static::IS_3D_SECURE] = (string)Config::get(BraintreeConstants::IS_3D_SECURE);
 
         /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
         $quote = $form->getParent()->getViewData();

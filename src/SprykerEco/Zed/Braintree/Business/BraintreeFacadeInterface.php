@@ -212,6 +212,12 @@ interface BraintreeFacadeInterface
     public function isRefundApproved(OrderTransfer $orderTransfer);
 
     /**
+     * Specification:
+     * - Executes Braintree sale API request.
+     * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
+     * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
+     * - QuoteTransfer.Payment must be set.
+     *
      * @api
      *
      * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::checkoutPostSaveHook()` instead.
@@ -259,6 +265,8 @@ interface BraintreeFacadeInterface
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
      * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
      * - QuoteTransfer.Payment must be set.
+     *
+     * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse

@@ -116,7 +116,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     protected function addPaymentTransfer(
         QuoteTransfer $quoteTransfer,
@@ -171,7 +171,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     protected function addShippingAddress(
         QuoteTransfer $quoteTransfer,
@@ -186,7 +186,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     protected function addBillingTransfer(
         QuoteTransfer $quoteTransfer,
@@ -201,7 +201,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     protected function addCustomer(
         QuoteTransfer $quoteTransfer,
@@ -248,4 +248,3 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         return $addressTransfer;
     }
 }
-

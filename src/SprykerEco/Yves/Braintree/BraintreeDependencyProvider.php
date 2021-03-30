@@ -211,7 +211,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addShipmentHandlerPlugin(Container $container): Container
     {
-        $container->set(static::PLUGIN_SHIPMENT_HANDLER,  function () {
+        $container->set(static::PLUGIN_SHIPMENT_HANDLER, function () {
             return new ShipmentHandlerPlugin();
         });
 
