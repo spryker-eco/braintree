@@ -41,9 +41,9 @@ interface BraintreeEntityManagerInterface
      * @param int $idSalesOrder
      * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $paymentData
      *
-     * @return void
-     *
      * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return void
      */
     public function updateByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $paymentData): void;
 }
