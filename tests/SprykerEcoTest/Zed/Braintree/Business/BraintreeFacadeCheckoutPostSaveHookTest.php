@@ -34,14 +34,11 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
      */
     public function testCheckoutPostSaveHookWithSuccessfulResponse(): void
     {
-        // Arrange
+        // Act
         $response = $this->executeCheckoutPostSaveHook();
 
-        // Act
-        $result = $response->getIsSuccess();
-
         // Assert
-        $this->assertTrue($result);
+        $this->assertTrue($response->getIsSuccess());
     }
 
     /**
@@ -49,14 +46,11 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
      */
     public function testCheckoutPostSaveHookWithErrorResponse(): void
     {
-        // Arrange
+        // Act
         $response = $this->executeCheckoutPostSaveHook(false);
 
-        // Act
-        $result = $response->getIsSuccess();
-
         // Assert
-        $this->assertFalse($result);
+        $this->assertFalse($response->getIsSuccess());
     }
 
     /**

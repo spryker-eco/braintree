@@ -108,17 +108,15 @@ class SaverTest extends Unit
             ->getPaymentType();
 
         $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
-        $paymentEntity = $this->createPaymentEntity($idSalesOrder);
-
-        $this->assertNotSame($braintreePaymentType, $paymentEntity->getPaymentType());
+        $this->createPaymentEntity($idSalesOrder);
 
         $orderManager = new Saver(new BraintreeEntityManager());
-        $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         // Act
-        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
+        $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         // Asset
+        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
         $this->assertSame($braintreePaymentType, $paymentEntity->getPaymentType());
     }
 
