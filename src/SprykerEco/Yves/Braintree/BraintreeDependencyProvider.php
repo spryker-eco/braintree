@@ -71,7 +71,7 @@ class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addCurrencyPlugin(Container $container): Container
     {
-        $container->set(static::PLUGIN_CURRENCY, function (Container $container) {
+        $container->set(static::PLUGIN_CURRENCY, function () {
             return new CurrencyPlugin();
         });
 

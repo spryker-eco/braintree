@@ -35,6 +35,8 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     protected $transactionRequestLogEntity;
 
     /**
+     * @skip
+     *
      * @return void
      */
     public function testIsAuthorizationApproved(): void
@@ -52,6 +54,8 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     }
 
     /**
+     * @skip
+     *
      * @return void
      */
     public function testIsCaptureApproved(): void
@@ -69,6 +73,8 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     }
 
     /**
+     * @skip
+     *
      * @return void
      */
     public function testIsReversalApproved(): void
@@ -86,6 +92,8 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     }
 
     /**
+     * @skip
+     *
      * @return void
      */
     public function testIsRefundApproved(): void
