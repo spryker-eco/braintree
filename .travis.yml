@@ -47,7 +47,7 @@ addons:
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
-      - php-intl
+      - php7.3-intl
 
   hosts:
     - zed.de.spryker.test
