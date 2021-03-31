@@ -70,7 +70,7 @@ cache:
 
 before_install:
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - phpenv config-add intl.ini
+    - phpenv config-add /etc/php/7.3/mods-available/intl.ini
     - phpenv config-rm xdebug.ini
 
 script:
