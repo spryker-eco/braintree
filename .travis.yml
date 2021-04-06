@@ -68,9 +68,8 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-    - sudo pecl install intl
+    - sudo apt-get install -y php-intl
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - phpenv config-add /etc/php/7.3/mods-available/intl.ini
     - phpenv config-rm xdebug.ini
 
 script:
