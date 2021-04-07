@@ -47,7 +47,6 @@ addons:
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
-      - php7.3-intl
 
   hosts:
     - zed.de.spryker.test
@@ -69,6 +68,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+    - sudo apt-get install -y php7.3-intl
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
 
