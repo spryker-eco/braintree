@@ -69,6 +69,7 @@ cache:
 
 before_install:
     - sudo apt-get install -y php7.3-intl
+    - echo "extension = intl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
 
