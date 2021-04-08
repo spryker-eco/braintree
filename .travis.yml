@@ -71,28 +71,26 @@ cache:
 before_install:
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
+    - sudo apt-get install libicu-dev
     - |
             ICU_VERSION=67.1
             ICU_DIR=$HOME/.build/icu-$ICU_VERSION
             ICU_PHP_VERSION=$(php -r "echo PHP_VERSION;")
             ICU_PHP_DIR=$HOME/.build/php-$ICU_PHP_VERSION-icu-$ICU_VERSION
-            export ICU_PHP=$ICU_PHP_DIR/bin/php
-            if [ ! -f $ICU_PHP ]; then
-                wget -O icu-src.tgz http://download.icu-project.org/files/icu4c/$ICU_VERSION/icu4c-$(echo $ICU_VERSION | tr '.' '_')-src.tgz
-                mkdir icu-src && tar xzf icu-src.tgz -C icu-src --strip-components=1
-                pushd icu-src/source
-                    ./configure --prefix=$ICU_DIR
-                    make && make install
-                popd
-                wget -O php-src.tgz http://us1.php.net/get/php-$ICU_PHP_VERSION.tar.gz/from/this/mirror
-                mkdir php-src && tar xzf php-src.tgz -C php-src --strip-components=1
-                pushd php-src
-                    ./configure --prefix=$ICU_PHP_DIR --enable-intl --with-icu-dir=$ICU_DIR
-                    make && make install
-                popd
-            fi
-            $ICU_PHP -r "echo INTL_ICU_VERSION.PHP_EOL;"
-            $ICU_PHP -r "var_dump((new ReflectionClass('Normalizer'))->getConstants());"
+
+            wget -O icu-src.tgz http://download.icu-project.org/files/icu4c/$ICU_VERSION/icu4c-$(echo $ICU_VERSION | tr '.' '_')-src.tgz
+            mkdir icu-src && tar xzf icu-src.tgz -C icu-src --strip-components=1
+            pushd icu-src/source
+                ./configure --prefix=$ICU_DIR
+                make && make install
+            popd
+
+            wget -O php-src.tgz http://us1.php.net/get/php-$ICU_PHP_VERSION.tar.gz/from/this/mirror
+            mkdir php-src && tar xzf php-src.tgz -C php-src --strip-components=1
+            pushd php-src
+                ./configure --prefix=$ICU_PHP_DIR --enable-intl --with-icu-dir=$ICU_DIR
+                make && make install
+            popd
     - php -i
 
 script:
