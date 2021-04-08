@@ -73,14 +73,12 @@ before_install:
     - phpenv config-rm xdebug.ini
     - |
             ICU_VERSION=67.1
-            ICU_DIR=$HOME/.build/icu-$ICU_VERSION
             ICU_PHP_VERSION=$(php -r "echo PHP_VERSION;")
 
             wget -O icu-src.tgz http://download.icu-project.org/files/icu4c/$ICU_VERSION/icu4c-$(echo $ICU_VERSION | tr '.' '_')-src.tgz
             mkdir icu-src && tar xzf icu-src.tgz -C icu-src --strip-components=1
-            mkdir $ICU_DIR
             pushd icu-src/source
-                ./configure --prefix=$ICU_DIR
+                ./configure
                 make && make install
             popd
 
@@ -88,7 +86,7 @@ before_install:
             mkdir php-src && tar xzf php-src.tgz -C php-src --strip-components=1
             pushd php-src
                 phpize
-                ./configure --enable-intl --with-icu-dir=$ICU_DIR
+                ./configure --enable-intl
                 make && make install
             popd
     - echo "extension = intl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
