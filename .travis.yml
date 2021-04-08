@@ -72,7 +72,7 @@ before_install:
     - phpenv config-rm xdebug.ini
 
 before_script:
-    - pecl install intl
+    - pecl install -y intl
 
 script:
   - git clone -b 'master' --single-branch https://github.com/spryker-eco/eco-ci.git ecoci
