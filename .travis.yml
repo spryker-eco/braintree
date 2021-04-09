@@ -11,7 +11,7 @@ sudo: required
 matrix:
   fast_finish: true
   include:
-    - php: 7.3
+    - php: 7.4
       env:
         - PRODUCT_NAME=suite
 
@@ -66,31 +66,10 @@ cache:
   directories:
     - $SHOP_DIR/current/vendor
     - $HOME/.composer/cache
-    - $HOME/.build
 
 before_install:
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
-    - |
-            ICU_VERSION=67.1
-            ICU_PHP_VERSION=$(php -r "echo PHP_VERSION;")
-
-            wget -O icu-src.tgz http://download.icu-project.org/files/icu4c/$ICU_VERSION/icu4c-$(echo $ICU_VERSION | tr '.' '_')-src.tgz
-            mkdir icu-src && tar xzf icu-src.tgz -C icu-src --strip-components=1
-            pushd icu-src/source
-                ./configure
-                make && make install
-            popd
-
-            wget -O php-src.tgz http://us1.php.net/get/php-$ICU_PHP_VERSION.tar.gz/from/this/mirror
-            mkdir php-src && tar xzf php-src.tgz -C php-src --strip-components=1
-            pushd php-src
-                phpize
-                ./configure --enable-intl
-                make && make install
-            popd
-    - echo "extension = intl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - php -i
 
 script:
   - git clone -b 'master' --single-branch https://github.com/spryker-eco/eco-ci.git ecoci
