@@ -11,7 +11,7 @@ sudo: required
 matrix:
   fast_finish: true
   include:
-    - php: 7.4
+    - php: 7.3
       env:
         - PRODUCT_NAME=suite
 
@@ -70,10 +70,22 @@ cache:
 before_install:
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
+
+before_script:
+    - sudo apt-get install libicu-dev
+    - |
+        ICU_PHP_VERSION=$(php -r "echo PHP_VERSION;")
+        mkdir /home/travis/php-src
+        wget -O php-src.tar.gz  http://us1.php.net/get/php-$ICU_PHP_VERSION.tar.gz/from/this/mirror
+        tar xzf php-src.tar.gz --directory=/home/travis/php-src --strip-components=1 > /dev/null
+        cd /home/travis/php-src/
+        phpize
+        ./configure --enable-intl
+        make
+        sudo make install
+        echo "extension = intl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - php -i
 
 script:
-  - git clone -b 'master' --single-branch https://github.com/spryker-eco/eco-ci.git ecoci
-  - cd ecoci
-  - git checkout d2ede17cfbf4e2674212db1c212b151f25a28f52
-  - ./build/travis.sh
+    - git clone -b 0.3.0 https://github.com/spryker-eco/eco-ci.git ecoci
+    - ./ecoci/build/travis.sh
