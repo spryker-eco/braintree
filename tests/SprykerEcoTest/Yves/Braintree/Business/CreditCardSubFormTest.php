@@ -124,7 +124,6 @@ class CreditCardSubFormTest extends Unit
     }
 
     /**
-     *
      * @return void
      */
     public function testBuildCreditCardSubFormForCustomerWithFullNonAsciiChars(): void
