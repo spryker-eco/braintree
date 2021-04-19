@@ -70,6 +70,7 @@ cache:
 before_install:
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
+    - php --re intl | head -1
 
 script:
     - git clone -b bugfix/spryker-shop-suite-contains-no-ci-scripts --single-branch https://github.com/spryker-eco/eco-ci.git ecoci

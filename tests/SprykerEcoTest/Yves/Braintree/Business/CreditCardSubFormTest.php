@@ -71,7 +71,6 @@ class CreditCardSubFormTest extends Unit
     }
 
     /**
-     * @skip because the intl extension in travis has a different version from the local environment
      *
      * @return void
      */
@@ -125,7 +124,6 @@ class CreditCardSubFormTest extends Unit
     }
 
     /**
-     * @skip because the intl extension in travis has a different version from the local environment
      *
      * @return void
      */
