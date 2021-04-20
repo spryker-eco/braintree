@@ -15,11 +15,11 @@ matrix:
       env:
         - PRODUCT_NAME=suite
 
-    - php: 7.3
+    - php: 7.4
       env:
         - PRODUCT_NAME=b2c-demo-shop
 
-    - php: 7.3
+    - php: 7.4
       env:
         - PRODUCT_NAME=b2b-demo-shop
 
@@ -47,7 +47,6 @@ addons:
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
-      - php7.3
 
   hosts:
     - zed.de.spryker.test
