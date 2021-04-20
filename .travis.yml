@@ -34,19 +34,20 @@ addons:
   apt:
     sources:
       - sourceline: ppa:chris-lea/redis-server
-      - sourceline: deb http://dl.bintray.com/rabbitmq-erlang/debian bionic erlang
-        key_url: https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-      - sourceline: deb https://dl.bintray.com/rabbitmq/debian bionic main
-        key_url: https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+      - sourceline: deb http://dl.bintray.com/rabbitmq-erlang/debian focal erlang
+        key_url: https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+      - sourceline: deb https://dl.bintray.com/rabbitmq/debian focal main
+        key_url: https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
       - sourceline: ppa:ondrej/php
     packages:
       - redis-tools
       - redis-server
-#      - rabbitmq-server
+      - rabbitmq-server
       - graphviz
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
+      - php7.3
 
   hosts:
     - zed.de.spryker.test
