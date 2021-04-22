@@ -18,7 +18,7 @@
     "spryker/gui": "^3.0.0",
     "spryker/kernel": "^3.33.0",
     "spryker/money": "^2.0.0",
-    "spryker/payment": "^4.0.0 || ^5.0.0",
+    "spryker/payment": "^4.3.0 || ^5.0.0",
     "spryker/propel-orm": "^1.0.0",
     "spryker/quote": "^2.14.3",
     "spryker/refund": "^5.0.0",
