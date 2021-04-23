@@ -9,6 +9,7 @@
     "php": ">=7.3",
     "spryker-shop/checkout-page": "^1.0.0 || ^2.0.0 || ^3.0.0",
     "spryker-shop/money-widget": "^1.0.0",
+    "spryker/application": "^3.0.0",
     "spryker/calculation": "^4.0.0",
     "spryker/checkout-extension": "^1.1.0",
     "spryker/config": "^3.0.0",
@@ -17,6 +18,7 @@
     "spryker/glossary": "^3.0.0",
     "spryker/gui": "^3.0.0",
     "spryker/kernel": "^3.33.0",
+    "spryker/messenger": "*",
     "spryker/money": "^2.0.0",
     "spryker/payment": "^4.3.0 || ^5.0.0",
     "spryker/propel-orm": "^1.0.0",
@@ -31,7 +33,6 @@
   },
   "require-dev": {
     "spryker-shop/shop-application": "^1.0.0",
-    "spryker/application": "^3.0.0",
     "spryker/checkout": "^3.0.0 || ^4.0.0 || ^6.0.0",
     "spryker/code-sniffer": "*",
     "spryker/customer": "*",
