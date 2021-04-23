@@ -5,8 +5,8 @@
   "license": "MIT",
   "require": {
     "braintree/braintree_php": "^3.0.0",
-    "php": ">=7.3",
     "ext-intl": "*",
+    "php": ">=7.3",
     "spryker-shop/checkout-page": "^1.0.0 || ^2.0.0 || ^3.0.0",
     "spryker-shop/money-widget": "^1.0.0",
     "spryker/calculation": "^4.0.0",
