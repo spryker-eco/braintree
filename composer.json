@@ -1,83 +1,81 @@
 {
-  "name": "spryker-eco/braintree",
-  "type": "library",
-  "description": "Braintree module",
-  "license": "MIT",
-  "require": {
-    "braintree/braintree_php": "^3.0.0",
-    "ext-intl": "*",
-    "php": ">=7.3",
-    "spryker-shop/checkout-page": "^1.0.0 || ^2.0.0 || ^3.0.0",
-    "spryker-shop/money-widget": "^1.0.0",
-    "spryker/application": "^3.0.0",
-    "spryker/calculation": "^4.0.0",
-    "spryker/checkout-extension": "^1.1.0",
-    "spryker/config": "^3.0.0",
-    "spryker/country": "^3.0.0",
-    "spryker/currency": "^3.0.0",
-    "spryker/glossary": "^3.0.0",
-    "spryker/gui": "^3.0.0",
-    "spryker/kernel": "^3.33.0",
-    "spryker/messenger": "^3.1.0",
-    "spryker/money": "^2.0.0",
-    "spryker/payment": "^4.3.0 || ^5.0.0",
-    "spryker/propel-orm": "^1.0.0",
-    "spryker/quote": "^2.14.3",
-    "spryker/refund": "^5.0.0",
-    "spryker/sales": "^8.0.0 || ^10.0.0 || ^11.0.0",
-    "spryker/shipment": "^6.0.0 || ^7.0.0 || ^8.0.0",
-    "spryker/step-engine": "^3.1.0",
-    "spryker/symfony": "^3.4.0",
-    "spryker/util-encoding": "^2.0.0",
-    "spryker/util-text": "^1.1.0"
-  },
-  "require-dev": {
-    "spryker-shop/shop-application": "^1.0.0",
-    "spryker/checkout": "^3.0.0 || ^4.0.0 || ^6.0.0",
-    "spryker/code-sniffer": "*",
-    "spryker/customer": "*",
-    "spryker/oms": "^7.0.0 || ^8.0.0 || ^10.0.0 || ^11.0.0",
-    "spryker/propel": "*",
-    "spryker/silex": "*",
-    "spryker/testify": "*",
-    "spryker/zed-navigation": "^1.0.0"
-  },
-  "suggest": {
-    "spryker/checkout": "To use checkout process",
-    "spryker/oms": "To use OMS process",
-    "spryker/silex": "To use Silex functionality",
-    "spryker-shop/shop-application": "To use shop application UI"
-  },
-  "autoload": {
-    "psr-4": {
-      "SprykerEco\\": "src/SprykerEco/"
+    "name": "spryker-eco/braintree",
+    "type": "library",
+    "description": "Braintree module",
+    "license": "MIT",
+    "require": {
+        "braintree/braintree_php": "^3.0.0",
+        "php": ">=7.3",
+        "spryker-shop/checkout-page": "^1.0.0 || ^2.0.0 || ^3.0.0",
+        "spryker-shop/money-widget": "^1.0.0",
+        "spryker/calculation": "^4.0.0",
+        "spryker/checkout-extension": "^1.1.0",
+        "spryker/config": "^3.0.0",
+        "spryker/country": "^3.0.0",
+        "spryker/currency": "^3.0.0",
+        "spryker/glossary": "^3.0.0",
+        "spryker/gui": "^3.0.0",
+        "spryker/kernel": "^3.33.0",
+        "spryker/money": "^2.0.0",
+        "spryker/payment": "^4.0.0 || ^5.0.0",
+        "spryker/propel-orm": "^1.0.0",
+        "spryker/quote": "^2.0.0",
+        "spryker/refund": "^5.0.0",
+        "spryker/sales": "^8.0.0 || ^10.0.0 || ^11.0.0",
+        "spryker/shipment": "^6.0.0 || ^7.0.0 || ^8.0.0",
+        "spryker/step-engine": "^3.1.0",
+        "spryker/symfony": "^3.0.0",
+        "spryker/util-encoding": "^2.0.0",
+        "spryker/util-text": "^1.1.0"
+    },
+    "require-dev": {
+        "spryker-shop/shop-application": "^1.0.0",
+        "spryker/application": "^3.0.0",
+        "spryker/checkout": "^3.0.0 || ^4.0.0 || ^6.0.0",
+        "spryker/code-sniffer": "*",
+        "spryker/customer": "*",
+        "spryker/oms": "^7.0.0 || ^8.0.0 || ^10.0.0 || ^11.0.0",
+        "spryker/propel": "*",
+        "spryker/silex": "*",
+        "spryker/testify": "*",
+        "spryker/zed-navigation": "^1.0.0"
+    },
+    "suggest": {
+        "spryker/checkout": "To use checkout process",
+        "spryker/oms": "To use OMS process",
+        "spryker/silex": "To use Silex functionality",
+        "spryker-shop/shop-application": "To use shop application UI"
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerEco\\": "src/SprykerEco/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SprykerEcoTest\\": "tests/SprykerEcoTest/",
+            "Config\\Module\\": "vendor/spryker/config/tests/_support/Module",
+            "Oms\\Module\\": "vendor/spryker/oms/tests/_support/Module",
+            "Propel\\Module\\": "vendor/spryker/propel/tests/_support/Module",
+            "Sales\\Module\\": "vendor/spryker/sales/tests/_support/Module",
+            "Transfer\\Module\\": "vendor/spryker/transfer/tests/_support/Module"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "replace": {
+        "spryker/braintree": "*"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "SprykerEcoTest\\": "tests/SprykerEcoTest/",
-      "Config\\Module\\": "vendor/spryker/config/tests/_support/Module",
-      "Oms\\Module\\": "vendor/spryker/oms/tests/_support/Module",
-      "Propel\\Module\\": "vendor/spryker/propel/tests/_support/Module",
-      "Sales\\Module\\": "vendor/spryker/sales/tests/_support/Module",
-      "Transfer\\Module\\": "vendor/spryker/transfer/tests/_support/Module"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "scripts": {
-    "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
-    "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "4.0.x-dev"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "replace": {
-    "spryker/braintree": "*"
-  }
 }
