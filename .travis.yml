@@ -37,12 +37,11 @@ addons:
       - sourceline: ppa:ondrej/php
     packages:
       - redis-tools
-      - redis-server
-      - rabbitmq-server
+#      - redis-server
+#      - rabbitmq-server
       - graphviz
       - postgresql-12
       - postgresql-client-12
-#      - postgresql-server-dev-12
 
   hosts:
     - zed.de.spryker.test
