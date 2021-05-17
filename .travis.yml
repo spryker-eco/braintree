@@ -40,6 +40,7 @@ addons:
       - redis-server
       - rabbitmq-server
       - graphviz
+      - clang-10
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
