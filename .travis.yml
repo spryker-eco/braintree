@@ -1,7 +1,7 @@
 language: php
 
 os: linux
-dist: bionic
+dist: focal
 
 notifications:
   email: false
@@ -11,7 +11,7 @@ sudo: required
 matrix:
   fast_finish: true
   include:
-    - php: 7.3
+    - php: 7.4
       env:
         - PRODUCT_NAME=suite
 
@@ -42,7 +42,7 @@ addons:
       - graphviz
       - postgresql-12
       - postgresql-client-12
-      - postgresql-server-dev-12
+#      - postgresql-server-dev-12
 
   hosts:
     - zed.de.spryker.test
