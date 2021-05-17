@@ -1,7 +1,7 @@
 language: php
 
 os: linux
-dist: focal
+dist: bionic
 
 notifications:
   email: false
@@ -11,15 +11,15 @@ sudo: required
 matrix:
   fast_finish: true
   include:
-    - php: 7.4
+    - php: 7.3
       env:
         - PRODUCT_NAME=suite
 
-    - php: 7.4
+    - php: 7.3
       env:
         - PRODUCT_NAME=b2c-demo-shop
 
-    - php: 7.4
+    - php: 7.3
       env:
         - PRODUCT_NAME=b2b-demo-shop
 
@@ -40,7 +40,6 @@ addons:
       - redis-server
       - rabbitmq-server
       - graphviz
-      - clang-10
       - postgresql-12
       - postgresql-client-12
       - postgresql-server-dev-12
