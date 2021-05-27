@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Yves\Braintree\Form;
 
-use Braintree\ClientToken;
-use Braintree\Configuration;
 use Braintree\Gateway;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Spryker\Shared\Config\Config;

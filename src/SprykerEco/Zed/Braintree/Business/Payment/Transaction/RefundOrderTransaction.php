@@ -10,7 +10,6 @@ namespace SprykerEco\Zed\Braintree\Business\Payment\Transaction;
 use Braintree\Transaction;
 use Braintree\Transaction as BraintreeTransaction;
 use Generated\Shared\Transfer\ExpenseTransfer;
-use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface;

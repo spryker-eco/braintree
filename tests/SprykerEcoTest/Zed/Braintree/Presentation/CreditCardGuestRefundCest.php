@@ -13,6 +13,7 @@ use SprykerEcoTest\Zed\Braintree\BraintreePresentationTester;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

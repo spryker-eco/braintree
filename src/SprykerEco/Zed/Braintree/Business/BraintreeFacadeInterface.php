@@ -212,7 +212,15 @@ interface BraintreeFacadeInterface
     public function isRefundApproved(OrderTransfer $orderTransfer);
 
     /**
+     * Specification:
+     * - Executes Braintree sale API request.
+     * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
+     * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
+     * - QuoteTransfer.Payment must be set.
+     *
      * @api
+     *
+     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::checkoutPostSaveHook()` instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
@@ -233,4 +241,37 @@ interface BraintreeFacadeInterface
      * @return \Generated\Shared\Transfer\PaymentMethodsTransfer
      */
     public function filterPaypalExpressPaymentMethod(PaymentMethodsTransfer $paymentMethodsTransfer, QuoteTransfer $quoteTransfer): PaymentMethodsTransfer;
+
+    /**
+     * Specification:
+     * - Checks if Braintree has a nonce.
+     * - QuoteTransfer.Payment and QuoteTransfer.Payment.Braintree must be set.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return bool
+     */
+    public function isQuotePaymentValid(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponseTransfer
+    ): bool;
+
+    /**
+     * Specification:
+     * - Executes Braintree sale API request.
+     * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
+     * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
+     * - QuoteTransfer.Payment must be set.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     *
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    public function executeCheckoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse): CheckoutResponseTransfer;
 }

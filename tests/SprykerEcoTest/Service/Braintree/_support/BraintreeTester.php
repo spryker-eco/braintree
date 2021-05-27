@@ -21,15 +21,15 @@ use Codeception\Actor;
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
  */
-class BraintreeServiceTester extends Actor
+class BraintreeTester extends Actor
 {
-    use _generated\BraintreeServiceTesterActions;
+    use _generated\BraintreeTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * Define custom actions here
+     */
 }

@@ -18,13 +18,18 @@ use Symfony\Component\HttpFoundation\Request;
 class BraintreeHandlerPlugin extends AbstractPlugin implements StepHandlerPluginInterface
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer|\Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * {@inheritDoc}
+     * - Expands Payment transfer with payment provider and payment selection.
      *
-     * @return void
+     * @api
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function addToDataClass(Request $request, AbstractTransfer $quoteTransfer)
     {
-        $this->getFactory()->createBraintreeHandler()->addPaymentToQuote($request, $quoteTransfer);
+        return $this->getFactory()->createBraintreeHandler()->addPaymentToQuote($request, $quoteTransfer);
     }
 }

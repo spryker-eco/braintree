@@ -12,6 +12,7 @@ use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Yves
  * @group Braintree

@@ -32,7 +32,6 @@ class PaypalExpressController extends AbstractController
             echo 'The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.';
 
             return;
-
         }
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 

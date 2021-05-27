@@ -8,6 +8,7 @@
 namespace SprykerEcoTest\Zed\Braintree\Business\Order;
 
 use Codeception\Test\Unit;
+use Generated\Shared\DataBuilder\PaymentBraintreeBuilder;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
@@ -29,9 +30,11 @@ use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -49,7 +52,7 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver();
+        $orderManager = new Saver(new BraintreeEntityManager());
 
         $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
@@ -69,7 +72,7 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver();
+        $orderManager = new Saver(new BraintreeEntityManager());
 
         $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
@@ -89,6 +92,32 @@ class SaverTest extends Unit
             )),
             $paymentEntity->getStreet()
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testUpdateOrderPaymentUpdatesPaymentData(): void
+    {
+        // Arrange
+        $saveOrderTransfer = $this->createSaveOrderTransfer();
+        $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
+        $braintreePaymentType = $quoteTransfer
+            ->getPayment()
+            ->getBraintree()
+            ->getPaymentType();
+
+        $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
+        $this->createPaymentEntity($idSalesOrder);
+
+        $orderManager = new Saver(new BraintreeEntityManager());
+
+        // Act
+        $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
+
+        // Asset
+        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
+        $this->assertSame($braintreePaymentType, $paymentEntity->getPaymentType());
     }
 
     /**
@@ -122,6 +151,7 @@ class SaverTest extends Unit
             ->setAccountBrand(BraintreeConfig::PAYMENT_METHOD_PAY_PAL)
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR')
+            ->setPaymentType('credit_card')
             ->setBillingAddress($paymentAddressTransfer);
 
         $quoteTransfer = new QuoteTransfer();
@@ -283,5 +313,22 @@ class SaverTest extends Unit
         $orderEntity->save();
 
         return $orderEntity;
+    }
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
+     */
+    protected function createPaymentEntity(int $idSalesOrder): SpyPaymentBraintree
+    {
+        $paymentBraintreeData = (new PaymentBraintreeBuilder())->build();
+
+        $paymentEntity = new SpyPaymentBraintree();
+        $paymentEntity->fromArray($paymentBraintreeData->toArray());
+        $paymentEntity->setFkSalesOrder($idSalesOrder);
+        $paymentEntity->save();
+
+        return $paymentEntity;
     }
 }

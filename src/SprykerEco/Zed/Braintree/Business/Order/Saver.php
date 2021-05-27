@@ -13,9 +13,23 @@ use Generated\Shared\Transfer\SaveOrderTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItem;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface;
 
 class Saver implements SaverInterface
 {
+    /**
+     * @var \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface
+     */
+    protected $braintreeEntityManager;
+
+    /**
+     * @param \SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface $braintreeEntityManager
+     */
+    public function __construct(BraintreeEntityManagerInterface $braintreeEntityManager)
+    {
+        $this->braintreeEntityManager = $braintreeEntityManager;
+    }
+
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
@@ -24,9 +38,7 @@ class Saver implements SaverInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME
-            && $quoteTransfer->getPayment()->getBraintreeTransactionResponse()->getIsSuccess()
-        ) {
+        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
             $paymentEntity = $this->savePaymentForOrder(
                 $quoteTransfer->getPayment()->getBraintree(),
                 $saveOrderTransfer->getIdSalesOrder()
@@ -84,5 +96,24 @@ class Saver implements SaverInterface
                 ->setFkSalesOrderItem($orderItemTransfer->getIdSalesOrderItem());
             $paymentOrderItemEntity->save();
         }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     *
+     * @return void
+     */
+    public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
+    {
+        $paymentTransfer = $quoteTransfer->getPayment();
+        if ($paymentTransfer->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
+            return;
+        }
+
+        $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
+        $braintreePaymentTransfer = $paymentTransfer->getBraintree();
+
+        $this->braintreeEntityManager->updateByIdSalesOrder($idSalesOrder, $braintreePaymentTransfer);
     }
 }

@@ -8,7 +8,6 @@
 namespace SprykerEco\Yves\Braintree\Form\DataProvider;
 
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\ShipmentMethodsCollectionTransfer;
 use Generated\Shared\Transfer\ShipmentMethodsTransfer;
 use Generated\Shared\Transfer\ShipmentMethodTransfer;
 use Generated\Shared\Transfer\ShipmentTransfer;
@@ -114,6 +113,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
             );
             $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
+
         return $shipmentMethods;
     }
 

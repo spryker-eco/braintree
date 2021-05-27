@@ -13,6 +13,8 @@ use SprykerEco\Shared\Braintree\BraintreeConstants;
 class BraintreeConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @return string
      */
     public function getPublicKey()
@@ -21,6 +23,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getPrivateKey()
@@ -29,6 +33,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getMerchantId()
@@ -37,6 +43,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getEnvironment()
@@ -45,6 +53,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return bool
      */
     public function getIsVaulted()
@@ -53,6 +63,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return bool
      */
     public function getIs3DSecure()
@@ -61,6 +73,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     final public function getChannel()
