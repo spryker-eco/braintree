@@ -16,6 +16,11 @@ use Spryker\Yves\StepEngine\Dependency\Plugin\Form\SubFormPluginInterface;
 class BraintreePayPalSubFormPlugin extends AbstractPlugin implements SubFormPluginInterface
 {
     /**
+     * {@inheritDoc}
+     * - Creates sub form for PayPal payment method.
+     *
+     * @api
+     *
      * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
     public function createSubForm()
@@ -24,6 +29,11 @@ class BraintreePayPalSubFormPlugin extends AbstractPlugin implements SubFormPlug
     }
 
     /**
+     * {@inheritDoc}
+     * - Creates data provider for PayPal payment method form.
+     *
+     * @api
+     *
      * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createSubFormDataProvider()
