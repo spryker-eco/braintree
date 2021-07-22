@@ -85,7 +85,7 @@ class CreditCardSubForm extends AbstractSubForm
         $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
         $view->vars[static::IS_3D_SECURE] = (string)Config::get(BraintreeConstants::IS_3D_SECURE);
 
-        $parentForm  = $form->getParent();
+        $parentForm = $form->getParent();
         if ($parentForm instanceof FormInterface) {
             /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
             $quote = $parentForm->getViewData();

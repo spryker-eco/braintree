@@ -93,7 +93,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
      */
     protected function prepareData(TableConfiguration $config)
     {
-        $logItems = $this->runQuery($this->requestLogQuery, $config);
+        $logItems = $this->runQuery($this->requestLogQuery->keepQuery(), $config);
         $results = [];
         foreach ($logItems as $logItem) {
             $results[] = $this->getFieldMatchedResultArrayFromLogItem($logItem);

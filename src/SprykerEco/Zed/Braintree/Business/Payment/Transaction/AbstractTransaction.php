@@ -61,7 +61,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     protected function getIdPayment()
     {
@@ -97,7 +97,7 @@ abstract class AbstractTransaction implements TransactionInterface
     abstract protected function doTransaction();
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
@@ -105,7 +105,7 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
+            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->__get('transaction')->statusHistory);
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -117,13 +117,13 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return bool
      */
     protected function isTransactionSuccessful($response)
     {
-        return $response->success;
+        return $response->__get('success');
     }
 
     /**
@@ -133,7 +133,7 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function getSuccessResponseTransfer($response)
     {
-        $transaction = $response->transaction;
+        $transaction = $response->__get('transaction');
         $braintreeTransactionResponseTransfer = $this->getResponseTransfer()
             ->setIsSuccess(true)
             ->setTransactionId($transaction->id)
@@ -157,7 +157,7 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         $braintreeTransactionResponseTransfer = $this->getResponseTransfer()
             ->setIsSuccess(false)
-            ->setMessage($response->message);
+            ->setMessage($response->__get('message'));
 
         return $braintreeTransactionResponseTransfer;
     }

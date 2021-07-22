@@ -10,5 +10,7 @@ parameters:
         - '#Call to method.+on an unknown class.+AutoCompletion#'
         - '#.+Transfer.+#'
         - '#Instantiated class Orm\\Zed\\Braintree\\Persistence\\.+ not found.#'
+        - '#Class Orm\\Zed\\Braintree\\Persistence\\.+ not found.#'
+        - '#unknown class Orm\\Zed\\Braintree\\Persistence\\.+#'
     excludePaths:
         - src/SprykerEco/Zed/Braintree/Persistence/Propel/Abstract*.php

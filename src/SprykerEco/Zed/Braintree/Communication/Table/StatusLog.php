@@ -91,7 +91,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
      */
     protected function prepareData(TableConfiguration $config)
     {
-        $logItems = $this->runQuery($this->statusLogQuery, $config);
+        $logItems = $this->runQuery($this->statusLogQuery->keepQuery(), $config);
         $results = [];
         foreach ($logItems as $logItem) {
             $results[] = $this->getFieldMatchedResultArrayFromLogItem($logItem);

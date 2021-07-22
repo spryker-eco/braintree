@@ -232,7 +232,7 @@ class PreCheckTransaction extends AbstractTransaction
     {
         if ($this->isTransactionSuccessful($response)) {
             $this->updatePaymentForSuccessfulResponse($response);
-            $transaction = $response->transaction;
+            $transaction = $response->__get('transaction');
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
             $braintreeTransactionResponseTransfer->setCode($transaction->processorSettlementResponseCode);
             $braintreeTransactionResponseTransfer->setCreditCardType($transaction->creditCardDetails->cardType);
@@ -255,18 +255,18 @@ class PreCheckTransaction extends AbstractTransaction
      */
     protected function isTransactionSuccessful($response)
     {
-        return ($response->success && $this->isValidPaymentType($response));
+        return ($response->__get('success') && $this->isValidPaymentType($response));
     }
 
     /**
-     * @param \Braintree\Result\Successful $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return void
      */
     protected function updatePaymentForSuccessfulResponse($response)
     {
         $braintreePaymentTransfer = $this->getBraintreePayment();
-        $braintreePaymentTransfer->setPaymentType($response->transaction->paymentInstrumentType);
+        $braintreePaymentTransfer->setPaymentType($response->__get('transaction')->paymentInstrumentType);
 
         if ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::PAYPAL_ACCOUNT) {
             $this->setPaypalPaymentMethod($this->getPayment());
@@ -278,7 +278,7 @@ class PreCheckTransaction extends AbstractTransaction
     /**
      * When error occurs unset nonce, so this cannot be used anymore
      *
-     * @param \Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return void
      */
@@ -288,13 +288,13 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Braintree\Result\Successful $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return bool
      */
     protected function isValidPaymentType($response)
     {
-        $returnedType = $response->transaction->paymentInstrumentType;
+        $returnedType = $response->__get('transaction')->paymentInstrumentType;
 
         $matching = [
             SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,

@@ -32,7 +32,7 @@ class AuthorizeTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Braintree\Result\Error|\Braintree\Transaction
+     * @return \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction
      */
     public function doTransaction()
     {
@@ -46,7 +46,7 @@ class AuthorizeTransaction extends AbstractTransaction
      */
     protected function isTransactionSuccessful($response)
     {
-        return ($response->success && $response->transaction->processorResponseCode === ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS);
+        return ($response->__get('success') && $response->__get('transaction')->processorResponseCode === ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS);
     }
 
     /**
@@ -62,7 +62,7 @@ class AuthorizeTransaction extends AbstractTransaction
             return new Error(['message' => $message, 'errors' => []]);
         }
 
-        return new Successful($transaction);
+        return new Successful([$transaction]);
     }
 
     /**
