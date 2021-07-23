@@ -29,6 +29,7 @@ class CheckoutPaymentChecker implements CheckoutPaymentCheckerInterface
         $paymentTransfer = $quoteTransfer
             ->requirePayment()
             ->getPayment();
+
         if ($paymentTransfer->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
             return true;
         }
@@ -36,6 +37,7 @@ class CheckoutPaymentChecker implements CheckoutPaymentCheckerInterface
         $braintreePaymentTransfer = $paymentTransfer
             ->requireBraintree()
             ->getBraintree();
+
         if (!$braintreePaymentTransfer->getNonce()) {
             $checkoutResponseTransfer
                 ->setIsSuccess(false)

@@ -13,7 +13,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 {
     /**
      * Specification:
-     * - Get payment raintree query.
+     * - Get payment braintree query.
      *
      * @api
      *

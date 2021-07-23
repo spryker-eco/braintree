@@ -216,7 +216,7 @@ interface BraintreeFacadeInterface
      * - Executes Braintree sale API request.
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
      * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
-     * - QuoteTransfer.Payment must be set.
+     * - Expects `QuoteTransfer`.payment must be set.
      *
      * @api
      *
@@ -245,7 +245,7 @@ interface BraintreeFacadeInterface
     /**
      * Specification:
      * - Checks if Braintree has a nonce.
-     * - QuoteTransfer.Payment and QuoteTransfer.Payment.Braintree must be set.
+     * - Requires `QuoteTransfer`.payment and `QuoteTransfer`.payment.braintree must be set.
      *
      * @api
      *
@@ -264,7 +264,7 @@ interface BraintreeFacadeInterface
      * - Executes Braintree sale API request.
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
      * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
-     * - QuoteTransfer.Payment must be set.
+     * - Requires `QuoteTransfer`.payment must be set.
      *
      * @api
      *

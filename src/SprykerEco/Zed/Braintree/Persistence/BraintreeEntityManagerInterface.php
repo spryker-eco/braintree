@@ -45,5 +45,5 @@ interface BraintreeEntityManagerInterface
      *
      * @return void
      */
-    public function updateByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $paymentData): void;
+    public function updatePaymentByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $paymentData): void;
 }
