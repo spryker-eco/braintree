@@ -3,8 +3,8 @@
     <table name="spy_payment_braintree" phpName="SpyPaymentBraintree">
         <column name="id_payment_braintree" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" required="true" type="INTEGER"/>
-        <column name="payment_type" required="false" type="VARCHAR"/>
-        <column name="client_ip" required="false" type="VARCHAR"/>
+        <column name="payment_type" required="false" type="VARCHAR" size="255"/>
+        <column name="client_ip" required="false" type="VARCHAR" size="255"/>
         <column name="country_iso2_code" required="true" type="CHAR" size="2"/>
         <column name="city" required="true" type="VARCHAR" size="255"/>
         <column name="street" required="true" type="VARCHAR" size="255"/>
@@ -24,11 +24,11 @@
     <table name="spy_payment_braintree_transaction_request_log">
         <column name="id_payment_braintree_transaction_request_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_payment_braintree" required="true" type="INTEGER"/>
-        <column name="transaction_id" required="true" type="VARCHAR"/>
-        <column name="transaction_type" required="false" type="VARCHAR"/>
-        <column name="transaction_code" required="true" type="VARCHAR"/>
-        <column name="presentation_amount" required="false" type="VARCHAR"/>
-        <column name="presentation_currency" required="false" type="VARCHAR"/>
+        <column name="transaction_id" required="true" type="VARCHAR" size="100"/>
+        <column name="transaction_type" required="false" type="VARCHAR" size="255"/>
+        <column name="transaction_code" required="true" type="VARCHAR" size="255"/>
+        <column name="presentation_amount" required="false" type="VARCHAR" size="255"/>
+        <column name="presentation_currency" required="false" type="VARCHAR" size="255"/>
         <foreign-key name="spy_braintree_transaction_request_log-fk_payment_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
@@ -43,14 +43,14 @@
         <column name="is_success" required="true" type="boolean"/>
         <column name="is_shipment_operation" required="true" type="boolean" default="false"/>
         <column name="code" required="false" type="integer"/>
-        <column name="message" required="false" type="VARCHAR"/>
-        <column name="transaction_id" required="true" type="VARCHAR"/>
-        <column name="transaction_code" required="false" type="VARCHAR"/>
-        <column name="transaction_type" required="false" type="VARCHAR"/>
-        <column name="transaction_status" required="false" type="VARCHAR"/>
-        <column name="transaction_amount" required="false"  type="VARCHAR"/>
-        <column name="merchant_account"  required="false" type="VARCHAR"/>
-        <column name="processing_timestamp" required="false" type="VARCHAR"/>
+        <column name="message" required="false" type="VARCHAR" size="255"/>
+        <column name="transaction_id" required="true" type="VARCHAR" size="100"/>
+        <column name="transaction_code" required="false" type="VARCHAR" size="255"/>
+        <column name="transaction_type" required="false" type="VARCHAR" size="255"/>
+        <column name="transaction_status" required="false" type="VARCHAR" size="255"/>
+        <column name="transaction_amount" required="false"  type="VARCHAR" size="255"/>
+        <column name="merchant_account"  required="false" type="VARCHAR" size="255"/>
+        <column name="processing_timestamp" required="false" type="VARCHAR" size="255"/>
         <foreign-key name="spy_braintree_transaction_status_log-fk_braintree" foreignTable="spy_payment_braintree">
             <reference foreign="id_payment_braintree" local="fk_payment_braintree"/>
         </foreign-key>
