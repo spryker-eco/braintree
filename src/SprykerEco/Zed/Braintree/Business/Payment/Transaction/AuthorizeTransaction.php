@@ -46,7 +46,7 @@ class AuthorizeTransaction extends AbstractTransaction
      */
     protected function isTransactionSuccessful($response)
     {
-        return ($response->__get('success') && $response->__get('transaction')->processorResponseCode === ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS);
+        return ($response->success && $response->transaction->__get('processorResponseCode') === ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS);
     }
 
     /**

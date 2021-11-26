@@ -8,7 +8,6 @@
 namespace SprykerEcoTest\Zed\Braintree\Business\Order;
 
 use Codeception\Test\Unit;
-use Generated\Shared\DataBuilder\PaymentBraintreeBuilder;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
@@ -23,12 +22,14 @@ use Orm\Zed\Country\Persistence\SpyCountry;
 use Orm\Zed\Country\Persistence\SpyCountryQuery;
 use Orm\Zed\Customer\Persistence\Map\SpyCustomerTableMap;
 use Orm\Zed\Customer\Persistence\SpyCustomer;
+use Orm\Zed\Customer\Persistence\SpyCustomerQuery;
 use Orm\Zed\Oms\Persistence\SpyOmsOrderItemState;
 use Orm\Zed\Oms\Persistence\SpyOmsOrderProcess;
-use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
+use Orm\Zed\Sales\Persistence\SpySalesOrderQuery;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
 
@@ -283,7 +284,22 @@ class SaverTest extends Unit
      */
     protected function createAndGetCustomerEntity()
     {
-        $customerEntity = (new SpyCustomer())
+        $customer = (new SpyCustomerQuery())
+            ->filterByFirstName('John')
+            ->filterByLastName('Doe')
+            ->filterByEmail('john@doe.com')
+            ->filterByDateOfBirth('1970-01-01')
+            ->filterByGender(SpyCustomerTableMap::COL_GENDER_MALE)
+            ->filterByCustomerReference('braintree-pre-authorization-test')
+            ->findOneOrCreate();
+
+        if ($customer->isNew()) {
+            $customer->save();
+        }
+
+        return $customer;
+
+        /*$customerEntity = (new SpyCustomer())
             ->setFirstName('John')
             ->setLastName('Doe')
             ->setEmail('john@doe.com')
@@ -292,7 +308,7 @@ class SaverTest extends Unit
             ->setCustomerReference('braintree-pre-authorization-test');
         $customerEntity->save();
 
-        return $customerEntity;
+        return $customerEntity;*/
     }
 
     /**
@@ -303,7 +319,27 @@ class SaverTest extends Unit
      */
     protected function createAndGetOrderEntity(SpySalesOrderAddress $billingAddressEntity, SpyCustomer $customerEntity)
     {
-        $orderEntity = (new SpySalesOrder())
+        $order = (new SpySalesOrderQuery())->filterByIdSalesOrder(1)->findOne();
+
+        if (!$order) {
+            $order = (new SpySalesOrderQuery())
+            ->filterByEmail('john@doe.com')
+            ->filterByIsTest(true)
+            ->filterByFkSalesOrderAddressBilling($billingAddressEntity->getIdSalesOrderAddress())
+            ->filterByFkSalesOrderAddressShipping($billingAddressEntity->getIdSalesOrderAddress())
+            ->filterByFkCustomer($customerEntity->getIdCustomer())
+            ->filterByOrderReference('foo-bar-baz-2')
+            ->filterByCustomerReference($customerEntity->getCustomerReference())
+            ->findOneOrCreate();
+
+            if ($order->isNew()) {
+                $order->save();
+            }
+        }
+
+        return $order;
+
+        /*$orderEntity = (new SpySalesOrder())
             ->setEmail('john@doe.com')
             ->setIsTest(true)
             ->setFkSalesOrderAddressBilling($billingAddressEntity->getIdSalesOrderAddress())
@@ -312,7 +348,7 @@ class SaverTest extends Unit
             ->setOrderReference('foo-bar-baz-2');
         $orderEntity->save();
 
-        return $orderEntity;
+        return $orderEntity;*/
     }
 
     /**
@@ -322,13 +358,20 @@ class SaverTest extends Unit
      */
     protected function createPaymentEntity(int $idSalesOrder): SpyPaymentBraintree
     {
-        $paymentBraintreeData = (new PaymentBraintreeBuilder())->build();
+        $spyPaymentBraintree = (new SpyPaymentBraintree())
+            ->setFkSalesOrder($idSalesOrder)
+            ->setPaymentType(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
+            ->setClientIp('127.0.0.1')
+            ->setCountryIso2Code('DE')
+            ->setStreet('Kuhdamm 13')
+            ->setCity('Berlin')
+            ->setZipCode('12354')
+            ->setEmail('john@doe.com')
+            ->setLanguageIso2Code('DE')
+            ->setCurrencyIso3Code('EUR');
 
-        $paymentEntity = new SpyPaymentBraintree();
-        $paymentEntity->fromArray($paymentBraintreeData->toArray());
-        $paymentEntity->setFkSalesOrder($idSalesOrder);
-        $paymentEntity->save();
+        $spyPaymentBraintree->save();
 
-        return $paymentEntity;
+        return $spyPaymentBraintree;
     }
 }

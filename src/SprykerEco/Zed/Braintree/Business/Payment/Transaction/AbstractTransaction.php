@@ -105,7 +105,10 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->__get('transaction')->statusHistory);
+            $transaction = $response->transaction;
+            $statusHistory = $transaction->__get('statusHistory');
+
+            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $statusHistory);
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -123,7 +126,7 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function isTransactionSuccessful($response)
     {
-        return $response->__get('success');
+        return $response->success;
     }
 
     /**
@@ -133,17 +136,17 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function getSuccessResponseTransfer($response)
     {
-        $transaction = $response->__get('transaction');
+        $transaction = $response->transaction;
         $braintreeTransactionResponseTransfer = $this->getResponseTransfer()
             ->setIsSuccess(true)
-            ->setTransactionId($transaction->id)
-            ->setCode($transaction->processorResponseCode)
-            ->setMessage($transaction->processorResponseText)
-            ->setProcessingTimestamp($transaction->createdAt->getTimestamp())
-            ->setTransactionStatus($transaction->status)
-            ->setTransactionType($transaction->type)
-            ->setTransactionAmount($transaction->amount)
-            ->setMerchantAccount($transaction->merchantAccountId);
+            ->setTransactionId($transaction->__get('id'))
+            ->setCode($transaction->__get('processorResponseCode'))
+            ->setMessage($transaction->__get('processorResponseText'))
+            ->setProcessingTimestamp($transaction->__get('createdAt')->getTimestamp())
+            ->setTransactionStatus($transaction->__get('status'))
+            ->setTransactionType($transaction->__get('type'))
+            ->setTransactionAmount($transaction->__get('amount'))
+            ->setMerchantAccount($transaction->__get('merchantAccountId'));
 
         return $braintreeTransactionResponseTransfer;
     }

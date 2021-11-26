@@ -220,11 +220,11 @@ class PaymentTransaction extends AbstractTransaction
     {
         if ($this->isTransactionSuccessful($response)) {
             $this->updatePaymentForSuccessfulResponse($response);
-            $transaction = $response->__get('transaction');
+            $transaction = $response->transaction;
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $braintreeTransactionResponseTransfer->setCode($transaction->processorSettlementResponseCode);
-            $braintreeTransactionResponseTransfer->setCreditCardType($transaction->creditCardDetails->cardType);
-            $braintreeTransactionResponseTransfer->setPaymentType($transaction->paymentInstrumentType);
+            $braintreeTransactionResponseTransfer->setCode($transaction->__get('processorSettlementResponseCode'));
+            $braintreeTransactionResponseTransfer->setCreditCardType($transaction->__get('creditCardDetails')->cardType);
+            $braintreeTransactionResponseTransfer->setPaymentType($transaction->__get('paymentInstrumentType'));
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -243,7 +243,7 @@ class PaymentTransaction extends AbstractTransaction
      */
     protected function isTransactionSuccessful($response)
     {
-        return $response->__get('success');
+        return $response->success;
     }
 
     /**
@@ -254,7 +254,7 @@ class PaymentTransaction extends AbstractTransaction
     protected function updatePaymentForSuccessfulResponse($response)
     {
         $braintreePaymentTransfer = $this->getBraintreePayment();
-        $braintreePaymentTransfer->setPaymentType($response->__get('transaction')->paymentInstrumentType);
+        $braintreePaymentTransfer->setPaymentType($response->transaction->__get('paymentInstrumentType'));
 
         if ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::PAYPAL_ACCOUNT) {
             $this->setPaypalPaymentMethod($this->getPayment());
