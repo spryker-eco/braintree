@@ -16,13 +16,15 @@ env:
   DATABASE_COLLATE: utf8_general_ci
 
 on:
-  push:
-    branches:
-      - 'master'
+    pull_request:
+    push:
+        branches:
+          - 'master'
+    workflow_dispatch:
 
 jobs:
   setup:
-    name: Setup MariaDB
+    name: Setup Database (mariadb ${{ env.DATABASE_VERSION }})
     runs-on: ubuntu-18.04
 
     steps:
@@ -49,7 +51,6 @@ jobs:
       matrix:
         php-versions:
           - '7.4'
-          - '8.0'
 
     steps:
       - name: Checkout@v2
@@ -61,16 +62,16 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl, bcmath, pdo_mysql
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+#      - name: Get composer cache directory
+#        id: composer-cache
+#        run: |
+#          echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.php-versions }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php-versions }}-composer-
+#      - uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-${{ matrix.php-versions }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: ${{ runner.os }}-${{ matrix.php-versions }}-composer-
 
       - name: Composer validate
         run: composer validate
@@ -79,7 +80,7 @@ jobs:
         run: composer --version
 
       - name: Composer install
-        if: steps.cache.outputs.cache-hit != 'true'
+#        if: steps.cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-interaction --optimize-autoloader
 
       - name: PHP syntax validation
@@ -93,32 +94,32 @@ jobs:
 
       - name: Check codestyle checks
         run: composer cs-check
-
-  lowest:
-    name: Braintree Prefer Lowest (PHP ${{ matrix.php-versions }})
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          extensions: mbstring, intl, bcmath, pdo_mysql
-
-      - name: Composer Install
-        run: composer install --prefer-dist --no-interaction --profile
-
-      - name: Composer Update
-        run: composer update --prefer-lowest --prefer-dist --no-interaction --profile -vvv
-
-      - name: Prefer lowest installation
-        run: composer require --dev dereuromark/composer-prefer-lowest;
-
-      - name: PHP syntax validation
-        run: find ./src -path src -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
-
-      - name: Prefer lowest validation
-        run: vendor/bin/validate-prefer-lowest -m
+#
+#  lowest:
+#    name: Braintree Prefer Lowest (PHP ${{ matrix.php-versions }})
+#    runs-on: ubuntu-18.04
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: '7.4'
+#          extensions: mbstring, intl, bcmath, pdo_mysql
+#
+#      - name: Composer Install
+#        run: composer install --prefer-dist --no-interaction --profile
+#
+#      - name: Composer Update
+#        run: composer update --prefer-lowest --prefer-dist --no-interaction --profile -vvv
+#
+#      - name: Prefer lowest installation
+#        run: composer require --dev dereuromark/composer-prefer-lowest;
+#
+#      - name: PHP syntax validation
+#        run: find ./src -path src -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
+#
+#      - name: Prefer lowest validation
+#        run: vendor/bin/validate-prefer-lowest -m
