@@ -1,0 +1,129 @@
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+
+env:
+    SPRYKER_TESTING_ENABLED: 1
+    APPLICATION_STORE: DE
+    POSTGRES_PORT: 5433
+    DB_USER: postgres
+    DB_NAME: DE_test_zed
+    DB_PASSWORD: pwd
+    MODULE_DIR: module
+    SHOP_DIR: current
+    MODULE_NAME: braintree
+
+jobs:
+    test_pgsql:
+        name: "Test / PostgreSQL"
+        runs-on: ubuntu-18.04
+        strategy:
+            fail-fast: false
+            matrix:
+                product: [ 'suite' ]
+                config:
+                    - { php: '7.4', composer_preference: '' }
+                    - { php: '7.4', composer_preference: '--prefer-lowest' }
+                    - { php: '8.1', composer_preference: '' }
+
+        services:
+            rabbitmq:
+                image: rabbitmq
+                ports:
+                    - 5672:5672
+            redis:
+                image: redis
+                ports:
+                    - 6379:6379
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+                    DB_USER: ${{ env.DB_USER }}
+                    DB_NAME: ${{ env.DB_NAME }}
+                ports:
+                    - 5433:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+        env:
+            PRODUCT_NAME: ${{ matrix.product }}
+            APPLICATION_ENV: ci.pgsql
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.config.php }}
+                    extensions: mbstring, intl
+                    tools: composer:v2
+
+            -   name: 'Run Elasticsearch'
+                uses: elastic/elastic-github-actions/elasticsearch@master
+                with:
+                    stack-version: 7.6.0
+
+            -   name: Install eco-ci
+                run: git clone https://github.com/spryker-eco/eco-ci.git ecoci
+
+            -   name: Execute test script
+                run: ./ecoci/build/ga.sh ${{ matrix.config.composer_preference }}
+    test_mariadb:
+        name: "Test / MariaDB"
+        runs-on: ubuntu-18.04
+        strategy:
+            fail-fast: false
+            matrix:
+                product: [ 'suite' ]
+                config:
+                    - { php: '7.4', composer_preference: '' }
+                    - { php: '7.4', composer_preference: '--prefer-lowest' }
+                    - { php: '8.1', composer_preference: '' }
+        services:
+            rabbitmq:
+                image: rabbitmq
+                ports:
+                    - 5672:5672
+            redis:
+                image: redis
+                ports:
+                    - 6379:6379
+        env:
+            PRODUCT_NAME: ${{ matrix.product }}
+            APPLICATION_ENV: ci.mysql
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: getong/mariadb-action@v1.1
+                with:
+                    character set server: 'utf8'
+                    collation server: 'utf8_general_ci'
+                    mariadb version: '10.3'
+                    mysql database: ${{ env.DB_NAME }}
+                    mysql root password: ${{ env.DB_PASSWORD }}
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.config.php }}
+                    extensions: mbstring, intl
+                    tools: composer:v2
+
+            -   name: 'Run Elasticsearch'
+                uses: elastic/elastic-github-actions/elasticsearch@master
+                with:
+                    stack-version: 7.6.0
+
+            -   name: Install eco-ci
+                run: git clone https://github.com/spryker-eco/eco-ci.git ecoci
+
+            -   name: Execute test script
+                run: ./ecoci/build/ga.sh ${{ matrix.config.composer_preference }}
