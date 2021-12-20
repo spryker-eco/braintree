@@ -115,7 +115,7 @@ class BraintreeFactory extends AbstractFactory
     {
         return new PaypalResponseProcessor(
             $this->createPaypalResponseMapper(),
-            $this->getQuoteClient()
+            $this->getQuoteClient(),
         );
     }
 
@@ -200,7 +200,7 @@ class BraintreeFactory extends AbstractFactory
             $this->getShipmentClient(),
             $this->getGlossaryClient(),
             $this->getStore(),
-            $this->getMoneyPlugin()
+            $this->getMoneyPlugin(),
         );
     }
 
@@ -212,7 +212,7 @@ class BraintreeFactory extends AbstractFactory
         return new QuoteExpander(
             $this->getQuoteClient(),
             $this->getCalculationClient(),
-            $this->getShipmentHandlerPlugin()
+            $this->getShipmentHandlerPlugin(),
         );
     }
 

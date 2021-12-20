@@ -28,7 +28,7 @@ interface BraintreeEntityManagerInterface
 
     /**
      * @param int $idPaymentBraintree
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
      * @param string $transactionId
      *
      * @return void

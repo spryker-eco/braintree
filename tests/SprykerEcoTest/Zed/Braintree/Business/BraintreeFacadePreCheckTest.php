@@ -24,6 +24,7 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -41,7 +42,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
-            $this->getPreCheckTransactionMock()
+            $this->getPreCheckTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -59,7 +60,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
-            $this->getPreCheckTransactionMock(false)
+            $this->getPreCheckTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -73,16 +74,16 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction
      */
-    protected function getPreCheckTransactionMock($success = true)
+    protected function getPreCheckTransactionMock($success = true): PreCheckTransaction
     {
         $moneyFacadeMock = $this->getMoneyFacadeMock();
         $preCheckTransactionMock = $this
             ->getMockBuilder(PreCheckTransaction::class)
             ->setMethods(['preCheck', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)]
+                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)],
             )
             ->getMock();
 
@@ -155,9 +156,9 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface
      */
-    protected function getMoneyFacadeMock()
+    protected function getMoneyFacadeMock(): BraintreeToMoneyFacadeInterface
     {
         $moneyFacadeMock = $this->getMockBuilder(BraintreeToMoneyFacadeInterface::class)->getMock();
 

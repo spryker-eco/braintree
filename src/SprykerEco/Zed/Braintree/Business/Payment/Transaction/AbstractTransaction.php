@@ -77,7 +77,7 @@ abstract class AbstractTransaction implements TransactionInterface
             $this->getTransactionIdentifier(),
             $this->getTransactionType(),
             $this->getTransactionCode(),
-            $this->getIdPayment()
+            $this->getIdPayment(),
         );
     }
 

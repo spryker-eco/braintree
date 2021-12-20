@@ -32,6 +32,7 @@ use SprykerEco\Zed\Braintree\Business\Order\Saver;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -54,7 +55,7 @@ class SaverTest extends Unit
         $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder(
-            $saveOrderTransfer->getIdSalesOrder()
+            $saveOrderTransfer->getIdSalesOrder(),
         );
         $this->assertInstanceOf(SpyPaymentBraintree::class, $paymentEntity);
 
@@ -85,9 +86,9 @@ class SaverTest extends Unit
                 '%s %s %s',
                 $addressTransfer->getAddress1(),
                 $addressTransfer->getAddress2(),
-                $addressTransfer->getAddress3()
+                $addressTransfer->getAddress3(),
             )),
-            $paymentEntity->getStreet()
+            $paymentEntity->getStreet(),
         );
     }
 

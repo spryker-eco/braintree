@@ -13,6 +13,8 @@ use SprykerEco\Shared\Braintree\BraintreeConstants;
 class BraintreeConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @return string
      */
     public function getEnvironment(): string
@@ -21,6 +23,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getPublicKey(): string
@@ -29,6 +33,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getPrivateKey(): string
@@ -37,6 +43,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getMerchantId(): string

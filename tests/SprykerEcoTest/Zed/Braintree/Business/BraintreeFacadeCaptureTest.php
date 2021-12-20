@@ -15,10 +15,10 @@ use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction;
-use SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureTransaction;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -36,7 +36,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock()
+            $this->getCaptureOrderTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->capturePayment($this->getTransactionMetaTransfer());
@@ -51,7 +51,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock(false)
+            $this->getCaptureOrderTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->capturePayment($this->getTransactionMetaTransfer());
@@ -66,7 +66,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock()
+            $this->getCaptureOrderTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->captureOrderPayment($this->getTransactionMetaTransfer());
@@ -81,7 +81,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock(false)
+            $this->getCaptureOrderTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->captureOrderPayment($this->getTransactionMetaTransfer());
@@ -96,7 +96,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureItemsTransaction']);
         $factoryMock->method('createCaptureItemsTransaction')->willReturn(
-            $this->getCaptureItemsTransactionMock()
+            $this->getCaptureItemsTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->captureItemsPayment($this->getTransactionMetaTransfer());
@@ -111,7 +111,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createCaptureItemsTransaction']);
         $factoryMock->method('createCaptureItemsTransaction')->willReturn(
-            $this->getCaptureItemsTransactionMock(false)
+            $this->getCaptureItemsTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $response = $braintreeFacade->captureItemsPayment($this->getTransactionMetaTransfer());
@@ -124,23 +124,23 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
      *
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\CaptureOrderTransaction
      */
-    protected function getCaptureOrderTransactionMock(bool $success = true)
+    protected function getCaptureOrderTransactionMock(bool $success = true): CaptureOrderTransaction
     {
         $captureTransactionMock = $this
             ->getMockBuilder(CaptureOrderTransaction::class)
             ->setMethods(['capture', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 
         if ($success) {
             $captureTransactionMock->method('capture')->willReturn(
-                $this->getSuccessResponse()
+                $this->getSuccessResponse(),
             );
         } else {
             $captureTransactionMock->method('capture')->willReturn(
-                $this->getErrorResponse()
+                $this->getErrorResponse(),
             );
         }
 
@@ -159,29 +159,28 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
             ->setMethods(['capture', 'initializeBraintree', 'afterTransaction'])
             ->disableOriginalConstructor()
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 
         if ($success) {
             $captureTransactionMock->method('capture')->willReturn(
-                $this->getSuccessResponse()
+                $this->getSuccessResponse(),
             );
             $captureTransactionMock->method('afterTransaction')->willReturn(
-                $this->getTransactionResponseSuccessTransfer()
+                $this->getTransactionResponseSuccessTransfer(),
             );
         } else {
             $captureTransactionMock->method('capture')->willReturn(
-                $this->getErrorResponse()
+                $this->getErrorResponse(),
             );
             $captureTransactionMock->method('afterTransaction')->willReturn(
-                $this->getTransactionResponseFailureTransfer()
+                $this->getTransactionResponseFailureTransfer(),
             );
         }
 
         return $captureTransactionMock;
     }
-
 
     /**
      * @return \Braintree\Result\Successful
@@ -209,7 +208,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     }
 
     /**
-     * @return BraintreeTransactionResponseTransfer
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     protected function getTransactionResponseSuccessTransfer(): BraintreeTransactionResponseTransfer
     {
@@ -218,7 +217,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
     }
 
     /**
-     * @return BraintreeTransactionResponseTransfer
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
     protected function getTransactionResponseFailureTransfer(): BraintreeTransactionResponseTransfer
     {

@@ -13,6 +13,8 @@ use SprykerEco\Shared\Braintree\BraintreeConstants;
 class BraintreeConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @return int
      */
     public function getDefaultPaypalExpressShipmentMethodId(): int
@@ -21,6 +23,8 @@ class BraintreeConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getFakePaymentMethodNonce(): string

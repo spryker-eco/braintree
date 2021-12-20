@@ -25,7 +25,8 @@ class PaypalExpressPaymentMethodFilter implements PaypalExpressPaymentMethodFilt
         $result = new ArrayObject();
 
         foreach ($paymentMethodsTransfer->getMethods() as $paymentMethod) {
-            if ($paymentMethod->getMethodName() === BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS
+            if (
+                $paymentMethod->getMethodName() === BraintreeConfig::PAYMENT_METHOD_PAY_PAL_EXPRESS
                 && !$this->isPaymenMethodBraintreePayPalExpressSelected($quoteTransfer)
             ) {
                 continue;

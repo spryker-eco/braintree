@@ -18,21 +18,74 @@ use Symfony\Component\String\UnicodeString;
 
 class CreditCardSubForm extends AbstractSubForm
 {
+    /**
+     * @var string
+     */
     public const PAYMENT_METHOD = 'credit-card';
 
+    /**
+     * @var string
+     */
     public const IS_3D_SECURE = 'is3dSecure';
+
+    /**
+     * @var string
+     */
     public const AMOUNT = 'amount';
+
+    /**
+     * @var string
+     */
     public const EMAIL = 'email';
 
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS = 'billingAddress';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_GIVEN_NAME = 'givenName';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_SURNAME = 'surname';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_PHONE_NUMBER = 'phoneNumber';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_STREET_ADDRESS = 'streetAddress';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_EXTENDED_ADDRESS = 'extendedAddress';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_LOCALITY = 'locality';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_REGION = 'region';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_POSTAL_CODE = 'postalCode';
+
+    /**
+     * @var string
+     */
     public const BILLING_ADDRESS_COUNTRY_CODE = 'countryCodeAlpha2';
 
     /**

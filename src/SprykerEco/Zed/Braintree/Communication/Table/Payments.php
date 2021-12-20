@@ -15,8 +15,19 @@ use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
 class Payments extends AbstractTable implements BraintreeTableInterface
 {
+    /**
+     * @var string
+     */
     public const FIELD_VIEW = 'FIELD_VIEW';
+
+    /**
+     * @var string
+     */
     public const URL_BRAINTREE_DETAILS = '/braintree/details';
+
+    /**
+     * @var string
+     */
     public const PARAM_ID_PAYMENT = 'id-payment';
 
     /**
@@ -91,7 +102,7 @@ class Payments extends AbstractTable implements BraintreeTableInterface
             Url::generate(static::URL_BRAINTREE_DETAILS, [
                 static::PARAM_ID_PAYMENT => $paymentItem[SpyPaymentBraintreeTableMap::COL_ID_PAYMENT_BRAINTREE],
             ]),
-            'View'
+            'View',
         );
 
         return $urls;

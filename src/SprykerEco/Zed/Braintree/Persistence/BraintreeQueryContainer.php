@@ -19,6 +19,8 @@ use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
 class BraintreeQueryContainer extends AbstractQueryContainer implements BraintreeQueryContainerInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
@@ -29,6 +31,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idPayment
@@ -43,6 +47,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -57,6 +63,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
@@ -67,6 +75,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idPayment
@@ -81,6 +91,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idPayment
@@ -95,6 +107,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -111,6 +125,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -125,6 +141,8 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -144,11 +162,13 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
                 [
                     SpyPaymentBraintreeTransactionRequestLogTableMap::COL_TRANSACTION_ID,
                     Propel::getConnection()->quote($transactionCode),
-                ]
+                ],
             );
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @api
      *
      * @param int $idPayment

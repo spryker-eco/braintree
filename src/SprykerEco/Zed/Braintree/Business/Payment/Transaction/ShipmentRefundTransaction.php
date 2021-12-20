@@ -62,7 +62,7 @@ class ShipmentRefundTransaction extends AbstractTransaction
     {
         return BraintreeTransaction::refund(
             $this->transactionMetaTransfer->getShipmentRefundTransactionId(),
-            $this->transactionMetaTransfer->getRefundAmount()
+            $this->transactionMetaTransfer->getRefundAmount(),
         );
     }
 }

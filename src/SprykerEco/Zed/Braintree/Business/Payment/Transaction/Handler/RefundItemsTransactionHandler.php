@@ -13,7 +13,6 @@ use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
-use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\TransactionInterface;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeInterface;
@@ -23,10 +22,19 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
 {
     /**
      * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
+    /**
+     * @var string
+     */
     protected const KEY_AMOUNT = 'amount';
+
+    /**
+     * @var string
+     */
     protected const KEY_PAYMENT_ID = 'payment_id';
 
     /**
@@ -58,7 +66,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
      * @return void
@@ -81,7 +89,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
      * @return \Generated\Shared\Transfer\RefundTransfer
@@ -92,7 +100,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $orderItems
      *
      * @return \ArrayObject
      */
@@ -110,14 +118,17 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
      *
      * @return \Generated\Shared\Transfer\TransactionMetaTransfer
      */
-    protected function createTransactionMetaTransfer(array $salesOrderItems, SpySalesOrder $salesOrderEntity, RefundTransfer $refundTransfer): TransactionMetaTransfer
-    {
+    protected function createTransactionMetaTransfer(
+        array $salesOrderItems,
+        SpySalesOrder $salesOrderEntity,
+        RefundTransfer $refundTransfer
+    ): TransactionMetaTransfer {
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($salesOrderEntity->getIdSalesOrder());
         $transactionMetaTransfer->setRefund($refundTransfer);
@@ -127,9 +138,9 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param array<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[]
+     * @return \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject
      */
     protected function getRefundedUniqueItems(array $itemTransfers): ArrayObject
     {
@@ -239,7 +250,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject $itemTransfers
      *
      * @return array
      */

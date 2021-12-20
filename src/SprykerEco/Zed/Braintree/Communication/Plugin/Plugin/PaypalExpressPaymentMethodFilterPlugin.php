@@ -21,6 +21,7 @@ use Spryker\Zed\Payment\Dependency\Plugin\Payment\PaymentMethodFilterPluginInter
 class PaypalExpressPaymentMethodFilterPlugin extends AbstractPlugin implements PaymentMethodFilterPluginInterface
 {
     /**
+     * {@inheritDoc}
      * Specification:
      * - Returns filtered by set of plugins array object of payments.
      *

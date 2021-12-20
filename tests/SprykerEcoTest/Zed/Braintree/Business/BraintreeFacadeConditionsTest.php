@@ -13,6 +13,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

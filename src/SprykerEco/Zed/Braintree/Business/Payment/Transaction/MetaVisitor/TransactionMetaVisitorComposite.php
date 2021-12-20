@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\TransactionMetaTransfer;
 class TransactionMetaVisitorComposite implements TransactionMetaVisitorInterface
 {
     /**
-     * @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface[]
+     * @var array<\SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface>
      */
     protected $visitor = [];
 
