@@ -17,7 +17,7 @@ class CreditCardDataProvider implements StepEngineFormDataProviderInterface
  /**
   * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
   *
-  * @return \Generated\Shared\Transfer\BraintreePayment3dSecureRequestTransfer
+  * @return \Generated\Shared\Transfer\QuoteTransfer
   */
     public function getData(AbstractTransfer $quoteTransfer)
     {

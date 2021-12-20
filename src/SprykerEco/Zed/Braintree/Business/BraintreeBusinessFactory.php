@@ -192,6 +192,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createDefaultTransactionMetaVisitor(): TransactionMetaVisitorInterface
     {
+        /** @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite $transactionMetaVisitorComposite */
         $transactionMetaVisitorComposite = $this->createTransactionMetaVisitorComposite();
         $transactionMetaVisitorComposite->addVisitor($this->createPaymentTransactionMetaVisitor());
 

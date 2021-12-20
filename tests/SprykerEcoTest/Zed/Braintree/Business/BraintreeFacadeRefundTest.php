@@ -170,9 +170,9 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction
      */
-    protected function getRefundItemsTransactionMock($success = true): RefundOrderTransaction
+    protected function getRefundItemsTransactionMock($success = true): RefundItemsTransaction
     {
         $moneyFacadeMock = $this->getMoneyFacadeMock();
         $refundTransactionMockBuilder = $this->getMockBuilder(RefundItemsTransaction::class);

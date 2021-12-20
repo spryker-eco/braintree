@@ -61,11 +61,11 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     protected function getIdPayment()
     {
-        return $this->transactionMetaTransfer->requireIdPayment()->getIdPayment();
+        return $this->transactionMetaTransfer->getIdPaymentOrFail();
     }
 
     /**

@@ -71,12 +71,12 @@ class Saver implements SaverInterface
     }
 
     /**
-     * @param array<\Generated\Shared\Transfer\ItemTransfer> $orderItemTransfers
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $orderItemTransfers
      * @param int $idPayment
      *
      * @return void
      */
-    protected function savePaymentForOrderItems($orderItemTransfers, $idPayment)
+    protected function savePaymentForOrderItems(iterable $orderItemTransfers, $idPayment)
     {
         foreach ($orderItemTransfers as $orderItemTransfer) {
             $paymentOrderItemEntity = new SpyPaymentBraintreeOrderItem();
