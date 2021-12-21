@@ -1,0 +1,87 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#^Call to an undefined method Spryker\\\\Service\\\\Container\\\\ContainerInterface\\:\\:path\\(\\)\\.$#"
+            count: 2
+            path: src/SprykerEco/Yves/Braintree/Controller/PaypalExpressController.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\:\\:\\$message\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AbstractTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\:\\:\\$transaction\\.$#"
+            count: 2
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AbstractTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Transaction\\:\\:\\$success\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AuthorizeTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Transaction\\:\\:\\$transaction\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AuthorizeTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$objsToReturn of class Braintree\\\\Result\\\\Successful constructor expects array\\|null, Braintree\\\\Transaction given\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AuthorizeTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$response \\(Braintree\\\\Transaction\\) of method SprykerEco\\\\Zed\\\\Braintree\\\\Business\\\\Payment\\\\Transaction\\\\AuthorizeTransaction\\:\\:isTransactionSuccessful\\(\\) should be compatible with parameter \\$response \\(Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\) of method SprykerEco\\\\Zed\\\\Braintree\\\\Business\\\\Payment\\\\Transaction\\\\AbstractTransaction\\:\\:isTransactionSuccessful\\(\\)$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/AuthorizeTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\:\\:\\$transaction\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/CaptureItemsTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$captureShipmentAmount of method Generated\\\\Shared\\\\Transfer\\\\TransactionMetaTransfer\\:\\:setCaptureShipmentAmount\\(\\) expects int\\|null, float given\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/CaptureItemsTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\|Braintree\\\\Transaction\\:\\:\\$transaction\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/PaymentTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Successful\\:\\:\\$transaction\\.$#"
+            count: 2
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/PaymentTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\|Braintree\\\\Transaction\\:\\:\\$transaction\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/PreCheckTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Successful\\:\\:\\$transaction\\.$#"
+            count: 2
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/PreCheckTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$refundAmount of method Generated\\\\Shared\\\\Transfer\\\\TransactionMetaTransfer\\:\\:setRefundAmount\\(\\) expects float\\|null, string\\|null given\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/RefundItemsTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$shipmentRefundTransactionId of method Generated\\\\Shared\\\\Transfer\\\\TransactionMetaTransfer\\:\\:setShipmentRefundTransactionId\\(\\) expects int\\|null, string\\|null given\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/RefundItemsTransaction.php
+
+        -
+            message: "#^Parameter \\#1 \\$value of method SprykerEco\\\\Zed\\\\Braintree\\\\Dependency\\\\Facade\\\\BraintreeToMoneyFacadeInterface\\:\\:convertIntegerToDecimal\\(\\) expects int, float\\|null given\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/RefundItemsTransaction.php
+
+        -
+            message: "#^Access to an undefined property Braintree\\\\Result\\\\Error\\|Braintree\\\\Result\\\\Successful\\:\\:\\$transaction\\.$#"
+            count: 1
+            path: src/SprykerEco/Zed/Braintree/Business/Payment/Transaction/ShipmentTransaction.php
+
