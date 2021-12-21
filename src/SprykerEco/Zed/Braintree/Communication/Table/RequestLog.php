@@ -25,7 +25,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
     protected $idPayment;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected static $excludeFields = [
         SpyPaymentBraintreeTransactionRequestLogTableMap::COL_ID_PAYMENT_BRAINTREE_TRANSACTION_REQUEST_LOG,
@@ -66,7 +66,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
     protected function getHeaderFields()
     {
         $fieldNames = SpyPaymentBraintreeTransactionRequestLogTableMap::getFieldNames(
-            SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME
+            SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME,
         );
         $headerFields = [];
         foreach ($fieldNames as $fieldName) {
@@ -77,7 +77,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
             $translatedFieldName = SpyPaymentBraintreeTransactionRequestLogTableMap::translateFieldName(
                 $fieldName,
                 SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME,
-                SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_FIELDNAME
+                SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_FIELDNAME,
             );
 
             $headerFields[$translatedFieldName] = $translatedFieldName;
@@ -113,7 +113,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
     protected function getFieldMatchedResultArrayFromLogItem(array $logItem)
     {
         $fieldNames = SpyPaymentBraintreeTransactionRequestLogTableMap::getFieldNames(
-            SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME
+            SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME,
         );
         $resultArray = [];
         foreach ($fieldNames as $fieldName) {
@@ -124,7 +124,7 @@ class RequestLog extends AbstractTable implements BraintreeTableInterface
             $translatedFieldName = SpyPaymentBraintreeTransactionRequestLogTableMap::translateFieldName(
                 $fieldName,
                 SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_COLNAME,
-                SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_FIELDNAME
+                SpyPaymentBraintreeTransactionRequestLogTableMap::TYPE_FIELDNAME,
             );
 
             $resultArray[$translatedFieldName] = $logItem[$fieldName];

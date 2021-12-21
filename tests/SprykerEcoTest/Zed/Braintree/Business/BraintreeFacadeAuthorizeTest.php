@@ -16,6 +16,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -33,7 +34,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
-            $this->getAuthorizeTransactionMock()
+            $this->getAuthorizeTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -50,7 +51,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
-            $this->getAuthorizeTransactionMock(true)
+            $this->getAuthorizeTransactionMock(true),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -63,15 +64,15 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
     /**
      * @param bool $throwsException
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction
      */
-    protected function getAuthorizeTransactionMock($throwsException = false)
+    protected function getAuthorizeTransactionMock($throwsException = false): AuthorizeTransaction
     {
         $authorizeTransactionMock = $this
             ->getMockBuilder(AuthorizeTransaction::class)
             ->setMethods(['findTransaction', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 
@@ -93,6 +94,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
     protected function getSuccessfulTransaction()
     {
         $orderTransfer = $this->createOrderTransfer();
+
         return Transaction::factory([
             'id' => 123,
             'processorResponseCode' => '1000',

@@ -15,6 +15,9 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManagerInterface;
 
 class ShipmentTransaction extends AbstractTransaction
 {
+    /**
+     * @var string
+     */
     protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
 
     /**
@@ -90,7 +93,7 @@ class ShipmentTransaction extends AbstractTransaction
             $this->transactionMetaTransfer->getCaptureShipmentAmount(),
             [
                 static::ATTRIBUTE_KEY_ORDER_ID => $this->transactionMetaTransfer->getOrderReference(),
-            ]
+            ],
         );
     }
 }

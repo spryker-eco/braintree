@@ -24,17 +24,18 @@ class Saver implements SaverInterface
      */
     public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME
+        if (
+            $quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME
             && $quoteTransfer->getPayment()->getBraintreeTransactionResponse()->getIsSuccess()
         ) {
             $paymentEntity = $this->savePaymentForOrder(
                 $quoteTransfer->getPayment()->getBraintree(),
-                $saveOrderTransfer->getIdSalesOrder()
+                $saveOrderTransfer->getIdSalesOrder(),
             );
 
             $this->savePaymentForOrderItems(
                 $saveOrderTransfer->getOrderItems(),
-                $paymentEntity->getIdPaymentBraintree()
+                $paymentEntity->getIdPaymentBraintree(),
             );
         }
     }
@@ -54,7 +55,7 @@ class Saver implements SaverInterface
             '%s %s %s',
             $addressTransfer->getAddress1(),
             $addressTransfer->getAddress2(),
-            $addressTransfer->getAddress3()
+            $addressTransfer->getAddress3(),
         ));
 
         $paymentEntity->fromArray($addressTransfer->toArray());
@@ -70,12 +71,12 @@ class Saver implements SaverInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $orderItemTransfers
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $orderItemTransfers
      * @param int $idPayment
      *
      * @return void
      */
-    protected function savePaymentForOrderItems($orderItemTransfers, $idPayment)
+    protected function savePaymentForOrderItems(iterable $orderItemTransfers, $idPayment)
     {
         foreach ($orderItemTransfers as $orderItemTransfer) {
             $paymentOrderItemEntity = new SpyPaymentBraintreeOrderItem();

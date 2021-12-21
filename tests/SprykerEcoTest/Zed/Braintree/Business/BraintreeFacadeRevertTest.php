@@ -16,6 +16,7 @@ use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -33,7 +34,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
-            $this->getRevertTransactionMock()
+            $this->getRevertTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -51,7 +52,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
     {
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
-            $this->getRevertTransactionMock(false)
+            $this->getRevertTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -66,7 +67,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
      *
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RevertTransaction
      */
-    protected function getRevertTransactionMock($success = true)
+    protected function getRevertTransactionMock($success = true): RevertTransaction
     {
         $revertTransactionMock = $this
             ->getMockBuilder(RevertTransaction::class)

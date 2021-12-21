@@ -14,6 +14,7 @@ use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
 
 /**
  * Inherited Methods
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)

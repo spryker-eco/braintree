@@ -34,6 +34,7 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree
@@ -70,7 +71,7 @@ class AbstractFacadeTest extends Unit
      *
      * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getBraintreeFacade(?BraintreeBusinessFactory $braintreeBusinessFactoryMock = null)
+    protected function getBraintreeFacade(?BraintreeBusinessFactory $braintreeBusinessFactoryMock = null): BraintreeFacade
     {
         $braintreeFacade = new BraintreeFacade();
         if ($braintreeBusinessFactoryMock) {
@@ -165,7 +166,7 @@ class AbstractFacadeTest extends Unit
      *
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
-    protected function getFactoryMock(array $methods)
+    protected function getFactoryMock(array $methods): BraintreeBusinessFactory
     {
         $factoryMock = $this->getFactory($methods);
         $factoryMock->setContainer($this->getContainer());
@@ -179,7 +180,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainer
      */
-    protected function getQueryContainerMock()
+    protected function getQueryContainerMock(): BraintreeQueryContainer
     {
         $queryContainerMock = $this->getMockBuilder(BraintreeQueryContainer::class)->getMock();
 
@@ -217,7 +218,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
      */
-    private function getTransactionStatusLogQueryMock()
+    private function getTransactionStatusLogQueryMock(): SpyPaymentBraintreeTransactionStatusLogQuery
     {
         $transactionStatusLogQueryMock = $this->getMockBuilder(SpyPaymentBraintreeTransactionStatusLogQuery::class)->getMock();
         $transactionStatusLogQueryMock->method('findOne')->willReturn($this->paymentEntity);
@@ -253,13 +254,12 @@ class AbstractFacadeTest extends Unit
         return (new PaymentBraintreeTransactionStatusLogTransfer());
     }
 
-
     /**
      * @param array $methods
      *
      * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
-    protected function getFactory(array $methods)
+    protected function getFactory(array $methods): BraintreeBusinessFactory
     {
         $factoryMock = $this->getMockBuilder(BraintreeBusinessFactory::class)->setMethods($methods)->getMock();
 

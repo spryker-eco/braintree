@@ -7,12 +7,13 @@
 
 namespace SprykerEcoTest\Zed\Braintree\Presentation;
 
-use SprykerEcoTest\Yves\Braintree\BraintreePresentationTester as CheckoutPresentationTester;
-use SprykerEcoTest\Yves\Braintree\PageObject\ProductDetailPage;
+use SprykerEcoTest\Zed\Braintree\BraintreePresentationTester as CheckoutPresentationTester;
 use SprykerEcoTest\Zed\Braintree\BraintreePresentationTester;
+use SprykerEcoTest\Zed\Braintree\PageObject\ProductDetailPage;
 
 /**
  * Auto-generated group annotations
+ *
  * @group SprykerEcoTest
  * @group Zed
  * @group Braintree

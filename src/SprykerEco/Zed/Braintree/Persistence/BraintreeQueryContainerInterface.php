@@ -12,6 +12,9 @@ use Spryker\Zed\Kernel\Persistence\QueryContainer\QueryContainerInterface;
 interface BraintreeQueryContainerInterface extends QueryContainerInterface
 {
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeQuery
@@ -19,6 +22,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryPayments();
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idPayment
@@ -28,6 +34,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryPaymentById($idPayment);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -37,6 +46,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryPaymentBySalesOrderId($idSalesOrder);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
@@ -44,6 +56,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLog();
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idPayment
@@ -53,6 +68,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLogByPaymentId($idPayment);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idPayment
@@ -62,6 +80,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLogByPaymentIdLatestFirst($idPayment);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -71,6 +92,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLogBySalesOrderId($idSalesOrder);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -80,6 +104,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLogBySalesOrderIdLatestFirst($idSalesOrder);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idSalesOrder
@@ -90,6 +117,9 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
     public function queryTransactionStatusLogBySalesOrderIdAndTransactionCodeLatestFirst($idSalesOrder, $transactionCode);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param int $idPayment

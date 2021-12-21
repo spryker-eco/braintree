@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Yves\Braintree\Form;
 
-use Braintree\ClientToken;
-use Braintree\Configuration;
 use Braintree\Gateway;
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use Spryker\Shared\Config\Config;
@@ -21,6 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
+    /**
+     * @var string
+     */
     protected const CLIENT_TOKEN = 'clientToken';
 
     /**

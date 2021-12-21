@@ -14,11 +14,29 @@ use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToRefundFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToSalesFacadeBridge;
 
+/**
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ */
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const FACADE_CURRENCY = 'FACADE_CURRENCY';
+
+    /**
+     * @var string
+     */
     public const FACADE_MONEY = 'FACADE_MONEY';
+
+    /**
+     * @var string
+     */
     public const FACADE_REFUND = 'FACADE_REFUND';
+
+    /**
+     * @var string
+     */
     public const FACADE_SALES = 'FACADE_SALES';
 
     /**

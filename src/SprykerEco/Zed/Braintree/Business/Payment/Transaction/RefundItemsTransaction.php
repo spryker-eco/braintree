@@ -12,7 +12,6 @@ use Braintree\Transaction;
 use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\ExpenseTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
-use Spryker\Shared\Shipment\ShipmentConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\ShipmentRefundTransactionHandlerInterface;
@@ -23,6 +22,8 @@ class RefundItemsTransaction extends AbstractTransaction
 {
     /**
      * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
@@ -112,7 +113,7 @@ class RefundItemsTransaction extends AbstractTransaction
 
         return BraintreeTransaction::refund(
             $this->getTransactionIdentifier(),
-            $this->getAmount()
+            $this->getAmount(),
         );
     }
 

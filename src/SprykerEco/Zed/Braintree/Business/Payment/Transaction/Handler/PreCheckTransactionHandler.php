@@ -22,7 +22,8 @@ class PreCheckTransactionHandler extends AbstractTransactionHandler implements P
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setQuote($quoteTransfer);
         $transactionMetaTransfer->setTransactionIdentifier('');
-        $transactionMetaTransfer->setIdPayment('');
+
+        $transactionMetaTransfer->setIdPayment(null);
 
         return $this->transaction->executeTransaction($transactionMetaTransfer);
     }

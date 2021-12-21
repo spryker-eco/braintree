@@ -37,7 +37,7 @@ interface BraintreeRepositoryInterface
     /**
      * @param array $idsSalesOrderItem
      *
-     * @return \Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer[]
+     * @return array<\Generated\Shared\Transfer\PaymentBraintreeOrderItemTransfer>
      */
     public function findPaymentBraintreeOrderItemsByIdsSalesOrderItem(array $idsSalesOrderItem): array;
 
@@ -51,7 +51,7 @@ interface BraintreeRepositoryInterface
     /**
      * @param int $idSalesOrder
      * @param string $transactionCode
-     * @param string|array $statusCode
+     * @param array|string $statusCode
      *
      * @return bool
      */

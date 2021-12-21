@@ -39,8 +39,10 @@ class PostSaveHook implements PostSaveHookInterface
         $paymentBraintreeTransactionStatusLogTransfer = $this->repository
             ->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId($checkoutResponse->getSaveOrder()->getIdSalesOrder());
 
-        if ($paymentBraintreeTransactionStatusLogTransfer &&
-            $paymentBraintreeTransactionStatusLogTransfer->getCode() != ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS) {
+        if (
+            $paymentBraintreeTransactionStatusLogTransfer &&
+            $paymentBraintreeTransactionStatusLogTransfer->getCode() != ApiConstants::PAYMENT_CODE_AUTHORIZE_SUCCESS
+        ) {
             $checkoutErrorTransfer = new CheckoutErrorTransfer();
             $checkoutErrorTransfer
                 ->setErrorCode($paymentBraintreeTransactionStatusLogTransfer->getCode())

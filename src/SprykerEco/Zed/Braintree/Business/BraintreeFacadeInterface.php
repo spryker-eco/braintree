@@ -128,7 +128,7 @@ interface BraintreeFacadeInterface
      *
      * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::refundOrderPayment()` instead.
      *
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $salesOrderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $salesOrderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrderEntity
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
@@ -212,6 +212,9 @@ interface BraintreeFacadeInterface
     public function isRefundApproved(OrderTransfer $orderTransfer);
 
     /**
+     * Specification:
+     * - TODO: write specification
+     *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer

@@ -12,6 +12,9 @@ use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
 
 class CaptureOrderTransaction extends AbstractTransaction
 {
+    /**
+     * @var string
+     */
     protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
 
     /**

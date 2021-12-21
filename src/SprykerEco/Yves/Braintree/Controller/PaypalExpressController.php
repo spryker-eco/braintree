@@ -18,7 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PaypalExpressController extends AbstractController
 {
+    /**
+     * @var string
+     */
     public const TRANSLATION_INVALID_SHIPMENT_METHOD = 'checkout.pre.check.shipment.failed';
+
+    /**
+     * @var bool
+     */
     public const IS_PAYPAL_ENABLED = true;
 
     /**
@@ -28,12 +35,14 @@ class PaypalExpressController extends AbstractController
      */
     public function successAction(Request $request): Response
     {
-        if (!self::IS_PAYPAL_ENABLED) {
+        if (!static::IS_PAYPAL_ENABLED) {
             echo 'The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.';
 
-            return;
-
+            return $this->jsonResponse([
+                'redirectUrl' => $this->getApplication()->path(CheckoutPageControllerProvider::CHECKOUT_SUMMARY),
+            ]);
         }
+
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
 
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
@@ -55,7 +64,7 @@ class PaypalExpressController extends AbstractController
         $form = $this->getFactory()->getFormFactory()->create(
             CheckoutShipmentForm::class,
             $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getData($quoteTransfer),
-            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getOptions($quoteTransfer)
+            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getOptions($quoteTransfer),
         );
 
         $form->handleRequest($request);
@@ -63,7 +72,7 @@ class PaypalExpressController extends AbstractController
         if ($form->isValid()) {
             $this->getFactory()->createQuoteExpander()->expandQuoteWithShipmentMethod(
                 $request,
-                $form->getData()->getShipment()->getShipmentSelection()
+                $form->getData()->getShipment()->getShipmentSelection(),
             );
 
             return $this->redirectResponseInternal(CheckoutPageControllerProvider::CHECKOUT_SUMMARY);

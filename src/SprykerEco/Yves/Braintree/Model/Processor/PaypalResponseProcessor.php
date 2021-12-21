@@ -59,7 +59,7 @@ class PaypalResponseProcessor implements PaypalResponseProcessorInterface
         $quoteTransfer = $this->quoteClient->getQuote();
         $quoteTransfer = $this->paypalResponseMapper->mapPaypalExpressSuccessResponseTransferToQuoteTransfer(
             $paypalExpressSuccessResponseTransfer,
-            $quoteTransfer
+            $quoteTransfer,
         );
 
         $this->quoteClient->setQuote($quoteTransfer);

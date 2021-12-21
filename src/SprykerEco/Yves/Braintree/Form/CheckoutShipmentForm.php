@@ -18,18 +18,45 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class CheckoutShipmentForm extends AbstractType
 {
+    /**
+     * @var string
+     */
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
 
+    /**
+     * @var string
+     */
     public const OPTION_SHIPMENT_METHODS = 'shipmentMethods';
+
+    /**
+     * @var string
+     */
     public const OPTION_ID_SELECTED_SHIPMENT_METHOD = 'idSelectedShipmentMethod';
 
+    /**
+     * @var string
+     */
     public const SHIPMENT_PROPERTY_PATH = 'shipment';
+
+    /**
+     * @var string
+     */
     public const SHIPMENT_SELECTION = 'shipmentSelection';
     public const SHIPMENT_SELECTION_PROPERTY_PATH = self::SHIPMENT_PROPERTY_PATH . '.' . self::SHIPMENT_SELECTION;
 
+    /**
+     * @var string
+     */
     public const FORM_NAME = 'checkoutShipmentForm';
 
+    /**
+     * @var string
+     */
     protected const VALIDATION_NOT_BLANK_MESSAGE = 'validation.not_blank';
+
+    /**
+     * @var string
+     */
     protected const ACTION_URL = '/paypal-express/shipment/add';
 
     /**
