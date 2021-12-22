@@ -71,7 +71,6 @@ jobs:
             -   name: Install eco-ci
                 run: git clone https://github.com/spryker-eco/eco-ci.git ecoci
 
-
             -   name: Execute test script
                 run: ./ecoci/build/ga.sh ${{ matrix.config.composer_preference }}
     test_mariadb:
