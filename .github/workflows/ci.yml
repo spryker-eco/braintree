@@ -69,8 +69,7 @@ jobs:
                     stack-version: 7.6.0
 
             -   name: Install eco-ci
-#                TODO: remove `-b bugfix/te-10379-fix-deprecatio-on-8-1`
-                run: git clone -b bugfix/te-10379-fix-deprecatio-on-8-1 https://github.com/spryker-eco/eco-ci.git ecoci
+                run: git clone https://github.com/spryker-eco/eco-ci.git ecoci
 
 
             -   name: Execute test script
@@ -122,8 +121,7 @@ jobs:
                     stack-version: 7.6.0
 
             -   name: Install eco-ci
-#                TODO: remove `-b bugfix/te-10379-fix-deprecatio-on-8-1`
-                run: git clone -b bugfix/te-10379-fix-deprecatio-on-8-1 https://github.com/spryker-eco/eco-ci.git ecoci
+                run: git clone https://github.com/spryker-eco/eco-ci.git ecoci
 
             -   name: Execute test script
                 run: ./ecoci/build/ga.sh ${{ matrix.config.composer_preference }}
