@@ -17,6 +17,11 @@
 /src/*/Zed/*/Persistence/Propel/Base/*
 /src/*/Zed/*/Persistence/Propel/Map/*
 
+# tooling
+vendor/
+composer.lock
+.phpunit.result.cache
+
 # OS
 .DS_Store
 
