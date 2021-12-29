@@ -33,7 +33,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
-            $this->getRevertTransactionMock()
+            $this->getRevertTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
@@ -53,7 +53,7 @@ class BraintreeFacadeRevertTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRevertTransaction']);
         $factoryMock->expects($this->once())->method('createRevertTransaction')->willReturn(
-            $this->getRevertTransactionMock(false)
+            $this->getRevertTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();

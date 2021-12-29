@@ -36,7 +36,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_AUTHORIZE,
-            ApiConstants::STATUS_CODE_AUTHORIZE
+            ApiConstants::STATUS_CODE_AUTHORIZE,
         );
     }
 
@@ -50,7 +50,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_REVERSAL,
-            ApiConstants::STATUS_CODE_REVERSAL
+            ApiConstants::STATUS_CODE_REVERSAL,
         );
     }
 
@@ -74,7 +74,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_CAPTURE,
-            ApiConstants::STATUS_CODE_CAPTURE_SUBMITTED
+            ApiConstants::STATUS_CODE_CAPTURE_SUBMITTED,
         );
     }
 
@@ -88,7 +88,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
         return $this->hasTransactionStatusLog(
             $orderTransfer,
             ApiConstants::TRANSACTION_CODE_REFUND,
-            [ApiConstants::STATUS_CODE_REVERSAL, ApiConstants::STATUS_CODE_REFUND]
+            [ApiConstants::STATUS_CODE_REVERSAL, ApiConstants::STATUS_CODE_REFUND],
         );
     }
 
@@ -107,7 +107,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
             ->isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
                 $idSalesOrder,
                 $transactionCode,
-                $statusCode
+                $statusCode,
             );
     }
 }

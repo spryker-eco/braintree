@@ -22,23 +22,69 @@ use SprykerEco\Yves\Braintree\Dependency\Service\BraintreeToUtilEncodingServiceB
 use SprykerShop\Yves\CheckoutPage\Plugin\ShipmentHandlerPlugin;
 use SprykerShop\Yves\MoneyWidget\Plugin\MoneyPlugin;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class BraintreeDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const PLUGIN_CURRENCY = 'PLUGIN_CURRENCY';
 
+    /**
+     * @var string
+     */
     public const CLIENT_QUOTE = 'CLIENT_QUOTE';
+
+    /**
+     * @var string
+     */
     public const CLIENT_PAYMENT = 'CLIENT_PAYMENT';
+
+    /**
+     * @var string
+     */
     public const CLIENT_SHIPMENT = 'CLIENT_SHIPMENT';
+
+    /**
+     * @var string
+     */
     public const CLIENT_GLOSSARY = 'CLIENT_GLOSSARY';
+
+    /**
+     * @var string
+     */
     public const CLIENT_CALCULATION = 'CLIENT_CALCULATION';
+
+    /**
+     * @var string
+     */
     public const CLIENT_COUNTRY = 'CLIENT_COUNTRY';
+
+    /**
+     * @var string
+     */
     public const CLIENT_MESSENGER = 'CLIENT_MESSENGER';
 
+    /**
+     * @var string
+     */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
 
+    /**
+     * @var string
+     */
     public const PLUGIN_MONEY = 'PLUGIN_MONEY';
+
+    /**
+     * @var string
+     */
     public const PLUGIN_SHIPMENT_HANDLER = 'PLUGIN_SHIPMENT_HANDLER';
 
+    /**
+     * @var string
+     */
     public const STORE = 'STORE';
 
     /**

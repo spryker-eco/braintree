@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PaypalExpressController extends AbstractController
 {
+    /**
+     * @var string
+     */
     public const TRANSLATION_INVALID_SHIPMENT_METHOD = 'checkout.pre.check.shipment.failed';
 
     /**
@@ -51,7 +54,7 @@ class PaypalExpressController extends AbstractController
         $form = $this->getFactory()->getFormFactory()->create(
             CheckoutShipmentForm::class,
             $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getData($quoteTransfer),
-            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getOptions($quoteTransfer)
+            $this->getFactory()->createBraintreePaypalExpressShipmentFormDataProvider()->getOptions($quoteTransfer),
         );
 
         $form->handleRequest($request);
@@ -59,7 +62,7 @@ class PaypalExpressController extends AbstractController
         if ($form->isValid()) {
             $this->getFactory()->createQuoteExpander()->expandQuoteWithShipmentMethod(
                 $request,
-                $form->getData()->getShipment()->getShipmentSelection()
+                $form->getData()->getShipment()->getShipmentSelection(),
             );
 
             return $this->redirectResponseInternal(CheckoutPageControllerProvider::CHECKOUT_SUMMARY);

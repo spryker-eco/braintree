@@ -6,6 +6,11 @@
 /.settings
 *.sublime-*
 
+# tooling
+vendor/
+composer.lock
+.phpunit.result.cache
+
 # OS
 .DS_Store
 *.AppleDouble

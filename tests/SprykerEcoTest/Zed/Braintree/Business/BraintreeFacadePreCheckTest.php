@@ -34,7 +34,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
-            $this->getPreCheckTransactionMock()
+            $this->getPreCheckTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $orderTransfer = $this->createOrderTransfer();
@@ -55,7 +55,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
         $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
-            $this->getPreCheckTransactionMock(false)
+            $this->getPreCheckTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $orderTransfer = $this->createOrderTransfer();
@@ -81,7 +81,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
             ->getMockBuilder(PreCheckTransaction::class)
             ->setMethods(['preCheck', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)]
+                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)],
             )
             ->getMock();
 

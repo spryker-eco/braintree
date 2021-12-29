@@ -24,7 +24,7 @@ class PaymentTransactionHandler extends AbstractTransactionHandler implements Pa
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setQuote($quoteTransfer);
         $transactionMetaTransfer->setTransactionIdentifier('');
-        $transactionMetaTransfer->setIdPayment('');
+        $transactionMetaTransfer->setIdPayment(null);
 
         $response = $this->transaction->executeTransaction($transactionMetaTransfer);
         $quoteTransfer->getPayment()->setBraintreeTransactionResponse($response);

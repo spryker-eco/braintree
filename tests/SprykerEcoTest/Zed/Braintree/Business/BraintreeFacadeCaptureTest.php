@@ -32,7 +32,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock()
+            $this->getCaptureOrderTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -51,7 +51,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock(false)
+            $this->getCaptureOrderTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -70,7 +70,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock()
+            $this->getCaptureOrderTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -89,7 +89,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureOrderTransaction']);
         $factoryMock->method('createCaptureOrderTransaction')->willReturn(
-            $this->getCaptureOrderTransactionMock(false)
+            $this->getCaptureOrderTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -108,7 +108,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureItemsTransaction']);
         $factoryMock->method('createCaptureItemsTransaction')->willReturn(
-            $this->getCaptureItemsTransactionMock()
+            $this->getCaptureItemsTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -127,7 +127,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createCaptureItemsTransaction']);
         $factoryMock->method('createCaptureItemsTransaction')->willReturn(
-            $this->getCaptureItemsTransactionMock(false)
+            $this->getCaptureItemsTransactionMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -149,7 +149,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
             ->getMockBuilder(CaptureOrderTransaction::class)
             ->setMethods(['capture', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 
@@ -180,7 +180,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
             ->setMethods(['capture', 'initializeBraintree', 'afterTransaction'])
             ->disableOriginalConstructor()
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 

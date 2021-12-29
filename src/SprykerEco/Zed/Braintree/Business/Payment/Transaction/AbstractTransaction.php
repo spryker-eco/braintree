@@ -65,7 +65,7 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function getIdPayment()
     {
-        return $this->transactionMetaTransfer->requireIdPayment()->getIdPayment();
+        return $this->transactionMetaTransfer->getIdPaymentOrFail();
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class AbstractTransaction implements TransactionInterface
             $this->getTransactionIdentifier(),
             $this->getTransactionType(),
             $this->getTransactionCode(),
-            $this->getIdPayment()
+            $this->getIdPayment(),
         );
     }
 

@@ -75,7 +75,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new AuthorizeTransactionHandler(
             $this->createAuthorizeTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -86,7 +86,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new CaptureItemsTransactionHandler(
             $this->createCaptureItemsTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -97,7 +97,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new CaptureOrderTransactionHandler(
             $this->createCaptureOrderTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -108,7 +108,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new PreCheckTransactionHandler(
             $this->createPreCheckTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -119,7 +119,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new PaymentTransactionHandler(
             $this->createPaymentTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -131,7 +131,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
         return new RefundOrderTransactionHandler(
             $this->createRefundOrderTransaction(),
             $this->createDefaultTransactionMetaVisitor(),
-            $this->getRefundFacade()
+            $this->getRefundFacade(),
         );
     }
 
@@ -144,7 +144,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->createRefundItemsTransaction(),
             $this->createDefaultTransactionMetaVisitor(),
             $this->getRefundFacade(),
-            $this->getRepository()
+            $this->getRepository(),
         );
     }
 
@@ -155,7 +155,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new RevertTransactionHandler(
             $this->createRevertTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -196,6 +196,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
      */
     public function createDefaultTransactionMetaVisitor(): TransactionMetaVisitorComposite
     {
+        /** @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite $transactionMetaVisitorComposite */
         $transactionMetaVisitorComposite = $this->createTransactionMetaVisitorComposite();
         $transactionMetaVisitorComposite->addVisitor($this->createPaymentTransactionMetaVisitor());
 
@@ -237,7 +238,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->getRepository(),
             $this->getEntityManager(),
             $this->getSalesFacade(),
-            $this->createShipmentTransactionHandler()
+            $this->createShipmentTransactionHandler(),
         );
     }
 
@@ -248,7 +249,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new ShipmentTransaction(
             $this->getConfig(),
-            $this->getEntityManager()
+            $this->getEntityManager(),
         );
     }
 
@@ -259,7 +260,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new ShipmentRefundTransaction(
             $this->getConfig(),
-            $this->getEntityManager()
+            $this->getEntityManager(),
         );
     }
 
@@ -270,7 +271,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new ShipmentTransactionHandler(
             $this->createShipmentTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -281,7 +282,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new ShipmentRefundTransactionHandler(
             $this->createShipmentRefundTransaction(),
-            $this->createDefaultTransactionMetaVisitor()
+            $this->createDefaultTransactionMetaVisitor(),
         );
     }
 
@@ -318,7 +319,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->getConfig(),
             $this->getMoneyFacade(),
             $this->createShipmentRefundTransactionHandler(),
-            $this->getRepository()
+            $this->getRepository(),
         );
     }
 
@@ -331,7 +332,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
             $this->getConfig(),
             $this->getMoneyFacade(),
             $this->createShipmentRefundTransactionHandler(),
-            $this->getRepository()
+            $this->getRepository(),
         );
     }
 

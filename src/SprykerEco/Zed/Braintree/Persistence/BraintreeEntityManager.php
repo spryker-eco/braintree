@@ -59,7 +59,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
             foreach ($paymentBraintreeOrderItemEntities as $paymentBraintreeOrderItemEntity) {
                 $paymentBraintreeTransactionOrderItemEntity = new SpyPaymentBraintreeTransactionStatusLogToOrderItem();
                 $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeTransactionStatusLog(
-                    $paymentBraintreeTransactionStatusLogEntity->getIdPaymentBraintreeTransactionStatusLog()
+                    $paymentBraintreeTransactionStatusLogEntity->getIdPaymentBraintreeTransactionStatusLog(),
                 );
                 $paymentBraintreeTransactionOrderItemEntity->setFkPaymentBraintreeOrderItem($paymentBraintreeOrderItemEntity->getIdPaymentBraintreeOrderItem());
 

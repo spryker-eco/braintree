@@ -14,6 +14,9 @@ use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
 class StatusLog extends AbstractTable implements BraintreeTableInterface
 {
+    /**
+     * @var string
+     */
     public const FIELD_DETAILS = 'FIELD_DETAILS';
 
     /**
@@ -27,7 +30,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
     protected $idPayment;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected static $includeFields = [
         SpyPaymentBraintreeTransactionStatusLogTableMap::COL_TRANSACTION_ID,
@@ -72,7 +75,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
             $translatedFieldName = SpyPaymentBraintreeTransactionStatusLogTableMap::translateFieldName(
                 $fieldName,
                 SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME,
-                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME
+                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME,
             );
 
             $fieldLabel = str_replace(['processing_', 'identification_'], '', $translatedFieldName);
@@ -115,7 +118,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
             $translatedFieldName = SpyPaymentBraintreeTransactionStatusLogTableMap::translateFieldName(
                 $fieldName,
                 SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME,
-                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME
+                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME,
             );
 
             $resultArray[$translatedFieldName] = $logItem[$fieldName];
@@ -136,7 +139,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
     protected function getDetailsFieldValue(array $logItem)
     {
         $fieldNames = SpyPaymentBraintreeTransactionStatusLogTableMap::getFieldNames(
-            SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME
+            SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME,
         );
         $tupleRows = [];
         foreach ($fieldNames as $fieldName) {
@@ -147,7 +150,7 @@ class StatusLog extends AbstractTable implements BraintreeTableInterface
             $translatedFieldName = SpyPaymentBraintreeTransactionStatusLogTableMap::translateFieldName(
                 $fieldName,
                 SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_COLNAME,
-                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME
+                SpyPaymentBraintreeTransactionStatusLogTableMap::TYPE_FIELDNAME,
             );
 
             $tupleRows[] = sprintf('%s:&nbsp;%s', $translatedFieldName, $logItem[$fieldName]);

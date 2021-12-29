@@ -16,12 +16,34 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PayPalSubForm extends AbstractSubForm
 {
+    /**
+     * @var string
+     */
     public const PAYMENT_METHOD = 'pay-pal';
 
+    /**
+     * @var string
+     */
     public const ENV = 'env';
+
+    /**
+     * @var string
+     */
     public const CLIENT_TOKEN = 'clientToken';
+
+    /**
+     * @var string
+     */
     public const AMOUNT = 'amount';
+
+    /**
+     * @var string
+     */
     public const CURRENCY = 'currency';
+
+    /**
+     * @var string
+     */
     public const LOCALE = 'locale';
 
     /**

@@ -56,7 +56,7 @@ class QuoteExpander implements QuoteExpanderInterface
         $quoteClient = $this->quoteClient;
 
         $quoteTransfer = $quoteClient->getQuote();
-        $quoteTransfer->getShipment()->setShipmentSelection($idShipmentMethod);
+        $quoteTransfer->getShipment()->setShipmentSelection((string)$idShipmentMethod);
         $quoteTransfer = $this->shipmentHandlerPlugin->addToDataClass($request, $quoteTransfer);
         $quoteTransfer = $this->calculationClient->recalculate($quoteTransfer);
 

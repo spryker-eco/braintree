@@ -21,12 +21,29 @@ use SprykerEco\Yves\Braintree\Form\CheckoutShipmentForm;
 
 class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInterface
 {
+    /**
+     * @var string
+     */
     public const FIELD_ID_SHIPMENT_METHOD = 'idShipmentMethod';
 
+    /**
+     * @var string
+     */
     public const TRANSLATION_KEY_DELIVERY_TIME = 'page.checkout.shipping.delivery_time';
+
+    /**
+     * @var string
+     */
     public const TRANSLATION_KEY_DAY = 'page.checkout.shipping.day';
+
+    /**
+     * @var string
+     */
     public const TRANSLATION_KEY_DAYS = 'page.checkout.shipping.days';
 
+    /**
+     * @var int
+     */
     protected const SECONDS_IN_A_DAY = 86400;
 
     /**
@@ -109,7 +126,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
                 $shipmentMethods[$shipmentMethodTransfer->getCarrierName()] = [];
             }
             $description = $this->getShipmentDescription(
-                $shipmentMethodTransfer
+                $shipmentMethodTransfer,
             );
             $shipmentMethods[$shipmentMethodTransfer->getCarrierName()][$description] = $shipmentMethodTransfer->getIdShipmentMethod();
         }
@@ -158,7 +175,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
                 $shipmentDescription,
                 $this->translate(static::TRANSLATION_KEY_DELIVERY_TIME),
                 $deliveryTime,
-                $this->getTranslatedDayName($deliveryTime)
+                $this->getTranslatedDayName($deliveryTime),
             );
         }
 

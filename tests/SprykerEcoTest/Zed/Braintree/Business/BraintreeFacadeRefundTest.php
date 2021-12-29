@@ -39,10 +39,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundOrderTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundOrderTransaction')->willReturn(
-            $this->getRefundOrderTransactionMock()
+            $this->getRefundOrderTransactionMock(),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock()
+            $this->getRefundFacadeMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -61,10 +61,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundOrderTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundOrderTransaction')->willReturn(
-            $this->getRefundOrderTransactionMock(false)
+            $this->getRefundOrderTransactionMock(false),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock(false)
+            $this->getRefundFacadeMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -83,10 +83,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundOrderTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundOrderTransaction')->willReturn(
-            $this->getRefundOrderTransactionMock()
+            $this->getRefundOrderTransactionMock(),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock()
+            $this->getRefundFacadeMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -105,10 +105,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundOrderTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundOrderTransaction')->willReturn(
-            $this->getRefundOrderTransactionMock(false)
+            $this->getRefundOrderTransactionMock(false),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock(false)
+            $this->getRefundFacadeMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -127,10 +127,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundItemsTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundItemsTransaction')->willReturn(
-            $this->getRefundItemsTransactionMock()
+            $this->getRefundItemsTransactionMock(),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock()
+            $this->getRefundFacadeMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -146,10 +146,10 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createRefundItemsTransaction', 'getRefundFacade']);
         $factoryMock->method('createRefundItemsTransaction')->willReturn(
-            $this->getRefundItemsTransactionMock(false)
+            $this->getRefundItemsTransactionMock(false),
         );
         $factoryMock->method('getRefundFacade')->willReturn(
-            $this->getRefundFacadeMock(false)
+            $this->getRefundFacadeMock(false),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 

@@ -22,20 +22,79 @@ use SprykerEco\Yves\Braintree\Dependency\Client\BraintreeToPaymentClientInterfac
 
 class PaypalResponseMapper implements PaypalResponseMapperInterface
 {
+    /**
+     * @var string
+     */
     protected const KEY_NONCE = 'nonce';
+
+    /**
+     * @var string
+     */
     protected const KEY_DETAILS = 'details';
+
+    /**
+     * @var string
+     */
     protected const KEY_EMAIL = 'email';
+
+    /**
+     * @var string
+     */
     protected const KEY_FIRST_NAME = 'firstName';
+
+    /**
+     * @var string
+     */
     protected const KEY_LAST_NAME = 'lastName';
+
+    /**
+     * @var string
+     */
     protected const KEY_PAYER_ID = 'payerId';
+
+    /**
+     * @var string
+     */
     protected const KEY_SHIPPING_ADDRESS = 'shippingAddress';
+
+    /**
+     * @var string
+     */
     protected const KEY_RECIPIENT_NAME = 'recipientName';
+
+    /**
+     * @var string
+     */
     protected const KEY_LINE1 = 'line1';
+
+    /**
+     * @var string
+     */
     protected const KEY_CITY = 'city';
+
+    /**
+     * @var string
+     */
     protected const KEY_STATE = 'state';
+
+    /**
+     * @var string
+     */
     protected const KEY_POSTAL_CODE = 'postalCode';
+
+    /**
+     * @var string
+     */
     protected const KEY_COUNTRY_CODE = 'countryCode';
+
+    /**
+     * @var string
+     */
     protected const KEY_CURRENCY = 'currency';
+
+    /**
+     * @var string
+     */
     protected const KEY_AMOUNT = 'amount';
 
     /**
@@ -156,10 +215,6 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $countryCollectionTransfer = $this->countryClient->findCountriesByIso2Codes($countryCollectionTransfer);
 
         $countryTransfers = $countryCollectionTransfer->getCountries();
-
-        if ($countryTransfers === null) {
-            return null;
-        }
 
         $countryTransfersArrayCopy = $countryTransfers->getArrayCopy();
         $countryTransfer = array_shift($countryTransfersArrayCopy);

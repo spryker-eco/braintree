@@ -12,7 +12,14 @@ use SprykerShop\Yves\ShopApplication\Plugin\Provider\AbstractYvesControllerProvi
 
 class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
 {
+    /**
+     * @var string
+     */
     public const ROUTE_PAYPAL_EXPRESS_SUCCESS_RESPONSE = 'paypal-express-success';
+
+    /**
+     * @var string
+     */
     public const ROUTE_PAYPAL_EXPRESS_SHIPMENT_ADD = 'paypal-express-shipment-add';
 
     /**
@@ -40,7 +47,7 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
             static::ROUTE_PAYPAL_EXPRESS_SUCCESS_RESPONSE,
             'Braintree',
             'PaypalExpress',
-            'success'
+            'success',
         );
 
         return $this;
@@ -58,7 +65,7 @@ class PaypalExpressControllerProvider extends AbstractYvesControllerProvider
             static::ROUTE_PAYPAL_EXPRESS_SHIPMENT_ADD,
             'Braintree',
             'PaypalExpress',
-            'addShipment'
+            'addShipment',
         );
 
         return $this;

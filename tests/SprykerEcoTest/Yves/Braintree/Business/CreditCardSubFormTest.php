@@ -64,11 +64,11 @@ class CreditCardSubFormTest extends Unit
 
         $this->assertSame(
             $addressTransfer->getFirstName(),
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME],
         );
         $this->assertSame(
             $addressTransfer->getLastName(),
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME],
         );
     }
 
@@ -90,11 +90,11 @@ class CreditCardSubFormTest extends Unit
 
         $this->assertSame(
             'Soniuea',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME],
         );
         $this->assertSame(
             'WDagner',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME],
         );
     }
 
@@ -116,11 +116,11 @@ class CreditCardSubFormTest extends Unit
 
         $this->assertSame(
             'Herr',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME],
         );
         $this->assertSame(
             'Muessig',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME],
         );
     }
 
@@ -142,11 +142,11 @@ class CreditCardSubFormTest extends Unit
 
         $this->assertSame(
             'KoBue',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_GIVEN_NAME],
         );
         $this->assertSame(
             'AffDPS',
-            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME]
+            $view->vars[CreditCardSubForm::BILLING_ADDRESS][CreditCardSubForm::BILLING_ADDRESS_SURNAME],
         );
     }
 

@@ -32,7 +32,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
-            $this->getAuthorizeTransactionMock()
+            $this->getAuthorizeTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
@@ -53,7 +53,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
         // Arrange
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
-            $this->getAuthorizeTransactionMock(true)
+            $this->getAuthorizeTransactionMock(true),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
@@ -76,7 +76,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
             ->getMockBuilder(AuthorizeTransaction::class)
             ->setMethods(['findTransaction', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig()]
+                [new BraintreeConfig()],
             )
             ->getMock();
 

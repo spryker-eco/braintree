@@ -162,7 +162,7 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
                 [
                     SpyPaymentBraintreeTransactionRequestLogTableMap::COL_TRANSACTION_ID,
                     Propel::getConnection()->quote($transactionCode),
-                ]
+                ],
             );
     }
 

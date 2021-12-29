@@ -19,10 +19,15 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface;
 
 class CaptureItemsTransaction extends AbstractTransaction
 {
+    /**
+     * @var string
+     */
     protected const ATTRIBUTE_KEY_ORDER_ID = 'orderId';
 
     /**
      * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
@@ -114,7 +119,7 @@ class CaptureItemsTransaction extends AbstractTransaction
             $this->braintreeEntityManager->addOrderItemsToTransactionLog(
                 $this->getIdPayment(),
                 $this->transactionMetaTransfer->getItems(),
-                $braintreeTransactionResponseTransfer->getTransactionId()
+                $braintreeTransactionResponseTransfer->getTransactionId(),
             );
 
             return $braintreeTransactionResponseTransfer;
@@ -142,12 +147,12 @@ class CaptureItemsTransaction extends AbstractTransaction
         return BraintreeTransaction::submitForPartialSettlement(
             $this->getTransactionIdentifier(),
             $amount,
-            $attributes
+            $attributes,
         );
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
      *
      * @return int
      */
@@ -204,7 +209,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ExpenseTransfer[] $expenseTransfers
+     * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
      *
      * @return int
      */

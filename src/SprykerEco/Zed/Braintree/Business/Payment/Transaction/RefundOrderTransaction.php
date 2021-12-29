@@ -20,6 +20,8 @@ class RefundOrderTransaction extends AbstractTransaction
 {
     /**
      * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE|\Spryker\Shared\Shipment\ShipmentConstants::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
@@ -93,7 +95,7 @@ class RefundOrderTransaction extends AbstractTransaction
 
         return BraintreeTransaction::refund(
             $this->getTransactionIdentifier(),
-            $this->findAmount()
+            $this->findAmount(),
         );
     }
 
