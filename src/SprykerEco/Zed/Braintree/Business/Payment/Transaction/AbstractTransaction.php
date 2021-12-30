@@ -53,7 +53,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getTransactionIdentifier()
     {
@@ -74,7 +74,7 @@ abstract class AbstractTransaction implements TransactionInterface
     protected function beforeTransaction()
     {
         $this->logApiRequest(
-            $this->getTransactionIdentifier(),
+            (string)$this->getTransactionIdentifier(),
             $this->getTransactionType(),
             $this->getTransactionCode(),
             $this->getIdPayment(),
@@ -130,7 +130,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
@@ -152,7 +152,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */

@@ -35,7 +35,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
 
     /**
      * @param int $idPaymentBraintree
-     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject $itemTransfers
      * @param string $transactionId
      *
      * @return void
@@ -109,7 +109,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject $itemTransfers
      *
      * @return array
      */

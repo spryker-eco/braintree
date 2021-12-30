@@ -50,6 +50,6 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
     {
         $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
 
-        return $this->repository->findPaymentBraintreeBySalesOrderId($idSalesOrderEntity);
+        return $this->repository->findPaymentBraintreeBySalesOrderId((int)$idSalesOrderEntity);
     }
 }

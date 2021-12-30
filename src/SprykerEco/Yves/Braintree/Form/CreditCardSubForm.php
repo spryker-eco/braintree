@@ -146,8 +146,8 @@ class CreditCardSubForm extends AbstractSubForm
             $view->vars[static::EMAIL] = $quote->getCustomer()->getEmail();
             $view->vars[static::AMOUNT] = $quote->getTotals()->getGrandTotal();
             $view->vars[static::BILLING_ADDRESS] = [
-                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getFirstName()),
-                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getLastName()),
+                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat((string)$quote->getBillingAddress()->getFirstName()),
+                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat((string)$quote->getBillingAddress()->getLastName()),
                 static::BILLING_ADDRESS_PHONE_NUMBER => $quote->getBillingAddress()->getPhone(),
                 static::BILLING_ADDRESS_STREET_ADDRESS => $quote->getBillingAddress()->getAddress1(),
                 static::BILLING_ADDRESS_EXTENDED_ADDRESS => $quote->getBillingAddress()->getAddress2(),

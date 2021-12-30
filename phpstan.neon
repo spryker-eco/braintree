@@ -9,10 +9,14 @@ parameters:
     checkMissingIterableValueType: false
     ignoreErrors:
         - '#Call to method .+\(\) on an unknown class Generated\\Zed\\Ide\\AutoCompletion#'
-        - '#Call to static method create\(\) on an unknown class .+Query.#'
-        - '#Call to method .+\(\) on an unknown class Orm\\.+#'
-        - '#Instantiated class Orm\\Zed\\Braintree\\Persistence\\.+ not found.#'
-        - '#Class Orm\\Zed\\Braintree\\Persistence\\.+ not found.#'
-        - '#unknown class Orm\\Zed\\Braintree\\Persistence\\.+#'
+        - '#Call to method .+\(\) on an unknown class Generated\\Yves\\Ide\\AutoCompletion#'
+        - '#Cannot call method .+ on .+Transfer\|null\.#'
+        - '#Cannot call method .+ on .+Spy.+\|null\.#'
+        - '#Parameter .+ of method .+ expects .+Transfer, .+Transfer\|null given\.#'
+        - '#Access to an undefined property .+success\.#'
+        - '#Access to an undefined property .+transaction\.#'
+        - '#Call to an undefined method .+filterByIsSuccess\(\)\.#'
+        - '#Call to an undefined method .+filterByIsShipmentOperation\(\)\.#'
+        - '#Call to an undefined method .+orderByIdPaymentBraintreeTransactionStatusLog\(\)\.#'
     excludePaths:
         - src/SprykerEco/Zed/Braintree/Persistence/Propel/Abstract*.php

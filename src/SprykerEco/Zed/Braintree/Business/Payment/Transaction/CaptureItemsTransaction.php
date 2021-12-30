@@ -119,7 +119,7 @@ class CaptureItemsTransaction extends AbstractTransaction
             $this->braintreeEntityManager->addOrderItemsToTransactionLog(
                 $this->getIdPayment(),
                 $this->transactionMetaTransfer->getItems(),
-                $braintreeTransactionResponseTransfer->getTransactionId(),
+                (string)$braintreeTransactionResponseTransfer->getTransactionId(),
             );
 
             return $braintreeTransactionResponseTransfer;
@@ -182,8 +182,8 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function captureShipmentAmount(): void
     {
-        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrder());
-        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
+        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder((int)$this->transactionMetaTransfer->getIdSalesOrder());
+        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId((int)$orderTransfer->getIdSalesOrder());
         $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
         if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount === 0) {
@@ -191,7 +191,7 @@ class CaptureItemsTransaction extends AbstractTransaction
         }
 
         $shipmentTransactionMetaTransfer = clone $this->transactionMetaTransfer;
-        $shipmentTransactionMetaTransfer->setCaptureShipmentAmount($this->getDecimalAmountValueFromInt($amount));
+        $shipmentTransactionMetaTransfer->setCaptureShipmentAmount((int)$this->getDecimalAmountValueFromInt((int)$amount));
 
         $this->shipmentTransactionHandler->captureShipment($shipmentTransactionMetaTransfer);
     }
@@ -211,9 +211,9 @@ class CaptureItemsTransaction extends AbstractTransaction
     /**
      * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
      *
-     * @return int
+     * @return int|null
      */
-    protected function getShipmentExpenses(iterable $expenseTransfers): int
+    protected function getShipmentExpenses(iterable $expenseTransfers): ?int
     {
         foreach ($expenseTransfers as $expenseTransfer) {
             if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {

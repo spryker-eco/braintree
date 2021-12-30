@@ -63,8 +63,8 @@ class BraintreeHandler implements BraintreeHandlerInterface
     {
         $paymentSelection = $quoteTransfer->getPayment()->getPaymentSelection();
 
-        $this->setPaymentProviderAndMethod($quoteTransfer, $paymentSelection);
-        $this->setBraintreePayment($request, $quoteTransfer, $paymentSelection);
+        $this->setPaymentProviderAndMethod($quoteTransfer, (string)$paymentSelection);
+        $this->setBraintreePayment($request, $quoteTransfer, (string)$paymentSelection);
 
         return $quoteTransfer;
     }
@@ -111,13 +111,13 @@ class BraintreeHandler implements BraintreeHandlerInterface
             ->setCurrencyIso3Code($this->getCurrency())
             ->setLanguageIso2Code($billingAddress->getIso2Code())
             ->setClientIp($request->getClientIp())
-            ->setNonce($nonce);
+            ->setNonce((string)$nonce);
 
         $quoteTransfer->getPayment()->setBraintree(clone $braintreePaymentTransfer);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getCurrency()
     {

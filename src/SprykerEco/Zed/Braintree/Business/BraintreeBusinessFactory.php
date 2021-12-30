@@ -383,7 +383,7 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     {
         return new CheckoutPostSaveHook(
             $this->createPaymentTransactionHandler(),
-            $this->createOrderSaver()
+            $this->createOrderSaver(),
         );
     }
 }

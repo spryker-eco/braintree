@@ -133,11 +133,11 @@ class PaymentTransaction extends AbstractTransaction
     {
         $grandTotal = $this->getQuote()->requireTotals()->getTotals()->getGrandTotal();
 
-        return $this->moneyFacade->convertIntegerToDecimal($grandTotal);
+        return $this->moneyFacade->convertIntegerToDecimal((int)$grandTotal);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getNonce()
     {
@@ -145,7 +145,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\BraintreePaymentTransfer
+     * @return \Generated\Shared\Transfer\BraintreePaymentTransfer|null
      */
     protected function getBraintreePayment()
     {
@@ -153,7 +153,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getPaymentSelection()
     {
@@ -163,7 +163,7 @@ class PaymentTransaction extends AbstractTransaction
     /**
      * Customer is not required for guest checkout, so no `requireCustomer()`
      *
-     * @return \Generated\Shared\Transfer\CustomerTransfer
+     * @return \Generated\Shared\Transfer\CustomerTransfer|null
      */
     protected function getCustomer()
     {
@@ -171,7 +171,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\PaymentTransfer
+     * @return \Generated\Shared\Transfer\PaymentTransfer|null
      */
     protected function getPayment()
     {
@@ -179,7 +179,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\QuoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer|null
      */
     protected function getQuote()
     {
@@ -187,7 +187,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\AddressTransfer
+     * @return \Generated\Shared\Transfer\AddressTransfer|null
      */
     protected function getBillingAddress()
     {
@@ -195,7 +195,7 @@ class PaymentTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\AddressTransfer
+     * @return \Generated\Shared\Transfer\AddressTransfer|null
      */
     protected function getShippingAddress()
     {

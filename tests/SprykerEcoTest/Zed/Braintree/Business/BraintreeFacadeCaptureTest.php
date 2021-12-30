@@ -188,7 +188,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
             $captureTransactionMock->method('capture')->willReturn($this->getErrorResponse());
 
             $captureTransactionMock->method('afterTransaction')->willReturn(
-                $this->tester->getBraintreeTransactionResponseTransfer(false)
+                $this->tester->getBraintreeTransactionResponseTransfer(false),
             );
 
             return $captureTransactionMock;
@@ -200,7 +200,7 @@ class BraintreeFacadeCaptureTest extends AbstractFacadeTest
         ]);
         $captureTransactionMock->method('capture')->willReturn($transactionResponse);
         $captureTransactionMock->method('afterTransaction')->willReturn(
-            $this->tester->getBraintreeTransactionResponseTransfer(true)
+            $this->tester->getBraintreeTransactionResponseTransfer(true),
         );
 
         return $captureTransactionMock;

@@ -151,7 +151,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      */
     protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
-        $shipmentDescription = $this->translate($shipmentMethodTransfer->getName());
+        $shipmentDescription = $this->translate((string)$shipmentMethodTransfer->getName());
 
         $shipmentDescription = $this->appendDeliveryTime($shipmentMethodTransfer, $shipmentDescription);
         $shipmentDescription = $this->appendShipmentPrice($shipmentMethodTransfer, $shipmentDescription);
@@ -218,7 +218,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     protected function getFormattedShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
         $moneyTransfer = $this->moneyPlugin
-            ->fromInteger($shipmentMethodTransfer->getStoreCurrencyPrice());
+            ->fromInteger((int)$shipmentMethodTransfer->getStoreCurrencyPrice());
 
         return $this->moneyPlugin->formatWithSymbol($moneyTransfer);
     }

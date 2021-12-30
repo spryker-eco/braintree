@@ -14,6 +14,9 @@ use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 class CheckoutPaymentChecker implements CheckoutPaymentCheckerInterface
 {
+    /**
+     * @var string
+     */
     protected const ERROR_MESSAGE_INVALID_PARAMETER_NONCE = 'Parameter `NONCE` is invalid.';
 
     /**

@@ -41,7 +41,7 @@ class Saver implements SaverInterface
         if ($quoteTransfer->getPayment()->getPaymentProvider() === BraintreeConfig::PROVIDER_NAME) {
             $paymentEntity = $this->savePaymentForOrder(
                 $quoteTransfer->getPayment()->getBraintree(),
-                $saveOrderTransfer->getIdSalesOrder(),
+                (int)$saveOrderTransfer->getIdSalesOrder(),
             );
 
             $this->savePaymentForOrderItems(
@@ -74,7 +74,7 @@ class Saver implements SaverInterface
 
         $paymentEntity
             ->setStreet($formattedStreet)
-            ->setCountryIso2Code($addressTransfer->getIso2Code())
+            ->setCountryIso2Code((string)$addressTransfer->getIso2Code())
             ->setFkSalesOrder($idSalesOrder);
         $paymentEntity->save();
 
@@ -114,6 +114,6 @@ class Saver implements SaverInterface
         $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
         $braintreePaymentTransfer = $paymentTransfer->getBraintree();
 
-        $this->braintreeEntityManager->updatePaymentByIdSalesOrder($idSalesOrder, $braintreePaymentTransfer);
+        $this->braintreeEntityManager->updatePaymentByIdSalesOrder((int)$idSalesOrder, $braintreePaymentTransfer);
     }
 }

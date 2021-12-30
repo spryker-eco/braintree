@@ -65,7 +65,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
             $this->hasTransactionStatusLog(
                 $orderTransfer,
                 ApiConstants::TRANSACTION_CODE_CAPTURE,
-                ApiConstants::STATUS_CODE_CAPTURE
+                ApiConstants::STATUS_CODE_CAPTURE,
             )
         ) {
             return true;
@@ -95,7 +95,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
     /**
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      * @param string $transactionCode
-     * @param string|array $statusCode
+     * @param array|string $statusCode
      *
      * @return bool
      */
@@ -105,7 +105,7 @@ class TransactionStatusLog implements TransactionStatusLogInterface
 
         return $this->repository
             ->isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
-                $idSalesOrder,
+                (int)$idSalesOrder,
                 $transactionCode,
                 $statusCode,
             );

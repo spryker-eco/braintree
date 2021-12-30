@@ -113,7 +113,7 @@ class BraintreeQueryContainer extends AbstractQueryContainer implements Braintre
      *
      * @param int $idSalesOrder
      *
-     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+     * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeOrderItemQuery|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLogQuery|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery|\Orm\Zed\Sales\Persistence\SpySalesOrderQuery
      */
     public function queryTransactionStatusLogBySalesOrderId($idSalesOrder)
     {

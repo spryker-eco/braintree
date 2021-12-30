@@ -63,10 +63,10 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
         /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $factoryMock */
         $factoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
         $factoryMock->expects($this->once())->method('createPaymentTransaction')->willReturn(
-            $this->getPaymentTransactionMock($isSuccess)
+            $this->getPaymentTransactionMock($isSuccess),
         );
         $factoryMock->expects($this->once())->method('createOrderSaver')->willReturn(
-            $this->getOrderSaverMock()
+            $this->getOrderSaverMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
 
@@ -90,7 +90,7 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
             ->getMockBuilder(PaymentTransaction::class)
             ->setMethods(['doTransaction', 'initializeBraintree'])
             ->setConstructorArgs(
-                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)]
+                [new BraintreeConfig(), new BraintreeToMoneyFacadeBridge($moneyFacadeMock)],
             )
             ->getMock();
 
