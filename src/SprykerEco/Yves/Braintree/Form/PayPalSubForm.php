@@ -8,8 +8,10 @@
 namespace SprykerEco\Yves\Braintree\Form;
 
 use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Spryker\Shared\Config\Config;
 use Spryker\Shared\Kernel\Store;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
+use SprykerEco\Shared\Braintree\BraintreeConstants;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -95,6 +97,7 @@ class PayPalSubForm extends AbstractSubForm
 
         $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
         $view->vars[static::LOCALE] = Store::getInstance()->getCurrentLocale();
+        $view->vars[static::ENV] = Config::get(BraintreeConstants::ENVIRONMENT);
 
         $parentForm = $form->getParent();
         if ($parentForm instanceof FormInterface) {
