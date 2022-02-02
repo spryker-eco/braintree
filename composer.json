@@ -28,6 +28,7 @@
         "spryker/shipment": "^6.0.0 || ^7.0.0 || ^8.0.0",
         "spryker/step-engine": "^3.1.0",
         "spryker/symfony": "^3.4.0",
+        "spryker/transfer": "^3.25.0",
         "spryker/util-encoding": "^2.0.0",
         "spryker/util-text": "^1.1.0"
     },
@@ -49,7 +50,6 @@
         "spryker/event": "*",
         "spryker/log": "*",
         "spryker/monolog": "*",
-        "spryker/transfer": "^3.25.0",
         "spryker/queue": "*"
     },
     "suggest": {
