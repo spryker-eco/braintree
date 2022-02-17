@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 
@@ -30,7 +30,7 @@ class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
         // Arrange
         $braintreeFacade = $this->getBraintreeFacade();
         $orderTransfer = $this->createOrderTransfer();
-        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
+        $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
         $checkoutResponseTransfer = $this->createMock(CheckoutResponseTransfer::class);
         $checkoutResponseTransfer->setIsSuccess(true);
 
@@ -49,7 +49,7 @@ class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
         // Arrange
         $braintreeFacade = $this->getBraintreeFacade();
         $orderTransfer = $this->createOrderTransfer();
-        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
+        $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
         $quoteTransfer->getPayment()->getBraintree()->setNonce(null);
         $checkoutResponseTransfer = $this->createMock(CheckoutResponseTransfer::class);
         $checkoutResponseTransfer->expects($this->once())

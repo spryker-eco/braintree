@@ -176,6 +176,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function addPaymentTransfer(
         QuoteTransfer $quoteTransfer,
@@ -184,7 +185,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $brainTreePaymentTransfer = new BraintreePaymentTransfer();
         $brainTreePaymentTransfer->setNonce($paypalExpressSuccessResponseTransfer->getNonce());
         $brainTreePaymentTransfer->setBillingAddress($quoteTransfer->getBillingAddress());
-        $brainTreePaymentTransfer->setLanguageIso2Code(mb_strtolower((string)$quoteTransfer->getBillingAddress()->getIso2Code()));
+        $brainTreePaymentTransfer->setLanguageIso2Code(mb_strtolower($quoteTransfer->getBillingAddressOrFail()->getIso2CodeOrFail()));
         $brainTreePaymentTransfer->setCurrencyIso3Code($paypalExpressSuccessResponseTransfer->getCurrency());
         $brainTreePaymentTransfer->setEmail($quoteTransfer->getShippingAddress()->getEmail());
 
@@ -193,7 +194,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $paymentTransfer->setBraintreePayPalExpress($brainTreePaymentTransfer);
         $paymentTransfer->setBraintree($brainTreePaymentTransfer);
         $paymentTransfer->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS);
-        $paymentTransfer->setAmount($this->moneyPlugin->convertDecimalToInteger((float)$paypalExpressSuccessResponseTransfer->getAmount()));
+        $paymentTransfer->setAmount($this->moneyPlugin->convertDecimalToInteger($paypalExpressSuccessResponseTransfer->getAmountOrFail()));
 
         $quoteTransfer->setPayment($paymentTransfer);
 
@@ -285,6 +286,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
      * @return \Generated\Shared\Transfer\AddressTransfer
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function getAddressTransfer(
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
@@ -294,7 +296,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $addressTransfer->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
         $addressTransfer->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
 
-        $countryTransfer = $this->findCountryTransfer((string)$paypalExpressSuccessResponseTransfer->getCountryCode());
+        $countryTransfer = $this->findCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCodeOrFail());
         if ($countryTransfer) {
             $addressTransfer->setCountry($countryTransfer);
             $addressTransfer->setIso2Code($countryTransfer->getIso2Code());

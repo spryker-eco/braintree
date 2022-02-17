@@ -96,7 +96,7 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
      *
      * @return void
      */
-    public function updatePaymentByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $braintreePaymentTransfer): void
+    public function updatePaymentBraintreeByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $braintreePaymentTransfer): void
     {
         $paymentBraintreeEntity = $this
             ->getFactory()

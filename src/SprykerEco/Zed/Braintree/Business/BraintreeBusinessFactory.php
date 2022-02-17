@@ -192,9 +192,9 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface
      */
-    public function createDefaultTransactionMetaVisitor(): TransactionMetaVisitorComposite
+    public function createDefaultTransactionMetaVisitor(): TransactionMetaVisitorInterface
     {
         /** @var \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite $transactionMetaVisitorComposite */
         $transactionMetaVisitorComposite = $this->createTransactionMetaVisitorComposite();
@@ -204,9 +204,9 @@ class BraintreeBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorComposite
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\MetaVisitor\TransactionMetaVisitorInterface
      */
-    public function createTransactionMetaVisitorComposite(): TransactionMetaVisitorComposite
+    public function createTransactionMetaVisitorComposite(): TransactionMetaVisitorInterface
     {
         return new TransactionMetaVisitorComposite();
     }

@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/github/license/spryker-eco/adyen.svg?b=master)](https://github.com/spryker-eco/adyen)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
 
+Braintree is an integration module for implementing Braintree payment functionality in the store (www.braintreepayments.com). Payment options are PayPal and Credit Card.
+
 ## Installation
 
 ```

@@ -51,9 +51,9 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
     ): CheckoutResponseTransfer {
         $quoteTransfer = $this->paymentTransactionHandler->createPayment($quoteTransfer, $checkoutResponseTransfer);
 
-        $braintreeTransactionResponseTransfer = $quoteTransfer->getPayment()->getBraintreeTransactionResponse();
+        $braintreeTransactionResponseTransfer = $quoteTransfer->getPaymentOrFail()->getBraintreeTransactionResponse();
         if (!$braintreeTransactionResponseTransfer->getIsSuccess()) {
-            $checkoutErrorTransfer = $this->buildCheckoutErrorTransfer($braintreeTransactionResponseTransfer);
+            $checkoutErrorTransfer = $this->createCheckoutErrorTransfer($braintreeTransactionResponseTransfer);
             $checkoutResponseTransfer->addError($checkoutErrorTransfer);
 
             return $checkoutResponseTransfer;
@@ -69,7 +69,7 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
      *
      * @return \Generated\Shared\Transfer\CheckoutErrorTransfer
      */
-    protected function buildCheckoutErrorTransfer(BraintreeTransactionResponseTransfer $braintreeTransactionResponseTransfer): CheckoutErrorTransfer
+    protected function createCheckoutErrorTransfer(BraintreeTransactionResponseTransfer $braintreeTransactionResponseTransfer): CheckoutErrorTransfer
     {
         $errorCode = $braintreeTransactionResponseTransfer->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR;
         $checkoutErrorTransfer = new CheckoutErrorTransfer();

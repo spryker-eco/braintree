@@ -1,6 +1,6 @@
 {
     "include": {
-        "spryker/transfer": "Module provides new getOrFail functionality."
+        "spryker/transfer": "Provides transfer objects definition with `::get*OrFail()` functionality."
     },
     "include-dev": {
         "codeception/module-asserts": "Codeception module containing various assertions.",

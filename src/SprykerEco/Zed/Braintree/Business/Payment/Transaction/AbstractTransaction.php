@@ -105,8 +105,7 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $transaction = $response->transaction;
-            $statusHistory = $transaction->__get('statusHistory');
+            $statusHistory = $response->transaction->__get('statusHistory');
 
             $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $statusHistory);
 

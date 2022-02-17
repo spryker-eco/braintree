@@ -60,7 +60,6 @@
 
     <!-- Data dependency on the Address transfer object -->
     <transfer name="Address">
-        <property name="salutation" type="string"/>
         <property name="firstName" type="string"/>
         <property name="lastName" type="string"/>
         <property name="address1" type="string"/>
@@ -71,6 +70,7 @@
         <property name="zipCode" type="string"/>
         <property name="state" type="string"/>
         <property name="iso2Code" type="string"/>
+        <property name="salutation" type="string"/>
         <property name="region" type="string"/>
     </transfer>
 

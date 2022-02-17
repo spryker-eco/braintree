@@ -24,22 +24,19 @@ class CheckoutPaymentChecker implements CheckoutPaymentCheckerInterface
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return bool
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     public function isQuotePaymentValid(
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): bool {
-        $paymentTransfer = $quoteTransfer
-            ->requirePayment()
-            ->getPayment();
+        $paymentTransfer = $quoteTransfer->getPaymentOrFail();
 
         if ($paymentTransfer->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
             return true;
         }
 
-        $braintreePaymentTransfer = $paymentTransfer
-            ->requireBraintree()
-            ->getBraintree();
+        $braintreePaymentTransfer = $paymentTransfer->getBraintreeOrFail();
 
         if (!$braintreePaymentTransfer->getNonce()) {
             $checkoutResponseTransfer

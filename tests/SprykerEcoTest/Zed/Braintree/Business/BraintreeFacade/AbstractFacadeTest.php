@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Result\Error;
 use Codeception\Test\Unit;
@@ -158,7 +158,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @return void
      */
-    private function addPaymentTestData(): void
+    protected function addPaymentTestData(): void
     {
         $this->paymentEntity = (new SpyPaymentBraintree())
             ->setFkSalesOrder($this->getOrderEntity()->getIdSalesOrder())
@@ -332,24 +332,41 @@ class AbstractFacadeTest extends Unit
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
-    protected function getQuoteTransfer(OrderTransfer $orderTransfer): QuoteTransfer
+    protected function createQuoteTransfer(OrderTransfer $orderTransfer): QuoteTransfer
     {
-        $quoteTransfer = new QuoteTransfer();
-        $quoteTransfer->setCustomer(new CustomerTransfer());
-        $quoteTransfer->setBillingAddress($orderTransfer->getBillingAddress());
-        $quoteTransfer->setShippingAddress($orderTransfer->getShippingAddress());
-        $quoteTransfer->setOrderReference($orderTransfer->getOrderReference());
-        $quoteTransfer->setTotals($orderTransfer->getTotals());
+        $quoteTransfer = (new QuoteTransfer())
+            ->setCustomer(new CustomerTransfer())
+            ->setBillingAddress($orderTransfer->getBillingAddress())
+            ->setShippingAddress($orderTransfer->getShippingAddress())
+            ->setOrderReference($orderTransfer->getOrderReference())
+            ->setTotals($orderTransfer->getTotals());
 
-        $paymentTransfer = new PaymentTransfer();
-        $paymentTransfer->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL);
-        $paymentTransfer->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
+        $paymentTransfer = (new PaymentTransfer())
+            ->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
+            ->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
 
-        $braintreeTransfer = new BraintreePaymentTransfer();
-        $braintreeTransfer->setNonce('fake_valid_nonce');
+        $braintreeTransfer = (new BraintreePaymentTransfer())->setNonce('fake_valid_nonce');
+
         $paymentTransfer->setBraintree($braintreeTransfer);
 
         $quoteTransfer->setPayment($paymentTransfer);
+
+        return $quoteTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    protected function createQuoteTransferWithEmptyPayment(OrderTransfer $orderTransfer): QuoteTransfer
+    {
+        $quoteTransfer = (new QuoteTransfer())
+            ->setCustomer(new CustomerTransfer())
+            ->setBillingAddress($orderTransfer->getBillingAddress())
+            ->setShippingAddress($orderTransfer->getShippingAddress())
+            ->setOrderReference($orderTransfer->getOrderReference())
+            ->setTotals($orderTransfer->getTotals());
 
         return $quoteTransfer;
     }

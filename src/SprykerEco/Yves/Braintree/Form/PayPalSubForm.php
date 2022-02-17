@@ -90,6 +90,8 @@ class PayPalSubForm extends AbstractSubForm
      * @param array $options The options
      *
      * @return void
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
+     * @throws \Spryker\Shared\Kernel\Locale\LocaleNotFoundException
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -101,11 +103,11 @@ class PayPalSubForm extends AbstractSubForm
 
         $parentForm = $form->getParent();
         if ($parentForm instanceof FormInterface) {
-            /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
-            $quote = $parentForm->getViewData();
+            /** @var \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer */
+            $quoteTransfer = $parentForm->getViewData();
 
-            $view->vars[static::AMOUNT] = $quote->getTotals()->getGrandTotal();
-            $view->vars[static::CURRENCY] = $quote->getCurrency()->getCode();
+            $view->vars[static::AMOUNT] = $quoteTransfer->getTotalsOrFail()->getGrandTotal();
+            $view->vars[static::CURRENCY] = $quoteTransfer->getCurrencyOrFail()->getCode();
         }
     }
 }

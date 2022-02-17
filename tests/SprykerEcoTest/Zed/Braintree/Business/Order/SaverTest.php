@@ -53,9 +53,9 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver(new BraintreeEntityManager());
+        $braintreeEntityManager = new Saver(new BraintreeEntityManager());
 
-        $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+        $braintreeEntityManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder(
             $saveOrderTransfer->getIdSalesOrder(),
@@ -73,9 +73,9 @@ class SaverTest extends Unit
     {
         $saveOrderTransfer = $this->createSaveOrderTransfer();
         $quoteTransfer = $this->getQuoteTransfer($saveOrderTransfer);
-        $orderManager = new Saver(new BraintreeEntityManager());
+        $braintreeEntityManager = new Saver(new BraintreeEntityManager());
 
-        $orderManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+        $braintreeEntityManager->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         $paymentTransfer = $quoteTransfer->getPayment()->getBraintree();
         $addressTransfer = $paymentTransfer->getBillingAddress();
@@ -111,10 +111,10 @@ class SaverTest extends Unit
         $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
         $this->createPaymentEntity($idSalesOrder);
 
-        $orderManager = new Saver(new BraintreeEntityManager());
+        $braintreeEntityManager = new Saver(new BraintreeEntityManager());
 
         // Act
-        $orderManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
+        $braintreeEntityManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         // Asset
         $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);

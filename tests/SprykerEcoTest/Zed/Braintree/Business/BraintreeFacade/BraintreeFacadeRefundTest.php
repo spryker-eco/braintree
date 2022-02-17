@@ -5,13 +5,14 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Transaction\StatusDetails;
 use DateTime;
 use Generated\Shared\Transfer\RefundTransfer;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Method\ApiConstants;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AbstractTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundItemsTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
@@ -160,9 +161,9 @@ class BraintreeFacadeRefundTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\RefundOrderTransaction
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\AbstractTransaction
      */
-    protected function getRefundOrderTransactionMock(bool $success = true): RefundOrderTransaction
+    protected function getRefundOrderTransactionMock(bool $success = true): AbstractTransaction
     {
         /** @var \Spryker\Zed\Money\Business\MoneyFacadeInterface $moneyFacadeMock */
         $moneyFacadeMock = $this->getMoneyFacadeMock();

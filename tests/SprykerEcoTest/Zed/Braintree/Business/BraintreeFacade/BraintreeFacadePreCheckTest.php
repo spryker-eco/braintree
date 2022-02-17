@@ -5,10 +5,11 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Transaction\CreditCardDetails;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
+use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AbstractTransaction;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
@@ -38,7 +39,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $orderTransfer = $this->createOrderTransfer();
-        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
+        $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
 
         // Act
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
@@ -59,7 +60,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
         $orderTransfer = $this->createOrderTransfer();
-        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
+        $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
 
         // Act
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
@@ -71,9 +72,9 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     /**
      * @param bool $success
      *
-     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\PreCheckTransaction|\PHPUnit\Framework\MockObject\MockObject
+     * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\AbstractTransaction|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPreCheckTransactionMock(bool $success = true): PreCheckTransaction
+    protected function getPreCheckTransactionMock(bool $success = true): AbstractTransaction
     {
         /** @var \Spryker\Zed\Money\Business\MoneyFacadeInterface $moneyFacadeMock */
         $moneyFacadeMock = $this->getMoneyFacadeMock();

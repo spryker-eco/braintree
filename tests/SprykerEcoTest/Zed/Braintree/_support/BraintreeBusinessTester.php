@@ -88,26 +88,10 @@ class BraintreeBusinessTester extends Actor
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */
-    public function getCheckoutResponseTransfer(OrderTransfer $orderTransfer): CheckoutResponseTransfer
+    public function createCheckoutResponseTransfer(OrderTransfer $orderTransfer): CheckoutResponseTransfer
     {
-        $saveOrderTransfer = $this->createSaveOrderTransfer($orderTransfer);
+        $saveOrderTransfer = (new SaveOrderTransfer())->setIdSalesOrder($orderTransfer->getIdSalesOrder());
 
-        $checkoutTransfer = new CheckoutResponseTransfer();
-        $checkoutTransfer->setSaveOrder($saveOrderTransfer);
-
-        return $checkoutTransfer;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\SaveOrderTransfer
-     */
-    public function createSaveOrderTransfer(OrderTransfer $orderTransfer): SaveOrderTransfer
-    {
-        $saveOrderTransfer = new SaveOrderTransfer();
-        $saveOrderTransfer->setIdSalesOrder($orderTransfer->getIdSalesOrder());
-
-        return $saveOrderTransfer;
+        return (new CheckoutResponseTransfer())->setSaveOrder($saveOrderTransfer);
     }
 }

@@ -23,6 +23,9 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
     /**
      * {@inheritDoc}
      * - Checks if quote payment is valid.
+     * - Checks if Braintree has a nonce.
+     * - Requires `QuoteTransfer.payment.braintree` to be set.
+     * - Returns `true` if payment provider is not Braintree.
      *
      * @api
      *

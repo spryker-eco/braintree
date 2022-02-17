@@ -5,12 +5,14 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Transaction\CreditCardDetails;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
+use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\PaymentTransaction;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeBridge;
 use SprykerEco\Zed\Braintree\Dependency\Facade\BraintreeToMoneyFacadeInterface;
@@ -27,7 +29,7 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
  * @group BraintreeFacadeCheckoutPostSaveHookTest
  * Add your own group annotations below this line
  */
-class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
+class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
 {
     /**
      * @return void
@@ -35,10 +37,10 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
     public function testCheckoutPostSaveHookWithSuccessfulResponse(): void
     {
         // Act
-        $response = $this->executeCheckoutPostSaveHook();
+        $checkoutResponseTransfer = $this->executeCheckoutPostSaveHook();
 
         // Assert
-        $this->assertTrue($response->getIsSuccess());
+        $this->assertTrue($checkoutResponseTransfer->getIsSuccess());
     }
 
     /**
@@ -54,25 +56,41 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
     }
 
     /**
+     * @return void
+     */
+    public function testCheckoutPostSaveHookWithEmptyPaymentExpectException(): void
+    {
+        // Assert
+        $this->expectException(NullValueException::class);
+
+        // Act
+       $this->executeCheckoutPostSaveHook(false, true);
+    }
+
+    /**
      * @param bool $isSuccess
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */
-    protected function executeCheckoutPostSaveHook(bool $isSuccess = true): CheckoutResponseTransfer
+    protected function executeCheckoutPostSaveHook(bool $isSuccess = true, bool $isEmptyPayment = false): CheckoutResponseTransfer
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $factoryMock */
-        $factoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
-        $factoryMock->expects($this->once())->method('createPaymentTransaction')->willReturn(
+        /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $braintreeBusinessFactoryMock */
+        $braintreeBusinessFactoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
+        $braintreeBusinessFactoryMock->expects($this->once())->method('createPaymentTransaction')->willReturn(
             $this->getPaymentTransactionMock($isSuccess),
         );
-        $factoryMock->expects($this->once())->method('createOrderSaver')->willReturn(
+        $braintreeBusinessFactoryMock->expects($this->once())->method('createOrderSaver')->willReturn(
             $this->getOrderSaverMock(),
         );
-        $braintreeFacade = $this->getBraintreeFacade($factoryMock);
+        $braintreeFacade = $this->getBraintreeFacade($braintreeBusinessFactoryMock);
 
         $orderTransfer = $this->createOrderTransfer();
-        $quoteTransfer = $this->getQuoteTransfer($orderTransfer);
-        $checkoutResponseTransfer = $this->tester->getCheckoutResponseTransfer($orderTransfer);
+        if (!$isEmptyPayment) {
+            $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
+        } else {
+            $quoteTransfer = $this->createQuoteTransferWithEmptyPayment($orderTransfer);
+        }
+        $checkoutResponseTransfer = $this->tester->createCheckoutResponseTransfer($orderTransfer);
 
         return $braintreeFacade->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
@@ -123,9 +141,9 @@ class BraintreeFacadeCheckoutPostSaveHookTest extends AbstractFacadeTest
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Order\Saver
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Order\SaverInterface
      */
-    protected function getOrderSaverMock(): Saver
+    protected function getOrderSaverMock(): SaverInterface
     {
         return $this
             ->getMockBuilder(Saver::class)
