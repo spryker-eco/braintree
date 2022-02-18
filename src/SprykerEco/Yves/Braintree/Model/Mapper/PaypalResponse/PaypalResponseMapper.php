@@ -176,7 +176,6 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function addPaymentTransfer(
         QuoteTransfer $quoteTransfer,
@@ -286,7 +285,6 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
      * @param \Generated\Shared\Transfer\PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer
      *
      * @return \Generated\Shared\Transfer\AddressTransfer
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function getAddressTransfer(
         PaypalExpressSuccessResponseTransfer $paypalExpressSuccessResponseTransfer

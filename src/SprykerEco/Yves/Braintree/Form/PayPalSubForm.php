@@ -90,8 +90,6 @@ class PayPalSubForm extends AbstractSubForm
      * @param array $options The options
      *
      * @return void
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     * @throws \Spryker\Shared\Kernel\Locale\LocaleNotFoundException
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {

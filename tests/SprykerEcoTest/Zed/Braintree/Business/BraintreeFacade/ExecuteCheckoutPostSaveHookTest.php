@@ -9,7 +9,7 @@ namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Transaction\CreditCardDetails;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
-use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
+use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
@@ -61,14 +61,15 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
     public function testCheckoutPostSaveHookWithEmptyPaymentExpectException(): void
     {
         // Assert
-        $this->expectException(NullValueException::class);
+        $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-       $this->executeCheckoutPostSaveHook(false, true);
+        $this->executeCheckoutPostSaveHook(false, true);
     }
 
     /**
      * @param bool $isSuccess
+     * @param bool $isEmptyPayment
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */

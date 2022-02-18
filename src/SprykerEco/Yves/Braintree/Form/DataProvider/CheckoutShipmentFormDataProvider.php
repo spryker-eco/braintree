@@ -148,7 +148,6 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      * @param \Generated\Shared\Transfer\ShipmentMethodTransfer $shipmentMethodTransfer
      *
      * @return string
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {

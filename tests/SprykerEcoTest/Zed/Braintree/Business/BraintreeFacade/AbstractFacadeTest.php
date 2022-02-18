@@ -23,10 +23,9 @@ use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery;
 use Orm\Zed\Country\Persistence\SpyCountryQuery;
 use Orm\Zed\Customer\Persistence\Map\SpyCustomerTableMap;
-use Orm\Zed\Customer\Persistence\SpyCustomerQuery;
+use Orm\Zed\Customer\Persistence\SpyCustomer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
-use Orm\Zed\Sales\Persistence\SpySalesOrderQuery;
 use Spryker\Zed\Kernel\Container;
 use SprykerEco\Shared\Braintree\BraintreeConfig as SharedBraintreeConfig;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
@@ -118,33 +117,17 @@ class AbstractFacadeTest extends Unit
 
         $billingAddress->save();
 
-        $customer = (new SpyCustomerQuery())
-            ->filterByFirstName('John')
-            ->filterByLastName('Doe')
-            ->filterByEmail('john@doe.com')
-            ->filterByDateOfBirth('1970-01-01')
-            ->filterByGender(SpyCustomerTableMap::COL_GENDER_MALE)
-            ->filterByCustomerReference('braintree-pre-authorization-test')
-            ->findOneOrCreate();
+        $customer = (new SpyCustomer())
+            ->setFirstName('John')
+            ->setLastName('Doe')
+            ->setEmail('john@doe.com')
+            ->setDateOfBirth('1970-01-01')
+            ->setGender(SpyCustomerTableMap::COL_GENDER_MALE)
+            ->setCustomerReference('braintree-pre-authorization-test');
 
-        if ($customer->isNew()) {
-            $customer->save();
-        }
+        $customer->save();
 
-        $this->orderEntity = (new SpySalesOrderQuery())
-            ->filterByEmail('john@doe.com')
-            ->filterByIsTest(true)
-            ->filterByFkSalesOrderAddressBilling($billingAddress->getIdSalesOrderAddress())
-            ->filterByFkSalesOrderAddressShipping($billingAddress->getIdSalesOrderAddress())
-            ->filterByFkCustomer($customer->getIdCustomer())
-            ->filterByOrderReference('foo-bar-baz-2')
-            ->findOneOrCreate();
-
-        if ($this->orderEntity->isNew()) {
-            $this->orderEntity->save();
-        }
-
-        /*$this->orderEntity = (new SpySalesOrder())
+        $this->orderEntity = (new SpySalesOrder())
             ->setEmail('john@doe.com')
             ->setIsTest(true)
             ->setFkSalesOrderAddressBilling($billingAddress->getIdSalesOrderAddress())
@@ -152,7 +135,7 @@ class AbstractFacadeTest extends Unit
             ->setCustomer($customer)
             ->setOrderReference('foo-bar-baz-2');
 
-        $this->orderEntity->save();*/
+        $this->orderEntity->save();
     }
 
     /**

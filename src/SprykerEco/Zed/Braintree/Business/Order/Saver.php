@@ -56,8 +56,6 @@ class Saver implements SaverInterface
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return void
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
-     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
     {
@@ -77,7 +75,6 @@ class Saver implements SaverInterface
      * @param int $idSalesOrder
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     protected function savePaymentForOrder(BraintreePaymentTransfer $paymentTransfer, $idSalesOrder)
     {
