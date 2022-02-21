@@ -7,6 +7,8 @@
 
 Braintree is an integration module for implementing Braintree payment functionality in the store (www.braintreepayments.com). Payment options are PayPal and Credit Card.
 
+The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.
+
 ## Installation
 
 ```
