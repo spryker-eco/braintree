@@ -56,7 +56,6 @@ class Saver implements SaverInterface
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return void
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     public function updateOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer): void
     {

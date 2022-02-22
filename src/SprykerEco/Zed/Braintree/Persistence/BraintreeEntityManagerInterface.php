@@ -38,6 +38,7 @@ interface BraintreeEntityManagerInterface
     public function addOrderItemsToTransactionLog(int $idPaymentBraintree, iterable $itemTransfers, string $transactionId): void;
 
     /**
+     * @param int $idSalesOrder
      * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $paymentData
      *
      * @throws \Propel\Runtime\Exception\PropelException

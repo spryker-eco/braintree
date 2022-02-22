@@ -64,12 +64,11 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->executeCheckoutPostSaveHookWithEmptyPayment( true);
+        $this->executeCheckoutPostSaveHookWithEmptyPayment(true);
     }
 
     /**
      * @param bool $isSuccess
-     * @param bool $isEmptyPayment
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */

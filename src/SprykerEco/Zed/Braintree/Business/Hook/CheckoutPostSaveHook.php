@@ -44,7 +44,6 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     public function executeCheckoutPostSaveHook(
         QuoteTransfer $quoteTransfer,
