@@ -64,7 +64,7 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
         $this->expectException(RequiredTransferPropertyException::class);
 
         // Act
-        $this->executeCheckoutPostSaveHook(false, true);
+        $this->executeCheckoutPostSaveHookWithEmptyPayment( true);
     }
 
     /**
@@ -73,7 +73,7 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */
-    protected function executeCheckoutPostSaveHook(bool $isSuccess = true, bool $isEmptyPayment = false): CheckoutResponseTransfer
+    protected function executeCheckoutPostSaveHook(bool $isSuccess = true): CheckoutResponseTransfer
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $braintreeBusinessFactoryMock */
         $braintreeBusinessFactoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
@@ -86,11 +86,29 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
         $braintreeFacade = $this->getBraintreeFacade($braintreeBusinessFactoryMock);
 
         $orderTransfer = $this->createOrderTransfer();
-        if (!$isEmptyPayment) {
-            $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
-        } else {
-            $quoteTransfer = $this->createQuoteTransferWithEmptyPayment($orderTransfer);
-        }
+        $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
+        $checkoutResponseTransfer = $this->tester->createCheckoutResponseTransfer($orderTransfer);
+
+        return $braintreeFacade->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    protected function executeCheckoutPostSaveHookWithEmptyPayment(): CheckoutResponseTransfer
+    {
+        /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $braintreeBusinessFactoryMock */
+        $braintreeBusinessFactoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
+        $braintreeBusinessFactoryMock->expects($this->once())->method('createPaymentTransaction')->willReturn(
+            $this->getPaymentTransactionMock(false),
+        );
+        $braintreeBusinessFactoryMock->expects($this->once())->method('createOrderSaver')->willReturn(
+            $this->getOrderSaverMock(),
+        );
+        $braintreeFacade = $this->getBraintreeFacade($braintreeBusinessFactoryMock);
+
+        $orderTransfer = $this->createOrderTransfer();
+        $quoteTransfer = $this->createQuoteTransferWithEmptyPayment($orderTransfer);
         $checkoutResponseTransfer = $this->tester->createCheckoutResponseTransfer($orderTransfer);
 
         return $braintreeFacade->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);

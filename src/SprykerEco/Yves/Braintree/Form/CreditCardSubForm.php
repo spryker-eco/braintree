@@ -130,6 +130,7 @@ class CreditCardSubForm extends AbstractSubForm
      * @param array $options The options
      *
      * @return void
+     * @throws \Spryker\Shared\Kernel\Transfer\Exception\NullValueException
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -140,21 +141,21 @@ class CreditCardSubForm extends AbstractSubForm
 
         $parentForm = $form->getParent();
         if ($parentForm instanceof FormInterface) {
-            /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
-            $quote = $parentForm->getViewData();
+            /** @var \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer */
+            $quoteTransfer = $parentForm->getViewData();
 
-            $view->vars[static::EMAIL] = $quote->getCustomer()->getEmail();
-            $view->vars[static::AMOUNT] = $quote->getTotals()->getGrandTotal();
+            $view->vars[static::EMAIL] = $quoteTransfer->getCustomerOrFail()->getEmail();
+            $view->vars[static::AMOUNT] = $quoteTransfer->getTotals()->getGrandTotal();
             $view->vars[static::BILLING_ADDRESS] = [
-                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getFirstNameOrFail()),
-                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getLastNameOrFail()),
-                static::BILLING_ADDRESS_PHONE_NUMBER => $quote->getBillingAddress()->getPhone(),
-                static::BILLING_ADDRESS_STREET_ADDRESS => $quote->getBillingAddress()->getAddress1(),
-                static::BILLING_ADDRESS_EXTENDED_ADDRESS => $quote->getBillingAddress()->getAddress2(),
-                static::BILLING_ADDRESS_LOCALITY => $quote->getBillingAddress()->getCountry() ? $quote->getBillingAddress()->getCountry()->getName() : '',
-                static::BILLING_ADDRESS_REGION => $quote->getBillingAddress()->getRegion(),
-                static::BILLING_ADDRESS_POSTAL_CODE => $quote->getBillingAddress()->getZipCode(),
-                static::BILLING_ADDRESS_COUNTRY_CODE => $quote->getBillingAddress()->getCountry() ? $quote->getBillingAddress()->getCountry()->getIso2Code() : '',
+                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($quoteTransfer->getBillingAddressOrFail()->getFirstNameOrFail()),
+                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($quoteTransfer->getBillingAddressOrFail()->getLastNameOrFail()),
+                static::BILLING_ADDRESS_PHONE_NUMBER => $quoteTransfer->getBillingAddressOrFail()->getPhone(),
+                static::BILLING_ADDRESS_STREET_ADDRESS => $quoteTransfer->getBillingAddressOrFail()->getAddress1(),
+                static::BILLING_ADDRESS_EXTENDED_ADDRESS => $quoteTransfer->getBillingAddressOrFail()->getAddress2(),
+                static::BILLING_ADDRESS_LOCALITY => $quoteTransfer->getBillingAddressOrFail()->getCountry() ? $quoteTransfer->getBillingAddressOrFail()->getCountry()->getName() : '',
+                static::BILLING_ADDRESS_REGION => $quoteTransfer->getBillingAddressOrFail()->getRegion(),
+                static::BILLING_ADDRESS_POSTAL_CODE => $quoteTransfer->getBillingAddressOrFail()->getZipCode(),
+                static::BILLING_ADDRESS_COUNTRY_CODE => $quoteTransfer->getBillingAddressOrFail()->getCountry() ? $quoteTransfer->getBillingAddressOrFail()->getCountry()->getIso2Code() : '',
             ];
         }
     }

@@ -20,7 +20,7 @@ use Generated\Shared\Transfer\CheckoutResponseTransfer;
  * @group BraintreeFacadeIsQuotePaymentValidTest
  * Add your own group annotations below this line
  */
-class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
+class IsQuotePaymentValidTest extends AbstractFacadeTest
 {
     /**
      * @return void
@@ -28,17 +28,16 @@ class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
     public function testIsQuotePaymentValidWithSuccessfulResponse(): void
     {
         // Arrange
-        $braintreeFacade = $this->getBraintreeFacade();
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
         $checkoutResponseTransfer = $this->createMock(CheckoutResponseTransfer::class);
         $checkoutResponseTransfer->setIsSuccess(true);
 
         // Act
-        $result = $braintreeFacade->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
+        $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertTrue($result);
+        $this->assertTrue($isValid);
     }
 
     /**
@@ -47,7 +46,6 @@ class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
     public function testIsQuotePaymentValidWithErrorResponse(): void
     {
         // Arrange
-        $braintreeFacade = $this->getBraintreeFacade();
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
         $quoteTransfer->getPayment()->getBraintree()->setNonce(null);
@@ -58,9 +56,9 @@ class BraintreeFacadeIsQuotePaymentValidTest extends AbstractFacadeTest
             ->willReturnSelf();
 
         // Act
-        $result = $braintreeFacade->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
+        $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertFalse($result);
+        $this->assertFalse($isValid);
     }
 }

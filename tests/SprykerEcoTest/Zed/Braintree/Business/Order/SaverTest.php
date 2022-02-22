@@ -109,7 +109,7 @@ class SaverTest extends Unit
             ->getPaymentType();
 
         $idSalesOrder = $saveOrderTransfer->getIdSalesOrder();
-        $this->createPaymentEntity($idSalesOrder);
+        $this->createPaymentBraintreeEntity($idSalesOrder);
 
         $braintreeEntityManager = new Saver(new BraintreeEntityManager());
 
@@ -117,8 +117,8 @@ class SaverTest extends Unit
         $braintreeEntityManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
 
         // Asset
-        $paymentEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
-        $this->assertSame($braintreePaymentType, $paymentEntity->getPaymentType());
+        $paymentBraintreeEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
+        $this->assertSame($braintreePaymentType, $paymentBraintreeEntity->getPaymentType());
     }
 
     /**
@@ -319,7 +319,7 @@ class SaverTest extends Unit
      */
     protected function createAndGetOrderEntity(SpySalesOrderAddress $billingAddressEntity, SpyCustomer $customerEntity)
     {
-        $order = (new SpySalesOrderQuery())->filterByIdSalesOrder(1)->findOne();
+        $order = (new SpySalesOrderQuery())->filterByEmail('john@doe.com')->findOne();
 
         if (!$order) {
             $order = (new SpySalesOrderQuery())
@@ -356,7 +356,7 @@ class SaverTest extends Unit
      *
      * @return \Orm\Zed\Braintree\Persistence\SpyPaymentBraintree
      */
-    protected function createPaymentEntity(int $idSalesOrder): SpyPaymentBraintree
+    protected function createPaymentBraintreeEntity(int $idSalesOrder): SpyPaymentBraintree
     {
         $spyPaymentBraintree = (new SpyPaymentBraintree())
             ->setFkSalesOrder($idSalesOrder)

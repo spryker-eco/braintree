@@ -33,11 +33,11 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
     public function testPreCheckPaymentWithSuccessfulResponse(): void
     {
         // Arrange
-        $factoryMock = $this->getFactoryMock(['createPreCheckTransaction']);
-        $factoryMock->expects($this->once())->method('createPreCheckTransaction')->willReturn(
+        $braintreeBusinessFactory = $this->getFactoryMock(['createPreCheckTransaction']);
+        $braintreeBusinessFactory->expects($this->once())->method('createPreCheckTransaction')->willReturn(
             $this->getPreCheckTransactionMock(),
         );
-        $braintreeFacade = $this->getBraintreeFacade($factoryMock);
+        $braintreeFacade = $this->getBraintreeFacade($braintreeBusinessFactory);
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
 
