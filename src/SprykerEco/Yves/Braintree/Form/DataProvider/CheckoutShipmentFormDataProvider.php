@@ -151,7 +151,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      */
     protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
-        $shipmentDescription = $this->translate($shipmentMethodTransfer->getNameOrFail());
+        $shipmentDescription = $this->translate((string)$shipmentMethodTransfer->getName());
 
         $shipmentDescription = $this->appendDeliveryTime($shipmentMethodTransfer, $shipmentDescription);
         $shipmentDescription = $this->appendShipmentPrice($shipmentMethodTransfer, $shipmentDescription);

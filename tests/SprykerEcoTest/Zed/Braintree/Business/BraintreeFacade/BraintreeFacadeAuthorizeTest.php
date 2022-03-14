@@ -61,6 +61,7 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
         // Act
         $response = $braintreeFacade->authorizePayment($transactionMetaTransfer);
         $isSuccess = $response->getIsSuccess();
+
         // Assert
         $this->assertFalse($response->getIsSuccess());
     }
