@@ -4,7 +4,7 @@
         <column name="id_payment_braintree" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" required="true" type="INTEGER"/>
         <column name="payment_type" required="false" type="VARCHAR" size="255"/>
-        <column name="client_ip" required="false" type="VARCHAR" size="255"/>
+        <column name="client_ip" required="false" type="VARCHAR" size="45"/>
         <column name="country_iso2_code" required="true" type="CHAR" size="2"/>
         <column name="city" required="true" type="VARCHAR" size="255"/>
         <column name="street" required="true" type="VARCHAR" size="255"/>
