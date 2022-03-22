@@ -298,17 +298,6 @@ class SaverTest extends Unit
         }
 
         return $customer;
-
-        /*$customerEntity = (new SpyCustomer())
-            ->setFirstName('John')
-            ->setLastName('Doe')
-            ->setEmail('john@doe.com')
-            ->setDateOfBirth('1970-01-01')
-            ->setGender(SpyCustomerTableMap::COL_GENDER_MALE)
-            ->setCustomerReference('braintree-pre-authorization-test');
-        $customerEntity->save();
-
-        return $customerEntity;*/
     }
 
     /**
@@ -338,17 +327,6 @@ class SaverTest extends Unit
         }
 
         return $order;
-
-        /*$orderEntity = (new SpySalesOrder())
-            ->setEmail('john@doe.com')
-            ->setIsTest(true)
-            ->setFkSalesOrderAddressBilling($billingAddressEntity->getIdSalesOrderAddress())
-            ->setFkSalesOrderAddressShipping($billingAddressEntity->getIdSalesOrderAddress())
-            ->setCustomer($customerEntity)
-            ->setOrderReference('foo-bar-baz-2');
-        $orderEntity->save();
-
-        return $orderEntity;*/
     }
 
     /**
