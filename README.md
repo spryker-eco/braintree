@@ -17,4 +17,4 @@ composer require spryker-eco/braintree
 
 ## Documentation
 
-[Module Documentation](https://documentation.spryker.com/industry_partners/payment/braintree/braintree.htm)
+[Module Documentation](https://docs.spryker.com/industry_partners/payment/braintree/braintree.htm)
