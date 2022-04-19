@@ -37,7 +37,7 @@ class IsQuotePaymentValidTest extends AbstractFacadeTest
         $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertTrue($isValid);
+        $this->assertTrue($isValid, 'Quote payment should be considered valid for successful checkout response');
     }
 
     /**
@@ -59,6 +59,6 @@ class IsQuotePaymentValidTest extends AbstractFacadeTest
         $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertFalse($isValid);
+        $this->assertFalse($isValid, 'Quote payment should not be considered valid for failed checkout response');
     }
 }

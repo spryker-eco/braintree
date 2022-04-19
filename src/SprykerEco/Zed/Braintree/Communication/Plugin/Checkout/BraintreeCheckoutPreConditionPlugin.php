@@ -23,10 +23,10 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
     /**
      * {@inheritDoc}
      * - Requires `QuoteTransfer.payment.braintree` to be set.
-     * - Returns `true` if payment provider is not Braintree.
-     * - Returns "false" and adds error to response transfer when condition failso.
-     * - Returns "true" when condition passed. Can add errors to response transfer.
      * - Checks if quote payment is valid.
+     * - Returns `true` if payment provider is not Braintree.
+     * - Returns "false" and adds error to response transfer when condition fails.
+     * - Returns "true" when condition passed. Can add errors to response transfer.
      * - Checks if Braintree has a nonce.
      * - Checks a condition before the order is saved.
      * - Does not change Quote transfer.

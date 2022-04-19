@@ -19,11 +19,11 @@ class BraintreeCheckoutPostSaveHookPlugin extends BaseAbstractPlugin implements 
 {
     /**
      * {@inheritDoc}
-     * - Executes Braintree sale API call and updates order payment method data.
+     * - Requires `SaveOrderTransfer.idSalesOrder` to be set.
+     * - Requires `QuoteTransfer.payment` to be set.
+     * - Executes Braintree sale API request.
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
      * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
-     * - Requires `QuoteTransfer.payment` to be set.
-     * - Implementations of this interface are called after the order is placed.
      *
      * @api
      *

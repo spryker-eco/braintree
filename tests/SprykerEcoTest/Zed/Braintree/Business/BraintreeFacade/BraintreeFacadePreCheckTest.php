@@ -42,10 +42,13 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
 
         // Act
-        $response = $braintreeFacade->preCheckPayment($quoteTransfer);
+        $braintreeTransactionResponseTransfer = $braintreeFacade->preCheckPayment($quoteTransfer);
 
         // Assert
-        $this->assertTrue($response->getIsSuccess());
+        $this->assertTrue(
+            $braintreeTransactionResponseTransfer->getIsSuccess(),
+            'Facade should return success if the precheck payment transaction succeeded',
+        );
     }
 
     /**
@@ -66,7 +69,10 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         $response = $braintreeFacade->preCheckPayment($quoteTransfer);
 
         // Assert
-        $this->assertFalse($response->getIsSuccess());
+        $this->assertFalse(
+            $response->getIsSuccess(),
+            'Facade should return error if the precheck payment transaction failed',
+        );
     }
 
     /**

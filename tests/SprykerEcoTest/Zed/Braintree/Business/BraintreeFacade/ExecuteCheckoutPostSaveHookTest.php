@@ -40,7 +40,10 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
         $checkoutResponseTransfer = $this->executeCheckoutPostSaveHook();
 
         // Assert
-        $this->assertTrue($checkoutResponseTransfer->getIsSuccess());
+        $this->assertTrue(
+            $checkoutResponseTransfer->getIsSuccess(),
+            'Checkout post save hook should return success if payment transaction succeeded',
+        );
     }
 
     /**
@@ -52,13 +55,16 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
         $response = $this->executeCheckoutPostSaveHook(false);
 
         // Assert
-        $this->assertFalse($response->getIsSuccess());
+        $this->assertFalse(
+            $response->getIsSuccess(),
+            'Checkout post save hook should return error if payment transaction failed',
+        );
     }
 
     /**
      * @return void
      */
-    public function testCheckoutPostSaveHookWithEmptyPaymentExpectException(): void
+    public function testCheckoutPostSaveHookWithEmptyPaymentThrowsException(): void
     {
         // Assert
         $this->expectException(RequiredTransferPropertyException::class);

@@ -284,7 +284,7 @@ class SaverTest extends Unit
      */
     protected function createAndGetCustomerEntity()
     {
-        $customer = (new SpyCustomerQuery())
+        $customerEntity = (new SpyCustomerQuery())
             ->filterByFirstName('John')
             ->filterByLastName('Doe')
             ->filterByEmail('john@doe.com')
@@ -293,11 +293,11 @@ class SaverTest extends Unit
             ->filterByCustomerReference('braintree-pre-authorization-test')
             ->findOneOrCreate();
 
-        if ($customer->isNew()) {
-            $customer->save();
+        if ($customerEntity->isNew()) {
+            $customerEntity->save();
         }
 
-        return $customer;
+        return $customerEntity;
     }
 
     /**
@@ -308,10 +308,10 @@ class SaverTest extends Unit
      */
     protected function createAndGetOrderEntity(SpySalesOrderAddress $billingAddressEntity, SpyCustomer $customerEntity)
     {
-        $order = (new SpySalesOrderQuery())->filterByEmail('john@doe.com')->findOne();
+        $orderEntity = (new SpySalesOrderQuery())->filterByEmail('john@doe.com')->findOne();
 
-        if (!$order) {
-            $order = (new SpySalesOrderQuery())
+        if (!$orderEntity) {
+            $orderEntity = (new SpySalesOrderQuery())
             ->filterByEmail('john@doe.com')
             ->filterByIsTest(true)
             ->filterByFkSalesOrderAddressBilling($billingAddressEntity->getIdSalesOrderAddress())
@@ -321,12 +321,12 @@ class SaverTest extends Unit
             ->filterByCustomerReference($customerEntity->getCustomerReference())
             ->findOneOrCreate();
 
-            if ($order->isNew()) {
-                $order->save();
+            if ($orderEntity->isNew()) {
+                $orderEntity->save();
             }
         }
 
-        return $order;
+        return $orderEntity;
     }
 
     /**
@@ -336,7 +336,7 @@ class SaverTest extends Unit
      */
     protected function createPaymentBraintreeEntity(int $idSalesOrder): SpyPaymentBraintree
     {
-        $spyPaymentBraintree = (new SpyPaymentBraintree())
+        $paymentBraintreeEntity = (new SpyPaymentBraintree())
             ->setFkSalesOrder($idSalesOrder)
             ->setPaymentType(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
             ->setClientIp('127.0.0.1')
@@ -348,8 +348,8 @@ class SaverTest extends Unit
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR');
 
-        $spyPaymentBraintree->save();
+        $paymentBraintreeEntity->save();
 
-        return $spyPaymentBraintree;
+        return $paymentBraintreeEntity;
     }
 }

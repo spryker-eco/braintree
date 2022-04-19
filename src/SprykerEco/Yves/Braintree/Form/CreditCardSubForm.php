@@ -143,18 +143,20 @@ class CreditCardSubForm extends AbstractSubForm
             /** @var \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer */
             $quoteTransfer = $parentForm->getViewData();
 
+            $billingAddressTransfer = $quoteTransfer->getBillingAddressOrFail();
+
             $view->vars[static::EMAIL] = $quoteTransfer->getCustomerOrFail()->getEmail();
             $view->vars[static::AMOUNT] = $quoteTransfer->getTotals()->getGrandTotal();
             $view->vars[static::BILLING_ADDRESS] = [
-                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($quoteTransfer->getBillingAddressOrFail()->getFirstNameOrFail()),
-                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($quoteTransfer->getBillingAddressOrFail()->getLastNameOrFail()),
-                static::BILLING_ADDRESS_PHONE_NUMBER => $quoteTransfer->getBillingAddressOrFail()->getPhone(),
-                static::BILLING_ADDRESS_STREET_ADDRESS => $quoteTransfer->getBillingAddressOrFail()->getAddress1(),
-                static::BILLING_ADDRESS_EXTENDED_ADDRESS => $quoteTransfer->getBillingAddressOrFail()->getAddress2(),
-                static::BILLING_ADDRESS_LOCALITY => $quoteTransfer->getBillingAddressOrFail()->getCountry() ? $quoteTransfer->getBillingAddressOrFail()->getCountry()->getName() : '',
-                static::BILLING_ADDRESS_REGION => $quoteTransfer->getBillingAddressOrFail()->getRegion(),
-                static::BILLING_ADDRESS_POSTAL_CODE => $quoteTransfer->getBillingAddressOrFail()->getZipCode(),
-                static::BILLING_ADDRESS_COUNTRY_CODE => $quoteTransfer->getBillingAddressOrFail()->getCountry() ? $quoteTransfer->getBillingAddressOrFail()->getCountry()->getIso2Code() : '',
+                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($billingAddressTransfer->getFirstNameOrFail()),
+                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($billingAddressTransfer->getLastNameOrFail()),
+                static::BILLING_ADDRESS_PHONE_NUMBER => $billingAddressTransfer->getPhone(),
+                static::BILLING_ADDRESS_STREET_ADDRESS => $billingAddressTransfer->getAddress1(),
+                static::BILLING_ADDRESS_EXTENDED_ADDRESS => $billingAddressTransfer->getAddress2(),
+                static::BILLING_ADDRESS_LOCALITY => $billingAddressTransfer->getCountry() ? $billingAddressTransfer->getCountry()->getName() : '',
+                static::BILLING_ADDRESS_REGION => $billingAddressTransfer->getRegion(),
+                static::BILLING_ADDRESS_POSTAL_CODE => $billingAddressTransfer->getZipCode(),
+                static::BILLING_ADDRESS_COUNTRY_CODE => $billingAddressTransfer->getCountry() ? $billingAddressTransfer->getCountry()->getIso2Code() : '',
             ];
         }
     }
