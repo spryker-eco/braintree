@@ -224,6 +224,7 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     {
         $moneyTransfer = $this->moneyPlugin
             ->fromInteger($storeCurrencyPrice);
+
         return $this->moneyPlugin->formatWithSymbol($moneyTransfer);
     }
 
