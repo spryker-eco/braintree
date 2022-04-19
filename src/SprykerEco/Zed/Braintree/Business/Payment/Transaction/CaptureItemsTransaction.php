@@ -182,8 +182,8 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function captureShipmentAmount(): void
     {
-        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder((int)$this->transactionMetaTransfer->getIdSalesOrder());
-        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId((int)$orderTransfer->getIdSalesOrder());
+        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrderOrFail());
+        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrderOrFail());
         $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
         if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount === 0) {

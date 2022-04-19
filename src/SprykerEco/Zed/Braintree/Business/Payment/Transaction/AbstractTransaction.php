@@ -53,11 +53,11 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     protected function getTransactionIdentifier()
     {
-        return $this->transactionMetaTransfer->requireTransactionIdentifier()->getTransactionIdentifier();
+        return $this->transactionMetaTransfer->requireTransactionIdentifier()->getTransactionIdentifierOrFail();
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class AbstractTransaction implements TransactionInterface
     protected function beforeTransaction()
     {
         $this->logApiRequest(
-            (string)$this->getTransactionIdentifier(),
+            $this->getTransactionIdentifier(),
             $this->getTransactionType(),
             $this->getTransactionCode(),
             $this->getIdPayment(),

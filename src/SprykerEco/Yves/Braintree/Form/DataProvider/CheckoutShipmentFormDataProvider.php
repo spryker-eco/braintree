@@ -151,7 +151,10 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      */
     protected function getShipmentDescription(ShipmentMethodTransfer $shipmentMethodTransfer): string
     {
-        $shipmentDescription = $this->translate((string)$shipmentMethodTransfer->getName());
+        $shipmentDescription = '';
+        if ($shipmentMethodTransfer->getName()) {
+            $shipmentDescription = $this->translate($shipmentMethodTransfer->getName());
+        }
 
         $shipmentDescription = $this->appendDeliveryTime($shipmentMethodTransfer, $shipmentDescription);
         $shipmentDescription = $this->appendShipmentPrice($shipmentMethodTransfer, $shipmentDescription);
@@ -190,8 +193,10 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
      */
     protected function appendShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer, $shipmentDescription): string
     {
-        $shipmentPrice = $this->getFormattedShipmentPrice($shipmentMethodTransfer);
-        $shipmentDescription .= ': ' . $shipmentPrice;
+        if ($shipmentMethodTransfer->getStoreCurrencyPrice() !== null) {
+            $shipmentPrice = $this->getFormattedShipmentPrice($shipmentMethodTransfer->getStoreCurrencyPrice());
+            $shipmentDescription .= ': ' . $shipmentPrice;
+        }
 
         return $shipmentDescription;
     }
@@ -211,15 +216,14 @@ class CheckoutShipmentFormDataProvider implements StepEngineFormDataProviderInte
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ShipmentMethodTransfer $shipmentMethodTransfer
+     * @param int $storeCurrencyPrice
      *
      * @return string
      */
-    protected function getFormattedShipmentPrice(ShipmentMethodTransfer $shipmentMethodTransfer): string
+    protected function getFormattedShipmentPrice(int $storeCurrencyPrice): string
     {
         $moneyTransfer = $this->moneyPlugin
-            ->fromInteger((int)$shipmentMethodTransfer->getStoreCurrencyPrice());
-
+            ->fromInteger($storeCurrencyPrice);
         return $this->moneyPlugin->formatWithSymbol($moneyTransfer);
     }
 

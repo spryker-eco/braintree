@@ -103,11 +103,15 @@ class TransactionStatusLog implements TransactionStatusLogInterface
     {
         $idSalesOrder = $orderTransfer->getIdSalesOrder();
 
-        return $this->repository
-            ->isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
-                (int)$idSalesOrder,
-                $transactionCode,
-                $statusCode,
-            );
+        if ($idSalesOrder) {
+            return $this->repository
+                ->isSucceededPaymentBraintreeTransactionStatusLogQueryExistBySalesOrderIdAndTransactionCode(
+                    $idSalesOrder,
+                    $transactionCode,
+                    $statusCode,
+                );
+        }
+
+        return false;
     }
 }

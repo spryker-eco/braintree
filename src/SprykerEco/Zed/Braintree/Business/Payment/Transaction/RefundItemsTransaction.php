@@ -152,8 +152,12 @@ class RefundItemsTransaction extends AbstractTransaction
      */
     protected function findPaymentBraintreeTransactionStatusLogTransfer(): ?PaymentBraintreeTransactionStatusLogTransfer
     {
-        return $this->braintreeRepository
-            ->findTransactionRequestLogByIdSalesOrderForShipment((int)$this->transactionMetaTransfer->getIdSalesOrder());
+        if ($this->transactionMetaTransfer->getIdSalesOrder()) {
+            return $this->braintreeRepository
+                ->findTransactionRequestLogByIdSalesOrderForShipment($this->transactionMetaTransfer->getIdSalesOrder());
+        }
+
+        return null;
     }
 
     /**

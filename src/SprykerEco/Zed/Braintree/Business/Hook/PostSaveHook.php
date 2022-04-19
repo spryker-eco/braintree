@@ -36,8 +36,12 @@ class PostSaveHook implements PostSaveHookInterface
      */
     public function postSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
+        if (!$checkoutResponse->getSaveOrder()->getIdSalesOrder()) {
+            return $checkoutResponse;
+        }
+
         $paymentBraintreeTransactionStatusLogTransfer = $this->repository
-            ->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId((int)$checkoutResponse->getSaveOrder()->getIdSalesOrder());
+            ->findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId($checkoutResponse->getSaveOrder()->getIdSalesOrder());
 
         if (
             $paymentBraintreeTransactionStatusLogTransfer &&
