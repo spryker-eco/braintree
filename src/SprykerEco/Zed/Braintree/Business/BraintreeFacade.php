@@ -250,7 +250,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::checkoutPostSaveHook()}
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::executeCheckoutPostSaveHook()}
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
