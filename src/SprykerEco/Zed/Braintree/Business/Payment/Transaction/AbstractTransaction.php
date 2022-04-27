@@ -57,7 +57,7 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function getTransactionIdentifier()
     {
-        return $this->transactionMetaTransfer->requireTransactionIdentifier()->getTransactionIdentifierOrFail();
+        return $this->transactionMetaTransfer->getTransactionIdentifierOrFail();
     }
 
     /**

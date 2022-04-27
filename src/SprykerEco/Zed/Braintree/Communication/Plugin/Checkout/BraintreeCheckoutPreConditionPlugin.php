@@ -29,8 +29,6 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
      * - Returns "true" when condition passed. Can add errors to response transfer.
      * - Checks if Braintree has a nonce.
      * - Checks a condition before the order is saved.
-     * - Does not change Quote transfer.
-     * - Does not write to Persistence.
      *
      * @api
      *

@@ -184,7 +184,7 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $brainTreePaymentTransfer = new BraintreePaymentTransfer();
         $brainTreePaymentTransfer->setNonce($paypalExpressSuccessResponseTransfer->getNonce());
         $brainTreePaymentTransfer->setBillingAddress($quoteTransfer->getBillingAddress());
-        if ($quoteTransfer->getBillingAddress()->getIso2Code()) {
+        if ($quoteTransfer->getBillingAddress() && $quoteTransfer->getBillingAddress()->getIso2Code()) {
             $brainTreePaymentTransfer->setLanguageIso2Code(mb_strtolower($quoteTransfer->getBillingAddress()->getIso2Code()));
         }
         $brainTreePaymentTransfer->setCurrencyIso3Code($paypalExpressSuccessResponseTransfer->getCurrency());

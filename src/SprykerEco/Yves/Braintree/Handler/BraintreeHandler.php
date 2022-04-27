@@ -92,13 +92,13 @@ class BraintreeHandler implements BraintreeHandlerInterface
     protected function setBraintreePayment(Request $request, QuoteTransfer $quoteTransfer, $paymentSelection)
     {
         $braintreePaymentTransfer = $this->getBraintreePaymentTransfer($quoteTransfer, $paymentSelection);
-        $nonce = $request->request->get(static::PAYMENT_METHOD_NONCE);
+        $nonce = (string)$request->request->get(static::PAYMENT_METHOD_NONCE);
 
         if ($this->braintreeConfig->getFakePaymentMethodNonce()) {
             $nonce = $this->braintreeConfig->getFakePaymentMethodNonce();
         }
 
-        if ($nonce === null) {
+        if (!$nonce) {
             return;
         }
 
@@ -111,7 +111,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
             ->setCurrencyIso3Code($this->getCurrency())
             ->setLanguageIso2Code($billingAddress->getIso2Code())
             ->setClientIp($request->getClientIp())
-            ->setNonce((string)$nonce);
+            ->setNonce($nonce);
 
         $quoteTransfer->getPayment()->setBraintree(clone $braintreePaymentTransfer);
     }

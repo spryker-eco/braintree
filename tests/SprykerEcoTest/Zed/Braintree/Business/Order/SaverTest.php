@@ -116,7 +116,7 @@ class SaverTest extends Unit
         // Act
         $braintreeEntityManager->updateOrderPayment($quoteTransfer, $saveOrderTransfer);
 
-        // Asset
+        // Assert
         $paymentBraintreeEntity = SpyPaymentBraintreeQuery::create()->findOneByFkSalesOrder($idSalesOrder);
         $this->assertSame($braintreePaymentType, $paymentBraintreeEntity->getPaymentType());
     }
