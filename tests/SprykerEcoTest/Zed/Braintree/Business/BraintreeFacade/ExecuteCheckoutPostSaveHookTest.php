@@ -120,11 +120,11 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
     }
 
     /**
-     * @param bool $success
+     * @param bool $isSuccessful
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\Payment\Transaction\PaymentTransaction
      */
-    protected function getPaymentTransactionMock(bool $success = true): PaymentTransaction
+    protected function getPaymentTransactionMock(bool $isSuccessful = true): PaymentTransaction
     {
         /** @var \Spryker\Zed\Money\Business\MoneyFacadeInterface $moneyFacadeMock */
         $moneyFacadeMock = $this->getMoneyFacadeMock();
@@ -136,7 +136,7 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
             )
             ->getMock();
 
-        if (!$success) {
+        if (!$isSuccessful) {
             $paymentTransactionMock->expects($this->once())
                 ->method('doTransaction')
                 ->willReturn($this->getErrorResponse());

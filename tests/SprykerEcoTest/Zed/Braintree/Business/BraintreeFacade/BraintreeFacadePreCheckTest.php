@@ -66,21 +66,21 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
         $quoteTransfer = $this->createQuoteTransfer($orderTransfer);
 
         // Act
-        $response = $braintreeFacade->preCheckPayment($quoteTransfer);
+        $braintreeTransactionResponseTransfer = $braintreeFacade->preCheckPayment($quoteTransfer);
 
         // Assert
         $this->assertFalse(
-            $response->getIsSuccess(),
+            $braintreeTransactionResponseTransfer->getIsSuccess(),
             'Facade should return error if the precheck payment transaction failed',
         );
     }
 
     /**
-     * @param bool $success
+     * @param bool $isSuccessful
      *
      * @return \SprykerEco\Zed\Braintree\Business\Payment\Transaction\AbstractTransaction|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPreCheckTransactionMock(bool $success = true): AbstractTransaction
+    protected function getPreCheckTransactionMock(bool $isSuccessful = true): AbstractTransaction
     {
         /** @var \Spryker\Zed\Money\Business\MoneyFacadeInterface $moneyFacadeMock */
         $moneyFacadeMock = $this->getMoneyFacadeMock();
@@ -92,7 +92,7 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
             )
             ->getMock();
 
-        if (!$success) {
+        if (!$isSuccessful) {
             $preCheckTransactionMock->expects($this->once())
                 ->method('preCheck')
                 ->willReturn($this->getErrorResponse());
