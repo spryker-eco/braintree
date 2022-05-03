@@ -11,6 +11,9 @@ use Generated\Shared\Transfer\BraintreePaymentTransfer;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class PayPalExpressSubForm extends AbstractSubForm
 {
     /**

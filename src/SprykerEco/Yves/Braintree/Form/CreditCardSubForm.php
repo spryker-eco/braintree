@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class CreditCardSubForm extends AbstractSubForm
 {
     /**

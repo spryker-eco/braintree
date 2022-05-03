@@ -209,7 +209,7 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\ExpenseTransfer>|iterable $expenseTransfers
      *
      * @return int|null
      */

@@ -19,6 +19,9 @@ use SprykerEco\Shared\Braintree\BraintreeConfig;
  * @deprecated Use {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPreConditionPlugin} instead.
  *
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
 class BraintreePreCheckPlugin extends BaseAbstractPlugin implements CheckoutPreConditionInterface
 {

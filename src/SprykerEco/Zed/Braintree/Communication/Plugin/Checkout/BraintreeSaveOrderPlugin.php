@@ -14,6 +14,9 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
 class BraintreeSaveOrderPlugin extends BaseAbstractPlugin implements CheckoutDoSaveOrderInterface
 {

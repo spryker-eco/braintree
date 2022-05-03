@@ -11,6 +11,9 @@ use Generated\Shared\Transfer\OrderTransfer;
 
 /**
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
+ * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
 class IsRefundApprovedPlugin extends AbstractCheckPlugin
 {
