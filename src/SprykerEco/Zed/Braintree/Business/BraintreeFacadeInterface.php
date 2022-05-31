@@ -40,7 +40,7 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use {@link isQuotePaymentValid()} instead.
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::isQuotePaymentValid()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
@@ -54,7 +54,7 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Braintree transaction is created in {@link executeCheckoutPostSaveHook()} instead.
+     * @deprecated Braintree payment is created in {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
@@ -224,7 +224,7 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use {@link executeCheckoutPostSaveHook()} instead.
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
