@@ -31,14 +31,15 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     * @param bool $saveOnlyIfTransactionSuccessful
      *
      * @return void
      */
-    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
+    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer, bool $saveOnlyIfTransactionSuccessful = true)
     {
         $this->getFactory()
             ->createOrderSaver()
-            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer, $saveOnlyIfTransactionSuccessful);
     }
 
     /**

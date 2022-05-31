@@ -21,15 +21,17 @@ interface BraintreeFacadeInterface
     /**
      * Specification:
      * - Saves order payment method data according to quote and checkout response transfer data.
+     * - If `saveOnlyIfTransactionSuccessful` is set to `true`, saving is only performed when `QuoteTransfer.payment.braintreeTransactionResponse.isSuccess` is true.
      *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     * @param bool $saveOnlyIfTransactionSuccessful Deprecated: This parameter exists for BC reasons only. In the next major payment method data will be saved regardless of transaction success.
      *
      * @return void
      */
-    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer);
+    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer, bool $saveOnlyIfTransactionSuccessful = true);
 
     /**
      * Specification:
@@ -37,6 +39,8 @@ interface BraintreeFacadeInterface
      * - Checks that form data matches transaction response data
      *
      * @api
+     *
+     * @deprecated Use {@link isQuotePaymentValid()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
@@ -49,6 +53,8 @@ interface BraintreeFacadeInterface
      * - Creates transaction on Braintree side and stores the response in quote.
      *
      * @api
+     *
+     * @deprecated Braintree transaction is created in {@link executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
@@ -218,7 +224,7 @@ interface BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use `\SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::checkoutPostSaveHook()` instead.
+     * @deprecated Use {@link executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
@@ -260,7 +266,7 @@ interface BraintreeFacadeInterface
 
     /**
      * Specification:
-     * - Requires `SaveOrderTransfer.idSalesOrder` to be set.
+     * - Requires `CheckoutResponseTransfer.saveOrder.idSalesOrder` to be set.
      * - Requires `QuoteTransfer.payment` to be set.
      * - Executes Braintree sale API request.
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
@@ -269,9 +275,9 @@ interface BraintreeFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
      */
-    public function executeCheckoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse): CheckoutResponseTransfer;
+    public function executeCheckoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): CheckoutResponseTransfer;
 }
