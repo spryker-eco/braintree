@@ -11,7 +11,6 @@ parameters:
         - '#Call to method .+\(\) on an unknown class Generated\\Zed\\Ide\\AutoCompletion#'
         - '#Call to method .+\(\) on an unknown class Generated\\Yves\\Ide\\AutoCompletion#'
         - '#Cannot call method .+ on .+Transfer\|null\.#'
-        - '#Cannot call method .+ on .+Spy.+\|null\.#'
         - '#Parameter .+ of method .+ expects .+Transfer, .+Transfer\|null given\.#'
         - '#Access to an undefined property .+success\.#'
         - '#Access to an undefined property .+transaction\.#'
