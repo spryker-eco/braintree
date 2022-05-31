@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use SprykerEco\Shared\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\Handler\PaymentTransactionHandlerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +50,10 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponseTransfer
     ): CheckoutResponseTransfer {
+        if ($quoteTransfer->getPaymentOrFail()->getPaymentProvider() !== BraintreeConfig::PROVIDER_NAME) {
+            return $checkoutResponseTransfer;
+        }
+
         $quoteTransfer = $this->paymentTransactionHandler->createPayment($quoteTransfer, $checkoutResponseTransfer);
 
         $braintreeTransactionResponseTransfer = $quoteTransfer->getPaymentOrFail()->getBraintreeTransactionResponseOrFail();

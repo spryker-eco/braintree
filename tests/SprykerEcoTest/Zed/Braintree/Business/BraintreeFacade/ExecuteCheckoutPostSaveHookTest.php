@@ -9,7 +9,7 @@ namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Transaction\CreditCardDetails;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
-use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Order\Saver;
 use SprykerEco\Zed\Braintree\Business\Order\SaverInterface;
@@ -67,10 +67,10 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
     public function testCheckoutPostSaveHookWithEmptyPaymentThrowsException(): void
     {
         // Assert
-        $this->expectException(RequiredTransferPropertyException::class);
+        $this->expectException(NullValueException::class);
 
         // Act
-        $this->executeCheckoutPostSaveHookWithEmptyPayment(true);
+        $this->executeCheckoutPostSaveHookWithEmptyPayment();
     }
 
     /**
@@ -102,21 +102,11 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
      */
     protected function executeCheckoutPostSaveHookWithEmptyPayment(): CheckoutResponseTransfer
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory $braintreeBusinessFactoryMock */
-        $braintreeBusinessFactoryMock = $this->getFactoryMock(['createPaymentTransaction', 'createOrderSaver']);
-        $braintreeBusinessFactoryMock->expects($this->once())->method('createPaymentTransaction')->willReturn(
-            $this->getPaymentTransactionMock(false),
-        );
-        $braintreeBusinessFactoryMock->expects($this->once())->method('createOrderSaver')->willReturn(
-            $this->getOrderSaverMock(),
-        );
-        $braintreeFacade = $this->getBraintreeFacade($braintreeBusinessFactoryMock);
-
         $orderTransfer = $this->createOrderTransfer();
         $quoteTransfer = $this->createQuoteTransferWithEmptyPayment($orderTransfer);
         $checkoutResponseTransfer = $this->tester->createCheckoutResponseTransfer($orderTransfer);
 
-        return $braintreeFacade->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
+        return $this->getBraintreeFacade()->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
 
     /**
