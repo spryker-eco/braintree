@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \SprykerEco\Yves\Braintree\BraintreeFactory getFactory()
+ * @method \Spryker\Yves\Kernel\Application getApplication()
  */
 class PaypalExpressController extends AbstractController
 {
@@ -24,21 +25,31 @@ class PaypalExpressController extends AbstractController
     public const TRANSLATION_INVALID_SHIPMENT_METHOD = 'checkout.pre.check.shipment.failed';
 
     /**
+     * @var bool
+     */
+    public const IS_PAYPAL_ENABLED = true;
+
+    /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function successAction(Request $request): Response
     {
+        if (!static::IS_PAYPAL_ENABLED) {
+            echo 'The payment method PayPal Express is not an officially approved integration and must not be used without prior agreement with either Braintree and/or Spryker.';
+
+            return $this->jsonResponse([
+                'redirectUrl' => $this->getApplication()->path(CheckoutPageControllerProvider::CHECKOUT_SUMMARY),
+            ]);
+        }
+
         $payload = $this->getFactory()->getUtilEncodingService()->decodeJson((string)$request->getContent(), true);
 
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
 
-        /** @var \Spryker\Yves\Kernel\Application $application */
-        $application = $this->getApplication();
-
         return $this->jsonResponse([
-            'redirectUrl' => $application->path(CheckoutPageControllerProvider::CHECKOUT_SUMMARY),
+            'redirectUrl' => $this->getApplication()->path(CheckoutPageControllerProvider::CHECKOUT_SUMMARY),
         ]);
     }
 
