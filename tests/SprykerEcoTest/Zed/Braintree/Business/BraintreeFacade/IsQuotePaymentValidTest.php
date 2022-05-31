@@ -17,7 +17,7 @@ use Generated\Shared\Transfer\CheckoutResponseTransfer;
  * @group Braintree
  * @group Business
  * @group Facade
- * @group BraintreeFacadeIsQuotePaymentValidTest
+ * @group IsQuotePaymentValidTest
  * Add your own group annotations below this line
  */
 class IsQuotePaymentValidTest extends AbstractFacadeTest
@@ -37,7 +37,7 @@ class IsQuotePaymentValidTest extends AbstractFacadeTest
         $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertTrue($isValid, 'Quote payment should be considered valid for successful checkout response');
+        $this->assertTrue($isValid, 'Quote payment should be considered valid when nonce is provided');
     }
 
     /**
@@ -59,6 +59,6 @@ class IsQuotePaymentValidTest extends AbstractFacadeTest
         $isValid = $this->getBraintreeFacade()->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
 
         // Assert
-        $this->assertFalse($isValid, 'Quote payment should not be considered valid for failed checkout response');
+        $this->assertFalse($isValid, 'Quote payment should be considered invalid when nonce is empty');
     }
 }

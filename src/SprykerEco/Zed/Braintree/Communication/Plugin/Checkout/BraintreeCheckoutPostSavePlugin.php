@@ -18,25 +18,26 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
  * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
  */
-class BraintreeCheckoutPostSaveHookPlugin extends BaseAbstractPlugin implements CheckoutPostSaveInterface
+class BraintreeCheckoutPostSavePlugin extends BaseAbstractPlugin implements CheckoutPostSaveInterface
 {
     /**
      * {@inheritDoc}
-     * - Requires `SaveOrderTransfer.idSalesOrder` to be set.
+     * - Requires `CheckoutResponseTransfer.saveOrder.idSalesOrder` to be set.
      * - Requires `QuoteTransfer.payment` to be set.
      * - Executes Braintree sale API request.
      * - Updates `CheckoutResponseTransfer` and `QuoteTransfer` accordingly to API response.
      * - If API request is successful - updates order payment method data according to `QuoteTransfer`.
+     * - Used together with {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutDoSaveOrderPlugin} and {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPreConditionPlugin}
      *
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
      *
      * @return void
      */
-    public function executeHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse): void
+    public function executeHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): void
     {
-        $this->getFacade()->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponse);
+        $this->getFacade()->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
 }

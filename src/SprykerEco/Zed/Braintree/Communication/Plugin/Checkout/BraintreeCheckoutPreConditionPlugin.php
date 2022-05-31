@@ -23,12 +23,9 @@ class BraintreeCheckoutPreConditionPlugin extends AbstractPlugin implements Chec
     /**
      * {@inheritDoc}
      * - Requires `QuoteTransfer.payment.braintree` to be set.
-     * - Checks if quote payment is valid.
      * - Returns `true` if payment provider is not Braintree.
-     * - Returns "false" and adds error to response transfer when condition fails.
-     * - Returns "true" when condition passed. Can add errors to response transfer.
-     * - Checks if Braintree has a nonce.
-     * - Checks a condition before the order is saved.
+     * - Returns `true` if Braintree has a nonce, adds an error message to `CheckoutResponseTransfer` and returns `false` otherwise.
+     * - Used together with {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutDoSaveOrderPlugin} and {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPostSavePlugin}
      *
      * @api
      *

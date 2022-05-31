@@ -70,10 +70,10 @@ class Saver implements SaverInterface
             return;
         }
 
-        $idSalesOrder = $saveOrderTransfer->getIdSalesOrderOrFail();
         $braintreePaymentTransfer = $paymentTransfer->getBraintreeOrFail();
+        $braintreePaymentTransfer->setFkSalesOrder($saveOrderTransfer->getIdSalesOrderOrFail());
 
-        $this->braintreeEntityManager->updatePaymentBraintreeByIdSalesOrder($idSalesOrder, $braintreePaymentTransfer);
+        $this->braintreeEntityManager->updatePaymentBraintree($braintreePaymentTransfer);
     }
 
     /**

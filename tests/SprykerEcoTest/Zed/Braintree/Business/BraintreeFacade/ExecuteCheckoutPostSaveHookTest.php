@@ -26,7 +26,7 @@ use SprykerEco\Zed\Braintree\Persistence\BraintreeEntityManager;
  * @group Braintree
  * @group Business
  * @group Facade
- * @group BraintreeFacadeCheckoutPostSaveHookTest
+ * @group ExecuteCheckoutPostSaveHookTest
  * Add your own group annotations below this line
  */
 class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
@@ -44,6 +44,11 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
             $checkoutResponseTransfer->getIsSuccess(),
             'Checkout post save hook should return success if payment transaction succeeded',
         );
+        $this->assertCount(
+            0,
+            $checkoutResponseTransfer->getErrors(),
+            'Checkout response should not contain errors when payment transaction succeeded',
+        );
     }
 
     /**
@@ -52,12 +57,17 @@ class ExecuteCheckoutPostSaveHookTest extends AbstractFacadeTest
     public function testCheckoutPostSaveHookWithErrorResponse(): void
     {
         // Act
-        $response = $this->executeCheckoutPostSaveHook(false);
+        $checkoutResponseTransfer = $this->executeCheckoutPostSaveHook(false);
 
         // Assert
         $this->assertFalse(
-            $response->getIsSuccess(),
+            $checkoutResponseTransfer->getIsSuccess(),
             'Checkout post save hook should return error if payment transaction failed',
+        );
+        $this->assertCount(
+            1,
+            $checkoutResponseTransfer->getErrors(),
+            'Checkout response should contain error message when payment transaction failed',
         );
     }
 

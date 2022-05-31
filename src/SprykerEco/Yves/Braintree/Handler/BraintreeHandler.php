@@ -61,7 +61,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
      */
     public function addPaymentToQuote(Request $request, QuoteTransfer $quoteTransfer)
     {
-        $paymentSelection = $quoteTransfer->getPayment()->getPaymentSelectionOrFail();
+        $paymentSelection = $quoteTransfer->getPaymentOrFail()->getPaymentSelectionOrFail();
 
         $this->setPaymentProviderAndMethod($quoteTransfer, $paymentSelection);
         $this->setBraintreePayment($request, $quoteTransfer, $paymentSelection);

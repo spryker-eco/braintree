@@ -49,6 +49,10 @@ class BraintreeFacadePreCheckTest extends AbstractFacadeTest
             $braintreeTransactionResponseTransfer->getIsSuccess(),
             'Facade should return success if the precheck payment transaction succeeded',
         );
+        $this->assertNotEmpty(
+            $braintreeTransactionResponseTransfer->getTransactionId(),
+            'Transaction id should be set if the precheck payment transaction succeeded',
+        );
     }
 
     /**

@@ -91,21 +91,21 @@ class BraintreeEntityManager extends AbstractEntityManager implements BraintreeE
     }
 
     /**
-     * @param int $idSalesOrder
      * @param \Generated\Shared\Transfer\BraintreePaymentTransfer $braintreePaymentTransfer
      *
      * @return void
      */
-    public function updatePaymentBraintreeByIdSalesOrder(int $idSalesOrder, BraintreePaymentTransfer $braintreePaymentTransfer): void
+    public function updatePaymentBraintree(BraintreePaymentTransfer $braintreePaymentTransfer): void
     {
         $paymentBraintreeEntity = $this
             ->getFactory()
             ->createPaymentBraintreeQuery()
-            ->findOneByFkSalesOrder($idSalesOrder);
+            ->findOneByFkSalesOrder($braintreePaymentTransfer->getFkSalesOrderOrFail());
 
-        $paymentBraintreeEntity->fromArray($braintreePaymentTransfer->toArray());
-        $paymentBraintreeEntity->setFkSalesOrder($idSalesOrder);
-        $paymentBraintreeEntity->save();
+        if ($paymentBraintreeEntity) {
+            $paymentBraintreeEntity->fromArray($braintreePaymentTransfer->toArray());
+            $paymentBraintreeEntity->save();
+        }
     }
 
     /**

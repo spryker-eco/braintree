@@ -13,7 +13,7 @@ use Spryker\Zed\Checkout\Dependency\Plugin\CheckoutPostSaveHookInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin as BaseAbstractPlugin;
 
 /**
- * @deprecated Use {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPostSaveHookPlugin} instead.
+ * @deprecated Use {@link \SprykerEco\Zed\Braintree\Communication\Plugin\Checkout\BraintreeCheckoutPostSavePlugin} instead.
  *
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
