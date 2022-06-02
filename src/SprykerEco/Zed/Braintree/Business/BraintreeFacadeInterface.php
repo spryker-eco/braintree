@@ -21,7 +21,7 @@ interface BraintreeFacadeInterface
     /**
      * Specification:
      * - Saves order payment method data according to quote and checkout response transfer data.
-     * - If `saveOnlyIfTransactionSuccessful` is set to `true`, saving is only performed when `QuoteTransfer.payment.braintreeTransactionResponse.isSuccess` is true.
+     * - If `saveOnlyIfTransactionSuccessful` parameter is set to `true`, saving is only performed when `QuoteTransfer.payment.braintreeTransactionResponse.isSuccess` is `true`.
      *
      * @api
      *

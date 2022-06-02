@@ -47,7 +47,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::isQuotePaymentValid()} instead.
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::isQuotePaymentValid()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
@@ -66,7 +66,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Braintree payment is created in {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::executeCheckoutPostSaveHook()} instead.
+     * @deprecated Braintree payment is created in {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
@@ -255,7 +255,7 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
-     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface::executeCheckoutPostSaveHook()} instead.
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
