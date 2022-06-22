@@ -9,6 +9,9 @@ namespace SprykerEcoTest\Yves\Braintree\Form;
 
 use Symfony\Component\Form\AbstractType;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class FakeParentForm extends AbstractType
 {
 }

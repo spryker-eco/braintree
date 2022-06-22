@@ -61,7 +61,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
      */
     public function addPaymentToQuote(Request $request, QuoteTransfer $quoteTransfer)
     {
-        $paymentSelection = $quoteTransfer->getPayment()->getPaymentSelection();
+        $paymentSelection = $quoteTransfer->getPaymentOrFail()->getPaymentSelectionOrFail();
 
         $this->setPaymentProviderAndMethod($quoteTransfer, $paymentSelection);
         $this->setBraintreePayment($request, $quoteTransfer, $paymentSelection);
@@ -92,13 +92,13 @@ class BraintreeHandler implements BraintreeHandlerInterface
     protected function setBraintreePayment(Request $request, QuoteTransfer $quoteTransfer, $paymentSelection)
     {
         $braintreePaymentTransfer = $this->getBraintreePaymentTransfer($quoteTransfer, $paymentSelection);
-        $nonce = $request->request->get(static::PAYMENT_METHOD_NONCE);
+        $nonce = (string)$request->request->get(static::PAYMENT_METHOD_NONCE);
 
         if ($this->braintreeConfig->getFakePaymentMethodNonce()) {
             $nonce = $this->braintreeConfig->getFakePaymentMethodNonce();
         }
 
-        if ($nonce === null) {
+        if (!$nonce) {
             return;
         }
 
@@ -117,7 +117,7 @@ class BraintreeHandler implements BraintreeHandlerInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getCurrency()
     {

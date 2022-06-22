@@ -7,7 +7,15 @@
 
 namespace SprykerEcoTest\Zed\Braintree;
 
+use Braintree\Result\Successful;
+use Braintree\Transaction;
+use Braintree\Transaction\StatusDetails;
 use Codeception\Actor;
+use DateTime;
+use Generated\Shared\Transfer\BraintreeTransactionResponseTransfer;
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
+use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\SaveOrderTransfer;
 
 /**
  * Inherited Methods
@@ -29,7 +37,61 @@ class BraintreeBusinessTester extends Actor
 {
     use _generated\BraintreeBusinessTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * @param array $params
+     *
+     * @return \Braintree\Transaction
+     */
+    public function getSuccessfulTransaction($params = []): Transaction
+    {
+        $defaultParams = [
+           'id' => 123,
+           'processorResponseCode' => '1000',
+           'processorResponseText' => 'Approved',
+           'createdAt' => new DateTime(),
+           'status' => 'authorized',
+           'type' => 'sale',
+           'amount' => 0,
+           'merchantAccountId' => 'abc',
+           'statusHistory' => new StatusDetails([
+               'timestamp' => new DateTime(),
+               'status' => 'authorized',
+           ]),
+        ];
+
+        return Transaction::factory(array_merge($defaultParams, $params));
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return \Braintree\Result\Successful
+     */
+    public function getSuccessfulTransactionResponse($params = []): Successful
+    {
+        return new Successful($this->getSuccessfulTransaction($params));
+    }
+
+    /**
+     * @param bool $isSuccess
+     *
+     * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
+     */
+    public function getBraintreeTransactionResponseTransfer(bool $isSuccess): BraintreeTransactionResponseTransfer
+    {
+        return (new BraintreeTransactionResponseTransfer())
+            ->setIsSuccess($isSuccess);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    public function createCheckoutResponseTransfer(OrderTransfer $orderTransfer): CheckoutResponseTransfer
+    {
+        $saveOrderTransfer = (new SaveOrderTransfer())->setIdSalesOrder($orderTransfer->getIdSalesOrder());
+
+        return (new CheckoutResponseTransfer())->setSaveOrder($saveOrderTransfer);
+    }
 }

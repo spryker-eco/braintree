@@ -74,8 +74,8 @@ class BraintreeConfig extends AbstractBundleConfig
 
     /**
      * @api
- *
-    * @return string
+     *
+     * @return string
      */
     final public function getChannel()
     {

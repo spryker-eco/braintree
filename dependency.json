@@ -1,0 +1,9 @@
+{
+    "include": {
+        "spryker/transfer": "Provides transfer objects definition with `::get*OrFail()` functionality."
+    },
+    "include-dev": {
+        "codeception/module-asserts": "Codeception module containing various assertions.",
+        "codeception/module-webdriver": "Codeception module containing webdriver tools."
+    }
+}

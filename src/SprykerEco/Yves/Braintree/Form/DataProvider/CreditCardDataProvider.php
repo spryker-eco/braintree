@@ -14,11 +14,11 @@ use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 
 class CreditCardDataProvider implements StepEngineFormDataProviderInterface
 {
- /**
-  * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-  *
-  * @return \Generated\Shared\Transfer\QuoteTransfer
-  */
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
     public function getData(AbstractTransfer $quoteTransfer)
     {
         if ($quoteTransfer->getPayment() === null) {

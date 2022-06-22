@@ -140,7 +140,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     /**
      * @param array<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
      *
-     * @return \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject
+     * @return \ArrayObject<\Generated\Shared\Transfer\ItemTransfer>
      */
     protected function getRefundedUniqueItems(array $itemTransfers): ArrayObject
     {
@@ -175,7 +175,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
 
         foreach ($paymentBraintreeOrderItemTransfers as $paymentBraintreeOrderItemTransfer) {
             $paymentBraintreeTransactionStatusLogTransfer = $this->braintreeRepository
-                ->findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeOrderItem($paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeOrderItem());
+                ->findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeOrderItem((int)$paymentBraintreeOrderItemTransfer->getIdPaymentBraintreeOrderItem());
 
             $amount = $itemsByTransactions[$paymentBraintreeTransactionStatusLogTransfer->getTransactionId()][static::KEY_AMOUNT] ?? 0;
 
@@ -250,7 +250,7 @@ class RefundItemsTransactionHandler extends AbstractTransactionHandler implement
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject $itemTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\ItemTransfer>|iterable $itemTransfers
      *
      * @return array
      */

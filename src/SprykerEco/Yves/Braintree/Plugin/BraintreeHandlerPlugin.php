@@ -18,6 +18,11 @@ use Symfony\Component\HttpFoundation\Request;
 class BraintreeHandlerPlugin extends AbstractPlugin implements StepHandlerPluginInterface
 {
     /**
+     * {@inheritDoc}
+     * - Expands Payment transfer with payment provider and payment selection.
+     *
+     * @api
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *

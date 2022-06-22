@@ -31,20 +31,23 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     * @param bool $saveOnlyIfTransactionSuccessful
      *
      * @return void
      */
-    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
+    public function saveOrderPayment(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer, bool $saveOnlyIfTransactionSuccessful = true)
     {
         $this->getFactory()
             ->createOrderSaver()
-            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer);
+            ->saveOrderPayment($quoteTransfer, $saveOrderTransfer, $saveOnlyIfTransactionSuccessful);
     }
 
     /**
      * {@inheritDoc}
      *
      * @api
+     *
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::isQuotePaymentValid()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
@@ -62,6 +65,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      * {@inheritDoc}
      *
      * @api
+     *
+     * @deprecated Braintree payment is created in {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::executeCheckoutPostSaveHook()} instead.
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
@@ -250,6 +255,8 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
      *
      * @api
      *
+     * @deprecated Use {@link \SprykerEco\Zed\Braintree\Business\BraintreeFacade::executeCheckoutPostSaveHook()} instead.
+     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
      *
@@ -313,5 +320,41 @@ class BraintreeFacade extends AbstractFacade implements BraintreeFacadeInterface
             ->getFactory()
             ->createCaptureItemsTransactionHandler()
             ->capture($transactionMetaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return bool
+     */
+    public function isQuotePaymentValid(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponseTransfer
+    ): bool {
+        return $this->getFactory()
+            ->createCheckoutPaymentChecker()
+            ->isQuotePaymentValid($quoteTransfer, $checkoutResponseTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\CheckoutResponseTransfer
+     */
+    public function executeCheckoutPostSaveHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponseTransfer): CheckoutResponseTransfer
+    {
+        return $this->getFactory()
+            ->createCheckoutPostSaveHook()
+            ->executeCheckoutPostSaveHook($quoteTransfer, $checkoutResponseTransfer);
     }
 }

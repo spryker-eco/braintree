@@ -5,21 +5,25 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Result\Error;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AddressTransfer;
+use Generated\Shared\Transfer\BraintreePaymentTransfer;
+use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer;
 use Generated\Shared\Transfer\PaymentBraintreeTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\TotalsTransfer;
 use Generated\Shared\Transfer\TransactionMetaTransfer;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintree;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery;
 use Orm\Zed\Country\Persistence\SpyCountryQuery;
 use Orm\Zed\Customer\Persistence\Map\SpyCustomerTableMap;
-use Orm\Zed\Customer\Persistence\SpyCustomerQuery;
+use Orm\Zed\Customer\Persistence\SpyCustomer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 use Spryker\Zed\Kernel\Container;
@@ -56,24 +60,30 @@ class AbstractFacadeTest extends Unit
     protected $paymentEntity;
 
     /**
+     * @var \SprykerEcoTest\Zed\Braintree\BraintreeBusinessTester
+     */
+    protected $tester;
+
+    /**
      * @return void
      */
-    protected function _before()
+    protected function _before(): void
     {
         parent::_before();
 
         $this->setUpSalesOrderTestData();
-        $this->setUpPaymentTestData();
+        $this->addPaymentTestData();
     }
 
     /**
      * @param \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory|null $braintreeBusinessFactoryMock
      *
-     * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @return \SprykerEco\Zed\Braintree\Business\BraintreeFacade|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getBraintreeFacade(?BraintreeBusinessFactory $braintreeBusinessFactoryMock = null): BraintreeFacade
     {
         $braintreeFacade = new BraintreeFacade();
+
         if ($braintreeBusinessFactoryMock) {
             $braintreeFacade->setFactory($braintreeBusinessFactoryMock);
         }
@@ -84,17 +94,15 @@ class AbstractFacadeTest extends Unit
     /**
      * @return \Braintree\Result\Error
      */
-    protected function getErrorResponse()
+    protected function getErrorResponse(): Error
     {
-        $response = new Error(['errors' => [], 'message' => 'Error']);
-
-        return $response;
+        return new Error(['errors' => [], 'message' => 'Error']);
     }
 
     /**
      * @return void
      */
-    protected function setUpSalesOrderTestData()
+    protected function setUpSalesOrderTestData(): void
     {
         $country = SpyCountryQuery::create()->filterByIso2Code('DE')->findOneOrCreate();
         $country->save();
@@ -106,16 +114,16 @@ class AbstractFacadeTest extends Unit
             ->setAddress1('Straße des 17. Juni 135')
             ->setCity('Berlin')
             ->setZipCode('10623');
+
         $billingAddress->save();
 
-        $customer = (new SpyCustomerQuery())
-            ->filterByFirstName('John')
-            ->filterByLastName('Doe')
-            ->filterByEmail('john@doe.com')
-            ->filterByDateOfBirth('1970-01-01')
-            ->filterByGender(SpyCustomerTableMap::COL_GENDER_MALE)
-            ->filterByCustomerReference('braintree-pre-authorization-test')
-            ->findOneOrCreate();
+        $customer = (new SpyCustomer())
+            ->setFirstName('John')
+            ->setLastName('Doe')
+            ->setEmail('john@doe.com')
+            ->setDateOfBirth('1970-01-01')
+            ->setGender(SpyCustomerTableMap::COL_GENDER_MALE)
+            ->setCustomerReference('braintree-pre-authorization-test');
 
         $customer->save();
 
@@ -133,7 +141,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @return void
      */
-    protected function setUpPaymentTestData()
+    protected function addPaymentTestData(): void
     {
         $this->paymentEntity = (new SpyPaymentBraintree())
             ->setFkSalesOrder($this->getOrderEntity()->getIdSalesOrder())
@@ -147,13 +155,14 @@ class AbstractFacadeTest extends Unit
             ->setZipCode('10623')
             ->setLanguageIso2Code('DE')
             ->setCurrencyIso3Code('EUR');
+
         $this->paymentEntity->save();
     }
 
     /**
      * @return \Generated\Shared\Transfer\TransactionMetaTransfer
      */
-    protected function getTransactionMetaTransfer()
+    protected function getTransactionMetaTransfer(): TransactionMetaTransfer
     {
         $transactionMetaTransfer = new TransactionMetaTransfer();
         $transactionMetaTransfer->setIdSalesOrder($this->getOrderEntity()->getIdSalesOrder());
@@ -164,7 +173,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @param array $methods
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
+     * @return \SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getFactoryMock(array $methods): BraintreeBusinessFactory
     {
@@ -178,7 +187,7 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainer
      */
     protected function getQueryContainerMock(): BraintreeQueryContainer
     {
@@ -194,13 +203,12 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
-     * @return \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface
+     * @return \SprykerEco\Zed\Braintree\Persistence\BraintreeRepositoryInterface|\Spryker\Zed\Kernel\Persistence\AbstractRepository
      */
     protected function getRepositoryMock(): BraintreeRepositoryInterface
     {
         $queryContainerMock = $this->getMockBuilder(BraintreeRepository::class)->getMock();
 
-        $transactionStatusLogQueryMock = $this->getTransactionStatusLogQueryMock();
         $paymentBraintreeTransfer = $this->getPaymentBraintreeTransfer();
         $paymentBraintreeTransactionStatusLogTransfer = $this->getPaymentBraintreeTransactionStatusLogTransfer();
 
@@ -216,7 +224,7 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLogQuery
      */
     private function getTransactionStatusLogQueryMock(): SpyPaymentBraintreeTransactionStatusLogQuery
     {
@@ -247,7 +255,7 @@ class AbstractFacadeTest extends Unit
     }
 
     /**
-     * @return \Generated\Shared\Transfer\PaymentBraintreeTransfer
+     * @return \Generated\Shared\Transfer\PaymentBraintreeTransactionStatusLogTransfer
      */
     public function getPaymentBraintreeTransactionStatusLogTransfer(): PaymentBraintreeTransactionStatusLogTransfer
     {
@@ -257,19 +265,17 @@ class AbstractFacadeTest extends Unit
     /**
      * @param array $methods
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Braintree\Business\BraintreeBusinessFactory
      */
     protected function getFactory(array $methods): BraintreeBusinessFactory
     {
-        $factoryMock = $this->getMockBuilder(BraintreeBusinessFactory::class)->setMethods($methods)->getMock();
-
-        return $factoryMock;
+        return $this->getMockBuilder(BraintreeBusinessFactory::class)->setMethods($methods)->getMock();
     }
 
     /**
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function getContainer()
+    protected function getContainer(): Container
     {
         $container = new Container();
         $braintreeDependencyProvider = new BraintreeDependencyProvider();
@@ -281,7 +287,7 @@ class AbstractFacadeTest extends Unit
     /**
      * @return \Generated\Shared\Transfer\OrderTransfer
      */
-    protected function createOrderTransfer()
+    protected function createOrderTransfer(): OrderTransfer
     {
         $orderTransfer = new OrderTransfer();
         $totalsTransfer = new TotalsTransfer();
@@ -299,8 +305,52 @@ class AbstractFacadeTest extends Unit
     /**
      * @return \Orm\Zed\Sales\Persistence\SpySalesOrder
      */
-    protected function getOrderEntity()
+    protected function getOrderEntity(): SpySalesOrder
     {
         return $this->orderEntity;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    protected function createQuoteTransfer(OrderTransfer $orderTransfer): QuoteTransfer
+    {
+        $quoteTransfer = (new QuoteTransfer())
+            ->setCustomer(new CustomerTransfer())
+            ->setBillingAddress($orderTransfer->getBillingAddress())
+            ->setShippingAddress($orderTransfer->getShippingAddress())
+            ->setOrderReference($orderTransfer->getOrderReference())
+            ->setTotals($orderTransfer->getTotals());
+
+        $paymentTransfer = (new PaymentTransfer())
+            ->setPaymentSelection(SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL)
+            ->setPaymentProvider(SharedBraintreeConfig::PROVIDER_NAME);
+
+        $braintreeTransfer = (new BraintreePaymentTransfer())->setNonce('fake_valid_nonce');
+
+        $paymentTransfer->setBraintree($braintreeTransfer);
+
+        $quoteTransfer->setPayment($paymentTransfer);
+
+        return $quoteTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
+     */
+    protected function createQuoteTransferWithEmptyPayment(OrderTransfer $orderTransfer): QuoteTransfer
+    {
+        $quoteTransfer = (new QuoteTransfer())
+            ->setCustomer(new CustomerTransfer())
+            ->setBillingAddress($orderTransfer->getBillingAddress())
+            ->setShippingAddress($orderTransfer->getShippingAddress())
+            ->setOrderReference($orderTransfer->getOrderReference())
+            ->setTotals($orderTransfer->getTotals());
+
+        return $quoteTransfer;
     }
 }

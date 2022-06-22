@@ -145,11 +145,11 @@ class PreCheckTransaction extends AbstractTransaction
     {
         $grandTotal = $this->getQuote()->requireTotals()->getTotals()->getGrandTotal();
 
-        return $this->moneyFacade->convertIntegerToDecimal($grandTotal);
+        return $this->moneyFacade->convertIntegerToDecimal((int)$grandTotal);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getNonce()
     {
@@ -157,7 +157,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\BraintreePaymentTransfer
+     * @return \Generated\Shared\Transfer\BraintreePaymentTransfer|null
      */
     protected function getBraintreePayment()
     {
@@ -165,7 +165,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     protected function getPaymentSelection()
     {
@@ -175,7 +175,7 @@ class PreCheckTransaction extends AbstractTransaction
     /**
      * Customer is not required for guest checkout, so no `requireCustomer()`
      *
-     * @return \Generated\Shared\Transfer\CustomerTransfer
+     * @return \Generated\Shared\Transfer\CustomerTransfer|null
      */
     protected function getCustomer()
     {
@@ -183,7 +183,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\PaymentTransfer
+     * @return \Generated\Shared\Transfer\PaymentTransfer|null
      */
     protected function getPayment()
     {
@@ -191,7 +191,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\QuoteTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer|null
      */
     protected function getQuote()
     {
@@ -199,7 +199,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\AddressTransfer
+     * @return \Generated\Shared\Transfer\AddressTransfer|null
      */
     protected function getBillingAddress()
     {
@@ -207,7 +207,7 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @return \Generated\Shared\Transfer\AddressTransfer
+     * @return \Generated\Shared\Transfer\AddressTransfer|null
      */
     protected function getShippingAddress()
     {
@@ -234,9 +234,9 @@ class PreCheckTransaction extends AbstractTransaction
             $this->updatePaymentForSuccessfulResponse($response);
             $transaction = $response->transaction;
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $braintreeTransactionResponseTransfer->setCode($transaction->processorSettlementResponseCode);
-            $braintreeTransactionResponseTransfer->setCreditCardType($transaction->creditCardDetails->cardType);
-            $braintreeTransactionResponseTransfer->setPaymentType($transaction->paymentInstrumentType);
+            $braintreeTransactionResponseTransfer->setCode($transaction->__get('processorSettlementResponseCode'));
+            $braintreeTransactionResponseTransfer->setCreditCardType($transaction->__get('creditCardDetails')->cardType);
+            $braintreeTransactionResponseTransfer->setPaymentType($transaction->__get('paymentInstrumentType'));
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -259,14 +259,14 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Braintree\Result\Successful $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return void
      */
     protected function updatePaymentForSuccessfulResponse($response)
     {
         $braintreePaymentTransfer = $this->getBraintreePayment();
-        $braintreePaymentTransfer->setPaymentType($response->transaction->paymentInstrumentType);
+        $braintreePaymentTransfer->setPaymentType($response->transaction->__get('paymentInstrumentType'));
 
         if ($braintreePaymentTransfer->getPaymentType() === PaymentInstrumentType::PAYPAL_ACCOUNT) {
             $this->setPaypalPaymentMethod($this->getPayment());
@@ -278,7 +278,7 @@ class PreCheckTransaction extends AbstractTransaction
     /**
      * When error occurs unset nonce, so this cannot be used anymore
      *
-     * @param \Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return void
      */
@@ -288,13 +288,13 @@ class PreCheckTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Braintree\Result\Successful $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return bool
      */
     protected function isValidPaymentType($response)
     {
-        $returnedType = $response->transaction->paymentInstrumentType;
+        $returnedType = $response->transaction->__get('paymentInstrumentType');
 
         $matching = [
             SharedBraintreeConfig::PAYMENT_METHOD_PAY_PAL => PaymentInstrumentType::PAYPAL_ACCOUNT,

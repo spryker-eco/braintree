@@ -32,7 +32,7 @@ abstract class AbstractCheckPlugin extends AbstractPlugin implements ConditionIn
         $orderEntity = $orderItem->getOrder();
 
         $orderTransfer = new OrderTransfer();
-        $orderTransfer->fromArray($orderEntity->toArray(), true);
+        $orderTransfer->fromArray((array)$orderEntity->toArray(), true);
 
         $isSuccess = $this->callFacade($orderTransfer);
 

@@ -70,9 +70,9 @@ class ShipmentTransaction extends AbstractTransaction
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
+            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->__get('transaction')->statusHistory);
 
-            $this->braintreeEntityManager->updateIsShipmentOperationValue($this->getIdPayment(), $braintreeTransactionResponseTransfer->getTransactionId(), true);
+            $this->braintreeEntityManager->updateIsShipmentOperationValue($this->getIdPayment(), (string)$braintreeTransactionResponseTransfer->getTransactionId(), true);
 
             return $braintreeTransactionResponseTransfer;
         }

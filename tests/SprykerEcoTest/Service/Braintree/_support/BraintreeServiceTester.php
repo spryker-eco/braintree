@@ -28,8 +28,4 @@ use Codeception\Actor;
 class BraintreeServiceTester extends Actor
 {
     use _generated\BraintreeServiceTesterActions;
-
-   /**
-    * Define custom actions here
-    */
 }

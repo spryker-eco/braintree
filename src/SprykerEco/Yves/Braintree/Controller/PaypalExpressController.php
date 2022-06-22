@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \SprykerEco\Yves\Braintree\BraintreeFactory getFactory()
+ * @method \Spryker\Yves\Kernel\Application getApplication()
  */
 class PaypalExpressController extends AbstractController
 {
@@ -43,7 +44,7 @@ class PaypalExpressController extends AbstractController
             ]);
         }
 
-        $payload = $this->getFactory()->getUtilEncodingService()->decodeJson($request->getContent(), true);
+        $payload = $this->getFactory()->getUtilEncodingService()->decodeJson((string)$request->getContent(), true);
 
         $this->getFactory()->createResponseProcessor()->processSuccessResponse($payload);
 

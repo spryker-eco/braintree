@@ -184,7 +184,9 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $brainTreePaymentTransfer = new BraintreePaymentTransfer();
         $brainTreePaymentTransfer->setNonce($paypalExpressSuccessResponseTransfer->getNonce());
         $brainTreePaymentTransfer->setBillingAddress($quoteTransfer->getBillingAddress());
-        $brainTreePaymentTransfer->setLanguageIso2Code(mb_strtolower($quoteTransfer->getBillingAddress()->getIso2Code()));
+        if ($quoteTransfer->getBillingAddress() && $quoteTransfer->getBillingAddress()->getIso2Code()) {
+            $brainTreePaymentTransfer->setLanguageIso2Code(mb_strtolower($quoteTransfer->getBillingAddress()->getIso2Code()));
+        }
         $brainTreePaymentTransfer->setCurrencyIso3Code($paypalExpressSuccessResponseTransfer->getCurrency());
         $brainTreePaymentTransfer->setEmail($quoteTransfer->getShippingAddress()->getEmail());
 
@@ -193,7 +195,9 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $paymentTransfer->setBraintreePayPalExpress($brainTreePaymentTransfer);
         $paymentTransfer->setBraintree($brainTreePaymentTransfer);
         $paymentTransfer->setPaymentSelection(PaymentTransfer::BRAINTREE_PAY_PAL_EXPRESS);
-        $paymentTransfer->setAmount($this->moneyPlugin->convertDecimalToInteger($paypalExpressSuccessResponseTransfer->getAmount()));
+        if ($paypalExpressSuccessResponseTransfer->getAmount() !== null) {
+            $paymentTransfer->setAmount($this->moneyPlugin->convertDecimalToInteger($paypalExpressSuccessResponseTransfer->getAmount()));
+        }
 
         $quoteTransfer->setPayment($paymentTransfer);
 
@@ -294,10 +298,12 @@ class PaypalResponseMapper implements PaypalResponseMapperInterface
         $addressTransfer->setAddress1($paypalExpressSuccessResponseTransfer->getLine1());
         $addressTransfer->setZipCode($paypalExpressSuccessResponseTransfer->getPostalCode());
 
-        $countryTransfer = $this->findCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCode());
-        if ($countryTransfer) {
-            $addressTransfer->setCountry($countryTransfer);
-            $addressTransfer->setIso2Code($countryTransfer->getIso2Code());
+        if ($paypalExpressSuccessResponseTransfer->getCountryCode()) {
+            $countryTransfer = $this->findCountryTransfer($paypalExpressSuccessResponseTransfer->getCountryCode());
+            if ($countryTransfer) {
+                $addressTransfer->setCountry($countryTransfer);
+                $addressTransfer->setIso2Code($countryTransfer->getIso2Code());
+            }
         }
 
         return $addressTransfer;

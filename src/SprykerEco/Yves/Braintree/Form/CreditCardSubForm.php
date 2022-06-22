@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class CreditCardSubForm extends AbstractSubForm
 {
     /**
@@ -138,22 +141,27 @@ class CreditCardSubForm extends AbstractSubForm
         $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
         $view->vars[static::IS_3D_SECURE] = (string)Config::get(BraintreeConstants::IS_3D_SECURE);
 
-        /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
-        $quote = $form->getParent()->getViewData();
+        $parentForm = $form->getParent();
+        if ($parentForm instanceof FormInterface) {
+            /** @var \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer */
+            $quoteTransfer = $parentForm->getViewData();
 
-        $view->vars[static::EMAIL] = $quote->getCustomer()->getEmail();
-        $view->vars[static::AMOUNT] = $quote->getTotals()->getGrandTotal();
-        $view->vars[static::BILLING_ADDRESS] = [
-            static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getFirstName()),
-            static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($quote->getBillingAddress()->getLastName()),
-            static::BILLING_ADDRESS_PHONE_NUMBER => $quote->getBillingAddress()->getPhone(),
-            static::BILLING_ADDRESS_STREET_ADDRESS => $quote->getBillingAddress()->getAddress1(),
-            static::BILLING_ADDRESS_EXTENDED_ADDRESS => $quote->getBillingAddress()->getAddress2(),
-            static::BILLING_ADDRESS_LOCALITY => $quote->getBillingAddress()->getCountry() ? $quote->getBillingAddress()->getCountry()->getName() : '',
-            static::BILLING_ADDRESS_REGION => $quote->getBillingAddress()->getRegion(),
-            static::BILLING_ADDRESS_POSTAL_CODE => $quote->getBillingAddress()->getZipCode(),
-            static::BILLING_ADDRESS_COUNTRY_CODE => $quote->getBillingAddress()->getCountry() ? $quote->getBillingAddress()->getCountry()->getIso2Code() : '',
-        ];
+            $billingAddressTransfer = $quoteTransfer->getBillingAddressOrFail();
+
+            $view->vars[static::EMAIL] = $quoteTransfer->getCustomerOrFail()->getEmail();
+            $view->vars[static::AMOUNT] = $quoteTransfer->getTotals()->getGrandTotal();
+            $view->vars[static::BILLING_ADDRESS] = [
+                static::BILLING_ADDRESS_GIVEN_NAME => $this->convertToGermanAsciiFormat($billingAddressTransfer->getFirstNameOrFail()),
+                static::BILLING_ADDRESS_SURNAME => $this->convertToGermanAsciiFormat($billingAddressTransfer->getLastNameOrFail()),
+                static::BILLING_ADDRESS_PHONE_NUMBER => $billingAddressTransfer->getPhone(),
+                static::BILLING_ADDRESS_STREET_ADDRESS => $billingAddressTransfer->getAddress1(),
+                static::BILLING_ADDRESS_EXTENDED_ADDRESS => $billingAddressTransfer->getAddress2(),
+                static::BILLING_ADDRESS_LOCALITY => $billingAddressTransfer->getCountry() ? $billingAddressTransfer->getCountry()->getName() : '',
+                static::BILLING_ADDRESS_REGION => $billingAddressTransfer->getRegion(),
+                static::BILLING_ADDRESS_POSTAL_CODE => $billingAddressTransfer->getZipCode(),
+                static::BILLING_ADDRESS_COUNTRY_CODE => $billingAddressTransfer->getCountry() ? $billingAddressTransfer->getCountry()->getIso2Code() : '',
+            ];
+        }
     }
 
     /**

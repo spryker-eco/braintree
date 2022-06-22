@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @method \SprykerEco\Yves\Braintree\BraintreeConfig getConfig()
+ */
 class PayPalSubForm extends AbstractSubForm
 {
     /**
@@ -95,13 +98,17 @@ class PayPalSubForm extends AbstractSubForm
     {
         parent::buildView($view, $form, $options);
 
-        /** @var \Generated\Shared\Transfer\QuoteTransfer $quote */
-        $quote = $form->getParent()->getViewData();
-
-        $view->vars[static::ENV] = Config::get(BraintreeConstants::ENVIRONMENT);
         $view->vars[static::CLIENT_TOKEN] = $this->generateClientToken();
-        $view->vars[static::AMOUNT] = $quote->getTotals()->getGrandTotal();
-        $view->vars[static::CURRENCY] = $quote->getCurrency()->getCode();
         $view->vars[static::LOCALE] = Store::getInstance()->getCurrentLocale();
+        $view->vars[static::ENV] = Config::get(BraintreeConstants::ENVIRONMENT);
+
+        $parentForm = $form->getParent();
+        if ($parentForm instanceof FormInterface) {
+            /** @var \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer */
+            $quoteTransfer = $parentForm->getViewData();
+
+            $view->vars[static::AMOUNT] = $quoteTransfer->getTotalsOrFail()->getGrandTotal();
+            $view->vars[static::CURRENCY] = $quoteTransfer->getCurrencyOrFail()->getCode();
+        }
     }
 }

@@ -48,7 +48,7 @@ class PaymentTransactionMetaVisitor implements TransactionMetaVisitorInterface
      */
     protected function findPaymentBraintreeTransfer(TransactionMetaTransfer $transactionMetaTransfer): ?PaymentBraintreeTransfer
     {
-        $idSalesOrderEntity = $transactionMetaTransfer->requireIdSalesOrder()->getIdSalesOrder();
+        $idSalesOrderEntity = $transactionMetaTransfer->getIdSalesOrderOrFail();
 
         return $this->repository->findPaymentBraintreeBySalesOrderId($idSalesOrderEntity);
     }

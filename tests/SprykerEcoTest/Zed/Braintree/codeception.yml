@@ -9,7 +9,7 @@ paths:
 coverage:
     enabled: true
     remote: false
-    whitelist: { include: ['../../../../src/*'] }
+    whitelist: { include: [ '../../../../src/*' ] }
 
 suites:
     Business:
@@ -18,12 +18,32 @@ suites:
         modules:
             enabled:
                 - Asserts
-                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
+                -   \SprykerTest\Shared\Testify\Helper\Environment:
+                        isolated: true
                 - \SprykerTest\Shared\Testify\Helper\ConfigHelper
-                - \SprykerTest\Shared\Testify\Helper\LocatorHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Service\Container\Helper\ContainerHelper
+                - \SprykerTest\Shared\Propel\Helper\ConnectionHelper
+                - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
                 - \SprykerTest\Shared\Testify\Helper\DependencyHelper
                 - \SprykerTest\Shared\Propel\Helper\TransactionHelper
-
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces:
+                            - 'Spryker'
+                            - 'SprykerTest'
+                            - 'SprykerEco'
+                            - 'SprykerEcoTest'
+                -   \SprykerTest\Shared\Transfer\Helper\TransferGenerateHelper:
+                        isolated: true
+                        schemaDirectories:
+                            - src/*/Shared/*/Transfer/
+                            - vendor/spryker/*/src/Spryker/Shared/*/Transfer/
+                -   \SprykerTest\Shared\Propel\Helper\PropelHelper:
+                        isolated: true
+                        schemaSourceDirectoryList:
+                            - src/*/Zed/*/Persistence/Propel/Schema
+                            - vendor/*/*/src/*/Zed/*/Persistence/Propel/Schema
     Presentation:
         path: Presentation
         class_name: BraintreePresentationTester
@@ -32,17 +52,17 @@ suites:
                 - Asserts
                 - \SprykerTest\Shared\Testify\Helper\Environment
                 - \SprykerTest\Shared\Config\Helper\ConfigInit
-                - \SprykerTest\Shared\Testify\Helper\LocatorHelper
-                - WebDriver:
-                    url: ''
-                    browser: chrome
-                    window_size: 1920x1080
-                    host: 0.0.0.0
-                    restart: false
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces:
+                            - SprykerEco
+                            - SprykerEcoTest
+                -   WebDriver:
+                        url: ''
+                        browser: chrome
+                        window_size: 1920x1080
+                        host: 0.0.0.0
+                        restart: false
                 - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
                 - \SprykerTest\Shared\Application\Helper\YvesHelper
-                - \SprykerTest\Shared\Application\Helper\ZedHelper
                 - \SprykerTest\Zed\ZedNavigation\Helper\BreadcrumbHelper
                 - \SprykerTest\Zed\Gui\Helper\DataTableActionHelper
-                - \SprykerTest\Shared\Sales\Helper\SalesHelper
-                - \SprykerTest\Zed\Oms\Helper\OmsHelper

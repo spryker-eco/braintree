@@ -51,7 +51,9 @@ class CreditCardSubFormTest extends Unit
      */
     public function testBuildCreditCardSubFormForCustomerWithoutNonAsciiChars(): void
     {
-        $addressTransfer = (new AddressBuilder())->build();
+        $addressTransfer = (new AddressBuilder())->build()
+            ->setFirstName('Peter')
+            ->setLastName('Lustig');
 
         $quoteTransfer = (new QuoteTransfer())
             ->setCustomer((new CustomerBuilder())->build())

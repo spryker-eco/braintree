@@ -13,7 +13,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 {
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get payment braintree query.
      *
      * @api
      *
@@ -23,7 +23,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Filters payment braintree query by `id_payment_braintree` column.
      *
      * @api
      *
@@ -35,7 +35,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Filters payment braintree query by `fk_sales_order` column.
      *
      * @api
      *
@@ -47,7 +47,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get payment braintree transaction status logs query.
      *
      * @api
      *
@@ -57,7 +57,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Filters payment braintree transaction status logs query by `fk_payment_braintree` column.
      *
      * @api
      *
@@ -69,7 +69,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get latest payment braintree transaction status log filtered by `fk_payment_braintree` column.
      *
      * @api
      *
@@ -81,7 +81,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Filters payment braintree transaction status logs query by `fk_sales_order` column.
      *
      * @api
      *
@@ -93,7 +93,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get latest payment braintree transaction status logs filtered by `fk_sales_order` column.
      *
      * @api
      *
@@ -105,7 +105,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get latest payment braintree transaction status logs filtered by `fk_sales_order` and `transaction_code` columns.
      *
      * @api
      *
@@ -118,7 +118,7 @@ interface BraintreeQueryContainerInterface extends QueryContainerInterface
 
     /**
      * Specification:
-     * - TODO: write specification
+     * - Get payment braintree transaction request log query.
      *
      * @api
      *

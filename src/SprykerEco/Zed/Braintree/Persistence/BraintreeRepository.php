@@ -108,6 +108,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
      */
     public function findPaymentBraintreeTransactionStatusLogQueryBySalesOrderId(int $idSalesOrder): ?PaymentBraintreeTransactionStatusLogTransfer
     {
+        /** @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLog|null $paymentBraintreeTransactionStatusLogEntity */
         $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->useSpyPaymentBraintreeQuery()
@@ -156,6 +157,7 @@ class BraintreeRepository extends AbstractRepository implements BraintreeReposit
     public function findPaymentBraintreeTransactionStatusLogQueryByPaymentBraintreeOrderItem(
         int $idPaymentBraintreeOrderItem
     ): ?PaymentBraintreeTransactionStatusLogTransfer {
+        /** @var \Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLog|null $paymentBraintreeTransactionStatusLogEntity */
         $paymentBraintreeTransactionStatusLogEntity = $this->getFactory()
             ->createPaymentBraintreeTransactionStatusLogQuery()
             ->useSpyPaymentBraintreeTransactionStatusLogToOrderItemQuery()

@@ -14,10 +14,11 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use SprykerEco\Shared\Braintree\BraintreeConfig;
 
 /**
+ * @deprecated Will be removed without replacement.
  * @method \SprykerEco\Zed\Braintree\Business\BraintreeFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  * @method \SprykerEco\Zed\Braintree\Persistence\BraintreeQueryContainerInterface getQueryContainer()
  * @method \SprykerEco\Zed\Braintree\Communication\BraintreeCommunicationFactory getFactory()
- * @method \SprykerEco\Zed\Braintree\BraintreeConfig getConfig()
  */
 class BraintreeCreatePaymentPlugin extends AbstractPlugin implements CheckoutPreSaveHookInterface
 {

@@ -5,12 +5,9 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Braintree\Exception\NotFound;
-use Braintree\Transaction;
-use Braintree\Transaction\StatusDetails;
-use DateTime;
 use SprykerEco\Zed\Braintree\BraintreeConfig;
 use SprykerEco\Zed\Braintree\Business\Payment\Transaction\AuthorizeTransaction;
 
@@ -30,34 +27,40 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    public function testAuthorizePaymentWithSuccessResponse()
+    public function testAuthorizePaymentWithSuccessResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
             $this->getAuthorizeTransactionMock(),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
+
+        // Act
         $response = $braintreeFacade->authorizePayment($transactionMetaTransfer);
 
+        // Assert
         $this->assertTrue($response->getIsSuccess());
     }
 
     /**
      * @return void
      */
-    public function testAuthorizePaymentWithErrorResponse()
+    public function testAuthorizePaymentWithErrorResponse(): void
     {
+        // Arrange
         $factoryMock = $this->getFactoryMock(['createAuthorizeTransaction']);
         $factoryMock->expects($this->once())->method('createAuthorizeTransaction')->willReturn(
             $this->getAuthorizeTransactionMock(true),
         );
         $braintreeFacade = $this->getBraintreeFacade($factoryMock);
-
         $transactionMetaTransfer = $this->getTransactionMetaTransfer();
+
+        // Act
         $response = $braintreeFacade->authorizePayment($transactionMetaTransfer);
 
+        // Assert
         $this->assertFalse($response->getIsSuccess());
     }
 
@@ -78,36 +81,18 @@ class BraintreeFacadeAuthorizeTest extends AbstractFacadeTest
 
         if ($throwsException) {
             $authorizeTransactionMock->method('findTransaction')->willThrowException(new NotFound());
-        } else {
-            $transaction = $this->getSuccessfulTransaction();
-            $authorizeTransactionMock->expects($this->once())
-                ->method('findTransaction')
-                ->willReturn($transaction);
+
+            return $authorizeTransactionMock;
         }
 
-        return $authorizeTransactionMock;
-    }
-
-    /**
-     * @return \Braintree\Transaction
-     */
-    protected function getSuccessfulTransaction()
-    {
-        $orderTransfer = $this->createOrderTransfer();
-
-        return Transaction::factory([
-            'id' => 123,
-            'processorResponseCode' => '1000',
-            'processorResponseText' => 'Approved',
-            'createdAt' => new DateTime(),
-            'status' => 'authorized',
-            'type' => 'sale',
-            'amount' => $orderTransfer->getTotals()->getGrandTotal() / 100,
-            'merchantAccountId' => 'abc',
-            'statusHistory' => new StatusDetails([
-                'timestamp' => new DateTime(),
-                'status' => 'authorized',
-            ]),
+        $transaction = $this->tester->getSuccessfulTransaction([
+            'amount' => $this->createOrderTransfer()->getTotals()->getGrandTotal() / 100,
         ]);
+
+        $authorizeTransactionMock->expects($this->once())
+            ->method('findTransaction')
+            ->willReturn($transaction);
+
+        return $authorizeTransactionMock;
     }
 }

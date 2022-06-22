@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEcoTest\Zed\Braintree\Business;
+namespace SprykerEcoTest\Zed\Braintree\Business\BraintreeFacade;
 
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionRequestLog;
 use Orm\Zed\Braintree\Persistence\SpyPaymentBraintreeTransactionStatusLog;
@@ -39,13 +39,17 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
      *
      * @return void
      */
-    public function testIsAuthorizationApproved()
+    public function testIsAuthorizationApproved(): void
     {
+        // Arrange
         $this->setUpAuthorizationTestData();
-
         $orderTransfer = $this->createOrderTransfer();
         $facade = $this->getBraintreeFacade();
+
+        // Act
         $response = $facade->isAuthorizationApproved($orderTransfer);
+
+        // Assert
         $this->assertTrue($response);
     }
 
@@ -54,13 +58,17 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
      *
      * @return void
      */
-    public function testIsCaptureApproved()
+    public function testIsCaptureApproved(): void
     {
+        // Arrange
         $this->setUpCaptureTestData();
-
         $orderTransfer = $this->createOrderTransfer();
         $facade = $this->getBraintreeFacade();
+
+        // Act
         $response = $facade->isCaptureApproved($orderTransfer);
+
+        // Assert
         $this->assertTrue($response);
     }
 
@@ -69,13 +77,17 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
      *
      * @return void
      */
-    public function testIsReversalApproved()
+    public function testIsReversalApproved(): void
     {
+        // Arrange
         $this->setUpReversalTestData();
-
         $orderTransfer = $this->createOrderTransfer();
         $facade = $this->getBraintreeFacade();
+
+        // Act
         $response = $facade->isReversalApproved($orderTransfer);
+
+        // Assert
         $this->assertTrue($response);
     }
 
@@ -84,20 +96,24 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
      *
      * @return void
      */
-    public function testIsRefundApproved()
+    public function testIsRefundApproved(): void
     {
+        // Arrange
         $this->setUpRefundTestData();
-
         $orderTransfer = $this->createOrderTransfer();
         $facade = $this->getBraintreeFacade();
+
+        // Act
         $response = $facade->isRefundApproved($orderTransfer);
+
+        // Assert
         $this->assertTrue($response);
     }
 
     /**
      * @return void
      */
-    protected function setUpAuthorizationTestData()
+    protected function setUpAuthorizationTestData(): void
     {
         $this->transactionRequestLogEntity = (new SpyPaymentBraintreeTransactionRequestLog())
             ->setFkPaymentBraintree($this->paymentEntity->getIdPaymentBraintree())
@@ -121,7 +137,7 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    protected function setUpCaptureTestData()
+    protected function setUpCaptureTestData(): void
     {
         $this->transactionRequestLogEntity = (new SpyPaymentBraintreeTransactionRequestLog())
             ->setFkPaymentBraintree($this->paymentEntity->getIdPaymentBraintree())
@@ -145,7 +161,7 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    protected function setUpReversalTestData()
+    protected function setUpReversalTestData(): void
     {
         $this->transactionRequestLogEntity = (new SpyPaymentBraintreeTransactionRequestLog())
             ->setFkPaymentBraintree($this->paymentEntity->getIdPaymentBraintree())
@@ -169,7 +185,7 @@ class BraintreeFacadeConditionsTest extends AbstractFacadeTest
     /**
      * @return void
      */
-    protected function setUpRefundTestData()
+    protected function setUpRefundTestData(): void
     {
         $this->transactionRequestLogEntity = (new SpyPaymentBraintreeTransactionRequestLog())
             ->setFkPaymentBraintree($this->paymentEntity->getIdPaymentBraintree())

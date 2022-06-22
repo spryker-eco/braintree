@@ -74,7 +74,7 @@ class Payments extends AbstractTable implements BraintreeTableInterface
      */
     protected function prepareData(TableConfiguration $config)
     {
-        $paymentItems = $this->runQuery($this->paymentBraintreeQuery, $config);
+        $paymentItems = $this->runQuery($this->paymentBraintreeQuery->keepQuery(), $config);
         $results = [];
         foreach ($paymentItems as $paymentItem) {
             $results[] = [

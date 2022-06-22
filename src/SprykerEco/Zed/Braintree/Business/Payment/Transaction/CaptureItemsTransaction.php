@@ -113,13 +113,13 @@ class CaptureItemsTransaction extends AbstractTransaction
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
+            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->__get('transaction')->statusHistory);
 
             $this->braintreeEntityManager->updateIsShipmentPaidValue($this->getIdPayment(), true);
             $this->braintreeEntityManager->addOrderItemsToTransactionLog(
                 $this->getIdPayment(),
                 $this->transactionMetaTransfer->getItems(),
-                $braintreeTransactionResponseTransfer->getTransactionId(),
+                (string)$braintreeTransactionResponseTransfer->getTransactionId(),
             );
 
             return $braintreeTransactionResponseTransfer;
@@ -182,16 +182,16 @@ class CaptureItemsTransaction extends AbstractTransaction
      */
     protected function captureShipmentAmount(): void
     {
-        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrder());
-        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrder());
+        $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($this->transactionMetaTransfer->getIdSalesOrderOrFail());
+        $braintreePayment = $this->braintreeRepository->findPaymentBraintreeBySalesOrderId($orderTransfer->getIdSalesOrderOrFail());
         $amount = $this->getShipmentExpenses($orderTransfer->getExpenses());
 
-        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || $amount === 0) {
+        if (!$braintreePayment || $braintreePayment->getIsShipmentPaid() || !$amount) {
             return;
         }
 
         $shipmentTransactionMetaTransfer = clone $this->transactionMetaTransfer;
-        $shipmentTransactionMetaTransfer->setCaptureShipmentAmount($this->getDecimalAmountValueFromInt($amount));
+        $shipmentTransactionMetaTransfer->setCaptureShipmentAmount((int)$this->getDecimalAmountValueFromInt($amount));
 
         $this->shipmentTransactionHandler->captureShipment($shipmentTransactionMetaTransfer);
     }
@@ -209,11 +209,11 @@ class CaptureItemsTransaction extends AbstractTransaction
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\ExpenseTransfer>|iterable $expenseTransfers
      *
-     * @return int
+     * @return int|null
      */
-    protected function getShipmentExpenses(iterable $expenseTransfers): int
+    protected function getShipmentExpenses(iterable $expenseTransfers): ?int
     {
         foreach ($expenseTransfers as $expenseTransfer) {
             if ($expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE) {

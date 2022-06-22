@@ -57,7 +57,7 @@ abstract class AbstractTransaction implements TransactionInterface
      */
     protected function getTransactionIdentifier()
     {
-        return $this->transactionMetaTransfer->requireTransactionIdentifier()->getTransactionIdentifier();
+        return $this->transactionMetaTransfer->getTransactionIdentifierOrFail();
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class AbstractTransaction implements TransactionInterface
     abstract protected function doTransaction();
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
@@ -105,7 +105,9 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         if ($this->isTransactionSuccessful($response)) {
             $braintreeTransactionResponseTransfer = $this->getSuccessResponseTransfer($response);
-            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $response->transaction->statusHistory);
+            $statusHistory = $response->transaction->__get('statusHistory');
+
+            $this->logApiResponse($braintreeTransactionResponseTransfer, $this->getIdPayment(), $statusHistory);
 
             return $braintreeTransactionResponseTransfer;
         }
@@ -117,7 +119,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return bool
      */
@@ -127,7 +129,7 @@ abstract class AbstractTransaction implements TransactionInterface
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
@@ -136,20 +138,20 @@ abstract class AbstractTransaction implements TransactionInterface
         $transaction = $response->transaction;
         $braintreeTransactionResponseTransfer = $this->getResponseTransfer()
             ->setIsSuccess(true)
-            ->setTransactionId($transaction->id)
-            ->setCode($transaction->processorResponseCode)
-            ->setMessage($transaction->processorResponseText)
-            ->setProcessingTimestamp($transaction->createdAt->getTimestamp())
-            ->setTransactionStatus($transaction->status)
-            ->setTransactionType($transaction->type)
-            ->setTransactionAmount($transaction->amount)
-            ->setMerchantAccount($transaction->merchantAccountId);
+            ->setTransactionId($transaction->__get('id'))
+            ->setCode($transaction->__get('processorResponseCode'))
+            ->setMessage($transaction->__get('processorResponseText'))
+            ->setProcessingTimestamp($transaction->__get('createdAt')->getTimestamp())
+            ->setTransactionStatus($transaction->__get('status'))
+            ->setTransactionType($transaction->__get('type'))
+            ->setTransactionAmount($transaction->__get('amount'))
+            ->setMerchantAccount($transaction->__get('merchantAccountId'));
 
         return $braintreeTransactionResponseTransfer;
     }
 
     /**
-     * @param \Braintree\Result\Successful|\Braintree\Result\Error $response
+     * @param \Braintree\Result\Successful|\Braintree\Result\Error|\Braintree\Transaction $response
      *
      * @return \Generated\Shared\Transfer\BraintreeTransactionResponseTransfer
      */
@@ -157,7 +159,7 @@ abstract class AbstractTransaction implements TransactionInterface
     {
         $braintreeTransactionResponseTransfer = $this->getResponseTransfer()
             ->setIsSuccess(false)
-            ->setMessage($response->message);
+            ->setMessage($response->__get('message'));
 
         return $braintreeTransactionResponseTransfer;
     }
