@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import Component from 'ShopUi/models/component';
 import braintree from 'braintree-web';
 import client from 'braintree-web/client';
