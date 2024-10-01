@@ -16,20 +16,20 @@
     </transfer>
 
     <transfer name="Customer">
-        <property name="email" dataBuilderRule="unique()->email"/>
+        <property name="email" dataBuilderRule="unique()->email()"/>
     </transfer>
 
     <transfer name="Address">
         <property name="salutation" dataBuilderRule="randomElement(['Mr', 'Mrs'])"/>
-        <property name="firstName" dataBuilderRule="firstName"/>
-        <property name="lastName" dataBuilderRule="lastName"/>
-        <property name="address1" dataBuilderRule="address"/>
-        <property name="address2" dataBuilderRule="address"/>
-        <property name="address3" dataBuilderRule="address"/>
-        <property name="company" dataBuilderRule="company"/>
-        <property name="city" dataBuilderRule="city"/>
-        <property name="zipCode" dataBuilderRule="postcode"/>
-        <property name="state" dataBuilderRule="country"/>
+        <property name="firstName" dataBuilderRule="firstName()"/>
+        <property name="lastName" dataBuilderRule="lastName()"/>
+        <property name="address1" dataBuilderRule="address()"/>
+        <property name="address2" dataBuilderRule="address()"/>
+        <property name="address3" dataBuilderRule="address()"/>
+        <property name="company" dataBuilderRule="company()"/>
+        <property name="city" dataBuilderRule="city()"/>
+        <property name="zipCode" dataBuilderRule="postcode()"/>
+        <property name="state" dataBuilderRule="country()"/>
         <property name="iso2Code" dataBuilderRule="=DE"/>
     </transfer>
 
