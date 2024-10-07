@@ -1,5 +1,5 @@
 {
-    "name": "spryker-eco/braintree",
+    "name": "haebich/spryker-eco-braintree",
     "type": "library",
     "description": "Braintree module",
     "license": "MIT",
