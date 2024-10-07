@@ -1,21 +1,26 @@
 import Component from 'ShopUi/models/component';
 import ScriptLoader from 'ShopUi/components/molecules/script-loader/script-loader';
-import dropin from 'braintree-web-drop-in';
 
-interface braintreeConfig {
-    nonce: string,
-    type: string
+interface BraintreeConfig {
+    nonce: string;
+    type: string;
 }
 
-interface braintreeErrorConfig {
-    message: string
+interface BraintreeErrorConfig {
+    message: string;
+}
+
+interface BraintreeSetupSettings {
+    onPaymentMethodReceived(response: BraintreeConfig): void;
+    onError(error: BraintreeErrorConfig): void;
 }
 
 export default class BraintreePaymentForm extends Component {
     protected form: HTMLFormElement;
     protected paymentMethods: HTMLInputElement[];
     protected nonceInputSelector: HTMLInputElement;
-    protected braintreeSetupSettings: any;
+    protected errorContainer: HTMLElement;
+    protected braintreeSetupSettings: BraintreeSetupSettings;
     protected scriptLoader: ScriptLoader;
     protected currentPaymentMethodValue: string = '';
 
@@ -26,20 +31,21 @@ export default class BraintreePaymentForm extends Component {
     protected readonly paymentMethodName: string = '';
     protected readonly paymentMethodTypeName: string = '';
 
-    constructor() {
-        super();
-    }
+    protected readyCallback(): void {}
 
-    protected readyCallback(): void {
+    protected init(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
         this.nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
-        this.scriptLoader = <ScriptLoader>this.querySelector('script-loader');
+        this.errorContainer = <HTMLElement>this.getElementsByClassName(`${this.jsName}__error`)[0];
+        this.scriptLoader = <ScriptLoader>this.getElementsByClassName(`${this.jsName}__script-loader`)[0];
 
         this.setCurrentPaymentMethod();
+
         if (!this.nonceInputSelector) {
             this.createTokenField();
         }
+
         this.mapEvents();
     }
 
@@ -61,7 +67,7 @@ export default class BraintreePaymentForm extends Component {
     }
 
     protected submitForm(nonce: string = ''): void {
-        this.initTokenValue(nonce);
+        this.tokenValue = nonce;
         this.form.submit();
     }
 
@@ -72,22 +78,14 @@ export default class BraintreePaymentForm extends Component {
         this.form.appendChild(tokenInput);
     }
 
-    protected initTokenValue(nonce: string): void {
-        const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
-        nonceInputSelector.value = nonce;
-    }
-
     protected clearTokenValue(): void {
-        const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
-        nonceInputSelector.value = '';
+        this.tokenValue = '';
     }
 
-    protected errorHandler(error: braintreeErrorConfig): void {
-        const paymentMethod = this.currentPaymentMethodValue;
-
+    protected errorHandler(error: BraintreeErrorConfig): void {
         this.removeErrorMessage();
 
-        if (paymentMethod === this.paymentMethodName) {
+        if (this.currentPaymentMethodValue === this.paymentMethodName) {
             this.addErrorMessage(error.message);
 
             return;
@@ -96,9 +94,10 @@ export default class BraintreePaymentForm extends Component {
         this.submitForm();
     }
 
-    protected paymentMethodHandler(response: braintreeConfig): void {
-        const paymentMethod = this.currentPaymentMethodValue;
-        const isWrongMethodSelected = (paymentMethod === this.paymentMethodName && response.type !== this.paymentMethodTypeName);
+    protected paymentMethodHandler(response: BraintreeConfig): void {
+        const isCurrentPaymentMethodEmpty = this.currentPaymentMethodValue === this.paymentMethodName;
+        const isPaymentMethodSelected = response.type !== this.paymentMethodTypeName;
+        const isWrongMethodSelected = isCurrentPaymentMethodEmpty && isPaymentMethodSelected;
 
         this.removeErrorMessage();
 
@@ -137,24 +136,25 @@ export default class BraintreePaymentForm extends Component {
     }
 
     protected addErrorMessage(message: string = ''): void {
-        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-        this.showErrorMessage(errorContainer);
-
-        errorContainer.innerHTML = message;
+        this.errorContainer.innerHTML = message;
+        this.showErrorMessage(this.errorContainer);
     }
 
     protected showErrorMessage(errorContainer: HTMLElement): void {
-        errorContainer.classList.remove(this.braintreeErrorMessageToggleClass);
+        this.errorContainer.classList.remove(this.braintreeErrorMessageToggleClass);
     }
 
     protected removeErrorMessage(): void {
-        const errorContainer = <HTMLElement>this.querySelector(`.${this.jsName}__error`);
-        this.hideErrorMessage(errorContainer);
-        errorContainer.innerHTML = '';
+        this.hideErrorMessage(this.errorContainer);
+        this.errorContainer.innerHTML = '';
     }
 
     protected hideErrorMessage(errorContainer: HTMLElement): void {
-        errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
+        this.errorContainer.classList.add(this.braintreeErrorMessageToggleClass);
+    }
+
+    protected set tokenValue(nonce: string) {
+        this.nonceInputSelector.value = nonce;
     }
 
     protected get braintreeErrorMessageToggleClass(): string {

@@ -4,104 +4,119 @@ import paypal from 'paypal-checkout';
 
 export default class BraintreePayPal extends BraintreePaymentForm {
     protected form: HTMLFormElement;
-    protected submitBtn: HTMLElement;
+    protected submitBtn: HTMLButtonElement;
 
     protected readonly formId: string = 'payment-form';
+    protected readonly paypalButtonSelector: string = '#paypal-button';
     protected readonly paymentMethodName: string = 'braintreePayPal';
     protected readonly paymentMethodTypeName: string = 'PayPalAccount';
     protected readonly nonceInputName: string = 'payment_method_nonce';
 
-    protected readyCallback(): void {
+    protected readyCallback(): void {}
+
+    protected init(): void {
         this.form = <HTMLFormElement>document.getElementById(`${this.formId}`);
         this.paymentMethods = <HTMLInputElement[]>Array.from(this.form.querySelectorAll(`input[name='${this.paymentSelection}']`));
-        this.submitBtn = <HTMLElement>this.form.querySelector(`button[type='submit']`);
+        this.submitBtn = <HTMLButtonElement>this.form.querySelector(`button[type='submit']`);
 
-        const tokenInput = document.createElement('input');
-        tokenInput.setAttribute('type', 'hidden');
-        tokenInput.setAttribute('name', `${this.nonceInputName}`);
-        this.form.appendChild(tokenInput);
-
-        var self = this;
-
+        super.createTokenField();
         this.mapEvents();
+        this.createBrainTreeClient();
+    }
 
-        // // Create a client.
+    protected createBrainTreeClient(): void {
         braintree.client.create({
             authorization: this.braintreeClientToken
-        }, function (clientErr, clientInstance) {
+        }, (clientError, clientInstance) => {
 
-            // Stop if there was a problem creating the client.
-            // This could happen if there is a network error or if the authorization
-            // is invalid.
-            if (clientErr) {
-                console.error('Error creating client:', clientErr);
+            if (clientError) {
+                console.error('Error creating client:', clientError);
+
                 return;
             }
 
-            // Create a PayPal Checkout component.
-            braintree.paypalCheckout.create({
-                client: clientInstance
-            }, function (err, paypalCheckoutInstance) {
+            this.createPayPalCheckoutComponent(clientInstance);
+        });
+    }
 
-                // Set up PayPal with the checkout.js library
-                paypal.Button.render({
-                    env: self.getAttribute('data-braintree-env'),
-                    locale: self.getAttribute('data-braintree-locale'),
-                    commit: true,
+    protected createPayPalCheckoutComponent(clientInstance: object): void {
+        braintree.paypalCheckout.create({
+            client: clientInstance
+        }, (error, paypalCheckoutInstance) => {
+            paypal.Button.render({
+                env: this.environment,
+                locale: this.locale,
+                commit: true,
 
-                    payment: function() {
-                        return paypalCheckoutInstance.createPayment({
-                            flow: 'checkout',
-                            intent: 'authorize',
-                            amount: self.getAttribute('data-braintree-amount'),
-                            currency: self.getAttribute('data-braintree-currency'),
-                            enableShippingAddress: true,
-                            shippingAddressEditable: true
-                        });
-                    },
+                payment: () => {
+                    return paypalCheckoutInstance.createPayment({
+                        flow: 'checkout',
+                        intent: 'authorize',
+                        amount: this.amount,
+                        currency: this.currency,
+                        enableShippingAddress: true,
+                        shippingAddressEditable: true
+                    });
+                },
 
-                    onAuthorize: function (data, actions) {
-                        return paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
-                            payload['amount'] = self.getAttribute('data-braintree-amount');
-                            payload['currency'] = self.getAttribute('data-braintree-currency');
+                onAuthorize: (data, actions) => {
+                    const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${this.nonceInputName}']`);
 
-                            const xhr = new XMLHttpRequest();
-                            const userData = JSON.stringify(payload);
+                    return paypalCheckoutInstance.tokenizePayment(data).then(payload => {
+                        const xhr = new XMLHttpRequest();
+                        const userData = JSON.stringify(payload);
 
-                            const nonceInputSelector = <HTMLInputElement>document.querySelector(`input[name='${self.nonceInputName}']`);
-                            nonceInputSelector.value = payload.nonce;
-                            self.submitBtn.setAttribute('disabled', 'disabled');
-                            self.form.submit();
-                        });
-                    },
+                        payload.amount = this.amount;
+                        payload.currency = this.currency;
+                        nonceInputSelector.value = payload.nonce;
 
-                    onCancel: function (data) {
-                        console.log('checkout.js payment cancelled');
-                        console.log(data);
-                    },
+                        this.submitBtn.disabled = true;
+                        this.form.submit();
+                    });
+                },
 
-                    onError: function (err) {
-                        console.error('checkout.js error', err);
-                    }
-                }, '#paypal-button');
+                onCancel: data => {
+                    /* tslint:disable: no-console */
+                    console.log('checkout.js payment cancelled: ', data);
+                    /* tslint:enable: no-console */
+                },
 
-            });
+                onError: checkoutError => {
+                    console.error('checkout.js error', checkoutError);
+                }
+            }, this.paypalButtonSelector);
         });
     }
 
     protected mapEvents(): void {
         this.paymentMethods.forEach((method: HTMLInputElement) => {
             method.addEventListener('change', () => {
-                if (method.value == this.paymentMethodName) {
-                    this.switchSubmitButton();
+                if (method.value === this.paymentMethodName) {
+                    this.disableDefaultSubmit();
                 }
             });
         });
     }
 
-    protected switchSubmitButton(): void {
-        this.submitBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+    protected disableDefaultSubmit(): void {
+        this.submitBtn.addEventListener('click', (event: Event) => {
+            event.preventDefault();
         });
+    }
+
+    protected get environment(): string {
+        return this.getAttribute('data-braintree-env');
+    }
+
+    protected get locale(): string {
+        return this.getAttribute('data-braintree-locale');
+    }
+
+    protected get amount(): string {
+        return this.getAttribute('data-braintree-amount');
+    }
+
+    protected get currency(): string {
+        return this.getAttribute('data-braintree-currency');
     }
 }
